@@ -2,23 +2,66 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Aced", "Aced\Aced.vcxproj", "{CC9C5BCE-09EF-451E-B763-19913D4123A4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657} = {2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapEditor", "MapEditor\MapEditor.vcxproj", "{05092535-DFF5-43C3-A023-1D721A3B3232}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657} = {2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StaticDLL", "StaticDLL\StaticDLL.vcxproj", "{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}"
 EndProject
 Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://win2008-64-tfs:8080/tfs/aced
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Aced\\Aced.vcxproj
+		SccProjectName1 = Aced
+		SccLocalPath1 = Aced
+		SccProjectUniqueName2 = MapEditor\\MapEditor.vcxproj
+		SccProjectName2 = MapEditor
+		SccLocalPath2 = MapEditor
+		SccProjectUniqueName3 = StaticDLL\\StaticDLL.vcxproj
+		SccProjectName3 = StaticDLL
+		SccLocalPath3 = StaticDLL
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
 		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|ARM = Release|ARM
 		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC9C5BCE-09EF-451E-B763-19913D4123A4}.Debug|ARM.ActiveCfg = Debug|Win32
 		{CC9C5BCE-09EF-451E-B763-19913D4123A4}.Debug|Win32.ActiveCfg = Debug|Win32
 		{CC9C5BCE-09EF-451E-B763-19913D4123A4}.Debug|Win32.Build.0 = Debug|Win32
+		{CC9C5BCE-09EF-451E-B763-19913D4123A4}.Debug|x64.ActiveCfg = Debug|Win32
+		{CC9C5BCE-09EF-451E-B763-19913D4123A4}.Release|ARM.ActiveCfg = Release|Win32
 		{CC9C5BCE-09EF-451E-B763-19913D4123A4}.Release|Win32.ActiveCfg = Release|Win32
 		{CC9C5BCE-09EF-451E-B763-19913D4123A4}.Release|Win32.Build.0 = Release|Win32
+		{CC9C5BCE-09EF-451E-B763-19913D4123A4}.Release|x64.ActiveCfg = Release|Win32
+		{05092535-DFF5-43C3-A023-1D721A3B3232}.Debug|ARM.ActiveCfg = Debug|Win32
 		{05092535-DFF5-43C3-A023-1D721A3B3232}.Debug|Win32.ActiveCfg = Debug|Win32
 		{05092535-DFF5-43C3-A023-1D721A3B3232}.Debug|Win32.Build.0 = Debug|Win32
+		{05092535-DFF5-43C3-A023-1D721A3B3232}.Debug|x64.ActiveCfg = Debug|Win32
+		{05092535-DFF5-43C3-A023-1D721A3B3232}.Release|ARM.ActiveCfg = Release|Win32
 		{05092535-DFF5-43C3-A023-1D721A3B3232}.Release|Win32.ActiveCfg = Release|Win32
 		{05092535-DFF5-43C3-A023-1D721A3B3232}.Release|Win32.Build.0 = Release|Win32
+		{05092535-DFF5-43C3-A023-1D721A3B3232}.Release|x64.ActiveCfg = Release|Win32
+		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Debug|ARM.ActiveCfg = Debug|Win32
+		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Debug|Win32.Build.0 = Debug|Win32
+		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Debug|x64.ActiveCfg = Debug|Win32
+		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Release|ARM.ActiveCfg = Release|Win32
+		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Release|Win32.ActiveCfg = Release|Win32
+		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Release|Win32.Build.0 = Release|Win32
+		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

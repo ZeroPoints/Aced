@@ -10,10 +10,21 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EditorEngine.cpp" />
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EditorEngine.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{05092535-DFF5-43C3-A023-1D721A3B3232}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MapEditor</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -52,13 +63,13 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\C++\Allegro\allegro-5.0.10-msvc-11.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\C++\Allegro\allegro-5.0.10-msvc-11.0\include;F:\C++\Allegro\Aced\StaticDLL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\C++\Allegro\allegro-5.0.10-msvc-11.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>allegro-5.0.10-monolith-md-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:\C++\Allegro\allegro-5.0.10-msvc-11.0\lib;F:\C++\Allegro\Aced\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>allegro-5.0.10-monolith-md-debug.lib;StaticDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,23 +89,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Aced\menumanager.h" />
-    <ClInclude Include="editorengine.h" />
-    <ClInclude Include="map.h" />
-    <ClInclude Include="menu.h" />
-    <ClInclude Include="menuitem.h" />
-    <ClInclude Include="tile.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Aced\menumanager.cpp" />
-    <ClCompile Include="editorengine.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="map.cpp" />
-    <ClCompile Include="menu.cpp" />
-    <ClCompile Include="menuitem.cpp" />
-    <ClCompile Include="tile.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

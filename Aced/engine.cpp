@@ -11,7 +11,7 @@ Engine::Engine(ALLEGRO_DISPLAY *display)
 	//init
 	display_ = display;
 	finished_ = false;
-	mm_ = new MenuManager(0);//0 for game menu not editor menu
+	//mm_ = new MenuManager(0);//0 for game menu not editor menu
 	currentstate_ = -5;
 	oldstate_ = 0;
 	//crate states one for each thing???do i even need this i will keep it...
@@ -187,8 +187,8 @@ void Engine::menu()
 	al_register_event_source(event_queue, al_get_display_event_source(display_));
 	al_register_event_source(event_queue, al_get_timer_event_source(timer));
 
-	mm_->setMenu(0);
-	mm_->setCurrentSelection();
+	//mm_->SetMenu(EnumDLL::MAINMENU);
+	//mm_->setCurrentSelection();
 
 	al_start_timer(timer);
 	while(!done)
@@ -213,7 +213,7 @@ void Engine::menu()
 		
 		
 		//keypress here
-		val = mm_->keyPress(ev);
+		//val = mm_->keyPress(ev);
 		if(val == -1 || val == 3)//program quit
 		{
 			done = true;
@@ -248,10 +248,10 @@ void Engine::menu()
 			
 			
 
-			//draw here
-			mm_->runMenu();
-			//update here
-			mm_->menupdate();
+			////draw here
+			//mm_->runMenu();
+			////update here
+			//mm_->menupdate();
 
 			//bread and butter
 			al_flip_display();
@@ -267,8 +267,8 @@ void Engine::menu()
 
 int Engine::ingamemenu()
 {
-	mm_->setMenu(2);
-	mm_->setCurrentSelection();
+	//mm_->SetMenu(StaticDLL::EnumDLL::MAINMENU);
+	//mm_->setCurrentSelection();
 
 	ALLEGRO_EVENT_QUEUE *event_queue2 = NULL;
 	bool redraw = true;
@@ -296,7 +296,7 @@ int Engine::ingamemenu()
 
 
 		//keypress here
-		val = mm_->keyPress(ev2);
+		//val = mm_->keyPress(ev2);
 		if(val == -1 || val == 0)//return to game if esc or option 1 chosen
 		{
 			val = 0;
@@ -342,10 +342,10 @@ int Engine::ingamemenu()
 			
 			al_draw_textf(font30_, al_map_rgb(255,255,255), 500, 200, ALLEGRO_ALIGN_CENTRE, "%d" , ev2.timer.count/60);
 
-			//draw here
-			mm_->runMenu();
-			//update here
-			mm_->menupdate();
+			////draw here
+			//mm_->runMenu();
+			////update here
+			//mm_->menupdate();
 
 			//bread and butter
 			al_flip_display();
