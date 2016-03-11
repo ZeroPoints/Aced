@@ -39,8 +39,9 @@ namespace StaticDLL{
 		SetMap(currentMap);
 
 
+		editorOverLay_ = new EditorOverLay(settings);
 
-		SetChosenColor(al_map_rgb_f(0,0.3,0.5));
+		SetChosenColor(al_map_rgb_f(1,1,1));
 		al_start_timer(GetTimer());
 
 
@@ -51,34 +52,50 @@ namespace StaticDLL{
 
 
 
+
+
+
 	void StateEditorMode::KeyPress(){
 		if(GetEvent().type == ALLEGRO_EVENT_KEY_UP)
 		{
 			switch(GetEvent().keyboard.keycode)
 			{
 				case ALLEGRO_KEY_ESCAPE:						
-
 					SetStateDirection(EnumDLL::STATEDIRECTION::PUSH);
 					SetNextState(new StateEditorMenu());
-
-
 					break;
 			}
 		}
+		editorOverLay_->KeyBoardActivity(GetEvent());
 	}
 
 
 
 
 	void StateEditorMode::MouseActivity(){
+
+
 		if(GetEvent().type == ALLEGRO_EVENT_MOUSE_AXES)
 		{			
 			SetMouseCursorPos(GetEvent().mouse.x-10,GetEvent().mouse.y-10);
 		}
+
+		editorOverLay_->MouseActivity(GetEvent(), GetMouseCursorX(),GetMouseCursorY());
+		EditorModeMouseActivity();
+
+		
+	}
+
+
+
+	void StateEditorMode::EditorModeMouseActivity()
+	{
 		if(GetEvent().type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
 			switch(GetEvent().mouse.button)
 			{
+				case 1:
+					break;
 				case 2:
 					SetRightMouseDown(true);
 					SetRightMousePos(GetMouseCursorX(),GetMouseCursorY());
@@ -97,7 +114,6 @@ namespace StaticDLL{
 					break;
 			}
 		}
-		
 	}
 
 
@@ -109,12 +125,14 @@ namespace StaticDLL{
 		}
 		GetMap()->PreCalc();
 
-
 		if(GetEvent().type == ALLEGRO_EVENT_TIMER)
 		{			
-			
+			//Update overlay. Will return with no actions if action state of it is NONE.
+			editorOverLay_->Update();
 			SetRedraw(true);
 		}
+
+
 	}
 
 
@@ -122,10 +140,12 @@ namespace StaticDLL{
 	void StateEditorMode::Draw(){
 		GetMap()->DrawMap();
 
-		al_draw_textf(GetFont(), al_map_rgb(255,255,255), 0, 0, ALLEGRO_ALIGN_LEFT, "%f" , GetEvent().timer.timestamp);
-		//TODO:This 20 on this 2 lines i want to define in a definer file so i dont have it hard coded here
-		al_draw_rectangle(GetMouseCursorX(),GetMouseCursorY(),GetMouseCursorX()+Constants::TileSize,GetMouseCursorY()+Constants::TileSize,al_map_rgb_f(1,1,1),2);//1
 
+		editorOverLay_->Draw();
+
+
+		al_draw_rectangle(GetMouseCursorX(),GetMouseCursorY(),GetMouseCursorX()+Constants::TileSize,GetMouseCursorY()+Constants::TileSize, GetChosenColor(),2);//1
+		al_draw_textf(GetFont(), GetChosenColor(), 00, 20, ALLEGRO_ALIGN_LEFT, "%f" , GetEvent().timer.timestamp);
 	}
 
 

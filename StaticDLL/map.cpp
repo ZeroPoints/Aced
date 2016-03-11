@@ -3,15 +3,16 @@
 
 namespace StaticDLL{
 
-	Map::Map()
+	Map::Map(Settings *settings)
 	{
 		mapXoffset_ = 5;
 		mapYoffset_ = 5;
 		offSetBeforeRightClickDragY_ = 0;
 		offSetBeforeRightClickDragX_ = 0;
 		CreateTiles(10,10);
-		displayHeight_ = 30;
-		displayWidth_ = 40;
+		settings_ = settings;
+		displayHeight_ = settings->GetDisplayHeight();
+		displayWidth_ = settings->GetDisplayWidth();
 		for(int i = 0; i < width_; i++)
 		{
 			for(int j = 0; j < height_; j++)
@@ -171,7 +172,7 @@ namespace StaticDLL{
 		{
 			for(j = topViewPoint_; j < botViewPoint_; j++)
 			{				
-				tiles_[i][j].DrawTriangleMapObject(mapXoffset_, mapYoffset_);	
+				tiles_[i][j].DrawRectangleMapObject(mapXoffset_, mapYoffset_);	
 			}
 		}*/
 

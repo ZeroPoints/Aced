@@ -11,6 +11,7 @@
 #include <vector>
 #include "tile.h"
 #include "Settings.h"
+#include "Definitions.h"
 #include "ObjectBase.h"
 #include <allegro5/allegro_font.h>//fonts
 #include <allegro5/allegro_ttf.h>//fonts
@@ -35,11 +36,7 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API void SetTop(int top)
-			{
-				top_ = top;
-			}
-
+			
 
 
 
@@ -48,22 +45,46 @@ namespace StaticDLL{
 			
 
 
-
+			//Updates the overlay. None is default and will exit doing nothing. 
+			//Opening will open the overlay over time till it hits it cap. 
+			//Closing will close the overlay over time till it hits it cap.
 			STATICDLL_API void Update();
 
 
 
+			STATICDLL_API void MouseActivity(ALLEGRO_EVENT event, int cursorX, int cursorY);
 
-			STATICDLL_API void OnBottomArrowClick();
 
+			STATICDLL_API void KeyBoardActivity(ALLEGRO_EVENT event);
 
 
 
 			STATICDLL_API void Draw();
 
 
+			STATICDLL_API void DrawTilePicker();
+			STATICDLL_API void DrawMenuBar();
+
+
 
 			STATICDLL_API void DrawBottomArrow();
+			 
+
+			STATICDLL_API void CreateTileArrow();
+			STATICDLL_API void CreateTileWindow();
+			STATICDLL_API void CreateMenuBar();
+
+
+			STATICDLL_API EnumDLL::OVERLAYSTATE GetOverLayState()
+			{
+				return overLayState_;
+			}
+
+
+			STATICDLL_API void SetOverLayAction(EnumDLL::OVERLAYACTIONS action)
+			{
+				overLayAction_ = action;
+			}
 
 
 
@@ -73,35 +94,40 @@ namespace StaticDLL{
 
 
 
-			int arrowLocationX_, arrowLocationY_; 
-
-			int arrowLocationWidth_, arrowLocationHeight_; 
 
 
-
-			ObjectBase *arrow_;
 
 
 
 
 			int top_;
-
-
-
-
+			int bottom_;
 			//The border of the entire Map
 			int width_;
+			int widthMax_;
 			//The border of the entire Map
 			int height_;
+			
+			
+			StaticDLL::EnumDLL::OVERLAYACTIONS overLayAction_;
+			StaticDLL::EnumDLL::OVERLAYSTATE overLayState_;
+
+
+			ObjectBase *tileWindowArrow_;
+
+
+			ObjectBase *tilePickerWindow_;
+
+
+			ObjectBase *menuBar_;
+
+
 
 			
+			ALLEGRO_EVENT_QUEUE *eventQueue_;
+			ALLEGRO_EVENT event_;
 
-
-
-			bool playerplaced_;
-			int playerStartX_;//players starting position
-			int playerStartY_;
-
+			ALLEGRO_COLOR chosenColor_;
 			ALLEGRO_FONT *font30_;
 
 			Settings *settings_;

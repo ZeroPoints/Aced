@@ -13,6 +13,7 @@
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
 #include "State.h"
+#include "EditorOverLay.h"
 
 
 
@@ -32,11 +33,13 @@ namespace StaticDLL{
 			////key press probs goes in update
 			STATICDLL_API void KeyPress();
 			STATICDLL_API void MouseActivity();
+			STATICDLL_API void EditorModeMouseActivity();
 			STATICDLL_API void Update();
 			STATICDLL_API void Draw();
 			STATICDLL_API void Resume();
 			STATICDLL_API void DragMap();
 		private:
+			EditorOverLay *editorOverLay_;
 	};
 	class StateEditorMainMenu : public State
 	{

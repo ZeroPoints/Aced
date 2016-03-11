@@ -101,7 +101,7 @@ namespace StaticDLL{
 			}
 			STATICDLL_API virtual ALLEGRO_EVENT_QUEUE* GetEventQueue()
 			{
-				return event_queue_;
+				return eventQueue_;
 			}
 		
 			STATICDLL_API virtual Map* GetMap()
@@ -194,7 +194,7 @@ namespace StaticDLL{
 			}
 
 			STATICDLL_API virtual void SetEventQueue(ALLEGRO_EVENT_QUEUE* eventQueue){
-				event_queue_ = eventQueue;
+				eventQueue_ = eventQueue;
 			}
 
 
@@ -298,7 +298,7 @@ namespace StaticDLL{
 			bool redraw_, done_, running_, rightMouseDown_, leftmousedown_,playerSelected_;	
 			ALLEGRO_FONT *font30_;
 			ALLEGRO_TIMER *timer;
-			ALLEGRO_EVENT_QUEUE *event_queue_;
+			ALLEGRO_EVENT_QUEUE *eventQueue_;
 			ALLEGRO_EVENT event_;
 			Menu *menu_;
 			Settings *settings_;

@@ -142,10 +142,15 @@ namespace StaticDLL
 			STATICDLL_API virtual void SetWidth(double x){
 				width_ = x;
 			};
+			STATICDLL_API virtual double GetWidth(){
+				return width_;
+			};
 			STATICDLL_API virtual void SetHeight(double y){
 				height_ = y;
 			};
-
+			STATICDLL_API virtual double GetHeight(){
+				return height_;
+			};
 
 			STATICDLL_API virtual void SetCollisionBot(bool flag){
 				collisionBot_ = flag;
@@ -194,6 +199,15 @@ namespace StaticDLL
 			};
 
 
+			STATICDLL_API virtual void SetClickable(bool clickable){
+				clickable_ = clickable;
+			};
+			
+			STATICDLL_API virtual bool GetClickable(){
+				return clickable_;
+			};
+
+
 
 			STATICDLL_API virtual void DrawObject(int xOffset, int yOffset){
 				al_draw_filled_rectangle(
@@ -206,7 +220,7 @@ namespace StaticDLL
 				//This line below was old code reminder that i need to sort the view point translation of objects
 				//al_draw_filled_rectangle(tileX_*20 + mapXoffSet*20, tileY_*20 + mapYoffSet*20, tileX_*20 + tileSize + mapXoffSet*20, tileY_*20 + tileSize + mapYoffSet*20, colour_);
 			};
-			STATICDLL_API virtual void DrawTriangleMapObject(int xOffset, int yOffset){
+			STATICDLL_API virtual void DrawRectangleMapObject(int xOffset, int yOffset){
 				al_draw_rectangle(
 					currentPositionX_*Constants::TileSize + xOffset,
 					currentPositionY_*Constants::TileSize + yOffset,
@@ -230,7 +244,28 @@ namespace StaticDLL
 				//al_draw_filled_rectangle(tileX_*20 + mapXoffSet*20, tileY_*20 + mapYoffSet*20, tileX_*20 + tileSize + mapXoffSet*20, tileY_*20 + tileSize + mapYoffSet*20, colour_);
 			};
 
-			                                                     
+			           
+
+
+
+			//Detects If click intersects with the object selected
+			STATICDLL_API bool ClickIntersects(int mouseX, int mouseY)
+			{
+				//Offset the mouse position to the actual coord as the mouseX and mouseY i read in a moded to be offset? by half the tile size for some reason
+				mouseX = mouseX + (Constants::TileSize/2);
+				mouseY = mouseY + (Constants::TileSize/2);
+
+				if(mouseX >= (currentPositionX_*Constants::TileSize) && 
+					mouseX < ((currentPositionX_ + width_)*Constants::TileSize) &&
+					mouseY >= (currentPositionY_*Constants::TileSize) && 
+					mouseY < ((currentPositionY_ + height_)*Constants::TileSize))
+				{
+					return true;
+				}
+				return false;
+
+			};
+
 
 		private:
 
@@ -259,7 +294,8 @@ namespace StaticDLL
 					collisionBot_,
 					collisionTop_,
 					collisionLeft_,
-					collisionRight_
+					collisionRight_,
+					clickable_
 					;	
 
 			

@@ -27,7 +27,10 @@ namespace StaticDLL{
 	class Tile : public ObjectBase
 	{
 		public:
-			STATICDLL_API Tile();
+			STATICDLL_API Tile()
+			{
+				
+			};
 			
 			STATICDLL_API int GetTileType()
 			{

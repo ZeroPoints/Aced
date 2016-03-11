@@ -4,7 +4,7 @@
 
 namespace StaticDLL{
 	Settings::Settings(){
-		mapWidth_ = 10;
-		mapHeight_ = 10;
+		displayWidth_ = 40;
+		displayHeight_ = 30;
 	}
 }

@@ -10,6 +10,7 @@
 #include <allegro5\allegro_native_dialog.h>
 #include <vector>
 #include "tile.h"
+#include "Settings.h"
 #include <allegro5/allegro_font.h>//fonts
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
@@ -25,6 +26,8 @@
 
 
 namespace StaticDLL{
+	class Settings;
+
 	class Map
 	{
 		public:
@@ -33,7 +36,7 @@ namespace StaticDLL{
 			//Window Size/View point is dictated by the displayHeight_,displayWidth_ variables
 			//Offset dictates how displaced the map is from the view point.
 
-			STATICDLL_API Map();
+			STATICDLL_API Map(Settings *settings);
 
 			STATICDLL_API int GetMapWidth()
 			{
@@ -174,6 +177,7 @@ namespace StaticDLL{
 			std::vector<std::vector<Tile>> tiles_;
 
 			ALLEGRO_FONT *font30_;
+			Settings *settings_;
 
 	};
 }

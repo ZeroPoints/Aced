@@ -1,9 +1,9 @@
-#include "tile.h"
-
-
-
-namespace StaticDLL{
-	Tile::Tile()
-	{
-	}
-}
+//#include "tile.h"
+//
+//
+//
+//namespace StaticDLL{
+//	Tile::Tile()
+//	{
+//	}
+//}

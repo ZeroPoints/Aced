@@ -20,32 +20,31 @@ namespace StaticDLL{
 		public:
 			STATICDLL_API Settings();
 
-			STATICDLL_API void SetMapHeight(int mapHeight){
-				mapHeight_ = mapHeight;
+			STATICDLL_API void SetDisplayHeight(int displayHeight){
+				displayHeight_ = displayHeight;
 			}
 
 
-			STATICDLL_API void SetMapWidth(int mapWidth){
-				mapWidth_ = mapWidth;
+			STATICDLL_API void SetDisplayWidth(int displayWidth){
+				displayWidth_ = displayWidth;
 			}
 
 
 
-			STATICDLL_API int GetMapWidth(){
-				return mapWidth_;
+			STATICDLL_API int GetDisplayWidth(){
+				return displayWidth_;
 			}
-			STATICDLL_API int GetMapHeight(){
-				return mapHeight_;
+			STATICDLL_API int GetDisplayHeight(){
+				return displayHeight_;
 			}
 
 
 
 		private:
-			int mapWidth_, mapHeight_;
+			int displayWidth_, displayHeight_;
 
 
 
-			int screenWidth, screenHeight_;
 
 
 

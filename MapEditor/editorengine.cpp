@@ -9,6 +9,7 @@ EditorEngine::EditorEngine(ALLEGRO_DISPLAY *display, Settings *Settings, Map *Cu
 	currentMap_ = CurrentMap;
 	finished_ = false;
 	running_ = true;
+	chosenColor_ = al_map_rgb_f(0,0.5,0.25);
 }
 
 
@@ -23,38 +24,43 @@ If those State directions have not been triggered. The game will run the current
 void EditorEngine::Run()
 {
 	PushNewState(new StateEditorMainMenu());
-	while(states_.back()->GetRunning()){
-		ALLEGRO_EVENT ev;
-		al_wait_for_event(states_.back()->GetEventQueue(),&ev);
-		states_.back()->SetEvent(ev);
-		states_.back()->KeyPress();
-		states_.back()->MouseActivity();
+	ALLEGRO_EVENT ev;
 
-		if(states_.back()->GetStateDirection() == EnumDLL::STATEDIRECTION::PUSH){
+
+	while(currentState_->GetRunning()){
+		al_wait_for_event(currentState_->GetEventQueue(),&ev);
+
+
+
+		currentState_->SetEvent(ev);
+		currentState_->KeyPress();
+		currentState_->MouseActivity();
+
+		if(currentState_->GetStateDirection() == EnumDLL::STATEDIRECTION::PUSH){
 			PushState();
 		}
-		else if(states_.back()->GetStateDirection() == EnumDLL::STATEDIRECTION::POP){
+		else if(currentState_->GetStateDirection() == EnumDLL::STATEDIRECTION::POP){
 			PopState();
 		}
-		else if(states_.back()->GetStateDirection() == EnumDLL::STATEDIRECTION::POPPUSH){
+		else if(currentState_->GetStateDirection() == EnumDLL::STATEDIRECTION::POPPUSH){
 			PopPushState();
 		}
-		else if(states_.back()->GetStateDirection() == EnumDLL::STATEDIRECTION::POPTOFIRST){
+		else if(currentState_->GetStateDirection() == EnumDLL::STATEDIRECTION::POPTOFIRST){
 			PopStateToFirst();
 		}
-		if(states_.back()->GetEvent().type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+		if(currentState_->GetEvent().type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 		{
 			//close window if display is closed via X in top right corner
-			states_.back()->SetRunning(false);
+			currentState_->SetRunning(false);
 		}
-		states_.back()->Update();
-		if(states_.back()->GetRedraw() && al_is_event_queue_empty(states_.back()->GetEventQueue()))
+		currentState_->Update();
+		if(currentState_->GetRedraw() && al_is_event_queue_empty(currentState_->GetEventQueue()))
 		{
-			states_.back()->SetRedraw(false);
-			states_.back()->Draw();
+			currentState_->SetRedraw(false);
+			currentState_->Draw();
 			//bread and butter
 			al_flip_display();
-			al_clear_to_color(al_map_rgb_f(0,0.5,0.25));//clears color to dark green to remove all back image
+			al_clear_to_color(chosenColor_);//clears color to dark green to remove all back image
 		}
 		/*
 		Get state done or not
@@ -89,6 +95,7 @@ void EditorEngine::PushState()
 	// store and init the new state
 	states_.push_back(states_.back()->GetNextState());
 	states_.back()->InitState(display_, settings_, currentMap_);
+	currentState_ = states_.back();
 }
 
 
@@ -108,6 +115,7 @@ void EditorEngine::PushNewState(State* state)
 	// store and init the new state
 	states_.push_back(state);
 	states_.back()->InitState(display_, settings_, currentMap_);
+	currentState_ = states_.back();
 }
 
 
@@ -142,6 +150,7 @@ void EditorEngine::PopState()
 		//clears all events in queue so the other menus keystate is cleared
 		al_flush_event_queue(states_.back()->GetEventQueue());
 	}
+	currentState_ = states_.back();
 }
 
 
@@ -185,6 +194,7 @@ void EditorEngine::PopStateToFirst()
 	}
 	states_.back()->Resume();
 	al_flush_event_queue(states_.back()->GetEventQueue());
+	currentState_ = states_.back();
 }
 
 

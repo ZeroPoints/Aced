@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 	
 
 	Settings* GameSettings = new Settings;
-	Map* CurrentMap = new Map;
+	Map* CurrentMap = new Map(GameSettings);
 
 
 	EditorEngine e1 = EditorEngine(display, GameSettings, CurrentMap);

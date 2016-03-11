@@ -46,9 +46,13 @@ class EditorEngine
 		Settings *settings_;
 		Map *currentMap_;
 
+		State* currentState_;
+
 		std::vector<State*> states_;
 		bool running_;
 		bool fullscreen_;
+
+		ALLEGRO_COLOR chosenColor_;
 
 };
 #endif
