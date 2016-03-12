@@ -20,13 +20,12 @@ namespace StaticDLL{
 
 
 
-	int Player::PlayerKeypress(ALLEGRO_EVENT ev)
+	int Player::PlayerKeypress(ALLEGRO_EVENT *ev)
 	{
-		ev_ = ev;
 		int val = -2;
-		if(ev_.type == ALLEGRO_EVENT_KEY_DOWN)
+		if(ev->type == ALLEGRO_EVENT_KEY_DOWN)
 		{
-			switch(ev.keyboard.keycode)
+			switch(ev->keyboard.keycode)
 			{			
 				case ALLEGRO_KEY_RIGHT://choose later....
 					KeyRight_ = true;
@@ -39,9 +38,9 @@ namespace StaticDLL{
 				//	break;
 			}
 		}
-		if(ev_.type == ALLEGRO_EVENT_KEY_UP)
+		if(ev->type == ALLEGRO_EVENT_KEY_UP)
 		{
-			switch(ev.keyboard.keycode)
+			switch(ev->keyboard.keycode)
 			{		
 				case ALLEGRO_KEY_ESCAPE:						
 					////load menu

@@ -28,17 +28,17 @@ namespace StaticDLL{
 	{
 		public:
 
-
+			
+			STATICDLL_API Menu(){
+				fprintf(stderr,"A Menu Created\n");
+			}
 
 			STATICDLL_API virtual ~Menu(){
-
-				al_destroy_font(GetFont());
-
-
+				al_destroy_font(font30_);
 				for (MenuItem* item : menuItems_)
 				{
 					delete item;
-					item = 0;
+					item = nullptr;
 				}
 				fprintf(stderr,"A Menu Destructed\n");
 				return;
@@ -160,7 +160,7 @@ namespace StaticDLL{
 				selectItemHeight_ = val;
 			}
 
-			STATICDLL_API EnumDLL::STATES KeyPress(ALLEGRO_EVENT ev);
+			STATICDLL_API EnumDLL::STATES KeyPress(ALLEGRO_EVENT *ev);
 
 			STATICDLL_API void SetFont(ALLEGRO_FONT* currentFont){
 				font30_ = currentFont;

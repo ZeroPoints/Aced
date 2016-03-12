@@ -36,6 +36,14 @@ namespace StaticDLL{
 
 
 
+			STATICDLL_API ~EditorOverLay()
+			{
+				delete tileWindowArrow_;
+				delete tilePickerWindow_;
+				delete menuBar_;
+
+
+			}
 			
 
 
@@ -52,10 +60,10 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API void MouseActivity(ALLEGRO_EVENT event, int cursorX, int cursorY);
+			STATICDLL_API void MouseActivity(ALLEGRO_EVENT *event, int cursorX, int cursorY);
 
 
-			STATICDLL_API void KeyBoardActivity(ALLEGRO_EVENT event);
+			STATICDLL_API void KeyBoardActivity(ALLEGRO_EVENT *event);
 
 
 
@@ -125,7 +133,7 @@ namespace StaticDLL{
 
 			
 			ALLEGRO_EVENT_QUEUE *eventQueue_;
-			ALLEGRO_EVENT event_;
+			ALLEGRO_EVENT *event_;
 
 			ALLEGRO_COLOR chosenColor_;
 			ALLEGRO_FONT *font30_;

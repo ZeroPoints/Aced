@@ -172,14 +172,14 @@ namespace StaticDLL{
 
 	//down arrow up arrow per vector items....enter to submit or esc to leave menu/submenu so  (menutype - 1)...title = 0, options = 1 dunno yet
 	////////////---------------------23/11 --- was changing my menus to not use numbers so i can reuse this for entering number in menu...so return menuname
-	EnumDLL::STATES Menu::KeyPress(ALLEGRO_EVENT ev)
+	EnumDLL::STATES Menu::KeyPress(ALLEGRO_EVENT *ev)
 	{
 		BOOL doneflag = false;
 		EnumDLL::STATES val = EnumDLL::STATES::NONE;
 		
-		if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
+		if(ev->type == ALLEGRO_EVENT_KEY_DOWN)
 		{
-			switch(ev.keyboard.keycode)
+			switch(ev->keyboard.keycode)
 			{
 				case ALLEGRO_KEY_UP://choose later....
 					currentSelection_--;
@@ -235,12 +235,12 @@ namespace StaticDLL{
 					break;
 			}
 		}
-		else if(ev.type == ALLEGRO_EVENT_KEY_CHAR)
+		else if(ev->type == ALLEGRO_EVENT_KEY_CHAR)
 		{
-			if(GetMenuItems()[currentSelection_]->GetMenuItemProperty() != nullptr && ev.keyboard.unichar > 0)
+			if(GetMenuItems()[currentSelection_]->GetMenuItemProperty() != nullptr && ev->keyboard.unichar > 0)
 			{
 				ALLEGRO_USTR *test = al_ustr_new("");
-				al_ustr_append_chr(test, ev.keyboard.unichar);
+				al_ustr_append_chr(test, ev->keyboard.unichar);
 				GetMenuItems()[currentSelection_]->SetMenuItemProperty(test);
 				al_ustr_free(test);
 			}
@@ -248,9 +248,9 @@ namespace StaticDLL{
 
 
 
-		if(ev.type == ALLEGRO_EVENT_KEY_UP)
+		if(ev->type == ALLEGRO_EVENT_KEY_UP)
 		{
-			switch(ev.keyboard.keycode)
+			switch(ev->keyboard.keycode)
 			{
 				case ALLEGRO_KEY_ESCAPE:						
 					//quit

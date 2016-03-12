@@ -10,6 +10,11 @@ EditorEngine::EditorEngine(ALLEGRO_DISPLAY *display, Settings *Settings, Map *Cu
 	finished_ = false;
 	running_ = true;
 	chosenColor_ = al_map_rgb_f(0,0.5,0.25);
+	chosenColorText_ = al_map_rgb_f(1,1,1);
+
+
+	//new used to keep it in memory the state. This needs to be freed when EditorEngine is finished.
+	PushNewState(new StateEditorMode());
 }
 
 
@@ -23,32 +28,34 @@ If those State directions have not been triggered. The game will run the current
 */
 void EditorEngine::Run()
 {
-	PushNewState(new StateEditorMainMenu());
+
 	ALLEGRO_EVENT ev;
-
-
 	while(currentState_->GetRunning()){
 		al_wait_for_event(currentState_->GetEventQueue(),&ev);
 
 
 
-		currentState_->SetEvent(ev);
+		currentState_->SetEvent(&ev);
 		currentState_->KeyPress();
 		currentState_->MouseActivity();
 
 		if(currentState_->GetStateDirection() == EnumDLL::STATEDIRECTION::PUSH){
 			PushState();
+			continue;
 		}
 		else if(currentState_->GetStateDirection() == EnumDLL::STATEDIRECTION::POP){
 			PopState();
+			continue;
 		}
 		else if(currentState_->GetStateDirection() == EnumDLL::STATEDIRECTION::POPPUSH){
 			PopPushState();
+			continue;
 		}
 		else if(currentState_->GetStateDirection() == EnumDLL::STATEDIRECTION::POPTOFIRST){
 			PopStateToFirst();
+			continue;
 		}
-		if(currentState_->GetEvent().type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+		if(currentState_->GetEvent()->type == ALLEGRO_EVENT_DISPLAY_CLOSE)
 		{
 			//close window if display is closed via X in top right corner
 			currentState_->SetRunning(false);
@@ -59,6 +66,7 @@ void EditorEngine::Run()
 			currentState_->SetRedraw(false);
 			currentState_->Draw();
 			//bread and butter
+			al_draw_textf(currentState_->GetFont(), chosenColorText_, 0, 20, ALLEGRO_ALIGN_LEFT, "%f" , ev.timer.timestamp);
 			al_flip_display();
 			al_clear_to_color(chosenColor_);//clears color to dark green to remove all back image
 		}

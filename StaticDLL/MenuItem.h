@@ -22,7 +22,15 @@ namespace StaticDLL{
 	class MenuItem
 	{
 		public:
-			STATICDLL_API MenuItem();
+			STATICDLL_API MenuItem()
+			{
+				font30_ = al_load_font("arial.ttf", 30, 0);
+				targetable_ = true;
+				editable_ = false;
+				optionId_ = EnumDLL::OPTIONTYPES::NOOPTION;
+				Id_ = EnumDLL::STATES::NONE;
+				fprintf(stderr,"A Menu Item Created\n");
+			}
 
 
 			STATICDLL_API ~MenuItem(){
@@ -30,15 +38,11 @@ namespace StaticDLL{
 				//TODO: Destroy the ALLEGRO_USTR
 				al_ustr_free(menuItemProperty_);
 				fprintf(stderr,"A Menu Item Destructed\n");
-
-
-
 				return;
 			}
         
 
 			STATICDLL_API void InitMenuItemProperty(ALLEGRO_USTR *menuItemProperty);
-
 
 
 			STATICDLL_API void SetMenuItemHeight(int menuItemHeight);
@@ -129,7 +133,7 @@ namespace StaticDLL{
 			int menuItemWidth_, menuItemHeight_;//size
 			int menuItemX_, menuItemY_;//location
 			int menuItemPropertyX_;//location
-			ALLEGRO_FONT * font30_;
+			ALLEGRO_FONT *font30_;
 	};
 }
 #endif

@@ -29,16 +29,16 @@ namespace StaticDLL{
 	{
 		public:
 		
-
+			STATICDLL_API State(){
+				fprintf(stderr,"A State Created\n");
+			}
 
 
 			STATICDLL_API virtual ~State(){
-
-				al_destroy_event_queue(GetEventQueue());
-				al_destroy_font(GetFont());
-				al_destroy_timer(GetTimer());
-
-				delete GetMenu();
+				al_destroy_event_queue(eventQueue_);
+				al_destroy_font(font30_);
+				al_destroy_timer(timer);
+				delete menu_;
 
 				fprintf(stderr,"A State Destructed\n");
 				return;
@@ -148,7 +148,7 @@ namespace StaticDLL{
 				return chosenColor_;
 			}
 
-			STATICDLL_API virtual ALLEGRO_EVENT GetEvent(){
+			STATICDLL_API virtual ALLEGRO_EVENT *GetEvent(){
 				return event_;
 			}
 
@@ -257,7 +257,7 @@ namespace StaticDLL{
 			}
 
 
-			STATICDLL_API virtual void SetEvent(ALLEGRO_EVENT event){
+			STATICDLL_API virtual void SetEvent(ALLEGRO_EVENT *event){
 				event_ = event;
 			}
 
@@ -299,7 +299,7 @@ namespace StaticDLL{
 			ALLEGRO_FONT *font30_;
 			ALLEGRO_TIMER *timer;
 			ALLEGRO_EVENT_QUEUE *eventQueue_;
-			ALLEGRO_EVENT event_;
+			ALLEGRO_EVENT *event_;
 			Menu *menu_;
 			Settings *settings_;
 			Map *currentMap_;

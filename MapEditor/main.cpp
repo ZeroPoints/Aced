@@ -31,42 +31,22 @@ int main(int argc, char **argv)
 	al_init_font_addon();
 	al_init_ttf_addon();
 
-
 	//////////////////////init stuff above
 
 	//Load options at start from txt file...res/other options that are Saved later...?
 
 
 	//http://gribblelab.org/CBootcamp/7_Memory_Stack_vs_Heap.html
-	//Different way uses heap 
-	//EditorEngine *e1 = new EditorEngine(display);//titlescreen state
-	//e1->run();
-	//uses stack
-
-
-	//para test;
-	//Herit *blah = new Herit();
-	//fprintf(stderr, "test\n");
-	//test.addState(blah);
-
-	//while ( test.Running() )
-	//{
-	//	test.dostuff();
-	//}
 	
 
-	Settings* GameSettings = new Settings;
-	Map* CurrentMap = new Map(GameSettings);
 
 
-	EditorEngine e1 = EditorEngine(display, GameSettings, CurrentMap);
+	Settings GameSettings = Settings();
+	Map CurrentMap = Map(&GameSettings);
+
+
+	EditorEngine e1 = EditorEngine(display, &GameSettings, &CurrentMap);
 	e1.Run();
-
-	
-
-	
-
-	
 
 
 

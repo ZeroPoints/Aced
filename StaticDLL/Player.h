@@ -33,14 +33,14 @@ namespace StaticDLL{
 			//sets
 			STATICDLL_API void AdjustLives(int num);
 
-			STATICDLL_API int PlayerKeypress(ALLEGRO_EVENT ev);
+			STATICDLL_API int PlayerKeypress(ALLEGRO_EVENT *ev);
 
 
 
 		private:
 			int score_;
 			int lives_;
-			ALLEGRO_EVENT ev_;
+			ALLEGRO_EVENT *ev_;
 			bool KeyLeft_;
 			bool KeyRight_;
 			bool KeySpace_;

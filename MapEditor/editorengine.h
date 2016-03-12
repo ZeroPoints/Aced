@@ -23,7 +23,26 @@ class EditorEngine
 {
     public:
         EditorEngine(ALLEGRO_DISPLAY *display, Settings *Settings, Map *CurrentMap);
+
+
+        ~EditorEngine()
+        {
+			//delete all states from memory
+			int popLevel = states_.size();
+			int i = 0;
+			//check if this pops the last one off
+			while(i < popLevel){
+				states_.back()->CleanUp();
+				delete states_.back();
+				states_.pop_back();
+				popLevel--;
+			}
+
+			fprintf(stderr,"A Editor Engine Destructed\n");
+        }
 		
+
+
         void Run();
 		void CleanUp();
 		void ChangeState(State* state, ALLEGRO_DISPLAY *display);
@@ -46,13 +65,16 @@ class EditorEngine
 		Settings *settings_;
 		Map *currentMap_;
 
+
+		//Not sure if this needs to be emptied as it is a pointer? to the last state in the state vector.
+		//so if state vector gets deleted this sshould be pointing to a null memory location
 		State* currentState_;
 
 		std::vector<State*> states_;
 		bool running_;
 		bool fullscreen_;
 
-		ALLEGRO_COLOR chosenColor_;
+		ALLEGRO_COLOR chosenColor_, chosenColorText_;
 
 };
 #endif

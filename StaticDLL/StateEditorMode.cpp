@@ -56,9 +56,9 @@ namespace StaticDLL{
 
 
 	void StateEditorMode::KeyPress(){
-		if(GetEvent().type == ALLEGRO_EVENT_KEY_UP)
+		if(GetEvent()->type == ALLEGRO_EVENT_KEY_UP)
 		{
-			switch(GetEvent().keyboard.keycode)
+			switch(GetEvent()->keyboard.keycode)
 			{
 				case ALLEGRO_KEY_ESCAPE:						
 					SetStateDirection(EnumDLL::STATEDIRECTION::PUSH);
@@ -75,9 +75,9 @@ namespace StaticDLL{
 	void StateEditorMode::MouseActivity(){
 
 
-		if(GetEvent().type == ALLEGRO_EVENT_MOUSE_AXES)
+		if(GetEvent()->type == ALLEGRO_EVENT_MOUSE_AXES)
 		{			
-			SetMouseCursorPos(GetEvent().mouse.x-10,GetEvent().mouse.y-10);
+			SetMouseCursorPos(GetEvent()->mouse.x-10,GetEvent()->mouse.y-10);
 		}
 
 		editorOverLay_->MouseActivity(GetEvent(), GetMouseCursorX(),GetMouseCursorY());
@@ -90,9 +90,9 @@ namespace StaticDLL{
 
 	void StateEditorMode::EditorModeMouseActivity()
 	{
-		if(GetEvent().type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+		if(GetEvent()->type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
-			switch(GetEvent().mouse.button)
+			switch(GetEvent()->mouse.button)
 			{
 				case 1:
 					break;
@@ -105,9 +105,9 @@ namespace StaticDLL{
 					break;
 			}
 		}
-		if(GetEvent().type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
+		if(GetEvent()->type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
 		{
-			switch(GetEvent().mouse.button)
+			switch(GetEvent()->mouse.button)
 			{
 				case 2:
 					SetRightMouseDown(false);
@@ -125,7 +125,7 @@ namespace StaticDLL{
 		}
 		GetMap()->PreCalc();
 
-		if(GetEvent().type == ALLEGRO_EVENT_TIMER)
+		if(GetEvent()->type == ALLEGRO_EVENT_TIMER)
 		{			
 			//Update overlay. Will return with no actions if action state of it is NONE.
 			editorOverLay_->Update();
@@ -145,7 +145,6 @@ namespace StaticDLL{
 
 
 		al_draw_rectangle(GetMouseCursorX(),GetMouseCursorY(),GetMouseCursorX()+Constants::TileSize,GetMouseCursorY()+Constants::TileSize, GetChosenColor(),2);//1
-		al_draw_textf(GetFont(), GetChosenColor(), 00, 20, ALLEGRO_ALIGN_LEFT, "%f" , GetEvent().timer.timestamp);
 	}
 
 

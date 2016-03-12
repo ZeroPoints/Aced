@@ -7,14 +7,6 @@ namespace StaticDLL{
 	
 
 
-	MenuItem::MenuItem()
-	{
-		font30_ = al_load_font("arial.ttf", 30, 0);
-		targetable_ = true;
-		editable_ = false;
-		optionId_ = EnumDLL::OPTIONTYPES::NOOPTION;
-		Id_ = EnumDLL::STATES::NONE;
-	}
 
 	void MenuItem::SetMenuItemText(char *menuItemText)
 	{

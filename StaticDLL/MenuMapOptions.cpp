@@ -28,6 +28,8 @@ namespace StaticDLL{
 		MenuItem* itemStore = new MenuItem;
 		itemStore->SetMenuItemText("Current Width:");
 
+
+		//might need to delete this tempval char array? mmm looks to be in stack so should die when method finishs....
 		char tempVal[10];
 		sprintf(tempVal, "%i", GetMap()->GetMapWidth());
 

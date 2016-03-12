@@ -140,10 +140,10 @@ namespace StaticDLL{
 
 
 
-	void EditorOverLay::MouseActivity(ALLEGRO_EVENT event, int mouseX, int mouseY){
-		if(event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+	void EditorOverLay::MouseActivity(ALLEGRO_EVENT *event, int mouseX, int mouseY){
+		if(event->type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
-			switch(event.mouse.button)
+			switch(event->mouse.button)
 			{
 				case 1:
 					if(tileWindowArrow_->ClickIntersects(mouseX, mouseY))
@@ -166,10 +166,10 @@ namespace StaticDLL{
 
 
 
-	void EditorOverLay::KeyBoardActivity(ALLEGRO_EVENT event){
-		if(event.type == ALLEGRO_EVENT_KEY_UP)
+	void EditorOverLay::KeyBoardActivity(ALLEGRO_EVENT *event){
+		if(event->type == ALLEGRO_EVENT_KEY_UP)
 		{
-			switch(event.keyboard.keycode)
+			switch(event->keyboard.keycode)
 			{
 				case ALLEGRO_KEY_TAB:
 

@@ -78,7 +78,7 @@ namespace StaticDLL{
 
 
 	void StateEditorMainMenu::Update(){
-		if(GetEvent().type == ALLEGRO_EVENT_TIMER)
+		if(GetEvent()->type == ALLEGRO_EVENT_TIMER)
 		{				
 			GetMenu()->CalculateMenuSelectorCubePosition();
 			SetRedraw(true);
@@ -88,7 +88,6 @@ namespace StaticDLL{
 
 
 	void StateEditorMainMenu::Draw(){
-		al_draw_textf(GetFont(), al_map_rgb(255,255,255), 0, 0, ALLEGRO_ALIGN_LEFT, "%f" , GetEvent().timer.timestamp);
 		GetMenu()->DrawMenu();
 		GetMenu()->DrawMenuSelectorCube();
 	}
