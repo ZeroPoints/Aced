@@ -15,19 +15,24 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StaticDLL", "StaticDLL\Stat
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://win2008-64-tfs:8080/tfs/aced
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Aced\\Aced.vcxproj
-		SccProjectName1 = Aced
-		SccLocalPath1 = Aced
-		SccProjectUniqueName2 = MapEditor\\MapEditor.vcxproj
-		SccProjectName2 = MapEditor
-		SccLocalPath2 = MapEditor
-		SccProjectUniqueName3 = StaticDLL\\StaticDLL.vcxproj
-		SccProjectName3 = StaticDLL
-		SccLocalPath3 = StaticDLL
+		SccProjectUniqueName0 = Aced\\Aced.vcxproj
+		SccProjectName0 = Aced
+		SccAuxPath0 = http://win2008-64-tfs:8080/tfs/aced
+		SccLocalPath0 = Aced
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = MapEditor\\MapEditor.vcxproj
+		SccProjectName1 = MapEditor
+		SccAuxPath1 = http://win2008-64-tfs:8080/tfs/aced
+		SccLocalPath1 = MapEditor
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName2 = StaticDLL\\StaticDLL.vcxproj
+		SccProjectName2 = StaticDLL
+		SccAuxPath2 = http://win2008-64-tfs:8080/tfs/aced
+		SccLocalPath2 = StaticDLL
+		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
