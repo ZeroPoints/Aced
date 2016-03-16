@@ -14,7 +14,7 @@ EditorEngine::EditorEngine(ALLEGRO_DISPLAY *display, Settings *Settings, Map *Cu
 
 
 	//new used to keep it in memory the state. This needs to be freed when EditorEngine is finished.
-	PushNewState(new StateEditorMode());
+	PushNewState(new StateEditorMainMenu());
 }
 
 

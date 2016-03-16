@@ -31,7 +31,7 @@ namespace StaticDLL{
 
 		//might need to delete this tempval char array? mmm looks to be in stack so should die when method finishs....
 		char tempVal[10];
-		sprintf(tempVal, "%i", GetMap()->GetMapWidth());
+		sprintf_s(tempVal, "%i", GetMap()->GetMapWidth());
 
 
 		itemStore->InitMenuItemProperty(al_ustr_new(tempVal));
@@ -54,7 +54,7 @@ namespace StaticDLL{
 		itemStore = new MenuItem;
 		itemStore->SetMenuItemText("Current Height:");
 
-		sprintf(tempVal, "%i", GetMap()->GetMapHeight());
+		sprintf_s(tempVal, "%i", GetMap()->GetMapHeight());
 
 		itemStore->InitMenuItemProperty(al_ustr_new(tempVal));
 		itemStore->SetMenuItemTargetable(false);

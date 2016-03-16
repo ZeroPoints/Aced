@@ -54,6 +54,9 @@
     <ClInclude Include="EditorOverLay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TilePage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MenuItem.cpp">
@@ -99,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EditorOverLay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TilePage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

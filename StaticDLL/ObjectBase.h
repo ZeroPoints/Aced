@@ -10,7 +10,6 @@
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
 #include "Definitions.h"
-//#include "Map.h"
 
 
 #ifdef STATICDLL_EXPORTS

@@ -13,10 +13,11 @@
 #include "Settings.h"
 #include "Definitions.h"
 #include "ObjectBase.h"
+#include "TilePage.h"
 #include <allegro5/allegro_font.h>//fonts
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
-
+#include <ctime>
 
 
 #ifdef STATICDLL_EXPORTS
@@ -24,7 +25,6 @@
 #else
    #define STATICDLL_API __declspec(dllimport)
 #endif
-
 
 
 namespace StaticDLL{
@@ -41,8 +41,7 @@ namespace StaticDLL{
 				delete tileWindowArrow_;
 				delete tilePickerWindow_;
 				delete menuBar_;
-
-
+				fprintf(stderr,"An Overlay Destructed\n");
 			}
 			
 
@@ -71,16 +70,20 @@ namespace StaticDLL{
 
 
 			STATICDLL_API void DrawTilePicker();
+			STATICDLL_API void DrawTiles();
 			STATICDLL_API void DrawMenuBar();
 
 
 
-			STATICDLL_API void DrawBottomArrow();
+			STATICDLL_API void DrawArrows();
 			 
 
 			STATICDLL_API void CreateTileArrow();
 			STATICDLL_API void CreateTileWindow();
 			STATICDLL_API void CreateMenuBar();
+
+
+
 
 
 			STATICDLL_API EnumDLL::OVERLAYSTATE GetOverLayState()
@@ -95,6 +98,10 @@ namespace StaticDLL{
 			}
 
 
+
+			STATICDLL_API void CreateTiles(int x, int y);
+
+			
 
 
 		private:
@@ -122,6 +129,8 @@ namespace StaticDLL{
 
 
 			ObjectBase *tileWindowArrow_;
+			ObjectBase *tileWindowBotLeftArrow_;
+			ObjectBase *tileWindowBotRightArrow_;
 
 
 			ObjectBase *tilePickerWindow_;
@@ -129,7 +138,11 @@ namespace StaticDLL{
 
 			ObjectBase *menuBar_;
 
+			int currentTilePage_;
+			std::vector<TilePage*> tilePages_;
 
+
+			std::vector<std::vector<Tile>> tiles_;
 
 			
 			ALLEGRO_EVENT_QUEUE *eventQueue_;

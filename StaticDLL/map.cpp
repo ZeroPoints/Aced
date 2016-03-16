@@ -26,6 +26,12 @@ namespace StaticDLL{
 		}
 
 		font30_ = al_load_font("arial.ttf", 20, 0);
+
+		rightViewPoint_ = 10;
+		leftViewPoint_ = 0;
+		botViewPoint_ = 10;
+		topViewPoint_ = 0;
+
 	}
 
 

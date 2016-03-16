@@ -29,6 +29,12 @@ namespace StaticDLL{
 	class StateEditorMode : public State
 	{
 		public:
+
+			STATICDLL_API ~StateEditorMode()
+			{
+				delete editorOverLay_;
+			}
+
 			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap);
 			////key press probs goes in update
 			STATICDLL_API void KeyPress();
@@ -39,6 +45,7 @@ namespace StaticDLL{
 			STATICDLL_API void Resume();
 			STATICDLL_API void DragMap();
 		private:
+			//This object isnt being Deleted at the moment
 			EditorOverLay *editorOverLay_;
 	};
 	class StateEditorMainMenu : public State
