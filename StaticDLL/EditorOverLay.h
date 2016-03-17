@@ -59,7 +59,7 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API void MouseActivity(ALLEGRO_EVENT *event, int cursorX, int cursorY);
+			STATICDLL_API bool MouseActivity(ALLEGRO_EVENT *event, int cursorX, int cursorY);
 
 
 			STATICDLL_API void KeyBoardActivity(ALLEGRO_EVENT *event);
@@ -102,6 +102,19 @@ namespace StaticDLL{
 			STATICDLL_API void CreateTiles(int x, int y);
 
 			
+			STATICDLL_API Tile* GetSelectedTile()
+			{
+				return tilePages_[currentTilePage_]->GetSelectedTile();
+			}
+			STATICDLL_API int GetSelectedTileX()
+			{
+				return tilePages_[currentTilePage_]->GetSelectedTileX();
+			}
+			STATICDLL_API int GetSelectedTileY()
+			{
+				return tilePages_[currentTilePage_]->GetSelectedTileY();
+			}
+
 
 
 		private:
@@ -112,7 +125,7 @@ namespace StaticDLL{
 
 
 
-
+			
 
 
 			int top_;

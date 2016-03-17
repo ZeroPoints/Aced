@@ -40,6 +40,16 @@ namespace StaticDLL
 				return;
 			}
 
+
+			STATICDLL_API virtual void SetObjectProperties(ObjectBase *selectedObject){
+				//hopefully this assigning isnt a pointer but a new object.
+				chosenColor_ = selectedObject->chosenColor_;
+
+				return;
+
+			};
+
+
 			STATICDLL_API virtual void InitState(ALLEGRO_DISPLAY *display){
 				return;
 			};

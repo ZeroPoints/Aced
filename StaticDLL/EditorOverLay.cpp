@@ -113,7 +113,6 @@ namespace StaticDLL{
 		for(int i = 0; i < pages+extraPage; i++)
 		{
 			tilePages_.push_back(new TilePage());
-
 			int newMin = (screenHeight/2*i) == 0 ? 0 : (screenHeight/2*i);
 			int newMax = (screenHeight/2*i) + screenHeight/2;
 
@@ -125,12 +124,8 @@ namespace StaticDLL{
 			{
 				newMax = tiles_[0].size();
 			}
-
-
 			tilePages_[i]->SetTiles(newMin, newMax, x);
 		}
-
-		int potat = 0;
 	}
 
 
@@ -228,8 +223,11 @@ namespace StaticDLL{
 
 
 
-
-	void EditorOverLay::MouseActivity(ALLEGRO_EVENT *event, int mouseX, int mouseY){
+	//Returns true if the editor overlay took control of mouse activity actions focus
+	//Might need to pass false if user clicked in tile overlay bounds but not on an object while overlay is opened. 
+	//So it doesnt interact with the back layer
+	bool EditorOverLay::MouseActivity(ALLEGRO_EVENT *event, int mouseX, int mouseY)
+	{
 		if(event->type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
 			switch(event->mouse.button)
@@ -245,7 +243,7 @@ namespace StaticDLL{
 						{
 							overLayAction_ = EnumDLL::OVERLAYACTIONS::OVERLAYCLOSING;
 						}
-						break;
+						return true;
 					}
 
 
@@ -260,7 +258,7 @@ namespace StaticDLL{
 							{
 								currentTilePage_--;
 							}	
-							break;
+							return true;
 						}
 
 						//Mouse click for other tile arrows
@@ -270,14 +268,26 @@ namespace StaticDLL{
 							{
 								currentTilePage_++;
 							}	
-							break;
+							return true;
 						}
+					}
+
+
+
+					//Tile page took action over mouse activity so return true
+					if(tilePages_[currentTilePage_]->MouseActivity(tiles_, mouseX, mouseY))
+					{
+						return true;
 					}
 
 
 					break;
 			}
 		}
+
+
+		return false;
+
 	}
 
 
@@ -288,7 +298,6 @@ namespace StaticDLL{
 			switch(event->keyboard.keycode)
 			{
 				case ALLEGRO_KEY_TAB:
-
 					if(overLayState_ == EnumDLL::OVERLAYSTATE::OVERLAYCLOSED)
 					{
 						overLayAction_ = EnumDLL::OVERLAYACTIONS::OVERLAYOPENING;
@@ -297,12 +306,8 @@ namespace StaticDLL{
 					{
 						overLayAction_ = EnumDLL::OVERLAYACTIONS::OVERLAYCLOSING;
 					}
-
 					break;
 			}
 		}
 	}
-
-
-
 }

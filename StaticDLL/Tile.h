@@ -32,14 +32,27 @@ namespace StaticDLL{
 				
 			};
 			
+
+			//does nothing really atm
 			STATICDLL_API int GetTileType()
 			{
 				return tileType_;
 			}
+			//does nothing really atm
 			STATICDLL_API void SetTileType(EnumDLL::TILETYPE tileType)
 			{
 				tileType_ = tileType;
 			};
+
+
+
+			//Sets equivalent properties for the tile from another tile object
+			//Will probably make a SetObjectProperties one aswell later that this one can call within it.
+			//So it sets it own properties then its object properties that are inherited
+			STATICDLL_API void SetTileProperties(Tile *selectedTile)
+			{
+				SetObjectProperties(selectedTile);
+			}
 
 
 		private:	

@@ -49,6 +49,30 @@ namespace StaticDLL{
 
 
 
+			//Check This pages tiles for click intersects
+			STATICDLL_API bool MouseActivity(std::vector<std::vector<Tile>> &tileRef, int mouseX, int mouseY);
+
+
+			STATICDLL_API int GetSelectedTileX()
+			{
+				return selectedTileX_;
+			}
+
+
+			STATICDLL_API int GetSelectedTileY()
+			{
+				return selectedTileY_;
+			}
+
+
+			STATICDLL_API Tile* GetSelectedTile()
+			{
+				return selectedTile_;
+			}
+
+
+
+
 
 			//Sets some variables for drawing range of tile page selection
 			STATICDLL_API void SetTiles(int yRangeMin, int yRangeMax, int x)
@@ -65,6 +89,10 @@ namespace StaticDLL{
 
 
 			int yRangeMin_, yRangeMax_, x_;
+
+			Tile* selectedTile_;
+
+			int selectedTileX_, selectedTileY_;
 
 
 	};

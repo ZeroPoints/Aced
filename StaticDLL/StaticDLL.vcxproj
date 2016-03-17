@@ -118,7 +118,6 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuItem.cpp" />
     <ClCompile Include="MenuEditor.cpp" />
-    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TilePage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

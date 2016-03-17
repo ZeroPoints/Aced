@@ -66,6 +66,11 @@ namespace StaticDLL{
 		{
 			SetStateDirection(EnumDLL::STATEDIRECTION::POPTOFIRST);
 		}
+		else if(GetKeyPressState() == EnumDLL::STATES::RETURN)
+		{
+			SetStateDirection(EnumDLL::STATEDIRECTION::POP);
+			SetPopLevel(1);
+		}
 	}
 
 

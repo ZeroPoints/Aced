@@ -45,7 +45,7 @@ namespace StaticDLL{
 		al_start_timer(GetTimer());
 
 
-
+		
 
 
 	}
@@ -80,10 +80,14 @@ namespace StaticDLL{
 			SetMouseCursorPos(GetEvent()->mouse.x-10,GetEvent()->mouse.y-10);
 		}
 
-		editorOverLay_->MouseActivity(GetEvent(), GetMouseCursorX(),GetMouseCursorY());
-		EditorModeMouseActivity();
 
-		
+		//If the editor overlay didnt take control of mouse activity let editor mode handle it
+		if(!editorOverLay_->MouseActivity(GetEvent(), GetMouseCursorX(),GetMouseCursorY()))
+		{
+			EditorModeMouseActivity();
+		}
+
+
 	}
 
 
@@ -95,6 +99,7 @@ namespace StaticDLL{
 			switch(GetEvent()->mouse.button)
 			{
 				case 1:
+					SetLeftMouseDown(true);
 					break;
 				case 2:
 					SetRightMouseDown(true);
@@ -109,6 +114,9 @@ namespace StaticDLL{
 		{
 			switch(GetEvent()->mouse.button)
 			{
+				case 1:
+					SetLeftMouseDown(false);
+					break;
 				case 2:
 					SetRightMouseDown(false);
 					break;
@@ -123,6 +131,25 @@ namespace StaticDLL{
 		{
 			DragMap();
 		}
+
+		if(GetLeftMouseDown())
+		{
+			if(editorOverLay_->GetSelectedTile() != nullptr)
+			{
+				int mapSizeX = GetMap()->GetTiles().size();
+				int mapSizeY = GetMap()->GetTiles()[0].size();
+				int tileXPos = (GetMouseCursorX() - GetMap()->GetMapXOffset() + Constants::TileSize/2)/Constants::TileSize;
+				int tileYPos = (GetMouseCursorY() - GetMap()->GetMapYOffset() + Constants::TileSize/2)/Constants::TileSize;
+				if(tileXPos >= 0 && 
+					tileXPos < mapSizeX &&
+					tileYPos >= 0 && 
+					tileYPos < mapSizeY)
+				{
+					GetMap()->GetTiles()[tileXPos][tileYPos].SetTileProperties(editorOverLay_->GetSelectedTile());
+				}
+			}
+		}
+
 		GetMap()->PreCalc();
 
 		if(GetEvent()->type == ALLEGRO_EVENT_TIMER)
