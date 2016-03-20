@@ -21,10 +21,14 @@ using namespace std;
 int main(int argc, char **argv)
 {
 	//ShowWindow( GetConsoleWindow(), SW_HIDE );//hide console window no body needs to see it now
+	//Load options at start from txt file...res/other options that are Saved later...?
+	Settings GameSettings = Settings();
+
+
 
 	al_init();
 	ALLEGRO_DISPLAY *display = NULL;
-	display = al_create_display(800, 600);
+	display = al_create_display(GameSettings.GetScreenWidth(), GameSettings.GetScreenHeight());
 	al_install_keyboard();
 	al_install_mouse();
 	al_init_primitives_addon();//shapes and color???
@@ -33,7 +37,6 @@ int main(int argc, char **argv)
 
 	//////////////////////init stuff above
 
-	//Load options at start from txt file...res/other options that are Saved later...?
 
 
 	//http://gribblelab.org/CBootcamp/7_Memory_Stack_vs_Heap.html
@@ -41,7 +44,6 @@ int main(int argc, char **argv)
 
 
 
-	Settings GameSettings = Settings();
 
 
 

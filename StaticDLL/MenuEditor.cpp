@@ -45,15 +45,15 @@ namespace StaticDLL{
 		itemStore->SetMenuItemText("Map Options");
 		AddMenuItem(itemStore);
 
-		itemStore = new MenuItem;
+		/*itemStore = new MenuItem;
 		itemStore->SetId(EnumDLL::STATES::OPTIONS);
 		itemStore->SetMenuItemText("Options");
-		AddMenuItem(itemStore);
+		AddMenuItem(itemStore);*/
 
-		itemStore = new MenuItem;
+		/*itemStore = new MenuItem;
 		itemStore->SetId(EnumDLL::STATES::ABOUT);
 		itemStore->SetMenuItemText("About");
-		AddMenuItem(itemStore);
+		AddMenuItem(itemStore);*/
 		
 	
 

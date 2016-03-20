@@ -120,4 +120,9 @@
       <Filter>Source Files\OpenSource\pugixml</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Settings.config">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

@@ -4,6 +4,8 @@
 
 #define ALLEGRO_NO_MAGIC_MAIN
 
+#include "../OpenSource/pugixml/pugixml.hpp"
+#include "Definitions.h"
 
 
 #ifdef STATICDLL_EXPORTS
@@ -40,11 +42,20 @@ namespace StaticDLL{
 				return displayHeight_;
 			}
 
+			STATICDLL_API int GetScreenWidth(){
+				return screenWidth_;
+			}
+			STATICDLL_API int GetScreenHeight(){
+				return screenHeight_;
+			}
 
 
 		private:
 			//Display values are for the screens resolution
 			int displayWidth_, displayHeight_;
+
+			int screenWidth_, screenHeight_;
+
 
 
 

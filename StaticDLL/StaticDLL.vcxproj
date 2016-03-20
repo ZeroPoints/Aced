@@ -123,6 +123,9 @@
     <ClCompile Include="MenuEditor.cpp" />
     <ClCompile Include="TilePage.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Settings.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
