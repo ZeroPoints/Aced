@@ -27,6 +27,7 @@
 
 
 namespace StaticDLL{
+	//This Object Is a container for the tiles that are displayed in the overlay
 	class TilePage
 	{
 		public:
@@ -50,21 +51,27 @@ namespace StaticDLL{
 
 
 			//Check This pages tiles for click intersects
+			//Check each tile that is in range for click intersecting and returns the tile reference and the x and y value of that tile
 			STATICDLL_API bool MouseActivity(std::vector<std::vector<Tile>> &tileRef, int mouseX, int mouseY);
 
 
+
+
+			//give public access to the X
 			STATICDLL_API int GetSelectedTileX()
 			{
 				return selectedTileX_;
 			}
 
 
+			//give public access to the Y
 			STATICDLL_API int GetSelectedTileY()
 			{
 				return selectedTileY_;
 			}
 
 
+			//give public access to the tile reference
 			STATICDLL_API Tile* GetSelectedTile()
 			{
 				return selectedTile_;
@@ -90,8 +97,9 @@ namespace StaticDLL{
 
 			int yRangeMin_, yRangeMax_, x_;
 
+			//Selected tile reference that the user has clicked on
 			Tile* selectedTile_;
-
+			//The X and Y indicator of that tile
 			int selectedTileX_, selectedTileY_;
 
 

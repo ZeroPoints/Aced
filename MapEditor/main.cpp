@@ -42,7 +42,14 @@ int main(int argc, char **argv)
 
 
 	Settings GameSettings = Settings();
-	Map CurrentMap = Map(&GameSettings);
+
+
+
+
+
+
+
+	Map CurrentMap = Map(&GameSettings, display);
 
 
 	EditorEngine e1 = EditorEngine(display, &GameSettings, &CurrentMap);

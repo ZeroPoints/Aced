@@ -45,13 +45,23 @@ namespace StaticDLL{
 		SetKeyPressState(GetMenu()->KeyPress(GetEvent()));
 		if(GetKeyPressState() == EnumDLL::STATES::NEW)//new map
 		{
+			GetMap()->ResetMap();
+			SetStateDirection(EnumDLL::STATEDIRECTION::POPPUSH);
+			SetPopLevel(2);
+			SetNextState(new StateEditorMode());
+			//New create new map instead of going to use what we were using before
+		}
+		else if(GetKeyPressState() == EnumDLL::STATES::LOAD)//load map
+		{
+			GetMap()->ResetMap();
+			GetMap()->LoadMapDialog();
 			SetStateDirection(EnumDLL::STATEDIRECTION::POPPUSH);
 			SetPopLevel(2);
 			SetNextState(new StateEditorMode());
 		}
-		else if(GetKeyPressState() == EnumDLL::STATES::LOAD)//load map
+		else if(GetKeyPressState() == EnumDLL::STATES::SAVE)//save map
 		{
-
+			GetMap()->SaveMapDialog();
 		}
 		else if(GetKeyPressState() == EnumDLL::STATES::MAPOPTIONS)//options
 		{

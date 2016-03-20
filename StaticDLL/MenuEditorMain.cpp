@@ -25,18 +25,8 @@ namespace StaticDLL{
 		AddMenuItem(itemStore);
 
 		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::SAVE);
-		itemStore->SetMenuItemText("Save Map");
-		AddMenuItem(itemStore);
-
-		itemStore = new MenuItem;
 		itemStore->SetId(EnumDLL::STATES::LOAD);
 		itemStore->SetMenuItemText("Load Map");
-		AddMenuItem(itemStore);
-
-		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::MAPOPTIONS);
-		itemStore->SetMenuItemText("Map Options");
 		AddMenuItem(itemStore);
 
 		itemStore = new MenuItem;

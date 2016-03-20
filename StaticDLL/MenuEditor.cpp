@@ -21,6 +21,11 @@ namespace StaticDLL{
 		SetId(EnumDLL::STATES::EDITORMAINMENU);
 		
 		MenuItem* itemStore = new MenuItem;
+		itemStore->SetId(EnumDLL::STATES::RETURN);
+		itemStore->SetMenuItemText("Return");
+		AddMenuItem(itemStore);
+
+		itemStore = new MenuItem;
 		itemStore->SetId(EnumDLL::STATES::NEW);
 		itemStore->SetMenuItemText("New Map");
 		AddMenuItem(itemStore);
@@ -50,10 +55,7 @@ namespace StaticDLL{
 		itemStore->SetMenuItemText("About");
 		AddMenuItem(itemStore);
 		
-		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::RETURN);
-		itemStore->SetMenuItemText("Return");
-		AddMenuItem(itemStore);
+	
 
 		itemStore = new MenuItem;
 		itemStore->SetId(EnumDLL::STATES::MAINMENU);

@@ -54,17 +54,16 @@ namespace StaticDLL{
 		SetKeyPressState(GetMenu()->KeyPress(GetEvent()));
 		if(GetKeyPressState() == EnumDLL::STATES::NEW)//new map
 		{
+			GetMap()->ResetMap();
 			SetStateDirection(EnumDLL::STATEDIRECTION::PUSH);
 			SetNextState(new StateEditorMode());
 		}
 		else if(GetKeyPressState() == EnumDLL::STATES::LOAD)//load map
 		{
-			SetStateDirection(EnumDLL::STATEDIRECTION::POP);
-		}
-		else if(GetKeyPressState() == EnumDLL::STATES::MAPOPTIONS)//options
-		{
+			GetMap()->ResetMap();
+			GetMap()->LoadMapDialog();
 			SetStateDirection(EnumDLL::STATEDIRECTION::PUSH);
-			SetNextState(new StateMapOptions());
+			SetNextState(new StateEditorMode());
 		}
 		else if(GetKeyPressState() == EnumDLL::STATES::ABOUT)//about cinematics
 		{

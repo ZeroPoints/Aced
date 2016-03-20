@@ -24,7 +24,8 @@
 
 
 namespace StaticDLL{
-
+	//Base class for states to inherit from
+	//This is the driving structure for this projects state management system
 	class State
 	{
 		public:
@@ -208,6 +209,11 @@ namespace StaticDLL{
 			STATICDLL_API virtual void SetSettings(Settings* settings){
 				settings_ = settings;
 			}
+			STATICDLL_API virtual Settings* GetSettings(){
+				return settings_;
+			}
+
+
 
 			STATICDLL_API virtual void SetRightMouseDown(bool rightMouseDown){
 				rightMouseDown_ = rightMouseDown;

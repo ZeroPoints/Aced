@@ -23,7 +23,8 @@
 
 namespace StaticDLL{
 
-	//
+	//This object is a Tile
+	//This inherits from Object base like most other objects
 	class Tile : public ObjectBase
 	{
 		public:
@@ -32,9 +33,17 @@ namespace StaticDLL{
 				
 			};
 			
+			STATICDLL_API ~Tile()
+			{
+				if(GetCurrentPositionX() != -6277438562204192500000000000000000000000000000000000000000000000000.000000)
+				{
+					fprintf(stderr,"A Tile[%f][%f] Destructed\n", GetCurrentPositionX(), GetCurrentPositionY());
+				}
+			};
+
 
 			//does nothing really atm
-			STATICDLL_API int GetTileType()
+			STATICDLL_API EnumDLL::TILETYPE GetTileType()
 			{
 				return tileType_;
 			}
@@ -51,6 +60,7 @@ namespace StaticDLL{
 			//So it sets it own properties then its object properties that are inherited
 			STATICDLL_API void SetTileProperties(Tile *selectedTile)
 			{
+				tileType_ = selectedTile->GetTileType();
 				SetObjectProperties(selectedTile);
 			}
 

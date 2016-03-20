@@ -17,6 +17,9 @@
   <ItemGroup>
     <ClInclude Include="EditorEngine.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="arial.ttf" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{05092535-DFF5-43C3-A023-1D721A3B3232}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

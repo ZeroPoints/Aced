@@ -28,6 +28,8 @@
 
 
 namespace StaticDLL{
+	//This is the container for a GUI overlay
+	//Contains pages that have the tiles that can be placed(objects)
 	class EditorOverLay
 	{
 		public:
@@ -59,22 +61,28 @@ namespace StaticDLL{
 
 
 
+			//Returns true if the editor overlay took control of mouse activity actions focus
+			//Might need to pass false if user clicked in tile overlay bounds but not on an object while overlay is opened. 
+			//So it doesnt interact with the back layer
 			STATICDLL_API bool MouseActivity(ALLEGRO_EVENT *event, int cursorX, int cursorY);
 
 
+			//Takes tab click to interact with overlay
 			STATICDLL_API void KeyBoardActivity(ALLEGRO_EVENT *event);
 
 
-
+			//Draws the overlay
+			//And all combined objects that need to drawn
 			STATICDLL_API void Draw();
 
 
+			//Draws Tile picker window
 			STATICDLL_API void DrawTilePicker();
+			//Draws Tile picker pages tiles
 			STATICDLL_API void DrawTiles();
+			//Draws a menu bar ATM it has no functionality
 			STATICDLL_API void DrawMenuBar();
-
-
-
+			//Draws all arrow objects that are on the overlay
 			STATICDLL_API void DrawArrows();
 			 
 

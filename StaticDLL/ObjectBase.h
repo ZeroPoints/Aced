@@ -21,18 +21,21 @@
 
 namespace StaticDLL
 {
+	//Most objects will inherit there properties from this object as most objects within this game share properties from this object
 	class ObjectBase
 	{
 		public:
 			
 
 			STATICDLL_API ObjectBase(){
+				movespeed_ = 0;
 				fprintf(stderr,"An Object Created\n");
 				return;
 			}
 
 
-
+			//All might destroyer of worlds
+			//Will consume all knowledge of this object...Hopefully
 			STATICDLL_API virtual ~ObjectBase(){
 				//al_destroy_font(font30_);
 
@@ -191,6 +194,18 @@ namespace StaticDLL
 
 			};
 
+			STATICDLL_API virtual void SetColorA(float a){
+				chosenColor_.a = a;
+			};
+			STATICDLL_API virtual void SetColorB(float b){
+				chosenColor_.b = b;
+			};
+			STATICDLL_API virtual void SetColorR(float r){
+				chosenColor_.r = r;
+			};
+			STATICDLL_API virtual void SetColorG(float g){
+				chosenColor_.g = g;
+			};
 			STATICDLL_API virtual void SetColor(ALLEGRO_COLOR color){
 				chosenColor_ = color;
 			};
@@ -217,7 +232,7 @@ namespace StaticDLL
 			};
 
 
-
+			//Draws the object...Uses the x and y offset from map to draw with displacement
 			STATICDLL_API virtual void DrawObject(int xOffset, int yOffset){
 				al_draw_filled_rectangle(
 					currentPositionX_*Constants::TileSize + xOffset,
@@ -229,18 +244,9 @@ namespace StaticDLL
 				//This line below was old code reminder that i need to sort the view point translation of objects
 				//al_draw_filled_rectangle(tileX_*20 + mapXoffSet*20, tileY_*20 + mapYoffSet*20, tileX_*20 + tileSize + mapXoffSet*20, tileY_*20 + tileSize + mapYoffSet*20, colour_);
 			};
-			STATICDLL_API virtual void DrawRectangleMapObject(int xOffset, int yOffset){
-				al_draw_rectangle(
-					currentPositionX_*Constants::TileSize + xOffset,
-					currentPositionY_*Constants::TileSize + yOffset,
-					currentPositionX_*Constants::TileSize + width_*Constants::TileSize + xOffset,
-					currentPositionY_*Constants::TileSize + height_*Constants::TileSize + yOffset,
-					al_map_rgb_f(1,1,1),1	
-					);
-				//This line below was old code reminder that i need to sort the view point translation of objects
-				//al_draw_filled_rectangle(tileX_*20 + mapXoffSet*20, tileY_*20 + mapYoffSet*20, tileX_*20 + tileSize + mapXoffSet*20, tileY_*20 + tileSize + mapYoffSet*20, colour_);
-			};
+			
 
+			//Draw an object without need of translation
 			STATICDLL_API virtual void DrawObject(){
 				al_draw_filled_rectangle(
 					currentPositionX_*Constants::TileSize,
@@ -306,6 +312,9 @@ namespace StaticDLL
 					collisionRight_,
 					clickable_
 					;	
+
+
+
 
 			
 			EnumDLL::STATES Id_, keyPressState_, keyPressReturnVal_;

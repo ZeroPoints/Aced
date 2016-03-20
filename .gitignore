@@ -45,6 +45,7 @@ x64/
 build/
 [Bb]in/
 [Oo]bj/
+$tf1/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -67,6 +68,7 @@ build/
 *.tmp
 *.tmp_proj
 *.log
+*.tlog
 *.vspscc
 *.vssscc
 .builds
@@ -209,3 +211,7 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+*.tlog
+*.tf1
+*.tfb
+*.tlog

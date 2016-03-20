@@ -14,6 +14,7 @@
 #include <allegro5/allegro_font.h>//fonts
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
+#include "../OpenSource/pugixml/pugixml.hpp"
 
 
 
@@ -26,17 +27,22 @@
 
 
 namespace StaticDLL{
-	class Settings;
 
+	//This class Contains the maps dimensions are properties. 
+	//Contains the main list of tiles object that most things will reference
 	class Map
 	{
 		public:
 			//Definitions. 
 			//Map is the border of a MAP
-			//Window Size/View point is dictated by the displayHeight_,displayWidth_ variables
+			//Window Size/View point is dictated by the displayHeight_,displayWidth_ variables that are in the Settings for display resolution
 			//Offset dictates how displaced the map is from the view point.
+			STATICDLL_API Map(Settings *settings, ALLEGRO_DISPLAY *display);
 
-			STATICDLL_API Map(Settings *settings);
+
+			//Make a destructor for map...???????????>>><>
+
+			STATICDLL_API void ResetMap();
 
 			STATICDLL_API int GetMapWidth()
 			{
@@ -92,7 +98,19 @@ namespace StaticDLL{
 				return offSetBeforeRightClickDragY_;
 			}
 
+
+			//Save dialog window for saving a map
+			STATICDLL_API void SaveMapDialog();
+			//Save function for saving the map in xml
+			STATICDLL_API bool SaveMap();
+			STATICDLL_API void LoadMapDialog();
+			STATICDLL_API void LoadMap();
+			
+
+
+			//Old style call
 			STATICDLL_API void SaveMap(ALLEGRO_DISPLAY *display);
+			//Old style call
 			STATICDLL_API void LoadMap(ALLEGRO_DISPLAY *display);
 
 			//This will Resize the map to the new size.
@@ -120,14 +138,12 @@ namespace StaticDLL{
 			}
 
 
+
+		
+		
+
+
 		private:
-
-			//Not used at the moment kinda. I want to use this to cap my drawing view to a box around screen size area. or so.
-			int displayHeight_;
-			//Not used at the moment kinda. I want to use this to cap my drawing view to a box around screen size area. or so.
-			int displayWidth_;
-
-
 
 
 			//The border of the entire Map
@@ -167,7 +183,7 @@ namespace StaticDLL{
 			 botViewPoint_;
 
 
-
+			ALLEGRO_PATH *mapPath_;
 
 
 
@@ -178,7 +194,7 @@ namespace StaticDLL{
 
 			ALLEGRO_FONT *font30_;
 			Settings *settings_;
-
+			ALLEGRO_DISPLAY *display_;
 	};
 }
 #endif

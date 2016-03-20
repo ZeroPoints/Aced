@@ -15,6 +15,8 @@
 
 
 namespace StaticDLL{
+	//Settings for the project
+	//Most will be loaded from a settinsg file
 	class Settings
 	{
 		public:
@@ -41,6 +43,7 @@ namespace StaticDLL{
 
 
 		private:
+			//Display values are for the screens resolution
 			int displayWidth_, displayHeight_;
 
 

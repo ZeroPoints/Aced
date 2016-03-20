@@ -92,7 +92,7 @@ namespace StaticDLL{
 			for(int j = 0; j < y; j++)
 			{
 				tiles[i][j].SetColor(al_map_rgb_f((double)rand() / RAND_MAX,(double)rand() / RAND_MAX,(double)rand() / RAND_MAX));//sets all tiles to grey
-				tiles[i][j].SetTileType(EnumDLL::TILETYPE::EMPTY);
+				tiles[i][j].SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
 
 				int posX = leftOffset+i*displacementOffset;
 				int posY = topOffset + ((j*displacementOffset)%(screenHeight));
@@ -182,7 +182,7 @@ namespace StaticDLL{
 
 
 
-	//Draw the bottom and right arrow
+	//Draws all arrow objects that are on the overlay
 	void EditorOverLay::DrawArrows()
 	{
 		tileWindowArrow_->DrawObject();
@@ -216,6 +216,7 @@ namespace StaticDLL{
 			tilePages_[currentTilePage_]->DrawTiles(tiles_);
 		}
 	}
+
 	void EditorOverLay::DrawMenuBar()
 	{
 		menuBar_->DrawObject();
@@ -292,6 +293,7 @@ namespace StaticDLL{
 
 
 
+	//Takes tab click to interact with overlay
 	void EditorOverLay::KeyBoardActivity(ALLEGRO_EVENT *event){
 		if(event->type == ALLEGRO_EVENT_KEY_UP)
 		{

@@ -27,7 +27,7 @@ namespace StaticDLL{
 
 
 
-	//Draws the tiles from reference. Uses set tiles as its range indicator
+	//Check each tile that is in range for click intersecting and returns the tile reference and the x and y value of that tile
 	bool TilePage::MouseActivity(std::vector<std::vector<Tile>> &tileRef, int mouseX, int mouseY)
 	{
 		int i;

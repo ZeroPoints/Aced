@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\OpenSource">
+      <UniqueIdentifier>{e3e8ec43-1fe5-48b5-96a6-83e5f6ddd211}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OpenSource\pugixml">
+      <UniqueIdentifier>{5906b1ab-9840-421c-9461-75bf98c2c26b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MenuItem.h">
@@ -56,6 +62,12 @@
     </ClInclude>
     <ClInclude Include="TilePage.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenSource\pugixml\pugixml.hpp">
+      <Filter>Source Files\OpenSource\pugixml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OpenSource\pugixml\pugiconfig.hpp">
+      <Filter>Source Files\OpenSource\pugixml</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="TilePage.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OpenSource\pugixml\pugixml.cpp">
+      <Filter>Source Files\OpenSource\pugixml</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
