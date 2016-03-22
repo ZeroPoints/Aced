@@ -69,6 +69,8 @@ namespace StaticDLL{
 			STATICDLL_API virtual void Pause(){
 				return;
 			};
+
+			//On resume maybe resize or graphics stuff? menus? overlay?
 			STATICDLL_API virtual void Resume(){
 				return;
 			};

@@ -42,7 +42,16 @@ namespace StaticDLL{
 			displayHeight_ = screenHeight_/Constants::TileSize;
 		}
 		
+	}
 
 
+	//Save all current setting changes back into doc
+	void Settings::SaveSettings(){
+		pugi::xml_document xmlDoc;
+		auto result = xmlDoc.load_file("..\\Settings.config");
+		pugi::xml_node xmlSettings = xmlDoc.child("settings");
+		xmlSettings.attribute("screenwidth").set_value(screenWidth_);
+		xmlSettings.attribute("screenheight").set_value(screenHeight_);
+		xmlDoc.save_file("..\\Settings.config");
 	}
 }

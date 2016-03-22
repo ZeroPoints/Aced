@@ -47,8 +47,15 @@ namespace StaticDLL{
 
 	};
 
+	class MenuOptions : public Menu
+	{
+		public:
+			STATICDLL_API MenuOptions(Settings *settings, Map *currentMap);
+			STATICDLL_API void InitMenu();
 
-	
+		private:
+
+	};
 
 
 	//class EditorMainMenuTemplate : public Menu

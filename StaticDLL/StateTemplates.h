@@ -81,7 +81,16 @@ namespace StaticDLL{
 			STATICDLL_API void Draw();
 		private:
 	};
-
+	class StateOptions : public State
+	{
+		public:
+			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap);
+			////key press probs goes in update
+			STATICDLL_API void KeyPress();
+			STATICDLL_API void Update();
+			STATICDLL_API void Draw();
+		private:
+	};
 
 
 

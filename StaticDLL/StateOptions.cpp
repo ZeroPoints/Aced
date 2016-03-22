@@ -7,7 +7,7 @@ namespace StaticDLL{
 
 
 
-	void StateMapOptions::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap){
+	void StateOptions::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap){
 		SetDisplay(display);
 		SetSettings(settings);
 		SetId(EnumDLL::STATES::MAPOPTIONS);
@@ -33,13 +33,13 @@ namespace StaticDLL{
 		SetPlayerSelected(false);
 		SetChosenColor(al_map_rgb_f(0,0.3,0.5));
 		SetMap(currentMap);
-		SetMenu(new MenuMapOptions(settings, currentMap));
+		SetMenu(new MenuOptions(settings, currentMap));
 		al_start_timer(GetTimer());
 	}
 
 
 
-	void StateMapOptions::KeyPress(){
+	void StateOptions::KeyPress(){
 		//keypress here
 		SetKeyPressState(GetMenu()->KeyPress(GetEvent()));
 		if(GetKeyPressState() == EnumDLL::STATES::SAVE)//new map
@@ -54,7 +54,7 @@ namespace StaticDLL{
 					auto v = atoi(s);
 					if(v > 0)
 					{
-						GetMap()->SetMapWidth(v);
+						GetSettings()->SetScreenWidth(v);
 					}
 				}
 				else if(GetMenu()->GetMenuItems()[i]->GetOptionId() == EnumDLL::OPTIONTYPES::HEIGHTOPTION)
@@ -64,17 +64,21 @@ namespace StaticDLL{
 					auto v = atoi(s);
 					if(v > 0)
 					{
-						GetMap()->SetMapHeight(v);
+						GetSettings()->SetScreenHeight(v);
 					}
 				}
 			}
 
 
+			//resize display
+			al_resize_display(GetDisplay(),GetSettings()->GetScreenWidth(),GetSettings()->GetScreenHeight());
+			//save settings changes
+			GetSettings()->SaveSettings();
 
 			SetStateDirection(EnumDLL::STATEDIRECTION::POP);
 			SetPopLevel(1);
 		}
-		else if(GetKeyPressState() == EnumDLL::STATES::RETURN)//load map
+		else if(GetKeyPressState() == EnumDLL::STATES::RETURN)
 		{
 			SetStateDirection(EnumDLL::STATEDIRECTION::POP);
 			SetPopLevel(1);
@@ -83,7 +87,7 @@ namespace StaticDLL{
 
 
 
-	void StateMapOptions::Update(){
+	void StateOptions::Update(){
 		if(GetEvent()->type == ALLEGRO_EVENT_TIMER)
 		{				
 			GetMenu()->CalculateMenuSelectorCubePosition();
@@ -93,7 +97,7 @@ namespace StaticDLL{
 
 
 
-	void StateMapOptions::Draw(){
+	void StateOptions::Draw(){
 		GetMenu()->DrawMenu();
 		GetMenu()->DrawMenuSelectorCube();
 	}

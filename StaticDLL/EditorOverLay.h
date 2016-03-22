@@ -47,6 +47,7 @@ namespace StaticDLL{
 			}
 			
 
+			STATICDLL_API void Resize();
 
 
 

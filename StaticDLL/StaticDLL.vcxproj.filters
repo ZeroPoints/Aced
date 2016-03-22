@@ -119,6 +119,12 @@
     <ClCompile Include="..\OpenSource\pugixml\pugixml.cpp">
       <Filter>Source Files\OpenSource\pugixml</Filter>
     </ClCompile>
+    <ClCompile Include="MenuOptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateOptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Settings.config">

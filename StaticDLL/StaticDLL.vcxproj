@@ -110,6 +110,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="EditorOverLay.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MenuOptions.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="StateEditorMainMenu.cpp" />
@@ -121,6 +122,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuItem.cpp" />
     <ClCompile Include="MenuEditor.cpp" />
+    <ClCompile Include="StateOptions.cpp" />
     <ClCompile Include="TilePage.cpp" />
   </ItemGroup>
   <ItemGroup>

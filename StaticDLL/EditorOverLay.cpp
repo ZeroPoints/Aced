@@ -17,15 +17,35 @@ namespace StaticDLL{
 
 		chosenColor_ = al_map_rgb_f(0.8,0.3,0.3);
 		currentTilePage_ = 0;
+
+		std::vector<std::vector<Tile>> tiles_(4,std::vector<Tile>(143));
+		CreateTiles(4,143);
+
+
 		CreateTileArrow();
 		CreateTileWindow();
 		CreateMenuBar();
 
-		CreateTiles(4,143);
 		
 		fprintf(stderr,"An Overlay Created\n");
 
 	}
+
+
+	void EditorOverLay::Resize()
+	{
+		CreateTiles(4,143);
+		menuBar_->SetWidth(settings_->GetDisplayWidth());
+		tileWindowArrow_->SetCurrentPosition(widthMax_, settings_->GetDisplayHeight()/2);
+		tileWindowBotLeftArrow_->SetCurrentPosition(0, settings_->GetDisplayHeight()-1);
+		tileWindowBotRightArrow_->SetCurrentPosition(widthMax_-1, settings_->GetDisplayHeight()-1);
+		tilePickerWindow_->SetWidth(widthMax_);
+		tilePickerWindow_->SetHeight(settings_->GetDisplayHeight());
+		currentTilePage_ = 0;
+	}
+
+
+
 
 
 	void EditorOverLay::CreateTileArrow()
@@ -38,13 +58,13 @@ namespace StaticDLL{
 		tileWindowArrow_->SetColor(al_map_rgb_f(0.3,0.6,0.6));
 
 		tileWindowBotLeftArrow_ = new ObjectBase();
-		tileWindowBotLeftArrow_->SetCurrentPosition(0, settings_->GetDisplayHeight()-1);
+		tileWindowBotLeftArrow_->SetCurrentPosition(0, (double)(settings_->GetScreenHeight()-Constants::TileSize)/Constants::TileSize);
 		tileWindowBotLeftArrow_->SetWidth(1);
 		tileWindowBotLeftArrow_->SetHeight(1);
 		tileWindowBotLeftArrow_->SetColor(al_map_rgb_f(0.3,0.6,0.6));
 
 		tileWindowBotRightArrow_ = new ObjectBase();
-		tileWindowBotRightArrow_->SetCurrentPosition(widthMax_-1, settings_->GetDisplayHeight()-1);
+		tileWindowBotRightArrow_->SetCurrentPosition(widthMax_-1, (double)(settings_->GetScreenHeight()-Constants::TileSize)/Constants::TileSize);
 		tileWindowBotRightArrow_->SetWidth(1);
 		tileWindowBotRightArrow_->SetHeight(1);
 		tileWindowBotRightArrow_->SetColor(al_map_rgb_f(0.3,0.6,0.6));
@@ -76,46 +96,61 @@ namespace StaticDLL{
 
 
 	//Load list of all tiles into tile pages
+	//also sizes display of these
 	void EditorOverLay::CreateTiles(int x, int y)
 	{
 		srand(time(nullptr));
 
-		std::vector<std::vector<Tile>> tiles(x,std::vector<Tile>(y));
 		int topOffset = 2;
 		int leftOffset = 1;
 		int displacementOffset = 2;
 		int screenHeight = settings_->GetDisplayHeight() - 2;
+		//Displace counter for screen height if its not even
+		if(screenHeight%2 == 1)
+		{
+			screenHeight--;
+		}
 
-		double colorOffset = 0.1;
+
+		//is this the best way to clean those objects?
+		tiles_.resize(0);
+		tiles_.clear();
+		tiles_.resize(x);
+		for(int i = 0; i < tiles_.size(); i++)
+		{
+			tiles_[i].resize(y);
+		}
+
+		
+
+		//math in here seems wrong
+		//FIX IT so resizing or different size screens get adjusted properly
 		for(int i = 0; i < x; i++)
 		{
 			for(int j = 0; j < y; j++)
 			{
-				tiles[i][j].SetColor(al_map_rgb_f((double)rand() / RAND_MAX,(double)rand() / RAND_MAX,(double)rand() / RAND_MAX));//sets all tiles to grey
-				tiles[i][j].SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
-
+				tiles_[i][j].SetColor(al_map_rgb_f((double)rand() / RAND_MAX,(double)rand() / RAND_MAX,(double)rand() / RAND_MAX));//sets all tiles to grey
+				tiles_[i][j].SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
 				int posX = leftOffset+i*displacementOffset;
 				int posY = topOffset + ((j*displacementOffset)%(screenHeight));
-
-				tiles[i][j].SetCurrentPosition(posX,posY);
-				tiles[i][j].SetWidth(1);
-				tiles[i][j].SetHeight(1);
+				tiles_[i][j].SetCurrentPosition(posX,posY);
+				tiles_[i][j].SetWidth(1);
+				tiles_[i][j].SetHeight(1);
 			}
 		}
 
-		tiles_ = tiles;
-
-
-
+		//reset pages
+		tilePages_.resize(0);
+		tilePages_.clear();
 		int pages = tiles_[0].size()/(screenHeight/2);
 		int extraPage = (tiles_[0].size()%(screenHeight/2))>0?1:0;
+		//There was a reason i added extra page but i cant remmeber but its working
 		//Go through the tile pages adding in the tiles as a ref
 		for(int i = 0; i < pages+extraPage; i++)
 		{
 			tilePages_.push_back(new TilePage());
 			int newMin = (screenHeight/2*i) == 0 ? 0 : (screenHeight/2*i);
 			int newMax = (screenHeight/2*i) + screenHeight/2;
-
 			if(newMin > tiles_[0].size())
 			{
 				newMin = tiles_[0].size();

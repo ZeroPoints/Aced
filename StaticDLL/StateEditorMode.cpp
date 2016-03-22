@@ -34,24 +34,23 @@ namespace StaticDLL{
 		SetRightMouseDown(false);
 		SetLeftMouseDown(false);
 		SetPlayerSelected(false);
-
-
 		SetMap(currentMap);
-
-
 		editorOverLay_ = new EditorOverLay(settings);
-
 		SetChosenColor(al_map_rgb_f(1,1,1));
 		al_start_timer(GetTimer());
-
-
-		
-
-
 	}
 
 
+	void StateEditorMode::Resume(){
+		editorOverLay_->Resize();
+		SetStateDirection(EnumDLL::STATEDIRECTION::NA);
+		SetNextState(NULL);
 
+		//Resize menus
+		//I dont have a resize menu type function atm
+		//i could just destroy and remake
+		//But then my remake doesnt have adjustments based on screen size as of yet
+	}
 
 
 
@@ -176,12 +175,7 @@ namespace StaticDLL{
 
 
 
-	void StateEditorMode::Resume(){
-		SetStateDirection(EnumDLL::STATEDIRECTION::NA);
-		SetNextState(NULL);
-	}
-
-
+	
 
 
 

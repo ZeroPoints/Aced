@@ -38,6 +38,15 @@ namespace StaticDLL{
 		al_start_timer(GetTimer());
 	}
 
+	void StateEditorMenu::Resume(){
+		SetStateDirection(EnumDLL::STATEDIRECTION::NA);
+		SetNextState(NULL);
+		//Resize menus
+		//I dont have a resize menu type function atm
+		//i could just destroy and remake
+		//But then my remake doesnt have adjustments based on screen size as of yet
+	}
+
 
 
 	void StateEditorMenu::KeyPress(){
@@ -68,9 +77,10 @@ namespace StaticDLL{
 			SetStateDirection(EnumDLL::STATEDIRECTION::PUSH);
 			SetNextState(new StateMapOptions());
 		}
-		else if(GetKeyPressState() == EnumDLL::STATES::ABOUT)//about cinematics
+		else if(GetKeyPressState() == EnumDLL::STATES::OPTIONS)
 		{
-			
+			SetStateDirection(EnumDLL::STATEDIRECTION::PUSH);
+			SetNextState(new StateOptions());
 		}
 		else if(GetKeyPressState() == EnumDLL::STATES::MAINMENU)
 		{
@@ -101,11 +111,6 @@ namespace StaticDLL{
 	}
 
 
-
-	void StateEditorMenu::Resume(){
-		SetStateDirection(EnumDLL::STATEDIRECTION::NA);
-		SetNextState(NULL);
-	}
 
 
 
