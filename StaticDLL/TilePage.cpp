@@ -10,15 +10,19 @@ namespace StaticDLL{
 
 
 	//Draws the tiles from reference. Uses set tiles as its range indicator
-	void TilePage::DrawTiles(std::vector<std::vector<Tile>> &tileRef)
+	void TilePage::DrawTiles(std::vector<std::vector<Tile>> &tileRef, bool showCollision)
 	{
 		int i;
 		int j;
 		for(i = 0; i < x_; i++)
 		{
-			for(j = yRangeMin_; j < yRangeMax_; j++)
+			for(j = yRangeMin_; j < (yRangeMax_>tileRef[i].size()?tileRef[i].size():yRangeMax_); j++)
 			{				
 				tileRef[i][j].DrawObject();
+				if(showCollision)
+				{
+					tileRef[i][j].DrawObjectType();
+				}
 			}
 		}
 	}
@@ -34,7 +38,7 @@ namespace StaticDLL{
 		int j;
 		for(i = 0; i < x_; i++)
 		{
-			for(j = yRangeMin_; j < yRangeMax_; j++)
+			for(j = yRangeMin_; j < (yRangeMax_>tileRef[i].size()?tileRef[i].size():yRangeMax_); j++)
 			{				
 				if(tileRef[i][j].ClickIntersects(mouseX, mouseY))
 				{

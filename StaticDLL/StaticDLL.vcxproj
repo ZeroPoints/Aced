@@ -92,6 +92,7 @@
     <ClInclude Include="..\OpenSource\pugixml\pugixml.hpp" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="EditorOverLay.h" />
+    <ClInclude Include="EditorOverlayController.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="Player.h" />
@@ -109,6 +110,7 @@
     <ClCompile Include="..\OpenSource\pugixml\pugixml.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="EditorOverLay.cpp" />
+    <ClCompile Include="EditorOverlayController.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MenuOptions.cpp" />
     <ClCompile Include="Player.cpp" />

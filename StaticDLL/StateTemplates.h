@@ -13,7 +13,8 @@
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
 #include "State.h"
-#include "EditorOverLay.h"
+#include "EditorOverLayController.h"
+#include "Tile.h"
 
 
 
@@ -32,7 +33,7 @@ namespace StaticDLL{
 
 			STATICDLL_API ~StateEditorMode()
 			{
-				delete editorOverLay_;
+				delete editorOverLayController_;
 			}
 
 			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap);
@@ -46,7 +47,9 @@ namespace StaticDLL{
 			STATICDLL_API void DragMap();
 		private:
 			//This object isnt being Deleted at the moment
-			EditorOverLay *editorOverLay_;
+			EditorOverLayController *editorOverLayController_;
+			
+			std::pair<StaticDLL::EnumDLL::STATES, Tile*> selectedTile_;
 	};
 	class StateEditorMainMenu : public State
 	{

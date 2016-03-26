@@ -28,6 +28,7 @@ namespace StaticDLL
 			
 
 			STATICDLL_API ObjectBase(){
+				hasText_ = false;
 				movespeed_ = 0;
 				fprintf(stderr,"An Object Created\n");
 				return;
@@ -37,7 +38,11 @@ namespace StaticDLL
 			//All might destroyer of worlds
 			//Will consume all knowledge of this object...Hopefully
 			STATICDLL_API virtual ~ObjectBase(){
-				//al_destroy_font(font30_);
+				if(hasText_ == true)
+				{
+					al_destroy_font(font30_);
+					al_ustr_free(text_);
+				}
 
 				fprintf(stderr,"An Object Destructed\n");
 				return;
@@ -188,6 +193,47 @@ namespace StaticDLL
 			};*/
 
 
+			STATICDLL_API virtual void SetFont(ALLEGRO_FONT *font){
+				font30_ = font;
+			};
+			STATICDLL_API virtual ALLEGRO_FONT* GetFont(){
+				return font30_;
+			};
+
+			STATICDLL_API virtual void SetText(ALLEGRO_USTR *str){
+				hasText_ = true;
+				text_ = str;
+			};
+
+			STATICDLL_API virtual ALLEGRO_USTR *GetText(){
+				return text_;
+			};
+			
+			STATICDLL_API int GetFontWidth()
+			{
+				return al_get_text_width(font30_,al_cstr_dup(text_));
+			}
+			
+
+
+			STATICDLL_API void SetId(EnumDLL::STATES newId)
+			{
+				Id_ = newId;
+			}
+			STATICDLL_API EnumDLL::STATES GetId()
+			{
+				return Id_;
+			}
+
+
+
+
+
+
+
+
+
+
 
 
 			STATICDLL_API virtual void UpdateObject(){
@@ -232,6 +278,14 @@ namespace StaticDLL
 			};
 
 
+
+
+
+
+
+
+
+
 			//Draws the object...Uses the x and y offset from map to draw with displacement
 			STATICDLL_API virtual void DrawObject(int xOffset, int yOffset){
 				al_draw_filled_rectangle(
@@ -244,6 +298,10 @@ namespace StaticDLL
 				//This line below was old code reminder that i need to sort the view point translation of objects
 				//al_draw_filled_rectangle(tileX_*20 + mapXoffSet*20, tileY_*20 + mapYoffSet*20, tileX_*20 + tileSize + mapXoffSet*20, tileY_*20 + tileSize + mapYoffSet*20, colour_);
 			};
+
+
+
+
 			
 
 			//Draw an object without need of translation
@@ -255,13 +313,56 @@ namespace StaticDLL
 					currentPositionY_*Constants::TileSize + height_*Constants::TileSize,
 					chosenColor_		
 					);
-				//This line below was old code reminder that i need to sort the view point translation of objects
-				//al_draw_filled_rectangle(tileX_*20 + mapXoffSet*20, tileY_*20 + mapYoffSet*20, tileX_*20 + tileSize + mapXoffSet*20, tileY_*20 + tileSize + mapYoffSet*20, colour_);
 			};
 
-			           
+			        
+
+			STATICDLL_API virtual void DrawObjectText(){
+				al_draw_textf(font30_, chosenColor_, currentPositionX_, currentPositionY_, ALLEGRO_ALIGN_LEFT, al_cstr_dup(text_));
+			};
+
+			STATICDLL_API virtual void DrawObjectLeftBorder(){
+				al_draw_line(
+					currentPositionX_, 
+					currentPositionY_, 
+					currentPositionX_, 
+					currentPositionY_ + Constants::TileSize,
+					chosenColor_,
+					1);
+			};
+			STATICDLL_API virtual void DrawObjectRightBorder(){
+				al_draw_line(
+					currentPositionX_ + GetFontWidth(), 
+					currentPositionY_, 
+					currentPositionX_ + GetFontWidth(), 
+					currentPositionY_ + Constants::TileSize,
+					chosenColor_,
+					1);
+			};
 
 
+
+
+
+
+
+
+			//Detects If click intersects with the selected text object
+			STATICDLL_API bool ClickIntersectsText(int mouseX, int mouseY)
+			{
+				//Offset the mouse position to the actual coord as the mouseX and mouseY i read in a moded to be offset? by half the tile size for some reason
+				mouseX = mouseX + (Constants::TileSize/2);
+				mouseY = mouseY + (Constants::TileSize/2);
+
+				if(mouseX >= currentPositionX_ && 
+					mouseX < (currentPositionX_ + GetFontWidth()) &&
+					mouseY >= currentPositionY_ && 
+					mouseY < (currentPositionY_ + height_))
+				{
+					return true;
+				}
+				return false;
+			};
 
 			//Detects If click intersects with the object selected
 			STATICDLL_API bool ClickIntersects(int mouseX, int mouseY)
@@ -310,9 +411,13 @@ namespace StaticDLL
 					collisionTop_,
 					collisionLeft_,
 					collisionRight_,
-					clickable_
-					;	
+					clickable_,
+					hasText_;	
 
+
+
+
+			ALLEGRO_USTR *text_;
 
 
 

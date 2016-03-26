@@ -46,7 +46,7 @@ namespace StaticDLL{
 
 
 			//Draws the tiles from reference. Uses set tiles as its range indicator
-			STATICDLL_API void DrawTiles(std::vector<std::vector<Tile>> &tileRef);
+			STATICDLL_API void DrawTiles(std::vector<std::vector<Tile>> &tileRef, bool showCollision);
 
 
 

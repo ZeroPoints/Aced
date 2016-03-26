@@ -160,6 +160,7 @@ namespace StaticDLL{
 			for(j = topViewPoint_; j < botViewPoint_; j++)
 			{				
 				tiles_[i][j].DrawObject(mapXoffset_, mapYoffset_);	
+				tiles_[i][j].DrawObjectType(mapXoffset_, mapYoffset_);	
 			}
 		}
 
@@ -173,14 +174,6 @@ namespace StaticDLL{
 				tiles_[i][j].DrawRectangleMapObject(mapXoffset_, mapYoffset_);	
 			}
 		}*/
-
-
-
-		//debugging draw ammount
-		//al_draw_textf(font30_, al_map_rgb(255,255,255), 0, 20, ALLEGRO_ALIGN_LEFT, "%i" , rightViewPoint_);
-		//al_draw_textf(font30_, al_map_rgb(255,255,255), 0, 40, ALLEGRO_ALIGN_LEFT, "%i" , botViewPoint_);
-		//al_draw_textf(font30_, al_map_rgb(255,255,255), 0, 60, ALLEGRO_ALIGN_LEFT, "%i" , leftViewPoint_);
-		//al_draw_textf(font30_, al_map_rgb(255,255,255), 0, 80, ALLEGRO_ALIGN_LEFT, "%i" , topViewPoint_);
 
 	}
 

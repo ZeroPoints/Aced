@@ -35,14 +35,20 @@ namespace StaticDLL{
 		SetLeftMouseDown(false);
 		SetPlayerSelected(false);
 		SetMap(currentMap);
-		editorOverLay_ = new EditorOverLay(settings);
+
+
+
+		editorOverLayController_ = new EditorOverLayController(settings);
+
+
+
 		SetChosenColor(al_map_rgb_f(1,1,1));
 		al_start_timer(GetTimer());
 	}
 
 
 	void StateEditorMode::Resume(){
-		editorOverLay_->Resize();
+		editorOverLayController_->Resize();
 		SetStateDirection(EnumDLL::STATEDIRECTION::NA);
 		SetNextState(NULL);
 
@@ -65,7 +71,7 @@ namespace StaticDLL{
 					break;
 			}
 		}
-		editorOverLay_->KeyBoardActivity(GetEvent());
+		editorOverLayController_->KeyBoardActivity(GetEvent());
 	}
 
 
@@ -81,9 +87,13 @@ namespace StaticDLL{
 
 
 		//If the editor overlay didnt take control of mouse activity let editor mode handle it
-		if(!editorOverLay_->MouseActivity(GetEvent(), GetMouseCursorX(),GetMouseCursorY()))
+		if(!editorOverLayController_->MouseActivity(GetEvent(), GetMouseCursorX(),GetMouseCursorY()))
 		{
 			EditorModeMouseActivity();
+		}
+		else
+		{
+			selectedTile_  = editorOverLayController_->GetSelectedObject();
 		}
 
 
@@ -133,7 +143,7 @@ namespace StaticDLL{
 
 		if(GetLeftMouseDown())
 		{
-			if(editorOverLay_->GetSelectedTile() != nullptr)
+			if(selectedTile_.second != nullptr)
 			{
 				int mapSizeX = GetMap()->GetTiles().size();
 				int mapSizeY = GetMap()->GetTiles()[0].size();
@@ -144,7 +154,17 @@ namespace StaticDLL{
 					tileYPos >= 0 && 
 					tileYPos < mapSizeY)
 				{
-					GetMap()->GetTiles()[tileXPos][tileYPos].SetTileProperties(editorOverLay_->GetSelectedTile());
+					if(selectedTile_.first == EnumDLL::STATES::TILEPICKER)
+					{
+						GetMap()->GetTiles()[tileXPos][tileYPos].SetTileProperties(selectedTile_.second);
+					}
+					else if(selectedTile_.first == EnumDLL::STATES::TILETYPEPICKER)
+					{
+						GetMap()->GetTiles()[tileXPos][tileYPos].SetTileTypeProperties(selectedTile_.second);
+					}
+
+
+
 				}
 			}
 		}
@@ -154,7 +174,7 @@ namespace StaticDLL{
 		if(GetEvent()->type == ALLEGRO_EVENT_TIMER)
 		{			
 			//Update overlay. Will return with no actions if action state of it is NONE.
-			editorOverLay_->Update();
+			editorOverLayController_->Update();
 			SetRedraw(true);
 		}
 
@@ -164,10 +184,12 @@ namespace StaticDLL{
 
 
 	void StateEditorMode::Draw(){
+
+
 		GetMap()->DrawMap();
 
 
-		editorOverLay_->Draw();
+		editorOverLayController_->Draw();
 
 
 		al_draw_rectangle(GetMouseCursorX(),GetMouseCursorY(),GetMouseCursorX()+Constants::TileSize,GetMouseCursorY()+Constants::TileSize, GetChosenColor(),2);//1

@@ -69,6 +69,9 @@
     <ClInclude Include="..\OpenSource\pugixml\pugiconfig.hpp">
       <Filter>Source Files\OpenSource\pugixml</Filter>
     </ClInclude>
+    <ClInclude Include="EditorOverlayController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MenuItem.cpp">
@@ -123,6 +126,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StateOptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorOverlayController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

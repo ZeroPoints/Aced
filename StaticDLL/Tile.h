@@ -35,6 +35,7 @@ namespace StaticDLL{
 			
 			STATICDLL_API ~Tile()
 			{
+				//i should really set the position to something mmm or have a bool. Shouldnt really need this soon later anyway its just a debug msg
 				if(GetCurrentPositionX() != -6277438562204192500000000000000000000000000000000000000000000000000.000000)
 				{
 					fprintf(stderr,"A Tile[%f][%f] Destructed\n", GetCurrentPositionX(), GetCurrentPositionY());
@@ -60,14 +61,78 @@ namespace StaticDLL{
 			//So it sets it own properties then its object properties that are inherited
 			STATICDLL_API void SetTileProperties(Tile *selectedTile)
 			{
-				tileType_ = selectedTile->GetTileType();
+				if(GetTileType() == EnumDLL::TILETYPE::EMPTYTILE)
+				{
+					SetTileTypeProperties(selectedTile);
+				}
 				SetObjectProperties(selectedTile);
 			}
 
 
+
+			STATICDLL_API void SetTileTypeProperties(Tile *selectedTile)
+			{
+				tileType_ = selectedTile->GetTileType();
+			}
+
+
+			//Draw an object without need of translation
+			STATICDLL_API virtual void DrawObjectType(){
+				DrawObjectType(0,0);
+			};
+
+			
+			STATICDLL_API void DrawObjectType(int xOffset, int yOffset){
+				
+				if(tileType_ == EnumDLL::TILETYPE::SOLIDTILE)
+				{
+					al_draw_rectangle(
+						GetCurrentPositionX()*Constants::TileSize + xOffset + (Constants::TileSize/5),
+						GetCurrentPositionY()*Constants::TileSize + yOffset + (Constants::TileSize/5),
+						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset - (Constants::TileSize/5)+1,
+						GetCurrentPositionY()*Constants::TileSize + GetHeight()*Constants::TileSize + yOffset - (Constants::TileSize/5)+1,
+						al_map_rgb_f(1,1,1),1
+					);
+				}
+				else if(tileType_ == EnumDLL::TILETYPE::COLLISIONTOPTILE)
+				{
+					al_draw_line(
+						GetCurrentPositionX()*Constants::TileSize + xOffset														 + (Constants::TileSize/5),
+						GetCurrentPositionY()*Constants::TileSize + yOffset														 + (Constants::TileSize/5),
+						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset					 - (Constants::TileSize/5)+1,
+						GetCurrentPositionY()*Constants::TileSize + yOffset														 + (Constants::TileSize/5),
+						al_map_rgb_f(1,1,1),1
+					);
+				}
+				else if(tileType_ == EnumDLL::TILETYPE::COLLISIONLEFTTILE)
+				{
+					al_draw_line(
+						GetCurrentPositionX()*Constants::TileSize + xOffset														 + (Constants::TileSize/5),
+						GetCurrentPositionY()*Constants::TileSize + yOffset														 + (Constants::TileSize/5),
+						GetCurrentPositionX()*Constants::TileSize + xOffset														 + (Constants::TileSize/5),
+						GetCurrentPositionY()*Constants::TileSize + GetHeight()*Constants::TileSize + yOffset					 - (Constants::TileSize/5)+1,
+						al_map_rgb_f(1,1,1),1
+					);
+				}
+				else if(tileType_ == EnumDLL::TILETYPE::COLLISIONRIGHTTILE)
+				{
+					al_draw_line(
+						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset					 - (Constants::TileSize/5)+1,
+						GetCurrentPositionY()*Constants::TileSize + yOffset														 + (Constants::TileSize/5),
+						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset					 - (Constants::TileSize/5)+1,
+						GetCurrentPositionY()*Constants::TileSize + GetHeight()*Constants::TileSize + yOffset					 - (Constants::TileSize/5)+1,
+						al_map_rgb_f(1,1,1),1
+					);
+				}
+				
+				
+			};
+
+
+
+
 		private:	
-			EnumDLL::TILETYPE tileType_;//0 = empty, 1 = solid,
-			//TODO: change to enum 
+			EnumDLL::TILETYPE tileType_;
 	};
 
 
