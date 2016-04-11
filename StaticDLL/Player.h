@@ -12,6 +12,7 @@
 #include <allegro5/allegro_font.h>//fonts
 #include <allegro5/allegro_ttf.h>//fonts
 #include "character.h"
+#include "Map.h"
 
 
 #ifdef STATICDLL_EXPORTS
@@ -33,7 +34,49 @@ namespace StaticDLL{
 			//sets
 			STATICDLL_API void AdjustLives(int num);
 
-			STATICDLL_API int PlayerKeypress(ALLEGRO_EVENT *ev);
+			STATICDLL_API int Keypress(ALLEGRO_EVENT *ev);
+
+
+
+
+
+			STATICDLL_API void Update(Map *map);
+
+
+
+
+
+
+			STATICDLL_API void CollisionMovingLeft(Map *map);
+
+
+
+
+
+			STATICDLL_API void CollisionMovingRight(Map *map);
+
+
+
+
+			STATICDLL_API void Falling(Map *map);
+
+
+
+
+			STATICDLL_API void Jumping(Map *map);
+
+
+
+
+
+
+			STATICDLL_API bool CheckNextXPositionGoingRight(Map *map, float nextPosX, float nextPosY);
+			STATICDLL_API bool CheckNextXPositionGoingLeft(Map *map, float nextPosX, float nextPosY);
+			STATICDLL_API bool CheckNextYPositionFalling(Map *map, float nextPosX, float nextPosY);
+			STATICDLL_API bool CheckNextYPositionJumping(Map *map, float nextPosX, float nextPosY);
+
+
+
 
 
 

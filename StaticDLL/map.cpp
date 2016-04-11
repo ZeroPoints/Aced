@@ -7,13 +7,14 @@ namespace StaticDLL{
 	{
 		settings_ = settings;
 		display_ = display;
+		font30_ = al_load_font("arial.ttf", 20, 0);
 		ResetMap();
 	}
 
 	void Map::ResetMap()
 	{
-		mapXoffset_ = 5;
-		mapYoffset_ = 5;
+		mapXoffset_ = 75;
+		mapYoffset_ = 100;
 		offSetBeforeRightClickDragY_ = 0;
 		offSetBeforeRightClickDragX_ = 0;
 		CreateTiles(10,10);
@@ -28,7 +29,6 @@ namespace StaticDLL{
 				tiles_[i][j].SetHeight(1);
 			}
 		}
-		font30_ = al_load_font("arial.ttf", 20, 0);
 		rightViewPoint_ = 10;
 		leftViewPoint_ = 0;
 		botViewPoint_ = 10;
@@ -183,6 +183,7 @@ namespace StaticDLL{
 	//This Pre Calc function will calculate the drawing range for the maps boundaries. This should be run in update method
 	void Map::PreCalc()
 	{
+			
 		int XRight;
 		int YBot;
 		XRight = tiles_.size();
@@ -279,16 +280,15 @@ namespace StaticDLL{
 		leftViewPoint_ = FinXLeft;
 		botViewPoint_ = FinYBot;
 		topViewPoint_ = FinYTop;
-
 	}
 
 
-	void Map::SetMapYOffset(int mapYoffset)
+	void Map::SetMapYOffset(double mapYoffset)
 	{
 		mapYoffset_ = mapYoffset;
 	}
 
-	void Map::SetMapXOffset(int mapXoffset)
+	void Map::SetMapXOffset(double mapXoffset)
 	{
 		mapXoffset_ = mapXoffset;
 	}

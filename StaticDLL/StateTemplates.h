@@ -97,6 +97,40 @@ namespace StaticDLL{
 
 
 
+
+
+
+	//-------------------------------------------------Game mode States-------------------------------------------------
+	//------------------------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------------------------------------------
+
+	class StateGameMode : public State
+	{
+		public:
+			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap);
+			////key press probs goes in update
+			STATICDLL_API void KeyPress();
+			STATICDLL_API void MouseActivity();
+			STATICDLL_API void Update();
+			STATICDLL_API void Draw();
+			STATICDLL_API void Resume();
+		private:
+			std::vector<Player*> players_;
+			Player* player1_;
+
+	};
+
+	class StateGameMainMenu : public State
+	{
+		public:
+			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap);
+			////key press probs goes in update
+			STATICDLL_API void KeyPress();
+			STATICDLL_API void Update();
+			STATICDLL_API void Draw();
+			STATICDLL_API void Resume();
+		private:
+	};
 }
 #endif
 

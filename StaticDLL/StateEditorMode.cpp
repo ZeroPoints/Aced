@@ -169,10 +169,10 @@ namespace StaticDLL{
 			}
 		}
 
-		GetMap()->PreCalc();
 
 		if(GetEvent()->type == ALLEGRO_EVENT_TIMER)
 		{			
+			GetMap()->PreCalc();
 			//Update overlay. Will return with no actions if action state of it is NONE.
 			editorOverLayController_->Update();
 			SetRedraw(true);

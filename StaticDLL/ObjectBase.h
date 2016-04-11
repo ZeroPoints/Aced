@@ -109,7 +109,38 @@ namespace StaticDLL
 			};
 
 
+			STATICDLL_API virtual void SetMaxAccelerationY(double y){
+				 maxAccelerationY_= y;
+			};
+			STATICDLL_API virtual void SetMaxAccelerationX(double x){
+				 maxAccelerationX_= x;
+			};
+			STATICDLL_API virtual void SetAccelerationY(double y){
+				 accelerationY_= y;
+			};
+			STATICDLL_API virtual void SetAccelerationX(double x){
+				 accelerationX_= x;
+			};
+			STATICDLL_API virtual double GetAccelerationY(){
+				return accelerationY_;
+			};
+			STATICDLL_API virtual double GetAccelerationX(){
+				return accelerationX_;
+			};
+			STATICDLL_API virtual double GetMaxAccelerationY(){
+				return maxAccelerationY_;
+			};
+			STATICDLL_API virtual double GetMaxAccelerationX(){
+				return maxAccelerationX_;
+			};
 
+
+			STATICDLL_API virtual void SetMaxVelocityY(double max){
+				maxVelocityY_ = max;
+			};
+			STATICDLL_API virtual double GetMaxVelocityY(){
+				return maxVelocityY_;
+			};
 
 			STATICDLL_API virtual double GetVelocityY(){
 				return velocityY_;
@@ -138,6 +169,7 @@ namespace StaticDLL
 			};
 
 
+			
 
 
 
@@ -260,14 +292,29 @@ namespace StaticDLL
 			};
 
 
+
+			//this is how many move speed deltas it does in a frame
 			STATICDLL_API virtual void SetMoveSpeed(double ms){
 				movespeed_ = ms;
 			};
+			STATICDLL_API virtual void SetJumpSpeed(double ms){
+				jumpspeed_ = ms;
+			};
 
+			//This is the fractions of movement it displaces in a frame
+			STATICDLL_API virtual void SetMoveSpeedDelta(double ms){
+				movespeedDelta_ = ms;
+			};
+
+			STATICDLL_API virtual double GetJumpSpeed(){
+				return jumpspeed_;
+			};
 			STATICDLL_API virtual double GetMoveSpeed(){
 				return movespeed_;
 			};
-
+			STATICDLL_API virtual double GetMoveSpeedDelta(){
+				return movespeedDelta_;
+			};
 
 			STATICDLL_API virtual void SetClickable(bool clickable){
 				clickable_ = clickable;
@@ -321,6 +368,9 @@ namespace StaticDLL
 				al_draw_textf(font30_, chosenColor_, currentPositionX_, currentPositionY_, ALLEGRO_ALIGN_LEFT, al_cstr_dup(text_));
 			};
 
+
+
+			//Useing this for editor mode menubar items
 			STATICDLL_API virtual void DrawObjectLeftBorder(){
 				al_draw_line(
 					currentPositionX_, 
@@ -330,6 +380,7 @@ namespace StaticDLL
 					chosenColor_,
 					1);
 			};
+			//Useing this for editor mode menubar items
 			STATICDLL_API virtual void DrawObjectRightBorder(){
 				al_draw_line(
 					currentPositionX_ + GetFontWidth(), 
@@ -396,7 +447,14 @@ namespace StaticDLL
 					velocityY_,
 					width_,
 					height_,
-					movespeed_
+					jumpspeed_,
+					movespeed_,
+					movespeedDelta_,
+					accelerationX_,
+					accelerationY_,
+					maxAccelerationX_,
+					maxAccelerationY_,
+					maxVelocityY_
 					;
 
 

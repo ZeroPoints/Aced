@@ -58,13 +58,20 @@ namespace StaticDLL{
 	};
 
 
-	//class EditorMainMenuTemplate : public Menu
-	//{
-	//	public:
-	//		STATICDLL_API void InitMenu();
+	//
 
-	//	private:
 
-	//};
+	//-------------------------------------------------Game mode States-------------------------------------------------
+	//------------------------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------------------------------------------------------------
+
+	class MenuGameMain : public Menu
+	{
+		public:
+			STATICDLL_API MenuGameMain(Settings *settings);
+			STATICDLL_API void InitMenu();
+		private:
+	};
+
 }
 #endif

@@ -40,8 +40,54 @@ namespace StaticDLL
 			STATICDLL_API virtual void AdjustHealth(int hp){
 				health_ = health_+hp;
 			}
+
+
+			STATICDLL_API virtual EnumDLL::CHARACTERYAXISSTATES GetCharacterYAxisState()
+			{
+				return characterYAxisState_;
+			}
+			STATICDLL_API virtual void SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES characterState)
+			{
+				characterYAxisState_ = characterState;
+			}
+
+
+
+
+
+
+			//This was testing a smaller bounding box around player. Instead try reduce player size 
+			STATICDLL_API virtual double GetCurrentPositionXLeft(){
+				double temp = GetCurrentPositionX();
+				temp = temp + 0.1;
+				return temp;
+			};
+
+			STATICDLL_API virtual double GetCurrentPositionXRight(){
+				double temp = GetCurrentPositionX() + GetWidth();
+				temp = temp - 0.2;
+				return temp;
+			};
+
+			STATICDLL_API virtual double GetCurrentPositionYTop(){
+				double temp = GetCurrentPositionY();
+				temp = temp + 0.1;
+				return temp;
+			};
+
+			STATICDLL_API virtual double GetCurrentPositionYBot(){
+				double temp = GetCurrentPositionY() + GetHeight();
+				temp = temp - 0.2;
+				return temp;
+			};
+
+
 		private:
 			int health_;
+
+			EnumDLL::CHARACTERYAXISSTATES characterYAxisState_;
+
+
 	};
 }
 #endif

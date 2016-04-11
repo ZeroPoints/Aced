@@ -63,7 +63,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>F:\C++\Allegro\allegro-5.0.10-msvc-11.0\include;F:\C++\Allegro\Aced\StaticDLL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

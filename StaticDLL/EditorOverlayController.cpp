@@ -40,6 +40,11 @@ namespace StaticDLL{
 		tileWindowArrow_->SetCurrentPosition(widthMax_, settings_->GetDisplayHeight()/2);
 		tileWindowBotLeftArrow_->SetCurrentPosition(0, settings_->GetDisplayHeight()-1);
 		tileWindowBotRightArrow_->SetCurrentPosition(widthMax_-1, settings_->GetDisplayHeight()-1);
+
+		for(int i = 0; i < editorOverLays_.size(); i++)
+		{
+			editorOverLays_[i]->Resize();
+		}
 		//tilePickerWindow_->SetWidth(widthMax_);
 		//tilePickerWindow_->SetHeight(settings_->GetDisplayHeight());
 		//currentTilePage_ = 0;

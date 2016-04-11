@@ -66,17 +66,19 @@ namespace StaticDLL{
 			}
 
 			
-			STATICDLL_API int GetMapYOffset()
+			//This is in raw format hasnt been/Constants::TileSize
+			STATICDLL_API double GetMapYOffset()
 			{
 				return mapYoffset_;
 			}
-			STATICDLL_API int GetMapXOffset()
+			//This is in raw format hasnt been/Constants::TileSize
+			STATICDLL_API double GetMapXOffset()
 			{
 				return mapXoffset_;
 			}
 
-			STATICDLL_API void SetMapYOffset(int mapYoffset);
-			STATICDLL_API void SetMapXOffset(int mapXoffset);
+			STATICDLL_API void SetMapYOffset(double mapYoffset);
+			STATICDLL_API void SetMapXOffset(double mapXoffset);
 
 
 			//Old values of the maps offset at the point the right click functionality was triggered to drag a map
@@ -161,9 +163,9 @@ namespace StaticDLL{
 
 
 			//This may or may not be used for displacing the mapps view point...maybe
-			int mapXoffset_;
+			double mapXoffset_;
 			//This may or may not be used for displacing the mapps view point...maybe
-			int mapYoffset_;
+			double mapYoffset_;
 
 
 
