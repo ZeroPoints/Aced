@@ -18,12 +18,12 @@ namespace StaticDLL{
 		SetGravityY(-9.8);
 		SetVelocityY(0.1);
 		SetMaxVelocityY(1);
-		SetAccelerationY(0.01);
+		SetAccelerationY(0.02);
 
 
 		SetMoveSpeedDelta(0.1);
-		SetMoveSpeed(20);
-		SetJumpSpeed(10);
+		SetMoveSpeed(30);
+		SetJumpSpeed(12);
 
 
 
