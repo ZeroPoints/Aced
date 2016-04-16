@@ -1,12 +1,13 @@
 #include "EditorEngine.h"
 
 
-EditorEngine::EditorEngine(ALLEGRO_DISPLAY *display, Settings *Settings, Map *CurrentMap)
+EditorEngine::EditorEngine(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader)
 {
 	//init
 	display_ = display;
-	settings_ = Settings;
-	currentMap_ = CurrentMap;
+	settings_ = settings;
+	currentMap_ = currentMap;
+	imageLoader_ = imageLoader;
 	finished_ = false;
 	running_ = true;
 	chosenColor_ = al_map_rgb_f(0,0.5,0.25);
@@ -102,7 +103,7 @@ void EditorEngine::PushState()
 
 	// store and init the new state
 	states_.push_back(states_.back()->GetNextState());
-	states_.back()->InitState(display_, settings_, currentMap_);
+	states_.back()->InitState(display_, settings_, currentMap_, imageLoader_);
 	currentState_ = states_.back();
 }
 
@@ -122,7 +123,7 @@ void EditorEngine::PushNewState(State* state)
 
 	// store and init the new state
 	states_.push_back(state);
-	states_.back()->InitState(display_, settings_, currentMap_);
+	states_.back()->InitState(display_, settings_, currentMap_, imageLoader_);
 	currentState_ = states_.back();
 }
 

@@ -14,6 +14,7 @@
 #include "Definitions.h"
 #include "Menu.h"
 #include "Settings.h"
+#include "ImageLoader.h"
 
 
 #ifdef STATICDLL_EXPORTS
@@ -46,7 +47,7 @@ namespace StaticDLL{
 			}
 
 
-			STATICDLL_API virtual void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap){
+			STATICDLL_API virtual void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader){
 				return;
 			};
 
@@ -205,6 +206,12 @@ namespace StaticDLL{
 				currentMap_ = currentMap;
 			}
 
+			STATICDLL_API virtual void SetImageLoader(ImageLoader* imageLoader){
+				imageLoader_ = imageLoader;
+			}
+			STATICDLL_API virtual ImageLoader* GetImageLoader(){
+				return imageLoader_;
+			}
 			STATICDLL_API virtual void SetDisplay(ALLEGRO_DISPLAY* currentDisplay){
 				display_ = currentDisplay;
 			}
@@ -311,6 +318,7 @@ namespace StaticDLL{
 			Menu *menu_;
 			Settings *settings_;
 			Map *currentMap_;
+			ImageLoader *imageLoader_;
 			ALLEGRO_DISPLAY *display_;
 			ALLEGRO_COLOR chosenColor_;
 	};

@@ -12,7 +12,9 @@ namespace StaticDLL{
 	State Editor Main Menu
 	This is the main menu of the whole Editing mode Application
 	*/
-	void StateEditorMainMenu::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap){
+	void StateEditorMainMenu::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader){
+		SetImageLoader(imageLoader);
+		
 		SetDisplay(display);
 		SetSettings(settings);
 		SetId(EnumDLL::STATES::EDITORMAINMENU);

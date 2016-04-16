@@ -18,7 +18,6 @@
 
 
 
-
 #ifdef STATICDLL_EXPORTS
    #define STATICDLL_API __declspec(dllexport)
 #else
@@ -36,7 +35,7 @@ namespace StaticDLL{
 				delete editorOverLayController_;
 			}
 
-			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap);
+			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader);
 			////key press probs goes in update
 			STATICDLL_API void KeyPress();
 			STATICDLL_API void MouseActivity();
@@ -54,7 +53,7 @@ namespace StaticDLL{
 	class StateEditorMainMenu : public State
 	{
 		public:
-			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap);
+			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader);
 			////key press probs goes in update
 			STATICDLL_API void KeyPress();
 			STATICDLL_API void Update();
@@ -65,7 +64,7 @@ namespace StaticDLL{
 	class StateEditorMenu : public State
 	{
 		public:
-			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap);
+			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader);
 			////key press probs goes in update
 			STATICDLL_API void KeyPress();
 			STATICDLL_API void Update();
@@ -77,7 +76,7 @@ namespace StaticDLL{
 	class StateMapOptions : public State
 	{
 		public:
-			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap);
+			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader);
 			////key press probs goes in update
 			STATICDLL_API void KeyPress();
 			STATICDLL_API void Update();
@@ -87,7 +86,7 @@ namespace StaticDLL{
 	class StateOptions : public State
 	{
 		public:
-			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap);
+			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader);
 			////key press probs goes in update
 			STATICDLL_API void KeyPress();
 			STATICDLL_API void Update();
@@ -107,7 +106,7 @@ namespace StaticDLL{
 	class StateGameMode : public State
 	{
 		public:
-			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap);
+			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader);
 			////key press probs goes in update
 			STATICDLL_API void KeyPress();
 			STATICDLL_API void MouseActivity();
@@ -123,13 +122,14 @@ namespace StaticDLL{
 	class StateGameMainMenu : public State
 	{
 		public:
-			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap);
+			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader);
 			////key press probs goes in update
 			STATICDLL_API void KeyPress();
 			STATICDLL_API void Update();
 			STATICDLL_API void Draw();
 			STATICDLL_API void Resume();
 		private:
+
 	};
 }
 #endif

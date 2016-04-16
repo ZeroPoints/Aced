@@ -15,6 +15,7 @@
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
 #include "../OpenSource/pugixml/pugixml.hpp"
+#include "ImageLoader.h"
 
 
 
@@ -37,7 +38,7 @@ namespace StaticDLL{
 			//Map is the border of a MAP
 			//Window Size/View point is dictated by the displayHeight_,displayWidth_ variables that are in the Settings for display resolution
 			//Offset dictates how displaced the map is from the view point.
-			STATICDLL_API Map(Settings *settings, ALLEGRO_DISPLAY *display);
+			STATICDLL_API Map(Settings *settings, ALLEGRO_DISPLAY *display, ImageLoader *imageLoader);
 
 
 			//Make a destructor for map...???????????>>><>
@@ -195,6 +196,7 @@ namespace StaticDLL{
 			std::vector<std::vector<Tile>> tiles_;
 
 			ALLEGRO_FONT *font30_;
+			ImageLoader *imageLoader_;
 			Settings *settings_;
 			ALLEGRO_DISPLAY *display_;
 	};

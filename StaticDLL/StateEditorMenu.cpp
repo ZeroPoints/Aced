@@ -7,7 +7,9 @@ namespace StaticDLL{
 
 
 
-	void StateEditorMenu::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap){
+	void StateEditorMenu::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader){
+		SetImageLoader(imageLoader);
+		
 		SetDisplay(display);
 		SetSettings(settings);
 		SetId(EnumDLL::STATES::EDITORMAINMENU);

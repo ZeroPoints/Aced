@@ -18,6 +18,7 @@
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
 #include <ctime>
+#include "ImageLoader.h"
 
 
 #ifdef STATICDLL_EXPORTS
@@ -34,7 +35,7 @@ namespace StaticDLL{
 	{
 		public:
 
-			STATICDLL_API EditorOverLay(Settings *settings, EnumDLL::STATES id);
+			STATICDLL_API EditorOverLay(Settings *settings, EnumDLL::STATES id, ImageLoader *imageLoader);
 
 
 
@@ -107,6 +108,7 @@ namespace StaticDLL{
 			}
 
 
+			STATICDLL_API void CreateTileImagePicker();
 			STATICDLL_API void CreateTileTypes();
 
 			STATICDLL_API void FormatTiles();
@@ -226,11 +228,6 @@ namespace StaticDLL{
 
 			std::vector<std::vector<Tile>> tiles_;
 
-			std::vector<std::vector<Tile>> tilesTest_;
-
-
-
-			//std::vector<Tile> tilesTest_;
 
 			
 			ALLEGRO_EVENT_QUEUE *eventQueue_;
@@ -239,7 +236,7 @@ namespace StaticDLL{
 			ALLEGRO_COLOR chosenColor_;
 
 
-
+			ImageLoader *imageLoader_;
 			Settings *settings_;
 	};
 }

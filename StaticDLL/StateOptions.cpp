@@ -7,7 +7,9 @@ namespace StaticDLL{
 
 
 
-	void StateOptions::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap){
+	void StateOptions::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader){
+		
+		SetImageLoader(imageLoader);
 		SetDisplay(display);
 		SetSettings(settings);
 		SetId(EnumDLL::STATES::MAPOPTIONS);

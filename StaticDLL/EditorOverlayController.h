@@ -35,7 +35,7 @@ namespace StaticDLL{
 	{
 		public:
 
-			STATICDLL_API EditorOverLayController(Settings *settings);
+			STATICDLL_API EditorOverLayController(Settings *settings, ImageLoader *imageLoader);
 
 
 
@@ -149,17 +149,6 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API Tile* GetSelectedObjectTest()
-			{
-				auto result = FindEditorOverLay(currentEditorOverlayId_);
-				if(result != nullptr)
-				{
-					return result->GetSelectedTile();
-				}
-				return nullptr;
-			}
-
-
 
 
 			//i might need these or something similar to return tile to parent above this
@@ -208,6 +197,8 @@ namespace StaticDLL{
 			ALLEGRO_COLOR chosenColor_;
 			ALLEGRO_FONT *font30_;
 
+
+			ImageLoader *imageLoader_;
 			Settings *settings_;
 	};
 }

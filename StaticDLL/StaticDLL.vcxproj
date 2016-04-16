@@ -93,6 +93,8 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="EditorOverLay.h" />
     <ClInclude Include="EditorOverlayController.h" />
+    <ClInclude Include="Image.h" />
+    <ClInclude Include="ImageLoader.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="Player.h" />
@@ -111,6 +113,8 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="EditorOverLay.cpp" />
     <ClCompile Include="EditorOverlayController.cpp" />
+    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="ImageLoader.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MenuGameMain.cpp" />
     <ClCompile Include="MenuOptions.cpp" />
@@ -132,6 +136,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Settings.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\Images\TileImageList.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,7 +10,7 @@
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
 #include "Definitions.h"
-
+#include "Image.h"
 
 #ifdef STATICDLL_EXPORTS
    #define STATICDLL_API __declspec(dllexport)
@@ -30,6 +30,7 @@ namespace StaticDLL
 			STATICDLL_API ObjectBase(){
 				hasText_ = false;
 				movespeed_ = 0;
+				hasImage_ = false;
 				fprintf(stderr,"An Object Created\n");
 				return;
 			}
@@ -41,9 +42,15 @@ namespace StaticDLL
 				if(hasText_ == true)
 				{
 					al_destroy_font(font30_);
-					al_ustr_free(text_);
+					al_ustr_free(utext_);
+					al_free(text_);
 				}
 
+				if(hasImage_)
+				{
+					//dont delete image as all images are shared resource pointer
+					//delete image_;
+				}
 				fprintf(stderr,"An Object Destructed\n");
 				return;
 			}
@@ -51,7 +58,14 @@ namespace StaticDLL
 
 			STATICDLL_API virtual void SetObjectProperties(ObjectBase *selectedObject){
 				//hopefully this assigning isnt a pointer but a new object.
+				//so if i recreate map and it deletes this tiles it doesnt delete the color ref from the tile picker
 				chosenColor_ = selectedObject->chosenColor_;
+
+
+				if(selectedObject->hasImage_)
+				{
+					SetObjectImage(selectedObject->GetObjectImage());
+				}
 
 				return;
 
@@ -233,17 +247,23 @@ namespace StaticDLL
 			};
 
 			STATICDLL_API virtual void SetText(ALLEGRO_USTR *str){
+				if(utext_ != NULL)
+				{
+					al_ustr_free(utext_);
+				}
 				hasText_ = true;
-				text_ = str;
+				utext_ = str;
+				text_ = al_cstr_dup(utext_);
+
 			};
 
 			STATICDLL_API virtual ALLEGRO_USTR *GetText(){
-				return text_;
+				return utext_;
 			};
 			
 			STATICDLL_API int GetFontWidth()
 			{
-				return al_get_text_width(font30_,al_cstr_dup(text_));
+				return al_get_text_width(font30_,text_);
 			}
 			
 
@@ -261,9 +281,20 @@ namespace StaticDLL
 
 
 
+			STATICDLL_API virtual void SetObjectImage(Image *image)
+			{
+				hasImage_ = true;
+				image_ = image;
+			}
 
-
-
+			STATICDLL_API virtual Image *GetObjectImage()
+			{
+				return image_;
+			}
+			STATICDLL_API virtual bool GetHasImage()
+			{
+				return hasImage_;
+			}
 
 
 
@@ -335,13 +366,29 @@ namespace StaticDLL
 
 			//Draws the object...Uses the x and y offset from map to draw with displacement
 			STATICDLL_API virtual void DrawObject(int xOffset, int yOffset){
-				al_draw_filled_rectangle(
-					currentPositionX_*Constants::TileSize + xOffset,
-					currentPositionY_*Constants::TileSize + yOffset,
-					currentPositionX_*Constants::TileSize + width_*Constants::TileSize + xOffset,
-					currentPositionY_*Constants::TileSize + height_*Constants::TileSize + yOffset,
-					chosenColor_		
+
+				if(hasImage_)
+				{
+					al_draw_scaled_bitmap(
+						image_->GetImage(), 
+						0, 0, 256, 256, 
+						currentPositionX_*Constants::TileSize + xOffset, 
+						currentPositionY_*Constants::TileSize + yOffset, 
+						width_*Constants::TileSize, 
+						height_*Constants::TileSize, 
+						0
 					);
+				}
+				else
+				{
+					al_draw_filled_rectangle(
+						currentPositionX_*Constants::TileSize + xOffset,
+						currentPositionY_*Constants::TileSize + yOffset,
+						currentPositionX_*Constants::TileSize + width_*Constants::TileSize + xOffset,
+						currentPositionY_*Constants::TileSize + height_*Constants::TileSize + yOffset,
+						chosenColor_		
+						);
+				}
 				//This line below was old code reminder that i need to sort the view point translation of objects
 				//al_draw_filled_rectangle(tileX_*20 + mapXoffSet*20, tileY_*20 + mapYoffSet*20, tileX_*20 + tileSize + mapXoffSet*20, tileY_*20 + tileSize + mapYoffSet*20, colour_);
 			};
@@ -353,19 +400,35 @@ namespace StaticDLL
 
 			//Draw an object without need of translation
 			STATICDLL_API virtual void DrawObject(){
-				al_draw_filled_rectangle(
-					currentPositionX_*Constants::TileSize,
-					currentPositionY_*Constants::TileSize,
-					currentPositionX_*Constants::TileSize + width_*Constants::TileSize,
-					currentPositionY_*Constants::TileSize + height_*Constants::TileSize,
-					chosenColor_		
+
+				if(hasImage_)
+				{
+					al_draw_scaled_bitmap(
+						image_->GetImage(), 
+						0, 0, 256, 256, 
+						currentPositionX_*Constants::TileSize, 
+						currentPositionY_*Constants::TileSize, 
+						width_*Constants::TileSize, 
+						height_*Constants::TileSize, 
+						0
 					);
+				}
+				else
+				{
+					al_draw_filled_rectangle(
+						currentPositionX_*Constants::TileSize,
+						currentPositionY_*Constants::TileSize,
+						currentPositionX_*Constants::TileSize + width_*Constants::TileSize,
+						currentPositionY_*Constants::TileSize + height_*Constants::TileSize,
+						chosenColor_		
+					);
+				}
 			};
 
 			        
 
 			STATICDLL_API virtual void DrawObjectText(){
-				al_draw_textf(font30_, chosenColor_, currentPositionX_, currentPositionY_, ALLEGRO_ALIGN_LEFT, al_cstr_dup(text_));
+				al_draw_textf(font30_, chosenColor_, currentPositionX_, currentPositionY_, ALLEGRO_ALIGN_LEFT, text_);
 			};
 
 
@@ -470,15 +533,17 @@ namespace StaticDLL
 					collisionLeft_,
 					collisionRight_,
 					clickable_,
-					hasText_;	
+					hasText_,
+					hasImage_;	
 
 
 
 
-			ALLEGRO_USTR *text_;
+			ALLEGRO_USTR *utext_;
+			char *text_;
 
 
-
+			Image *image_;
 			
 			EnumDLL::STATES Id_, keyPressState_, keyPressReturnVal_;
 			ALLEGRO_FONT *font30_;

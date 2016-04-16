@@ -61,10 +61,12 @@ namespace StaticDLL{
 			//So it sets it own properties then its object properties that are inherited
 			STATICDLL_API void SetTileProperties(Tile *selectedTile)
 			{
+				//So if the tile is not already empty force new tile SOLID properties over it.
 				if(GetTileType() == EnumDLL::TILETYPE::EMPTYTILE)
 				{
 					SetTileTypeProperties(selectedTile);
 				}
+
 				SetObjectProperties(selectedTile);
 			}
 

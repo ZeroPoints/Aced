@@ -3,8 +3,9 @@
 
 namespace StaticDLL{
 
-	Map::Map(Settings *settings, ALLEGRO_DISPLAY *display)
+	Map::Map(Settings *settings, ALLEGRO_DISPLAY *display, ImageLoader *imageLoader)
 	{
+		imageLoader_ = imageLoader;
 		settings_ = settings;
 		display_ = display;
 		font30_ = al_load_font("arial.ttf", 20, 0);
@@ -357,6 +358,13 @@ namespace StaticDLL{
 				xmlCurrentTile.append_attribute("height").set_value(currentTile->GetHeight());
 				xmlCurrentTile.append_attribute("width").set_value(currentTile->GetWidth());
 				xmlCurrentTile.append_attribute("movespeed").set_value(currentTile->GetMoveSpeed());
+
+
+				if(currentTile->GetHasImage())
+				{
+					pugi::xml_node xmlCurrentImage = xmlCurrentTile.append_child("image");
+					xmlCurrentImage.append_attribute("id").set_value(currentTile->GetObjectImage()->GetId());
+				}
 			}
 		}
 		return xmlDoc.save_file(al_path_cstr(mapPath_,'/'));
@@ -517,6 +525,27 @@ namespace StaticDLL{
 					currentTile->SetMoveSpeed(xmlTileAttribute->as_double());
 				}
 			}
+
+
+			//go through the tiles actual nodes for images
+			for (pugi::xml_node_iterator xmlCurrentTileNode = xmlCurrentTile->children().begin(); xmlCurrentTileNode != xmlCurrentTile->children().end(); xmlCurrentTileNode++)
+			{
+				auto currentTileNodeName = xmlCurrentTileNode->name();
+				//if no img property it will skip from settings its property
+				if(strcmp(currentTileNodeName,"image") == 0)
+				{
+					auto imgId = xmlCurrentTileNode->attribute("id").as_int();
+					for(int k = 0; k < imageLoader_->GetImageDictionary().size(); k++)
+					{
+						if(imageLoader_->GetImageDictionary()[k]->GetId() == imgId)
+						{
+							currentTile->SetObjectImage(imageLoader_->GetImageDictionary()[k]);
+						}
+					}
+				}
+			}
+			
+			
 			//if we at the end of current row of vector of tiles we go to the next vector of vectors
 			j++;
 			if(j % height_ == 0)

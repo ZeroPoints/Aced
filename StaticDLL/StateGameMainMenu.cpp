@@ -2,6 +2,17 @@
 #include "MenuTemplates.h"
 #include "State.h"
 
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_physfs.h>
+
+
+
+
 
 namespace StaticDLL{
 
@@ -12,7 +23,9 @@ namespace StaticDLL{
 	State Editor Main Menu
 	This is the main menu of the whole Editing mode Application
 	*/
-	void StateGameMainMenu::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap){
+	void StateGameMainMenu::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader){
+		
+		SetImageLoader(imageLoader);
 		SetDisplay(display);
 		SetSettings(settings);
 		SetId(EnumDLL::STATES::EDITORMAINMENU);
@@ -41,6 +54,9 @@ namespace StaticDLL{
 		SetMap(currentMap);
 
 		SetMenu(new MenuGameMain(settings));
+
+		
+
 		al_start_timer(GetTimer());
 	}
 
@@ -99,6 +115,7 @@ namespace StaticDLL{
 	void StateGameMainMenu::Draw(){
 		GetMenu()->DrawMenu();
 		GetMenu()->DrawMenuSelectorCube();
+		//al_draw_bitmap(img, 5,5,0);
 	}
 
 

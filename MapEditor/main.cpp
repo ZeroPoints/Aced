@@ -9,6 +9,7 @@
 #include "EditorEngine.h"
 #include "Settings.h"
 #include "Map.h"
+#include "ImageLoader.h"
 
 
 using namespace StaticDLL;
@@ -16,6 +17,7 @@ using namespace StaticDLL;
 
 using namespace std;
  
+
 
 
 int main(int argc, char **argv)
@@ -34,6 +36,7 @@ int main(int argc, char **argv)
 	al_init_primitives_addon();//shapes and color???
 	al_init_font_addon();
 	al_init_ttf_addon();
+	al_init_image_addon();
 
 	//////////////////////init stuff above
 
@@ -50,11 +53,12 @@ int main(int argc, char **argv)
 
 
 
+	ImageLoader imageLoader = ImageLoader();
 
-	Map CurrentMap = Map(&GameSettings, display);
+	Map CurrentMap = Map(&GameSettings, display, &imageLoader);
 
 
-	EditorEngine e1 = EditorEngine(display, &GameSettings, &CurrentMap);
+	EditorEngine e1 = EditorEngine(display, &GameSettings, &CurrentMap, &imageLoader);
 	e1.Run();
 
 

@@ -15,6 +15,7 @@
 
 
 
+
 using namespace StaticDLL;
 
 
@@ -22,7 +23,7 @@ using namespace StaticDLL;
 class EditorEngine
 {
     public:
-        EditorEngine(ALLEGRO_DISPLAY *display, Settings *Settings, Map *CurrentMap);
+        EditorEngine(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader);
 
 
         ~EditorEngine()
@@ -64,6 +65,7 @@ class EditorEngine
 		ALLEGRO_DISPLAY *display_;
 		Settings *settings_;
 		Map *currentMap_;
+		ImageLoader *imageLoader_;
 
 
 		//Not sure if this needs to be emptied as it is a pointer? to the last state in the state vector.

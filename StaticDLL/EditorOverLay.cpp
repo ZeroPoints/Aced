@@ -3,12 +3,12 @@
 
 namespace StaticDLL{
 
-	EditorOverLay::EditorOverLay(Settings *settings, EnumDLL::STATES id)
+	EditorOverLay::EditorOverLay(Settings *settings, EnumDLL::STATES id, ImageLoader *imageLoader)
 	{
 		id_ = id;
 
 		settings_ = settings;
-
+		imageLoader_ = imageLoader;
 
 		widthMax_ = 9;
 		tileVectorWidthMax_ = 4;
@@ -24,7 +24,6 @@ namespace StaticDLL{
 
 		FormatTiles();
 
-		//CreateTiles(4,143);
 
 
 		CreateTileWindow();
@@ -37,9 +36,14 @@ namespace StaticDLL{
 
 	void EditorOverLay::Resize()
 	{
-		if(id_ == EnumDLL::STATES::TILEPICKER)
+		if(id_ == EnumDLL::STATES::TILECOLORPICKER)
 		{
 			CreateTiles(tileVectorWidthMax_,60);
+		}
+		else if(id_ == EnumDLL::STATES::TILEIMAGEPICKER)
+		{
+			CreateTileImagePicker();
+			CreateTilePages();
 		}
 		else if(id_ == EnumDLL::STATES::TILETYPEPICKER)
 		{
@@ -72,9 +76,14 @@ namespace StaticDLL{
 	//also sizes display of these
 	void EditorOverLay::FormatTiles()
 	{
-		if(id_ == EnumDLL::STATES::TILEPICKER)
+		if(id_ == EnumDLL::STATES::TILECOLORPICKER)
 		{
 			CreateTiles(tileVectorWidthMax_,60);
+		}
+		else if(id_ == EnumDLL::STATES::TILEIMAGEPICKER)
+		{
+			CreateTileImagePicker();
+			CreateTilePages();
 		}
 		else if(id_ == EnumDLL::STATES::TILETYPEPICKER)
 		{
@@ -87,52 +96,6 @@ namespace StaticDLL{
 
 
 
-	//Load list of all tiles into tile pages
-	//also sizes display of these
-	void EditorOverLay::CreateTiles(int x, int y)
-	{
-		srand(time(nullptr));
-
-		int topOffset = 2;
-		int leftOffset = 1;
-		int displacementOffset = 2;
-		int screenHeight = settings_->GetDisplayHeight() - 2;
-		//Displace counter for screen height if its not even
-		if(screenHeight%2 == 1)
-		{
-			screenHeight--;
-		}
-
-
-		//is this the best way to clean those objects?
-		tiles_.resize(0);
-		tiles_.clear();
-		tiles_.resize(x);
-		for(int i = 0; i < tiles_.size(); i++)
-		{
-			tiles_[i].resize(y);
-		}
-
-		
-
-		//math in here seems wrong
-		//FIX IT so resizing or different size screens get adjusted properly
-		for(int i = 0; i < x; i++)
-		{
-			for(int j = 0; j < y; j++)
-			{
-				tiles_[i][j].SetColor(al_map_rgb_f((double)rand() / RAND_MAX,(double)rand() / RAND_MAX,(double)rand() / RAND_MAX));//sets all tiles to grey
-				tiles_[i][j].SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
-				int posX = leftOffset+i*displacementOffset;
-				int posY = topOffset + ((j*displacementOffset)%(screenHeight));
-				tiles_[i][j].SetCurrentPosition(posX,posY);
-				tiles_[i][j].SetWidth(1);
-				tiles_[i][j].SetHeight(1);
-			}
-		}
-
-		CreateTilePages();
-	}
 
 
 	void EditorOverLay::CreateTilePages()
@@ -262,6 +225,113 @@ namespace StaticDLL{
 
 
 
+
+
+
+
+
+
+
+	//Big mess of code to create tile types menu
+	void EditorOverLay::CreateTileImagePicker()
+	{
+		int topOffset = 2;
+		int leftOffset = 1;
+		int displacementOffset = 2;
+		int screenHeight = settings_->GetDisplayHeight() - 2;
+		//Displace counter for screen height if its not even
+		if(screenHeight%2 == 1)
+		{
+			screenHeight--;
+		}
+
+		//is this the best way to clean those objects?
+		tiles_.resize(0);
+		tiles_.clear();
+
+		tiles_.resize(tileVectorWidthMax_);
+		
+		int imageDictionarySize = imageLoader_->GetImageDictionary().size();
+		int i = 0;
+		for(int j = 0; j < imageDictionarySize; j++)
+		{
+			Tile* tempTile = new Tile();
+			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
+			tempTile->SetObjectImage(imageLoader_->GetImageDictionary()[j]);
+			tempTile->SetWidth(1);
+			tempTile->SetHeight(1);
+			
+
+			int posX = leftOffset+(j%tileVectorWidthMax_)*displacementOffset;
+			int posY = topOffset + (i/tileVectorWidthMax_*displacementOffset)%(screenHeight);
+
+			tempTile->SetCurrentPosition(posX,posY);
+
+			tiles_[j%tileVectorWidthMax_].push_back(*tempTile);
+			//go to next placement
+
+
+			i++;
+
+			
+
+
+			//delete the copy of object
+			delete tempTile;
+		}
+
+
+
+	}
+
+
+	
+	//Load list of all tiles into tile pages
+	//also sizes display of these
+	void EditorOverLay::CreateTiles(int x, int y)
+	{
+		srand(time(nullptr));
+
+		int topOffset = 2;
+		int leftOffset = 1;
+		int displacementOffset = 2;
+		int screenHeight = settings_->GetDisplayHeight() - 2;
+		//Displace counter for screen height if its not even
+		if(screenHeight%2 == 1)
+		{
+			screenHeight--;
+		}
+
+
+		//is this the best way to clean those objects?
+		tiles_.resize(0);
+		tiles_.clear();
+		tiles_.resize(x);
+		for(int i = 0; i < tiles_.size(); i++)
+		{
+			tiles_[i].resize(y);
+		}
+
+		
+
+		//math in here seems wrong
+		//FIX IT so resizing or different size screens get adjusted properly
+		for(int i = 0; i < x; i++)
+		{
+			for(int j = 0; j < y; j++)
+			{
+				tiles_[i][j].SetColor(al_map_rgb_f((double)rand() / RAND_MAX,(double)rand() / RAND_MAX,(double)rand() / RAND_MAX));//sets all tiles to grey
+				tiles_[i][j].SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
+				int posX = leftOffset+i*displacementOffset;
+				int posY = topOffset + ((j*displacementOffset)%(screenHeight));
+				tiles_[i][j].SetCurrentPosition(posX,posY);
+				tiles_[i][j].SetWidth(1);
+				tiles_[i][j].SetHeight(1);
+			}
+		}
+
+		CreateTilePages();
+	}
 
 	//Big mess of code to create tile types menu
 	void EditorOverLay::CreateTileTypes()

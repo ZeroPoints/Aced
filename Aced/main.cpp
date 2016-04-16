@@ -6,6 +6,7 @@
 #include <allegro5\allegro_font.h>//fonts
 #include <allegro5\allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
+#include <allegro5\allegro_image.h>//shapes
 #include "engine.h"
 #include "Settings.h"
 #include "Map.h"
@@ -33,7 +34,7 @@ int main(int argc, char **argv)
 	al_init_primitives_addon();//shapes and color???
 	al_init_font_addon();
 	al_init_ttf_addon();
-
+	al_init_image_addon();
 
 	//////////////////////init stuff above
 
@@ -41,9 +42,14 @@ int main(int argc, char **argv)
 
 
 
-	Map CurrentMap = Map(&GameSettings, display);
+	ImageLoader imageLoader = ImageLoader();
+	Map CurrentMap = Map(&GameSettings, display, &imageLoader);
 	
-	Engine e1 = Engine(display, &GameSettings, &CurrentMap);//titlescreen state
+
+
+
+
+	Engine e1 = Engine(display, &GameSettings, &CurrentMap, &imageLoader);//titlescreen state
 	e1.Run();
 
 

@@ -3,9 +3,10 @@
 
 namespace StaticDLL{
 
-	EditorOverLayController::EditorOverLayController(Settings *settings)
+	EditorOverLayController::EditorOverLayController(Settings *settings, ImageLoader *imageLoader)
 	{
 		settings_ = settings;
+		imageLoader_ = imageLoader;
 		widthMax_ = 9;
 		height_ = settings_->GetDisplayHeight()*Constants::TileSize;
 
@@ -80,7 +81,7 @@ namespace StaticDLL{
 	void EditorOverLayController::CreateEditorOverlays()
 	{
 		//set first tile picker window
-		currentEditorOverlayId_ = EnumDLL::STATES::TILEPICKER;
+		currentEditorOverlayId_ = EnumDLL::STATES::TILEIMAGEPICKER;
 
 		//store them all in memory and access through id.
 		//Dont want to use a push pop state system for it. 
@@ -91,14 +92,19 @@ namespace StaticDLL{
 
 
 
-		EditorOverLay* itemStore = new EditorOverLay(settings_, EnumDLL::STATES::TILEPICKER);
-		itemStore->SetMenuHeader("  TILES  ", 0,0);
+		EditorOverLay* itemStore = new EditorOverLay(settings_, EnumDLL::STATES::TILEIMAGEPICKER, imageLoader_);
+		itemStore->SetMenuHeader("  TILE IMAGES  ", 0,0);
+		editorOverLays_.push_back(itemStore);
+		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
+
+		itemStore = new EditorOverLay(settings_, EnumDLL::STATES::TILECOLORPICKER, imageLoader_);
+		itemStore->SetMenuHeader("  TILE COLOURS  ", headerPositionX,0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 
 
 		//load tile types from source pass into function
-		itemStore = new EditorOverLay(settings_, EnumDLL::STATES::TILETYPEPICKER);
+		itemStore = new EditorOverLay(settings_, EnumDLL::STATES::TILETYPEPICKER, imageLoader_);
 		itemStore->SetMenuHeader("  TILE TYPES  ", headerPositionX,0);
 		editorOverLays_.push_back(itemStore);
 

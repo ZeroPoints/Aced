@@ -36,6 +36,8 @@ namespace StaticDLL{
 	{
 		int i;
 		int j;
+		//REWRITE THIS JUST CHECK MOUSE CLICK IN BOUNDS
+		//THEN ACCESS TILE PROPERTY DYNAMICALLY using x,y
 		for(i = 0; i < x_; i++)
 		{
 			for(j = yRangeMin_; j < (yRangeMax_>tileRef[i].size()?tileRef[i].size():yRangeMax_); j++)

@@ -10,7 +10,9 @@ namespace StaticDLL{
 
 
 
-	void StateEditorMode::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map* currentMap){
+	void StateEditorMode::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader){
+		
+		SetImageLoader(imageLoader);
 		SetDisplay(display);
 		SetSettings(settings);
 		SetId(EnumDLL::STATES::EDITORMODE);
@@ -38,7 +40,7 @@ namespace StaticDLL{
 
 
 
-		editorOverLayController_ = new EditorOverLayController(settings);
+		editorOverLayController_ = new EditorOverLayController(settings, imageLoader);
 
 
 
@@ -154,7 +156,11 @@ namespace StaticDLL{
 					tileYPos >= 0 && 
 					tileYPos < mapSizeY)
 				{
-					if(selectedTile_.first == EnumDLL::STATES::TILEPICKER)
+					if(selectedTile_.first == EnumDLL::STATES::TILEIMAGEPICKER)
+					{
+						GetMap()->GetTiles()[tileXPos][tileYPos].SetTileProperties(selectedTile_.second);
+					}
+					else if(selectedTile_.first == EnumDLL::STATES::TILECOLORPICKER)
 					{
 						GetMap()->GetTiles()[tileXPos][tileYPos].SetTileProperties(selectedTile_.second);
 					}

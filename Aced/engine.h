@@ -22,7 +22,7 @@ using namespace StaticDLL;
 class Engine
 {
     public:
-        Engine(ALLEGRO_DISPLAY *display, Settings *Settings, Map *CurrentMap);
+        Engine(ALLEGRO_DISPLAY *display, Settings *Settings, Map *currentMap, ImageLoader *imageLoader);
 
 		~Engine()
         {
@@ -63,7 +63,7 @@ class Engine
 		ALLEGRO_DISPLAY *display_;
 		Settings *settings_;
 		Map *currentMap_;
-
+		ImageLoader *imageLoader_;
 
 		//Not sure if this needs to be emptied as it is a pointer? to the last state in the state vector.
 		//so if state vector gets deleted this sshould be pointing to a null memory location

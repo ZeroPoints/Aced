@@ -10,7 +10,9 @@ namespace StaticDLL{
 
 
 
-	void StateGameMode::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map* currentMap){
+	void StateGameMode::InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, ImageLoader *imageLoader){
+		
+		SetImageLoader(imageLoader);
 		SetDisplay(display);
 		SetSettings(settings);
 		SetId(EnumDLL::STATES::EDITORMODE);
