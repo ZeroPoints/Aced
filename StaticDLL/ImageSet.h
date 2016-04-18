@@ -1,5 +1,5 @@
-#ifndef IMAGELOADER_H
-#define IMAGELOADER_H
+#ifndef IMAGESET_H
+#define IMAGESET_H
 
 
 #define ALLEGRO_NO_MAGIC_MAIN
@@ -14,7 +14,7 @@
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
 #include "../OpenSource/pugixml/pugixml.hpp"
-#include "ImageSet.h"
+#include "Image.h"
 
 
 
@@ -27,31 +27,30 @@
 
 namespace StaticDLL{
 
-	class ImageLoader
+	class ImageSet
 	{
 		public:
-			STATICDLL_API ImageLoader();
+			STATICDLL_API ImageSet(std::vector<Image*> images, EnumDLL::IMAGESETS id);
 
 
-			STATICDLL_API void LoadTiles();
-			STATICDLL_API void LoadPlayers();
-			STATICDLL_API void LoadInteractiveObjects();
-			STATICDLL_API void LoadColors();
-
-
-			STATICDLL_API std::vector<ImageSet*> GetImageSetDictionary()
+			STATICDLL_API std::vector<Image*> GetImageDictionary()
 			{
 				return imageDictionary_;
 			}
 
-
+			STATICDLL_API EnumDLL::IMAGESETS GetImageSetId()
+			{
+				return id_;
+			}
 
 			//Make a destructor for map...???????????>>><>
 
 			
 		private:
 
-			std::vector<ImageSet*> imageDictionary_;
+			EnumDLL::IMAGESETS id_;
+
+			std::vector<Image*> imageDictionary_;
 
 	};
 }

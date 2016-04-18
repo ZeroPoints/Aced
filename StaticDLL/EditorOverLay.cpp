@@ -251,16 +251,27 @@ namespace StaticDLL{
 
 		tiles_.resize(tileVectorWidthMax_);
 		
-		int imageDictionarySize = imageLoader_->GetImageDictionary().size();
+
+
+		int imageDictionarySize = 0;
+		int imageDictionaryId = 0;
+
+		for(int i = 0; i < imageLoader_->GetImageSetDictionary().size(); i ++)
+		{
+			if(imageLoader_->GetImageSetDictionary()[i]->GetImageSetId() == EnumDLL::IMAGESETS::TILEIMAGESET)
+			{
+				imageDictionarySize = imageLoader_->GetImageSetDictionary()[i]->GetImageDictionary().size();
+			}
+		}
+
 		int i = 0;
 		for(int j = 0; j < imageDictionarySize; j++)
 		{
 			Tile* tempTile = new Tile();
 			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
-			tempTile->SetObjectImage(imageLoader_->GetImageDictionary()[j]);
+			tempTile->SetObjectImage(imageLoader_->GetImageSetDictionary()[imageDictionaryId]->GetImageDictionary()[j]);
 			tempTile->SetWidth(1);
 			tempTile->SetHeight(1);
-			
 
 			int posX = leftOffset+(j%tileVectorWidthMax_)*displacementOffset;
 			int posY = topOffset + (i/tileVectorWidthMax_*displacementOffset)%(screenHeight);
@@ -270,11 +281,7 @@ namespace StaticDLL{
 			tiles_[j%tileVectorWidthMax_].push_back(*tempTile);
 			//go to next placement
 
-
 			i++;
-
-			
-
 
 			//delete the copy of object
 			delete tempTile;

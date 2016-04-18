@@ -8,6 +8,7 @@ namespace StaticDLL{
 		
 		img_ = al_load_bitmap(file);
 
-
+		width_ = al_get_bitmap_width(img_);
+		height_ = al_get_bitmap_height(img_);
 	}
 }

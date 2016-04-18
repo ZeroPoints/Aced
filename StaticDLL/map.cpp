@@ -370,71 +370,6 @@ namespace StaticDLL{
 		return xmlDoc.save_file(al_path_cstr(mapPath_,'/'));
 	}
 
-	//Old way
-	void Map::SaveMap(ALLEGRO_DISPLAY *display)
-	{
-		ALLEGRO_FILECHOOSER *save_window;
-		save_window = al_create_native_file_dialog("D:\\C++\\Allegro\\Aced\\Maps\\", "Save Map", "*.*", ALLEGRO_FILECHOOSER_SAVE);
-		al_show_native_file_dialog(display, save_window);
-		const char *Path = NULL;
-		Path = al_get_native_file_dialog_path(save_window,0);
-		if(Path == NULL)
-		{
-		}
-		else
-		{
-			ALLEGRO_FILE *FO = NULL;
-			FO = al_fopen(Path,"w");
-			char temp[20];
-			sprintf_s(temp,"%d",width_);
-			al_fputs(FO,"<MapWidth>");
-			al_fputs(FO,temp);
-			al_fputs(FO,"\n");
-			sprintf_s(temp,"%d",height_);
-			al_fputs(FO,"<MapHeight>");
-			al_fputs(FO,temp);
-			al_fputs(FO,"\n");
-			sprintf_s(temp,"%d",playerStartX_);
-			al_fputs(FO,"<playerStartX>");
-			al_fputs(FO,temp);
-			al_fputs(FO,"\n");
-			sprintf_s(temp,"%d",playerStartY_);
-			al_fputs(FO,"<playerStartY>");
-			al_fputs(FO,temp);
-			al_fputs(FO,"\n");
-			for(int i = 0; i < width_; i++)
-			{
-				for(int j = 0; j < height_; j++)
-				{			
-					sprintf_s(temp,"%d",tiles_[i][j].GetCurrentPositionX());
-					al_fputs(FO,"<TileX>");
-					al_fputs(FO,temp);
-					al_fputs(FO,"\n");
-					sprintf_s(temp,"%d",tiles_[i][j].GetCurrentPositionY());
-					al_fputs(FO,"<TileY>");
-					al_fputs(FO,temp);
-					al_fputs(FO,"\n");
-					sprintf_s(temp,"%d",tiles_[i][j].GetTileType());
-					al_fputs(FO,"<TileType>");
-					al_fputs(FO,temp);
-					al_fputs(FO,"\n");
-					sprintf_s(temp,"%f",tiles_[i][j].GetColor().r);
-					al_fputs(FO,"<TileColourR>");
-					al_fputs(FO,temp);
-					al_fputs(FO,"\n");
-					sprintf_s(temp,"%f",tiles_[i][j].GetColor().g);
-					al_fputs(FO,"<TileColourG>");
-					al_fputs(FO,temp);
-					al_fputs(FO,"\n");
-					sprintf_s(temp,"%f",tiles_[i][j].GetColor().b);
-					al_fputs(FO,"<TileColourB>");
-					al_fputs(FO,temp);
-					al_fputs(FO,"\n");
-				}
-			}
-			al_fclose(FO);
-		}
-	}
 
 
 	void Map::LoadMapDialog()
@@ -535,11 +470,17 @@ namespace StaticDLL{
 				if(strcmp(currentTileNodeName,"image") == 0)
 				{
 					auto imgId = xmlCurrentTileNode->attribute("id").as_int();
-					for(int k = 0; k < imageLoader_->GetImageDictionary().size(); k++)
+					for(int k = 0; k < imageLoader_->GetImageSetDictionary().size(); k++)
 					{
-						if(imageLoader_->GetImageDictionary()[k]->GetId() == imgId)
+						if(imageLoader_->GetImageSetDictionary()[k]->GetImageSetId() == EnumDLL::IMAGESETS::TILEIMAGESET)
 						{
-							currentTile->SetObjectImage(imageLoader_->GetImageDictionary()[k]);
+							for(int j = 0; j < imageLoader_->GetImageSetDictionary()[k]->GetImageDictionary().size(); j++)
+							{
+								if(imageLoader_->GetImageSetDictionary()[k]->GetImageDictionary()[j]->GetId() == imgId)
+								{
+									currentTile->SetObjectImage(imageLoader_->GetImageSetDictionary()[k]->GetImageDictionary()[j]);
+								}
+							}
 						}
 					}
 				}
@@ -558,115 +499,6 @@ namespace StaticDLL{
 
 
 
-	//Old way
-	void Map::LoadMap(ALLEGRO_DISPLAY *display)
-	{
-		ALLEGRO_FILECHOOSER *load_window;
-		load_window = al_create_native_file_dialog("D:\\C++\\Allegro\\Aced\\Maps\\", "Load Map", "*.*", 0);
-		al_show_native_file_dialog(display, load_window);
-	
-		int newmapwidth = 0;
-		int newmapheight = 0;
-
-		const char *Path = NULL;
-		Path = al_get_native_file_dialog_path(load_window,0);
-	
-		if(Path == NULL)
-		{
-
-		}
-		else
-		{
-			ALLEGRO_FILE *FO = NULL;
-			FO = al_fopen(Path,"r");
-
-
-			///////////////////////////this stuff might be redundant...rethink the resetmapwidth/height/color/x/y/type...
-			char temp[50];
-
-			al_fgets(FO,temp,50);
-			char *pch = strtok_s(temp, ">\n", NULL);
-			pch = strtok_s(NULL, ">\n", NULL);	
-			newmapwidth = atoi(pch);
-			//resetMapWidth(atoi(pch));//width
-
-			al_fgets(FO,temp,50);
-			strtok_s(temp, ">\n", NULL);
-			pch = strtok_s(NULL, ">\n", NULL);	
-			newmapheight = atoi(pch);
-			//resetMapHeight(atoi(pch));//height
-
-			if(tiles_.empty() == true)
-			{
-				CreateTiles(newmapwidth, newmapheight);//leave this for later for main menu load mapping and for gamestuff.
-			}
-			else
-			{
-				SetMapSize(newmapwidth, newmapheight);
-			}
-			al_fgets(FO,temp,50);
-			strtok_s(temp, ">\n", NULL);
-			pch = strtok_s(NULL, ">\n", NULL);	
-			SetPlayerStartX(atoi(pch));
-
-			al_fgets(FO,temp,50);
-			strtok_s(temp, ">\n", NULL);
-			pch = strtok_s (NULL, ">\n", NULL);	
-			SetPlayerStartY(atoi(pch));
-
-			//tiles
-			int x;
-			int y;
-			float r;
-			float b;
-			float g;
-			int type;
-
-	
-			for(int i = 0; i < (width_ * height_); i++)
-			{
-				al_fgets(FO,temp,50);
-				strtok_s(temp, ">\n", NULL);
-				pch = strtok_s(NULL, ">\n", NULL);	
-				x = atoi(pch);
-	
-				al_fgets(FO,temp,50);
-				strtok_s(temp, ">\n", NULL);
-				pch = strtok_s(NULL, ">\n", NULL);	
-				y = atoi(pch);
-
-				al_fgets(FO,temp,50);
-				strtok_s(temp, ">\n", NULL);
-				pch = strtok_s(NULL, ">\n", NULL);	
-				type = atoi(pch);
-
-				al_fgets(FO,temp,50);
-				strtok_s(temp, ">\n", NULL);
-				pch = strtok_s(NULL, ">\n", NULL);	
-				r = atof(pch);
-
-				al_fgets(FO,temp,50);
-				strtok_s(temp, ">\n", NULL);
-				pch = strtok_s(NULL, ">\n", NULL);	
-				b = atof(pch);
-
-				al_fgets(FO,temp,50);
-				strtok_s(temp, ">\n", NULL);
-				pch = strtok_s(NULL, ">\n", NULL);	
-				g = atof(pch);
-	
-
-
-				//tiles_[x][y].setTileX(x);
-				//tiles_[x][y].setTileY(y);
-				tiles_[x][y].SetCurrentPosition(x,y);
-				//tiles_[x][y].SetTileType(type);
-				//tiles_[x][y].SetColor(al_map_rgb_f(r,b,g));
-			}
-
-			al_fclose(FO);
-		}
-	}
 
 
 }

@@ -370,8 +370,8 @@ namespace StaticDLL
 				if(hasImage_)
 				{
 					al_draw_scaled_bitmap(
-						image_->GetImage(), 
-						0, 0, 256, 256, 
+						image_->GetImage(),
+						0, 0, image_->GetWidth(), image_->GetHeight(), 
 						currentPositionX_*Constants::TileSize + xOffset, 
 						currentPositionY_*Constants::TileSize + yOffset, 
 						width_*Constants::TileSize, 
@@ -404,8 +404,8 @@ namespace StaticDLL
 				if(hasImage_)
 				{
 					al_draw_scaled_bitmap(
-						image_->GetImage(), 
-						0, 0, 256, 256, 
+						image_->GetImage(),
+						0, 0, image_->GetWidth(), image_->GetHeight(), 
 						currentPositionX_*Constants::TileSize, 
 						currentPositionY_*Constants::TileSize, 
 						width_*Constants::TileSize, 

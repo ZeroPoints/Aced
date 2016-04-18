@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!--Players images-->
+<player >
+  <img id="1" file="..//Images//OrangeGreenCircle.png" />
+  <img id="2" file="..//Images//OrangeGreenDoubleLine.png" />
+  <img id="3" file="..//Images//OrangeGreenLine.png" />
+  <img id="4" file="..//Images//OrangeGreenSquare.png" />
+  <img id="5" file="..//Images//BlueRedYellow.png" />
+  <!--<img path="../Images/" filename="" />-->
+  <!--<img path="../Images/" filename="" />-->
+</player>

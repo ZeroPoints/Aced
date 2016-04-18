@@ -43,7 +43,14 @@ namespace StaticDLL{
 			{
 				return img_;
 			};
-
+			STATICDLL_API int GetWidth()
+			{
+				return width_;
+			};
+			STATICDLL_API int GetHeight()
+			{
+				return height_;
+			};
 
 			//Need a Key for look up Maybe
 			STATICDLL_API int GetId()
@@ -54,6 +61,9 @@ namespace StaticDLL{
 		private:
 
 			int id_;
+
+			int width_;
+			int height_;
 
 			ALLEGRO_BITMAP *img_;
 	};

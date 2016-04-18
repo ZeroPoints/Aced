@@ -81,6 +81,8 @@ namespace StaticDLL{
 
 
 		private:
+
+
 			int score_;
 			int lives_;
 			ALLEGRO_EVENT *ev_;

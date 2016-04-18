@@ -43,15 +43,13 @@ namespace StaticDLL{
 		player1_->SetCurrentPositionX(5);
 		player1_->SetGravityY(-9.8);
 
-
-		for(int i = 0; i < 20; i++)
+		for(int i = 0; i < GetImageLoader()->GetImageSetDictionary().size(); i++)
 		{
-			Player* newPlayer = new Player();
-			newPlayer->SetCurrentPositionX(i+5);
-			newPlayer->SetGravityY(-9.8);
-			players_.push_back(newPlayer);
+			if(GetImageLoader()->GetImageSetDictionary()[i]->GetImageSetId() == EnumDLL::IMAGESETS::PLAYERIMAGESET)
+			{
+				player1_->SetObjectImage(GetImageLoader()->GetImageSetDictionary()[i]->GetImageDictionary()[0]);
+			}
 		}
-
 
 
 
@@ -85,14 +83,7 @@ namespace StaticDLL{
 		{
 		}
 
-			
-		for(int i = 0; i < 20; i++)
-		{
-			if(players_[i]->Keypress(GetEvent())==1)
-			{
-				players_[i]->SetVelocityY(i);
-			}
-		}
+		
 
 	}
 
@@ -124,11 +115,7 @@ namespace StaticDLL{
 			GetMap()->PreCalc();
 
 				player1_->Update(GetMap());
-			/*for(int i = 0; i < 20; i++)
-			{
-				players_[i]->Update(GetMap());
-			}*/
-
+			
 
 			//Update overlay. Will return with no actions if action state of it is NONE.
 			SetRedraw(true);
@@ -145,11 +132,7 @@ namespace StaticDLL{
 		GetMap()->DrawMap();
 
 		player1_->DrawObject();
-		/*for(int i = 0; i < 20; i++)
-		{
-			players_[i]->DrawObject();
-		}
-*/
+	
 		al_draw_rectangle(GetMouseCursorX(),GetMouseCursorY(),GetMouseCursorX()+Constants::TileSize,GetMouseCursorY()+Constants::TileSize, GetChosenColor(),2);//1
 	}
 
