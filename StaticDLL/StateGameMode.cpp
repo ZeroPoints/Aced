@@ -39,8 +39,7 @@ namespace StaticDLL{
 		SetMap(currentMap);
 
 		
-		player1_ = new Player();
-		player1_->SetCurrentPositionX(5);
+		player1_ = new Player(GetSettings(),GetMap());
 		player1_->SetGravityY(-9.8);
 
 		for(int i = 0; i < GetImageLoader()->GetImageSetDictionary().size(); i++)
@@ -114,7 +113,7 @@ namespace StaticDLL{
 		{			
 			GetMap()->PreCalc();
 
-				player1_->Update(GetMap());
+				player1_->Update();
 			
 
 			//Update overlay. Will return with no actions if action state of it is NONE.

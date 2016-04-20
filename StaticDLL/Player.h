@@ -29,7 +29,7 @@ namespace StaticDLL{
 	class Player : public Character
 	{
 		public:
-			STATICDLL_API Player();
+			STATICDLL_API Player(Settings *settings, Map *map);
 
 			//sets
 			STATICDLL_API void AdjustLives(int num);
@@ -40,40 +40,40 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API void Update(Map *map);
+			STATICDLL_API void Update();
 
 
 
 
 
 
-			STATICDLL_API void CollisionMovingLeft(Map *map);
+			STATICDLL_API void CollisionMovingLeft();
 
 
 
 
 
-			STATICDLL_API void CollisionMovingRight(Map *map);
+			STATICDLL_API void CollisionMovingRight();
 
 
 
 
-			STATICDLL_API void Falling(Map *map);
+			STATICDLL_API void Falling();
 
 
 
 
-			STATICDLL_API void Jumping(Map *map);
+			STATICDLL_API void Jumping();
 
 
 
 
 
 
-			STATICDLL_API bool CheckNextXPositionGoingRight(Map *map, float nextPosX, float nextPosY);
-			STATICDLL_API bool CheckNextXPositionGoingLeft(Map *map, float nextPosX, float nextPosY);
-			STATICDLL_API bool CheckNextYPositionFalling(Map *map, float nextPosX, float nextPosY);
-			STATICDLL_API bool CheckNextYPositionJumping(Map *map, float nextPosX, float nextPosY);
+			STATICDLL_API bool CheckNextXPositionGoingRight(float nextPosX, float nextPosY);
+			STATICDLL_API bool CheckNextXPositionGoingLeft(float nextPosX, float nextPosY);
+			STATICDLL_API bool CheckNextYPositionFalling(float nextPosX, float nextPosY);
+			STATICDLL_API bool CheckNextYPositionJumping(float nextPosX, float nextPosY);
 
 
 
@@ -81,6 +81,9 @@ namespace StaticDLL{
 
 
 		private:
+
+			Settings *settings_;
+			Map *map_;
 
 
 			int score_;

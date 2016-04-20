@@ -14,8 +14,7 @@ namespace StaticDLL{
 
 	void Map::ResetMap()
 	{
-		mapXoffset_ = 75;
-		mapYoffset_ = 100;
+		
 		offSetBeforeRightClickDragY_ = 0;
 		offSetBeforeRightClickDragX_ = 0;
 		CreateTiles(10,10);
@@ -30,10 +29,12 @@ namespace StaticDLL{
 				tiles_[i][j].SetHeight(1);
 			}
 		}
-		rightViewPoint_ = 10;
-		leftViewPoint_ = 0;
-		botViewPoint_ = 10;
-		topViewPoint_ = 0;
+
+		
+		mapXoffset_ = settings_->GetScreenWidth()/2-width_*Constants::TileSize/2;
+		mapYoffset_ = settings_->GetScreenHeight()/2-height_*Constants::TileSize/2;
+
+		PreCalc();
 	}
 
 
@@ -379,6 +380,15 @@ namespace StaticDLL{
 		al_show_native_file_dialog(display_, loadDialog);
 		mapPath_ = al_create_path(al_get_native_file_dialog_path(loadDialog, 0));
 		LoadMap();
+
+
+		//ADJUST offset if a player has been placed but since player placed is false somteimes set it to top left corner as players pos will be created at this point
+		mapXoffset_ = width_*Constants::TileSize <= settings_->GetScreenWidth() ? settings_->GetScreenWidth()/2-width_*Constants::TileSize/2 : 0;
+		mapYoffset_ = height_*Constants::TileSize <= settings_->GetScreenHeight() ? settings_->GetScreenHeight()/2-height_*Constants::TileSize/2 : 0;
+
+		PreCalc();
+
+
 		al_destroy_native_file_dialog(loadDialog);
 
 	}
