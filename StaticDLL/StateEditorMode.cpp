@@ -158,11 +158,28 @@ namespace StaticDLL{
 				{
 					if(selectedTile_.first == EnumDLL::STATES::TILEIMAGEPICKER)
 					{
-						GetMap()->GetTiles()[tileXPos][tileYPos].SetTileProperties(selectedTile_.second);
+						if(selectedTile_.second->GetObjectImage()->GetId() == 0)
+						{
+							GetMap()->GetTiles()[tileXPos][tileYPos].RemoveImage();
+						}
+						else
+						{
+							GetMap()->GetTiles()[tileXPos][tileYPos].SetTileProperties(selectedTile_.second);
+						}
 					}
 					else if(selectedTile_.first == EnumDLL::STATES::TILECOLORPICKER)
 					{
-						GetMap()->GetTiles()[tileXPos][tileYPos].SetTileProperties(selectedTile_.second);
+						if(selectedTile_.second->GetObjectImage() != nullptr)
+						{
+							if(selectedTile_.second->GetObjectImage()->GetId() == 0)
+							{
+								GetMap()->GetTiles()[tileXPos][tileYPos].RemoveColor();
+							}
+						}
+						else
+						{
+							GetMap()->GetTiles()[tileXPos][tileYPos].SetTileProperties(selectedTile_.second);
+						}
 					}
 					else if(selectedTile_.first == EnumDLL::STATES::TILETYPEPICKER)
 					{
@@ -198,7 +215,7 @@ namespace StaticDLL{
 		editorOverLayController_->Draw();
 
 
-		al_draw_rectangle(GetMouseCursorX(),GetMouseCursorY(),GetMouseCursorX()+Constants::TileSize,GetMouseCursorY()+Constants::TileSize, GetChosenColor(),2);//1
+		al_draw_rectangle(GetMouseCursorX(),GetMouseCursorY(),GetMouseCursorX()+Constants::TileSize,GetMouseCursorY()+Constants::TileSize, al_map_rgb_f(0,0,0),2);//1
 	}
 
 

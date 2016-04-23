@@ -112,7 +112,7 @@ namespace StaticDLL{
 			STATICDLL_API void CreateTileTypes();
 
 			STATICDLL_API void FormatTiles();
-			STATICDLL_API void CreateTiles(int x, int y);
+			STATICDLL_API void CreateTilesColors();
 			STATICDLL_API void CreateTilePages();
 
 			
@@ -208,12 +208,15 @@ namespace StaticDLL{
 			int tileVectorWidthMax_;
 			//The border of the entire Map
 			int height_;
-			
+			int imageDictionarySize_;
+			int imageDictionaryId_;
+			Image *remove_;
+
 			
 			StaticDLL::EnumDLL::OVERLAYACTIONS overLayAction_;
 			StaticDLL::EnumDLL::OVERLAYSTATE overLayState_;
 
-
+			StaticDLL::EnumDLL::IMAGESETS imageSetId_;
 
 			ObjectBase *tilePickerWindow_;
 

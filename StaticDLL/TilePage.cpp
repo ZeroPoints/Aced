@@ -21,7 +21,7 @@ namespace StaticDLL{
 				tileRef[i][j].DrawObject();
 				if(showCollision)
 				{
-					tileRef[i][j].DrawObjectType();
+					tileRef[i][j].DrawObjectType(settings_->GetColorCollisionInvert());
 				}
 			}
 		}

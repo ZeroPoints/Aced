@@ -171,5 +171,11 @@
     <Xml Include="PlayersImageList.xml">
       <Filter>Resource Files</Filter>
     </Xml>
+    <Xml Include="..\Images\TileColorList.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
+    <Xml Include="..\Images\SystemImages.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

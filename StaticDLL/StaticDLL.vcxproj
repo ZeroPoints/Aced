@@ -140,6 +140,8 @@
     <None Include="..\Settings.config" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="..\Images\SystemImages.xml" />
+    <Xml Include="..\Images\TileColorList.xml" />
     <Xml Include="..\Images\TileImageList.xml" />
     <Xml Include="PlayersImageList.xml" />
   </ItemGroup>

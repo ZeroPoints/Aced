@@ -32,7 +32,8 @@ namespace StaticDLL{
 	{
 		public:
 
-			STATICDLL_API TilePage(){
+			STATICDLL_API TilePage(Settings *settings){
+				settings_ = settings;
 				fprintf(stderr,"An TilePage Created\n");
 			}
 
@@ -102,7 +103,7 @@ namespace StaticDLL{
 			//The X and Y indicator of that tile
 			int selectedTileX_, selectedTileY_;
 
-
+			Settings *settings_;
 	};
 }
 #endif

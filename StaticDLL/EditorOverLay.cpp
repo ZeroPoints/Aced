@@ -18,8 +18,34 @@ namespace StaticDLL{
 		overLayState_ = StaticDLL::EnumDLL::OVERLAYSTATE::OVERLAYOPENED;
 		overLayAction_ = StaticDLL::EnumDLL::OVERLAYACTIONS::OVERLAYNONE;
 
-		chosenColor_ = al_map_rgb_f(0.8,0.3,0.3);
+		chosenColor_ = al_map_rgb_f(0.8,0.8,0.8);
 		currentTilePage_ = 0;
+
+		switch(id_)
+		{
+			case EnumDLL::STATES::TILEIMAGEPICKER:
+				imageSetId_ = EnumDLL::IMAGESETS::TILEIMAGESET;
+				break;
+			case EnumDLL::STATES::TILECOLORPICKER:
+				imageSetId_ = EnumDLL::IMAGESETS::TILECOLORSET;
+				break;
+		}
+
+		for(int i = 0; i < imageLoader_->GetImageSetDictionary().size(); i ++)
+		{
+			if(imageLoader_->GetImageSetDictionary()[i]->GetImageSetId() == imageSetId_)
+			{
+				imageDictionaryId_ = i;
+				imageDictionarySize_ = imageLoader_->GetImageSetDictionary()[i]->GetImageDictionary().size();
+				break;
+			}
+			else if(imageLoader_->GetImageSetDictionary()[i]->GetImageSetId() == imageSetId_)
+			{
+				imageDictionaryId_ = i;
+				imageDictionarySize_ = imageLoader_->GetImageSetDictionary()[i]->GetImageDictionary().size();
+				break;
+			}
+		}
 
 
 		FormatTiles();
@@ -38,7 +64,8 @@ namespace StaticDLL{
 	{
 		if(id_ == EnumDLL::STATES::TILECOLORPICKER)
 		{
-			CreateTiles(tileVectorWidthMax_,60);
+			CreateTilesColors();
+			CreateTilePages();
 		}
 		else if(id_ == EnumDLL::STATES::TILEIMAGEPICKER)
 		{
@@ -65,7 +92,7 @@ namespace StaticDLL{
 		tilePickerWindow_->SetCurrentPosition(0, 1);
 		tilePickerWindow_->SetWidth(widthMax_);
 		tilePickerWindow_->SetHeight(settings_->GetDisplayHeight());
-		tilePickerWindow_->SetColor(al_map_rgb_f(0.8,0.3,0.3));
+		tilePickerWindow_->SetColor(al_map_rgb_f(0.8,0.8,0.8));
 	}
 
 
@@ -78,7 +105,8 @@ namespace StaticDLL{
 	{
 		if(id_ == EnumDLL::STATES::TILECOLORPICKER)
 		{
-			CreateTiles(tileVectorWidthMax_,60);
+			CreateTilesColors();
+			CreateTilePages();
 		}
 		else if(id_ == EnumDLL::STATES::TILEIMAGEPICKER)
 		{
@@ -116,7 +144,7 @@ namespace StaticDLL{
 		//Go through the tile pages adding in the tiles as a ref
 		for(int i = 0; i < pages+extraPage; i++)
 		{
-			tilePages_.push_back(new TilePage());
+			tilePages_.push_back(new TilePage(settings_));
 			int newMin = (screenHeight/2*i) == 0 ? 0 : (screenHeight/2*i);
 			int newMax = (screenHeight/2*i) + screenHeight/2;
 			if(newMin > tiles_[0].size())
@@ -180,13 +208,31 @@ namespace StaticDLL{
 			switch(event->mouse.button)
 			{
 				case 1:
-
-
 					if(tilePages_[currentTilePage_]->MouseActivity(tiles_, mouseX, mouseY))
 					{
+						if(id_ == EnumDLL::STATES::TILETYPEPICKER)
+						{
+							if(GetSelectedTile()->GetTileType() == EnumDLL::TILETYPE::INVERTCOLLISIONCOLOR)
+							{
+								for(int i = 0; i < tiles_.size(); i++)
+								{
+									for(int j = 0; j < tiles_[i].size(); j++)
+									{
+										ALLEGRO_COLOR curColor = tiles_[i][j].GetColor();
+										curColor.r = !curColor.r;
+										curColor.g = !curColor.g;
+										curColor.b = !curColor.b;
+
+										tiles_[i][j].SetColor(curColor);
+									}
+								}
+								settings_->SetColorCollisionInvert(!settings_->GetColorCollisionInvert());
+								settings_->SaveSettings();
+							}
+						}
 						return true;
+
 					}
-					break;
 			}
 		}
 		return false;
@@ -253,23 +299,12 @@ namespace StaticDLL{
 		
 
 
-		int imageDictionarySize = 0;
-		int imageDictionaryId = 0;
-
-		for(int i = 0; i < imageLoader_->GetImageSetDictionary().size(); i ++)
-		{
-			if(imageLoader_->GetImageSetDictionary()[i]->GetImageSetId() == EnumDLL::IMAGESETS::TILEIMAGESET)
-			{
-				imageDictionarySize = imageLoader_->GetImageSetDictionary()[i]->GetImageDictionary().size();
-			}
-		}
-
 		int i = 0;
-		for(int j = 0; j < imageDictionarySize; j++)
+		for(int j = 0; j < imageDictionarySize_; j++)
 		{
 			Tile* tempTile = new Tile();
 			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
-			tempTile->SetObjectImage(imageLoader_->GetImageSetDictionary()[imageDictionaryId]->GetImageDictionary()[j]);
+			tempTile->SetObjectImageColor(imageLoader_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
 			tempTile->SetWidth(1);
 			tempTile->SetHeight(1);
 
@@ -295,7 +330,7 @@ namespace StaticDLL{
 	
 	//Load list of all tiles into tile pages
 	//also sizes display of these
-	void EditorOverLay::CreateTiles(int x, int y)
+	void EditorOverLay::CreateTilesColors()
 	{
 		srand(time(nullptr));
 
@@ -313,31 +348,35 @@ namespace StaticDLL{
 		//is this the best way to clean those objects?
 		tiles_.resize(0);
 		tiles_.clear();
-		tiles_.resize(x);
-		for(int i = 0; i < tiles_.size(); i++)
-		{
-			tiles_[i].resize(y);
-		}
 
+		tiles_.resize(tileVectorWidthMax_);
 		
 
-		//math in here seems wrong
-		//FIX IT so resizing or different size screens get adjusted properly
-		for(int i = 0; i < x; i++)
+		int i = 0;
+		for(int j = 0; j < imageDictionarySize_; j++)
 		{
-			for(int j = 0; j < y; j++)
-			{
-				tiles_[i][j].SetColor(al_map_rgb_f((double)rand() / RAND_MAX,(double)rand() / RAND_MAX,(double)rand() / RAND_MAX));//sets all tiles to grey
-				tiles_[i][j].SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
-				int posX = leftOffset+i*displacementOffset;
-				int posY = topOffset + ((j*displacementOffset)%(screenHeight));
-				tiles_[i][j].SetCurrentPosition(posX,posY);
-				tiles_[i][j].SetWidth(1);
-				tiles_[i][j].SetHeight(1);
-			}
+			Tile* tempTile = new Tile();
+			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
+
+			tempTile->SetObjectImageColor(imageLoader_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
+
+			tempTile->SetWidth(1);
+			tempTile->SetHeight(1);
+
+			int posX = leftOffset+(j%tileVectorWidthMax_)*displacementOffset;
+			int posY = topOffset + (i/tileVectorWidthMax_*displacementOffset)%(screenHeight);
+
+			tempTile->SetCurrentPosition(posX,posY);
+
+			tiles_[j%tileVectorWidthMax_].push_back(*tempTile);
+			//go to next placement
+
+			i++;
+
+			//delete the copy of object
+			delete tempTile;
 		}
 
-		CreateTilePages();
 	}
 
 	//Big mess of code to create tile types menu
@@ -358,68 +397,124 @@ namespace StaticDLL{
 		int posY = topOffset + ((l*displacementOffset)%(screenHeight));
 		std::vector<Tile> objs;
 		Tile* currentTile = new Tile();
-		currentTile->SetColor(al_map_rgb_f(0.3,0.6,0.6));
-		currentTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
-		currentTile->SetCurrentPosition(posX,posY);
-		currentTile->SetWidth(1);
-		currentTile->SetHeight(1);
-		objs.push_back(*currentTile);
-		k = (k + 1)%tileVectorWidthMax_;
-		if(k % tileVectorWidthMax_ == 0)
-		{
-			l++;
-		}
-		posX = leftOffset+k*displacementOffset;
-		posY = topOffset + ((l*displacementOffset)%(screenHeight));
+
+
+		bool invert = settings_->GetColorCollisionInvert();
+
 		currentTile = new Tile();
-		currentTile->SetColor(al_map_rgb_f(0.3,0.6,0.6));
-		currentTile->SetTileType(EnumDLL::TILETYPE::COLLISIONTOPTILE);
-		currentTile->SetCurrentPosition(posX,posY);
-		currentTile->SetWidth(1);
-		currentTile->SetHeight(1);
-		objs.push_back(*currentTile);
-		k = (k + 1)%tileVectorWidthMax_;
-		if(k % tileVectorWidthMax_ == 0)
-		{
-			l++;
-		}
-		posX = leftOffset+k*displacementOffset;
-		posY = topOffset + ((l*displacementOffset)%(screenHeight));
-		currentTile = new Tile();
-		currentTile->SetColor(al_map_rgb_f(0.3,0.6,0.6));
-		currentTile->SetTileType(EnumDLL::TILETYPE::COLLISIONLEFTTILE);
-		currentTile->SetCurrentPosition(posX,posY);
-		currentTile->SetWidth(1);
-		currentTile->SetHeight(1);
-		objs.push_back(*currentTile);
-		k = (k + 1)%tileVectorWidthMax_;
-		if(k % tileVectorWidthMax_ == 0)
-		{
-			l++;
-		}
-		posX = leftOffset+k*displacementOffset;
-		posY = topOffset + ((l*displacementOffset)%(screenHeight));
-		currentTile = new Tile();
-		currentTile->SetColor(al_map_rgb_f(0.3,0.6,0.6));
-		currentTile->SetTileType(EnumDLL::TILETYPE::COLLISIONRIGHTTILE);
-		currentTile->SetCurrentPosition(posX,posY);
-		currentTile->SetWidth(1);
-		currentTile->SetHeight(1);
-		objs.push_back(*currentTile);
-		k = (k + 1)%tileVectorWidthMax_;
-		if(k % tileVectorWidthMax_ == 0)
-		{
-			l++;
-		}
-		posX = leftOffset+k*displacementOffset;
-		posY = topOffset + ((l*displacementOffset)%(screenHeight));
-		currentTile = new Tile();
-		currentTile->SetColor(al_map_rgb_f(0.3,0.6,0.6));
+		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
 		currentTile->SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
 		currentTile->SetCurrentPosition(posX,posY);
 		currentTile->SetWidth(1);
 		currentTile->SetHeight(1);
 		objs.push_back(*currentTile);
+		
+
+
+
+		k = (k + 1)%tileVectorWidthMax_;
+		if(k % tileVectorWidthMax_ == 0)
+		{
+			l++;
+		}
+		posX = leftOffset+k*displacementOffset;
+		posY = topOffset + ((l*displacementOffset)%(screenHeight));
+
+
+
+
+		currentTile = new Tile();
+		currentTile->SetColor(al_map_rgb_f(invert,invert,invert));
+		currentTile->SetTileType(EnumDLL::TILETYPE::INVERTCOLLISIONCOLOR);
+		currentTile->SetCurrentPosition(posX,posY);
+		currentTile->SetWidth(1);
+		currentTile->SetHeight(1);
+		objs.push_back(*currentTile);
+
+
+
+
+		k = (k + 1)%tileVectorWidthMax_;
+		if(k % tileVectorWidthMax_ == 0)
+		{
+			l++;
+		}
+		posX = leftOffset+k*displacementOffset;
+		posY = topOffset + ((l*displacementOffset)%(screenHeight));
+
+
+
+
+		currentTile = new Tile();
+		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
+		currentTile->SetTileType(EnumDLL::TILETYPE::COLLISIONTOPTILE);
+		currentTile->SetCurrentPosition(posX,posY);
+		currentTile->SetWidth(1);
+		currentTile->SetHeight(1);
+		objs.push_back(*currentTile);
+
+
+
+		k = (k + 1)%tileVectorWidthMax_;
+		if(k % tileVectorWidthMax_ == 0)
+		{
+			l++;
+		}
+		posX = leftOffset+k*displacementOffset;
+		posY = topOffset + ((l*displacementOffset)%(screenHeight));
+
+
+
+
+		currentTile = new Tile();
+		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
+		currentTile->SetTileType(EnumDLL::TILETYPE::COLLISIONLEFTTILE);
+		currentTile->SetCurrentPosition(posX,posY);
+		currentTile->SetWidth(1);
+		currentTile->SetHeight(1);
+		objs.push_back(*currentTile);
+
+
+
+		k = (k + 1)%tileVectorWidthMax_;
+		if(k % tileVectorWidthMax_ == 0)
+		{
+			l++;
+		}
+		posX = leftOffset+k*displacementOffset;
+		posY = topOffset + ((l*displacementOffset)%(screenHeight));
+
+
+
+
+		currentTile = new Tile();
+		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
+		currentTile->SetTileType(EnumDLL::TILETYPE::COLLISIONRIGHTTILE);
+		currentTile->SetCurrentPosition(posX,posY);
+		currentTile->SetWidth(1);
+		currentTile->SetHeight(1);
+		objs.push_back(*currentTile);
+
+
+
+		k = (k + 1)%tileVectorWidthMax_;
+		if(k % tileVectorWidthMax_ == 0)
+		{
+			l++;
+		}
+		posX = leftOffset+k*displacementOffset;
+		posY = topOffset + ((l*displacementOffset)%(screenHeight));
+
+
+
+		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
+		currentTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
+		currentTile->SetCurrentPosition(posX,posY);
+		currentTile->SetWidth(1);
+		currentTile->SetHeight(1);
+		objs.push_back(*currentTile);
+
+		
 		tiles_.resize(tileVectorWidthMax_);
 		for(int i = 0; i < objs.size(); i++)
 		{

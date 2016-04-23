@@ -32,11 +32,11 @@ namespace StaticDLL{
 		public:
 			STATICDLL_API ImageLoader();
 
-
 			STATICDLL_API void LoadTiles();
 			STATICDLL_API void LoadPlayers();
 			STATICDLL_API void LoadInteractiveObjects();
 			STATICDLL_API void LoadColors();
+			STATICDLL_API void LoadSystemImages();
 
 
 			STATICDLL_API std::vector<ImageSet*> GetImageSetDictionary()

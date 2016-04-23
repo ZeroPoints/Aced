@@ -68,6 +68,14 @@ namespace StaticDLL{
 			}
 
 
+
+			STATICDLL_API void SetColorCollisionInvert(bool invert){
+				collisionColorInverted_ = invert;
+			}
+			STATICDLL_API bool GetColorCollisionInvert(){
+				return collisionColorInverted_;
+			}
+
 		private:
 			//Display values are for the screens resolution
 			int displayWidth_, displayHeight_;
@@ -75,6 +83,7 @@ namespace StaticDLL{
 			int screenWidth_, screenHeight_;
 
 
+			bool collisionColorInverted_;
 
 
 

@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <!--Tiles are for the tile picker and tile images the id will match with a tile cell if that cell has an image-->
 <tiles >
+  <img id="0" file="..//Images//RemoveImage.png" />
   <img id="1" file="..//Images//OrangeGreenCircle.png" />
   <img id="2" file="..//Images//OrangeGreenDoubleLine.png" />
   <img id="3" file="..//Images//OrangeGreenLine.png" />

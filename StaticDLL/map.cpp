@@ -22,7 +22,7 @@ namespace StaticDLL{
 		{
 			for(int j = 0; j < height_; j++)
 			{
-				tiles_[i][j].SetColor(al_map_rgb_f(0.5,0.5,0.5));//sets all tiles to grey
+				tiles_[i][j].SetColor(al_map_rgb_f(1,1,1));//sets all tiles to grey
 				tiles_[i][j].SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
 				tiles_[i][j].SetCurrentPosition(i,j);
 				tiles_[i][j].SetWidth(1);
@@ -106,7 +106,7 @@ namespace StaticDLL{
 			{
 				for (int j = k; j < height_; j++)
 				{
-					tiles_[i][j].SetColor(al_map_rgb_f(0.5,0.5,0.5));//sets all tiles to grey
+					tiles_[i][j].SetColor(al_map_rgb_f(1,1,1));//sets all tiles to grey
 					tiles_[i][j].SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
 					tiles_[i][j].SetCurrentPosition(i,j);
 					tiles_[i][j].SetWidth(1);
@@ -139,7 +139,7 @@ namespace StaticDLL{
 			{
 				for (int j = 0; j < height_; j++)
 				{
-					tiles_[i][j].SetColor(al_map_rgb_f(0.5,0.5,0.5));//sets all tiles to grey
+					tiles_[i][j].SetColor(al_map_rgb_f(1,1,1));//sets all tiles to grey
 					tiles_[i][j].SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
 					tiles_[i][j].SetCurrentPosition(i,j);
 					tiles_[i][j].SetWidth(1);
@@ -155,17 +155,21 @@ namespace StaticDLL{
 
 	void Map::DrawMap()
 	{
+
+
 		int i;
 		int j;
 		for(i = leftViewPoint_; i < rightViewPoint_; i++)
 		{
 			for(j = topViewPoint_; j < botViewPoint_; j++)
-			{				
+			{		
 				tiles_[i][j].DrawObject(mapXoffset_, mapYoffset_);	
-				tiles_[i][j].DrawObjectType(mapXoffset_, mapYoffset_);	
+				tiles_[i][j].DrawObjectType(mapXoffset_, mapYoffset_, settings_->GetColorCollisionInvert());	
 			}
 		}
 
+
+		al_draw_rectangle(mapXoffset_, mapYoffset_, mapXoffset_ + width_*Constants::TileSize, mapYoffset_ + height_*Constants::TileSize, al_map_rgb_f(0,0,0), 1);
 
 
 		//Tile rectangle overlay may be useful for tile map later.
@@ -488,7 +492,7 @@ namespace StaticDLL{
 							{
 								if(imageLoader_->GetImageSetDictionary()[k]->GetImageDictionary()[j]->GetId() == imgId)
 								{
-									currentTile->SetObjectImage(imageLoader_->GetImageSetDictionary()[k]->GetImageDictionary()[j]);
+									currentTile->SetObjectImageColor(imageLoader_->GetImageSetDictionary()[k]->GetImageDictionary()[j]);
 								}
 							}
 						}

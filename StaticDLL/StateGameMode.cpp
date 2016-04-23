@@ -38,6 +38,7 @@ namespace StaticDLL{
 		SetPlayerSelected(false);
 		SetMap(currentMap);
 
+
 		
 		player1_ = new Player(GetSettings(),GetMap());
 		player1_->SetGravityY(-9.8);
@@ -46,7 +47,7 @@ namespace StaticDLL{
 		{
 			if(GetImageLoader()->GetImageSetDictionary()[i]->GetImageSetId() == EnumDLL::IMAGESETS::PLAYERIMAGESET)
 			{
-				player1_->SetObjectImage(GetImageLoader()->GetImageSetDictionary()[i]->GetImageDictionary()[0]);
+				player1_->SetObjectImageColor(GetImageLoader()->GetImageSetDictionary()[i]->GetImageDictionary()[0]);
 			}
 		}
 
@@ -132,7 +133,7 @@ namespace StaticDLL{
 
 		player1_->DrawObject();
 	
-		al_draw_rectangle(GetMouseCursorX(),GetMouseCursorY(),GetMouseCursorX()+Constants::TileSize,GetMouseCursorY()+Constants::TileSize, GetChosenColor(),2);//1
+		al_draw_rectangle(GetMouseCursorX(),GetMouseCursorY(),GetMouseCursorX()+Constants::TileSize,GetMouseCursorY()+Constants::TileSize, al_map_rgb_f(0,0,0),2);//1
 	}
 
 

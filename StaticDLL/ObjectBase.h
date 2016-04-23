@@ -31,6 +31,7 @@ namespace StaticDLL
 				hasText_ = false;
 				movespeed_ = 0;
 				hasImage_ = false;
+				hasColor_ = false;
 				fprintf(stderr,"An Object Created\n");
 				return;
 			}
@@ -56,15 +57,27 @@ namespace StaticDLL
 			}
 
 
+
+			//CHECK THIS
+			//TODO: hmmm
 			STATICDLL_API virtual void SetObjectProperties(ObjectBase *selectedObject){
-				//hopefully this assigning isnt a pointer but a new object.
-				//so if i recreate map and it deletes this tiles it doesnt delete the color ref from the tile picker
-				chosenColor_ = selectedObject->chosenColor_;
-
-
-				if(selectedObject->hasImage_)
+				
+				if(selectedObject->GetHasColor() && selectedObject->GetHasImage())
 				{
-					SetObjectImage(selectedObject->GetObjectImage());
+					hasImage_ = true;
+					SetObjectImageColor(selectedObject->GetObjectImage());
+					hasColor_ = true;
+					chosenColor_ = selectedObject->chosenColor_;
+				}
+				else if(selectedObject->hasImage_)
+				{
+					hasImage_ = true;
+					SetObjectImageColor(selectedObject->GetObjectImage());
+				}
+				else if(selectedObject->GetHasColor())
+				{
+					hasColor_ = true;
+					chosenColor_ = selectedObject->chosenColor_;
 				}
 
 				return;
@@ -279,13 +292,26 @@ namespace StaticDLL
 
 
 
-
-
-			STATICDLL_API virtual void SetObjectImage(Image *image)
+			//Put some color tintin intelligence into setting this objects properties.
+			//So can add color if it exists. Or add image if it exists
+			//This is used to set objects properties based on if the image has a color or a image
+			//TODO: ADD in color and image together aswell just incase later
+			STATICDLL_API virtual void SetObjectImageColor(Image *image)
 			{
-				hasImage_ = true;
-				image_ = image;
+				if(image->GetImage() != nullptr)
+				{
+					hasImage_ = true;
+					image_ = image;
+				}
+				else
+				{
+					hasColor_ = true;
+					chosenColor_ = image->GetColor();
+				}
 			}
+
+
+
 
 			STATICDLL_API virtual Image *GetObjectImage()
 			{
@@ -295,7 +321,10 @@ namespace StaticDLL
 			{
 				return hasImage_;
 			}
-
+				STATICDLL_API virtual bool GetHasColor()
+			{
+				return hasColor_;
+			}
 
 
 
@@ -303,19 +332,40 @@ namespace StaticDLL
 
 			};
 
+
+
+			//set flag and set image to null
+			STATICDLL_API virtual void RemoveImage(){
+				hasImage_ = false;
+				//test this doesnt effect the actual object in imageloader memory dictionary
+				image_ = nullptr;
+			};
+			//set flag and set color to black
+			STATICDLL_API virtual void RemoveColor(){
+				hasColor_ = false;
+				chosenColor_.r = 0;
+				chosenColor_.g = 0;
+				chosenColor_.b = 0;
+				chosenColor_.a = 0;
+			};
 			STATICDLL_API virtual void SetColorA(float a){
+				hasColor_ = true;
 				chosenColor_.a = a;
 			};
 			STATICDLL_API virtual void SetColorB(float b){
+				hasColor_ = true;
 				chosenColor_.b = b;
 			};
 			STATICDLL_API virtual void SetColorR(float r){
+				hasColor_ = true;
 				chosenColor_.r = r;
 			};
 			STATICDLL_API virtual void SetColorG(float g){
+				hasColor_ = true;
 				chosenColor_.g = g;
 			};
 			STATICDLL_API virtual void SetColor(ALLEGRO_COLOR color){
+				hasColor_ = true;
 				chosenColor_ = color;
 			};
 			STATICDLL_API virtual ALLEGRO_COLOR GetColor(){
@@ -361,13 +411,23 @@ namespace StaticDLL
 
 
 
-
-
-
 			//Draws the object...Uses the x and y offset from map to draw with displacement
 			STATICDLL_API virtual void DrawObject(int xOffset, int yOffset){
-
-				if(hasImage_)
+				//if object has image and color draw tinting
+				if(hasImage_ &&  hasColor_)
+				{
+					al_draw_tinted_scaled_bitmap(
+						image_->GetImage(),
+						chosenColor_,
+						0, 0, image_->GetWidth(), image_->GetHeight(), 
+						currentPositionX_*Constants::TileSize + xOffset, 
+						currentPositionY_*Constants::TileSize + yOffset, 
+						width_*Constants::TileSize, 
+						height_*Constants::TileSize, 
+						0
+					);
+				}
+				else if(hasImage_)
 				{
 					al_draw_scaled_bitmap(
 						image_->GetImage(),
@@ -401,7 +461,20 @@ namespace StaticDLL
 			//Draw an object without need of translation
 			STATICDLL_API virtual void DrawObject(){
 
-				if(hasImage_)
+				if(hasImage_ &&  hasColor_)
+				{
+					al_draw_tinted_scaled_bitmap(
+						image_->GetImage(),
+						chosenColor_,
+						0, 0, image_->GetWidth(), image_->GetHeight(), 
+						currentPositionX_*Constants::TileSize, 
+						currentPositionY_*Constants::TileSize, 
+						width_*Constants::TileSize, 
+						height_*Constants::TileSize, 
+						0
+					);
+				}
+				else if(hasImage_)
 				{
 					al_draw_scaled_bitmap(
 						image_->GetImage(),
@@ -534,7 +607,8 @@ namespace StaticDLL
 					collisionRight_,
 					clickable_,
 					hasText_,
-					hasImage_;	
+					hasImage_,	
+					hasColor_;	
 
 
 

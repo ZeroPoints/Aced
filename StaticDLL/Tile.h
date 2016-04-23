@@ -30,7 +30,7 @@ namespace StaticDLL{
 		public:
 			STATICDLL_API Tile()
 			{
-				
+				tileCollisionTypeColor_ = al_map_rgb_f(0,0,0);
 			};
 			
 			STATICDLL_API ~Tile()
@@ -66,9 +66,10 @@ namespace StaticDLL{
 				{
 					SetTileTypeProperties(selectedTile);
 				}
-
 				SetObjectProperties(selectedTile);
 			}
+
+
 
 
 
@@ -79,21 +80,26 @@ namespace StaticDLL{
 
 
 			//Draw an object without need of translation
-			STATICDLL_API virtual void DrawObjectType(){
-				DrawObjectType(0,0);
+			STATICDLL_API virtual void DrawObjectType(bool invert){
+				DrawObjectType(0,0, invert);
 			};
 
 			
-			STATICDLL_API void DrawObjectType(int xOffset, int yOffset){
-				
+			STATICDLL_API void DrawObjectType(int xOffset, int yOffset, bool invert){
+				ALLEGRO_COLOR newColor;
+				newColor.a = 1;
+				newColor.r = invert ? !tileCollisionTypeColor_.r : tileCollisionTypeColor_.r;
+				newColor.g = invert ? !tileCollisionTypeColor_.g : tileCollisionTypeColor_.g;
+				newColor.b = invert ? !tileCollisionTypeColor_.b : tileCollisionTypeColor_.b;
+
 				if(tileType_ == EnumDLL::TILETYPE::SOLIDTILE)
 				{
 					al_draw_rectangle(
 						GetCurrentPositionX()*Constants::TileSize + xOffset + (Constants::TileSize/5),
 						GetCurrentPositionY()*Constants::TileSize + yOffset + (Constants::TileSize/5),
-						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset - (Constants::TileSize/5)+1,
-						GetCurrentPositionY()*Constants::TileSize + GetHeight()*Constants::TileSize + yOffset - (Constants::TileSize/5)+1,
-						al_map_rgb_f(1,1,1),1
+						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset - (Constants::TileSize/5),
+						GetCurrentPositionY()*Constants::TileSize + GetHeight()*Constants::TileSize + yOffset - (Constants::TileSize/5),
+						newColor,2
 					);
 				}
 				else if(tileType_ == EnumDLL::TILETYPE::COLLISIONTOPTILE)
@@ -101,9 +107,9 @@ namespace StaticDLL{
 					al_draw_line(
 						GetCurrentPositionX()*Constants::TileSize + xOffset														 + (Constants::TileSize/5),
 						GetCurrentPositionY()*Constants::TileSize + yOffset														 + (Constants::TileSize/5),
-						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset					 - (Constants::TileSize/5)+1,
+						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset					 - (Constants::TileSize/5),
 						GetCurrentPositionY()*Constants::TileSize + yOffset														 + (Constants::TileSize/5),
-						al_map_rgb_f(1,1,1),1
+						newColor,2
 					);
 				}
 				else if(tileType_ == EnumDLL::TILETYPE::COLLISIONLEFTTILE)
@@ -112,29 +118,48 @@ namespace StaticDLL{
 						GetCurrentPositionX()*Constants::TileSize + xOffset														 + (Constants::TileSize/5),
 						GetCurrentPositionY()*Constants::TileSize + yOffset														 + (Constants::TileSize/5),
 						GetCurrentPositionX()*Constants::TileSize + xOffset														 + (Constants::TileSize/5),
-						GetCurrentPositionY()*Constants::TileSize + GetHeight()*Constants::TileSize + yOffset					 - (Constants::TileSize/5)+1,
-						al_map_rgb_f(1,1,1),1
+						GetCurrentPositionY()*Constants::TileSize + GetHeight()*Constants::TileSize + yOffset					 - (Constants::TileSize/5),
+						newColor,2
 					);
 				}
 				else if(tileType_ == EnumDLL::TILETYPE::COLLISIONRIGHTTILE)
 				{
 					al_draw_line(
-						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset					 - (Constants::TileSize/5)+1,
+						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset					 - (Constants::TileSize/5),
 						GetCurrentPositionY()*Constants::TileSize + yOffset														 + (Constants::TileSize/5),
-						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset					 - (Constants::TileSize/5)+1,
-						GetCurrentPositionY()*Constants::TileSize + GetHeight()*Constants::TileSize + yOffset					 - (Constants::TileSize/5)+1,
-						al_map_rgb_f(1,1,1),1
+						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset					 - (Constants::TileSize/5),
+						GetCurrentPositionY()*Constants::TileSize + GetHeight()*Constants::TileSize + yOffset					 - (Constants::TileSize/5),
+						newColor,2
 					);
 				}
-				
-				
+				else if(tileType_ == EnumDLL::TILETYPE::INVERTCOLLISIONCOLOR)
+				{
+					//reverse inversion tile 
+					newColor.r = invert ? tileCollisionTypeColor_.r : !tileCollisionTypeColor_.r;
+					newColor.g = invert ? tileCollisionTypeColor_.g : !tileCollisionTypeColor_.g;
+					newColor.b = invert ? tileCollisionTypeColor_.b : !tileCollisionTypeColor_.b;
+					al_draw_rectangle(
+						GetCurrentPositionX()*Constants::TileSize + xOffset + (Constants::TileSize/5),
+						GetCurrentPositionY()*Constants::TileSize + yOffset + (Constants::TileSize/5),
+						GetCurrentPositionX()*Constants::TileSize + GetWidth()*Constants::TileSize + xOffset - (Constants::TileSize/5),
+						GetCurrentPositionY()*Constants::TileSize + GetHeight()*Constants::TileSize + yOffset - (Constants::TileSize/5),
+						newColor,2
+					);
+				}
 			};
 
+
+			STATICDLL_API void SetTileCollisionTypeColor(ALLEGRO_COLOR color){
+				tileCollisionTypeColor_ = color;
+			}
 
 
 
 		private:	
 			EnumDLL::TILETYPE tileType_;
+
+			ALLEGRO_COLOR tileCollisionTypeColor_;
+
 	};
 
 

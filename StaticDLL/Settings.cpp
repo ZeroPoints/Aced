@@ -14,6 +14,9 @@ namespace StaticDLL{
 			screenHeight_ = xmlSettings.attribute("screenheight").as_int();
 			displayWidth_ = screenWidth_/Constants::TileSize;
 			displayHeight_ = screenHeight_/Constants::TileSize;
+
+			pugi::xml_node xmlMap = xmlSettings.child("map");
+			collisionColorInverted_ = xmlMap.attribute("collisionColorInverted").as_bool();
 		}
 		else if(result.status == 1)
 		{
@@ -52,6 +55,10 @@ namespace StaticDLL{
 		pugi::xml_node xmlSettings = xmlDoc.child("settings");
 		xmlSettings.attribute("screenwidth").set_value(screenWidth_);
 		xmlSettings.attribute("screenheight").set_value(screenHeight_);
+		
+		pugi::xml_node xmlMap = xmlSettings.child("map");
+		xmlMap.attribute("collisionColorInverted").set_value(collisionColorInverted_);
+
 		xmlDoc.save_file("..\\Settings.config");
 	}
 }

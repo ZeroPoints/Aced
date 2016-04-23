@@ -14,7 +14,7 @@ namespace StaticDLL{
 		overLayAction_ = StaticDLL::EnumDLL::OVERLAYACTIONS::OVERLAYNONE;
 
 
-		chosenColor_ = al_map_rgb_f(0.8,0.3,0.3);
+		chosenColor_ = al_map_rgb_f(0.8,0.8,0.8);
 
 
 		//Ye keep this in the controller let thec ontroller keep a handle on the overlay (tile windows)
@@ -62,19 +62,19 @@ namespace StaticDLL{
 		tileWindowArrow_->SetCurrentPosition(widthMax_, settings_->GetDisplayHeight()/2);
 		tileWindowArrow_->SetWidth(1);
 		tileWindowArrow_->SetHeight(1);
-		tileWindowArrow_->SetColor(al_map_rgb_f(0.3,0.6,0.6));
+		tileWindowArrow_->SetColor(al_map_rgb_f(0,0,0));
 
 		tileWindowBotLeftArrow_ = new ObjectBase();
 		tileWindowBotLeftArrow_->SetCurrentPosition(0, (double)(settings_->GetScreenHeight()-Constants::TileSize)/Constants::TileSize);
 		tileWindowBotLeftArrow_->SetWidth(1);
 		tileWindowBotLeftArrow_->SetHeight(1);
-		tileWindowBotLeftArrow_->SetColor(al_map_rgb_f(0.3,0.6,0.6));
+		tileWindowBotLeftArrow_->SetColor(al_map_rgb_f(0,0,0));
 
 		tileWindowBotRightArrow_ = new ObjectBase();
 		tileWindowBotRightArrow_->SetCurrentPosition(widthMax_-1, (double)(settings_->GetScreenHeight()-Constants::TileSize)/Constants::TileSize);
 		tileWindowBotRightArrow_->SetWidth(1);
 		tileWindowBotRightArrow_->SetHeight(1);
-		tileWindowBotRightArrow_->SetColor(al_map_rgb_f(0.3,0.6,0.6));
+		tileWindowBotRightArrow_->SetColor(al_map_rgb_f(0,0,0));
 	}
 
 
@@ -347,6 +347,7 @@ namespace StaticDLL{
 					{
 						//Tile page took action over mouse activity so return true
 						return result->MouseActivity(event, mouseX, mouseY);
+						
 					}
 
 

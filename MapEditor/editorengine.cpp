@@ -10,8 +10,8 @@ EditorEngine::EditorEngine(ALLEGRO_DISPLAY *display, Settings *settings, Map *cu
 	imageLoader_ = imageLoader;
 	finished_ = false;
 	running_ = true;
-	chosenColor_ = al_map_rgb_f(0,0.5,0.25);
-	chosenColorText_ = al_map_rgb_f(1,1,1);
+	chosenColor_ = al_map_rgb_f(1,1,1);
+	chosenColorText_ = al_map_rgb_f(0,0,0);
 
 
 	//new used to keep it in memory the state. This needs to be freed when EditorEngine is finished.
