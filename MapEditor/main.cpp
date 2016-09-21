@@ -6,10 +6,13 @@
 #include <allegro5\allegro_font.h>//fonts
 #include <allegro5\allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
-#include "EditorEngine.h"
-#include "Settings.h"
-#include "Map.h"
-#include "ImageLoader.h"
+#include "Engine/EditorEngine.h"
+#include "Config/Settings.h"
+#include "World/Map.h"
+//#include "ImageManagement/ImageLoader.h"
+#include "Config\AssetLibrary.h"
+
+
 
 
 using namespace StaticDLL;
@@ -30,6 +33,7 @@ int main(int argc, char **argv)
 
 	al_init();
 	ALLEGRO_DISPLAY *display = NULL;
+
 	display = al_create_display(GameSettings.GetScreenWidth(), GameSettings.GetScreenHeight());
 	al_install_keyboard();
 	al_install_mouse();
@@ -48,19 +52,18 @@ int main(int argc, char **argv)
 
 
 
+	//Loads game assets
+	AssetLibrary assets = AssetLibrary();
 
 
 
 
 
-	ImageLoader imageLoader = ImageLoader();
-
-	Map CurrentMap = Map(&GameSettings, display, &imageLoader);
+	Map CurrentMap = Map(&GameSettings, display, &assets);
 
 
-	EditorEngine e1 = EditorEngine(display, &GameSettings, &CurrentMap, &imageLoader);
+	EditorEngine e1 = EditorEngine(display, &GameSettings, &CurrentMap, &assets);
 	e1.Run();
-
 
 
 

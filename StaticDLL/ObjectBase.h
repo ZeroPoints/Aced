@@ -9,8 +9,8 @@
 #include <allegro5/allegro_font.h>//fonts
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
-#include "Definitions.h"
-#include "Image.h"
+#include "Static/Definitions.h"
+#include "ImageManagement/Image.h"
 
 #ifdef STATICDLL_EXPORTS
    #define STATICDLL_API __declspec(dllexport)
@@ -30,8 +30,10 @@ namespace StaticDLL
 			STATICDLL_API ObjectBase(){
 				hasText_ = false;
 				movespeed_ = 0;
+				currentRotation_ = 0;
 				hasImage_ = false;
 				hasColor_ = false;
+				hasImageReference_ = false;
 				fprintf(stderr,"An Object Created\n");
 				return;
 			}
@@ -58,9 +60,7 @@ namespace StaticDLL
 
 
 
-			//CHECK THIS
-			//TODO: hmmm
-			STATICDLL_API virtual void SetObjectProperties(ObjectBase *selectedObject){
+			STATICDLL_API virtual void SetObjectProperties(ObjectBase *selectedObject, bool isReference = false){
 				
 				if(selectedObject->GetHasColor() && selectedObject->GetHasImage())
 				{
@@ -69,10 +69,23 @@ namespace StaticDLL
 					hasColor_ = true;
 					chosenColor_ = selectedObject->chosenColor_;
 				}
-				else if(selectedObject->hasImage_)
+				else if(selectedObject->GetObjectImage())
 				{
 					hasImage_ = true;
-					SetObjectImageColor(selectedObject->GetObjectImage());
+					if (!isReference) {
+						SetObjectImageColor(selectedObject->GetObjectImage());
+						height_ = selectedObject->GetHeight();
+						width_ = selectedObject->GetWidth();
+					}
+					else {
+						//any image that is a ref is just passed as image  
+						hasImageReference_ = true;
+						image_ = selectedObject->GetObjectImage();
+						height_ = 1;
+						width_ = 1;
+					}
+
+					
 				}
 				else if(selectedObject->GetHasColor())
 				{
@@ -302,6 +315,8 @@ namespace StaticDLL
 				{
 					hasImage_ = true;
 					image_ = image;
+					height_ = image->GetHeight();
+					width_ = image->GetWidth();
 				}
 				else
 				{
@@ -321,7 +336,7 @@ namespace StaticDLL
 			{
 				return hasImage_;
 			}
-				STATICDLL_API virtual bool GetHasColor()
+			STATICDLL_API virtual bool GetHasColor()
 			{
 				return hasColor_;
 			}
@@ -337,15 +352,16 @@ namespace StaticDLL
 			//set flag and set image to null
 			STATICDLL_API virtual void RemoveImage(){
 				hasImage_ = false;
+				hasImageReference_ = false;
 				//test this doesnt effect the actual object in imageloader memory dictionary
 				image_ = nullptr;
 			};
-			//set flag and set color to black
+			//set flag and set color to white
 			STATICDLL_API virtual void RemoveColor(){
 				hasColor_ = false;
-				chosenColor_.r = 0;
-				chosenColor_.g = 0;
-				chosenColor_.b = 0;
+				chosenColor_.r = 1;
+				chosenColor_.g = 1;
+				chosenColor_.b = 1;
 				chosenColor_.a = 0;
 			};
 			STATICDLL_API virtual void SetColorA(float a){
@@ -413,17 +429,24 @@ namespace StaticDLL
 
 			//Draws the object...Uses the x and y offset from map to draw with displacement
 			STATICDLL_API virtual void DrawObject(int xOffset, int yOffset){
+				
+				if (hasImageReference_) {
+					return;
+				}
+				
+
+
 				//if object has image and color draw tinting
 				if(hasImage_ &&  hasColor_)
 				{
 					al_draw_tinted_scaled_bitmap(
 						image_->GetImage(),
 						chosenColor_,
-						0, 0, image_->GetWidth(), image_->GetHeight(), 
-						currentPositionX_*Constants::TileSize + xOffset, 
-						currentPositionY_*Constants::TileSize + yOffset, 
-						width_*Constants::TileSize, 
-						height_*Constants::TileSize, 
+						0, 0, image_->GetImageWidth(), image_->GetImageHeight(), 
+						currentPositionX_*Constants::TileSize() + xOffset, 
+						currentPositionY_*Constants::TileSize() + yOffset, 
+						width_*Constants::TileSize(), 
+						height_*Constants::TileSize(), 
 						0
 					);
 				}
@@ -431,21 +454,21 @@ namespace StaticDLL
 				{
 					al_draw_scaled_bitmap(
 						image_->GetImage(),
-						0, 0, image_->GetWidth(), image_->GetHeight(), 
-						currentPositionX_*Constants::TileSize + xOffset, 
-						currentPositionY_*Constants::TileSize + yOffset, 
-						width_*Constants::TileSize, 
-						height_*Constants::TileSize, 
+						0, 0, image_->GetImageWidth(), image_->GetImageHeight(), 
+						currentPositionX_*Constants::TileSize() + xOffset, 
+						currentPositionY_*Constants::TileSize() + yOffset, 
+						width_*Constants::TileSize(), 
+						height_*Constants::TileSize(), 
 						0
 					);
 				}
 				else
 				{
 					al_draw_filled_rectangle(
-						currentPositionX_*Constants::TileSize + xOffset,
-						currentPositionY_*Constants::TileSize + yOffset,
-						currentPositionX_*Constants::TileSize + width_*Constants::TileSize + xOffset,
-						currentPositionY_*Constants::TileSize + height_*Constants::TileSize + yOffset,
+						currentPositionX_*Constants::TileSize() + xOffset,
+						currentPositionY_*Constants::TileSize() + yOffset,
+						currentPositionX_*Constants::TileSize() + width_*Constants::TileSize() + xOffset,
+						currentPositionY_*Constants::TileSize() + height_*Constants::TileSize() + yOffset,
 						chosenColor_		
 						);
 				}
@@ -466,11 +489,11 @@ namespace StaticDLL
 					al_draw_tinted_scaled_bitmap(
 						image_->GetImage(),
 						chosenColor_,
-						0, 0, image_->GetWidth(), image_->GetHeight(), 
-						currentPositionX_*Constants::TileSize, 
-						currentPositionY_*Constants::TileSize, 
-						width_*Constants::TileSize, 
-						height_*Constants::TileSize, 
+						0, 0, image_->GetImageWidth(), image_->GetImageHeight(), 
+						currentPositionX_*Constants::TileSize(), 
+						currentPositionY_*Constants::TileSize(), 
+						width_*Constants::TileSize(), 
+						height_*Constants::TileSize(), 
 						0
 					);
 				}
@@ -478,25 +501,71 @@ namespace StaticDLL
 				{
 					al_draw_scaled_bitmap(
 						image_->GetImage(),
-						0, 0, image_->GetWidth(), image_->GetHeight(), 
-						currentPositionX_*Constants::TileSize, 
-						currentPositionY_*Constants::TileSize, 
-						width_*Constants::TileSize, 
-						height_*Constants::TileSize, 
+						0, 0, image_->GetImageWidth(), image_->GetImageHeight(), 
+						currentPositionX_*Constants::TileSize(), 
+						currentPositionY_*Constants::TileSize(), 
+						width_*Constants::TileSize(), 
+						height_*Constants::TileSize(), 
 						0
 					);
 				}
 				else
 				{
 					al_draw_filled_rectangle(
-						currentPositionX_*Constants::TileSize,
-						currentPositionY_*Constants::TileSize,
-						currentPositionX_*Constants::TileSize + width_*Constants::TileSize,
-						currentPositionY_*Constants::TileSize + height_*Constants::TileSize,
+						currentPositionX_*Constants::TileSize(),
+						currentPositionY_*Constants::TileSize(),
+						currentPositionX_*Constants::TileSize() + width_*Constants::TileSize(),
+						currentPositionY_*Constants::TileSize() + height_*Constants::TileSize(),
 						chosenColor_		
 					);
 				}
 			};
+
+
+
+
+
+			STATICDLL_API virtual void DrawObjectRotate(){
+				//0.8
+
+				if(hasImage_ &&  hasColor_)
+				{
+					al_draw_tinted_scaled_rotated_bitmap(
+						image_->GetImage(),
+						chosenColor_,
+						image_->GetImageWidth()/2.0,
+						image_->GetImageHeight()/2.0,  
+						(currentPositionX_+width_/2)*Constants::TileSize(), 
+						(currentPositionY_+height_/2)*Constants::TileSize(), 
+						width_*Constants::TileSize()/(image_->GetImageWidth()*1.0),
+						height_*Constants::TileSize()/(image_->GetImageHeight()*1.0),
+						currentRotation_,
+						0
+					);
+				}
+				else if(hasImage_)
+				{
+					al_draw_scaled_rotated_bitmap(
+						image_->GetImage(),
+						image_->GetImageWidth()/2.0,
+						image_->GetImageHeight()/2.0,  
+						(currentPositionX_+width_/2)*Constants::TileSize(), 
+						(currentPositionY_+height_/2)*Constants::TileSize(), 
+						width_*Constants::TileSize()/(image_->GetImageWidth()*1.0),
+						height_*Constants::TileSize()/(image_->GetImageHeight()*1.0),
+						currentRotation_,
+						0
+					);
+				}
+			};
+
+
+
+
+
+
+
+
 
 			        
 
@@ -512,7 +581,7 @@ namespace StaticDLL
 					currentPositionX_, 
 					currentPositionY_, 
 					currentPositionX_, 
-					currentPositionY_ + Constants::TileSize,
+					currentPositionY_ + Constants::TileSize(),
 					chosenColor_,
 					1);
 			};
@@ -522,7 +591,7 @@ namespace StaticDLL
 					currentPositionX_ + GetFontWidth(), 
 					currentPositionY_, 
 					currentPositionX_ + GetFontWidth(), 
-					currentPositionY_ + Constants::TileSize,
+					currentPositionY_ + Constants::TileSize(),
 					chosenColor_,
 					1);
 			};
@@ -538,8 +607,8 @@ namespace StaticDLL
 			STATICDLL_API bool ClickIntersectsText(int mouseX, int mouseY)
 			{
 				//Offset the mouse position to the actual coord as the mouseX and mouseY i read in a moded to be offset? by half the tile size for some reason
-				mouseX = mouseX + (Constants::TileSize/2);
-				mouseY = mouseY + (Constants::TileSize/2);
+				mouseX = mouseX + (Constants::TileSize()/2);
+				mouseY = mouseY + (Constants::TileSize()/2);
 
 				if(mouseX >= currentPositionX_ && 
 					mouseX < (currentPositionX_ + GetFontWidth()) &&
@@ -555,13 +624,13 @@ namespace StaticDLL
 			STATICDLL_API bool ClickIntersects(int mouseX, int mouseY)
 			{
 				//Offset the mouse position to the actual coord as the mouseX and mouseY i read in a moded to be offset? by half the tile size for some reason
-				mouseX = mouseX + (Constants::TileSize/2);
-				mouseY = mouseY + (Constants::TileSize/2);
+				mouseX = mouseX + (Constants::TileSize()/2);
+				mouseY = mouseY + (Constants::TileSize()/2);
 
-				if(mouseX >= (currentPositionX_*Constants::TileSize) && 
-					mouseX < ((currentPositionX_ + width_)*Constants::TileSize) &&
-					mouseY >= (currentPositionY_*Constants::TileSize) && 
-					mouseY < ((currentPositionY_ + height_)*Constants::TileSize))
+				if(mouseX >= (currentPositionX_*Constants::TileSize()) && 
+					mouseX < ((currentPositionX_ + width_)*Constants::TileSize()) &&
+					mouseY >= (currentPositionY_*Constants::TileSize()) && 
+					mouseY < ((currentPositionY_ + height_)*Constants::TileSize()))
 				{
 					return true;
 				}
@@ -569,6 +638,35 @@ namespace StaticDLL
 
 			};
 
+
+
+			STATICDLL_API EnumDLL::CHARACTERFACINGDIRECTION GetPlayerFacingDirection()
+			{
+				return faceDirection_;
+			}
+			STATICDLL_API void SetPlayerFacingDirection(EnumDLL::CHARACTERFACINGDIRECTION direction)
+			{
+				faceDirection_ = direction;
+			}
+			STATICDLL_API double GetPlayerRotation()
+			{
+				return currentRotation_;
+			}
+			STATICDLL_API void SetPlayerRotation(double rotation)
+			{
+				currentRotation_ = rotation;
+			}
+			STATICDLL_API void AdjustPlayerRotation()
+			{
+				if(EnumDLL::CHARACTERFACINGDIRECTION::CHARACTERLEFT == faceDirection_)
+				{
+					currentRotation_ = currentRotation_ - 0.005;
+				}
+				else
+				{
+					currentRotation_ = currentRotation_ + 0.005;
+				}
+			}
 
 		private:
 
@@ -590,7 +688,8 @@ namespace StaticDLL
 					accelerationY_,
 					maxAccelerationX_,
 					maxAccelerationY_,
-					maxVelocityY_
+					maxVelocityY_,
+					currentRotation_
 					;
 
 
@@ -607,11 +706,12 @@ namespace StaticDLL
 					collisionRight_,
 					clickable_,
 					hasText_,
-					hasImage_,	
+					hasImage_,
+					hasImageReference_,
 					hasColor_;	
 
 
-
+			EnumDLL::CHARACTERFACINGDIRECTION faceDirection_;
 
 			ALLEGRO_USTR *utext_;
 			char *text_;

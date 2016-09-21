@@ -7,9 +7,10 @@
 #include <allegro5\allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
 #include <allegro5\allegro_image.h>//shapes
-#include "engine.h"
-#include "Settings.h"
-#include "Map.h"
+#include "Engine/engine.h"
+#include "Config/Settings.h"
+#include "World/Map.h"
+#include "Config/AssetLibrary.h"
 
 
 using namespace StaticDLL;
@@ -41,15 +42,15 @@ int main(int argc, char **argv)
 	//load options at start from txt file...res/other options that are saved later...?
 
 
+	AssetLibrary assets = AssetLibrary();
 
-	ImageLoader imageLoader = ImageLoader();
-	Map CurrentMap = Map(&GameSettings, display, &imageLoader);
+	Map CurrentMap = Map(&GameSettings, display, &assets);
 	
 
 
 
 
-	Engine e1 = Engine(display, &GameSettings, &CurrentMap, &imageLoader);//titlescreen state
+	Engine e1 = Engine(display, &GameSettings, &CurrentMap, &assets);//titlescreen state
 	e1.Run();
 
 

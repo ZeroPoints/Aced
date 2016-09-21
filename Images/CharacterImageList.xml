@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!--Players images-->
+<characters >
+
+  <img id="0" file="..//Images//RemoveImage.png" />
+  <img id="1" file="..//Images//BallType1.png" ai="NONE" animation="Roll" movement="Simple" movespeed="5" />
+
+</characters>
