@@ -78,7 +78,8 @@ namespace StaticDLL{
 
 	Image::~Image()
 	{
-		//al_destroy_bitmap(img_);
+		//fprintf(stderr, "A Image Destructed\n");
+		al_destroy_bitmap(img_);
 	}
 
 

@@ -84,7 +84,16 @@
     <ClInclude Include="Config\AssetLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AI\DumbAI.h">
+    <ClInclude Include="EditorOverLay\EditorItemBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Cell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World\CharacterSpawn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World\InteractiveObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -170,7 +179,16 @@
     <ClCompile Include="Config\AssetLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AI\DumbAI.cpp">
+    <ClCompile Include="EditorOverLay\EditorItemBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World\CharacterSpawn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World\InteractiveObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -190,6 +208,7 @@
     <Xml Include="..\Images\ObjectImageList.xml">
       <Filter>Resource Files</Filter>
     </Xml>
+    <Xml Include="..\Images\EnemyImageList.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Settings.config">

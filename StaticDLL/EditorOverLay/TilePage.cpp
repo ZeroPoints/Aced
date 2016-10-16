@@ -10,7 +10,7 @@ namespace StaticDLL{
 
 
 	//Draws the tiles from reference. Uses set tiles as its range indicator
-	void TilePage::DrawTiles(std::vector<std::vector<Tile>> &tileRef, bool showCollision)
+	void TilePage::DrawItemBaseList(std::vector<std::vector<EditorItemBase>> &tileRef, bool showCollision)
 	{
 		int i;
 		int j;
@@ -32,7 +32,7 @@ namespace StaticDLL{
 
 
 	//Check each tile that is in range for click intersecting and returns the tile reference and the x and y value of that tile
-	bool TilePage::MouseActivity(std::vector<std::vector<Tile>> &tileRef, int mouseX, int mouseY)
+	bool TilePage::MouseActivity(std::vector<std::vector<EditorItemBase>> &tileRef, int mouseX, int mouseY)
 	{
 		int i;
 		int j;
@@ -45,7 +45,7 @@ namespace StaticDLL{
 				if(tileRef[i][j].ClickIntersects(mouseX, mouseY))
 				{
 					//points to selected tile
-					selectedTile_ = &tileRef[i][j];
+					selectedItemBase_ = &tileRef[i][j];
 					selectedTileX_ = i;
 					selectedTileY_ = j;
 					return true;	

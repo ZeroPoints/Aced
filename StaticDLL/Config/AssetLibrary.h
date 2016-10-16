@@ -28,6 +28,7 @@ namespace StaticDLL {
 	public:
 		STATICDLL_API AssetLibrary();
 
+		STATICDLL_API ~AssetLibrary();
 
 
 

@@ -9,7 +9,7 @@
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <vector>
-#include "../World/Tile.h"
+//#include "../World/Tile.h"
 #include "../Config/Settings.h"
 #include "../Static/Definitions.h"
 #include "../ObjectBase.h"
@@ -41,6 +41,8 @@ namespace StaticDLL{
 
 			STATICDLL_API ~EditorOverLay()
 			{
+				//fprintf(stderr, "A EditorOverLay Destructed\n");
+
 				delete tilePickerWindow_;
 
 				for (TilePage* item : tilePages_)
@@ -51,7 +53,6 @@ namespace StaticDLL{
 
 				
 
-				fprintf(stderr,"An Overlay Destructed\n");
 			}
 			
 
@@ -84,7 +85,7 @@ namespace StaticDLL{
 			//Draws Tile picker window
 			STATICDLL_API void DrawTilePicker();
 			//Draws Tile picker pages tiles
-			STATICDLL_API void DrawTiles();
+			STATICDLL_API void DrawItemBaseList();
 			 
 			STATICDLL_API void DrawHeaderText();
 
@@ -108,6 +109,7 @@ namespace StaticDLL{
 			}
 
 			STATICDLL_API void CreateObjectImagePicker();
+			STATICDLL_API void CreateEnemyImagePicker();
 			STATICDLL_API void CreateTileImagePicker();
 			STATICDLL_API void CreateTileTypes();
 
@@ -116,9 +118,9 @@ namespace StaticDLL{
 			STATICDLL_API void CreateTilePages();
 
 			
-			STATICDLL_API Tile* GetSelectedTile()
+			STATICDLL_API EditorItemBase* GetSelectedItemBase()
 			{
-				return tilePages_[currentTilePage_]->GetSelectedTile();
+				return tilePages_[currentTilePage_]->GetSelectedItemBase();
 			}
 			STATICDLL_API int GetSelectedTileX()
 			{
@@ -229,7 +231,7 @@ namespace StaticDLL{
 			std::vector<TilePage*> tilePages_;
 
 
-			std::vector<std::vector<Tile>> tiles_;
+			std::vector<std::vector<EditorItemBase>> itemBaseList_;
 
 
 			

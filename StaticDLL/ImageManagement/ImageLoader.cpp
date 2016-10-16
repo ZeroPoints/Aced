@@ -16,6 +16,9 @@ namespace StaticDLL{
 
 		LoadObjectImages();
 
+
+		LoadEnemyImages();
+
 	}
 
 
@@ -186,6 +189,34 @@ namespace StaticDLL{
 			xmlNewDoc.save_file("..\\Images\\ObjectImageList.xml");
 		}
 		ImageSet* imageSet = new ImageSet(images, EnumDLL::IMAGESETS::OBJECTIMAGESET);
+		imageDictionary_.push_back(imageSet);
+	}
+
+
+
+
+	void ImageLoader::LoadEnemyImages()
+	{
+		pugi::xml_document xmlDoc;
+		auto result = xmlDoc.load_file("..\\Images\\EnemyImageList.xml");
+		std::vector<Image*> images;
+		//What happens if file doesnt exist? create one?
+		if (result.status == 0)
+		{
+			pugi::xml_node xmlImages = xmlDoc.child("enemy");
+			for (pugi::xml_node_iterator it = xmlImages.children().begin(); it != xmlImages.children().end(); it++)
+			{
+				Image* tempImage = new Image(it->attribute("id").as_int(), it->attribute("file").value());
+				images.push_back(tempImage);
+			}
+		}
+		else if (result.status == 1)
+		{
+			pugi::xml_document xmlNewDoc;
+			pugi::xml_node xmlTiles = xmlNewDoc.child("enemy");
+			xmlNewDoc.save_file("..\\Images\\EnemyImageList.xml");
+		}
+		ImageSet* imageSet = new ImageSet(images, EnumDLL::IMAGESETS::ENEMYIMAGESET);
 		imageDictionary_.push_back(imageSet);
 	}
 

@@ -29,6 +29,8 @@ class EditorEngine
 
         ~EditorEngine()
         {
+			fprintf(stderr, "A Editor Engine Destructed Start\n");
+
 			//delete all states from memory
 			int popLevel = states_.size();
 			int i = 0;
@@ -40,7 +42,7 @@ class EditorEngine
 				popLevel--;
 			}
 
-			fprintf(stderr,"A Editor Engine Destructed\n");
+			fprintf(stderr,"A Editor Engine Destructed End\n");
         }
 		
 

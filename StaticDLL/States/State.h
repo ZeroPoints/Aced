@@ -18,7 +18,6 @@
 #include "../Menu/MenuTemplates.h"
 #include "../LivingEntity/Player.h"
 #include "../World/Map.h"
-#include "../AI/DumbAI.h"
 
 
 
@@ -47,7 +46,7 @@ namespace StaticDLL{
 				al_destroy_font(font30_);
 				al_destroy_timer(timer);
 				delete menu_;
-				fprintf(stderr,"A State Destructed\n");
+				//fprintf(stderr,"A State Destructed\n");
 				return;
 			}
 

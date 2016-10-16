@@ -14,9 +14,8 @@
 #include <allegro5/allegro_font.h>//fonts
 #include <allegro5/allegro_ttf.h>//fonts
 #include "../Config/Settings.h"
-#include "../World/Map.h"
 #include "../ImageManagement/Image.h"
-
+#include "../World/Cell.h"
 
 
 
@@ -34,8 +33,11 @@ namespace StaticDLL
 	{
 		public:
 
-			STATICDLL_API Character(Settings *settings, Map *map);
+			STATICDLL_API Character(Settings *settings, int mapWidth, int mapHeight, std::vector<std::vector<Cell>> *cellMap);
 
+
+
+			STATICDLL_API ~Character();
 
 
 
@@ -77,6 +79,9 @@ namespace StaticDLL
 			STATICDLL_API void SetKeyRight(bool val);
 			STATICDLL_API void SetKeyLeft(bool val);
 
+			STATICDLL_API void SetAIEnabled(bool val);
+
+			STATICDLL_API void SetImageSet(EnumDLL::IMAGESETS imageSet);
 
 
 			//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -116,8 +121,12 @@ namespace StaticDLL
 			STATICDLL_API bool GetKeyRight();
 			STATICDLL_API bool GetKeyLeft();
 
-			STATICDLL_API Map GetMap();
 			STATICDLL_API Settings GetSettings();
+
+			STATICDLL_API bool GetHasImage();
+			STATICDLL_API Image *GetObjectImage();
+			
+			STATICDLL_API EnumDLL::IMAGESETS GetImageSet();
 
 
 			//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -132,7 +141,7 @@ namespace StaticDLL
 
 
 
-			STATICDLL_API void DrawObjectRotate();
+			STATICDLL_API void DrawObjectRotate(double mapXOffset, double mapYOffset);
 
 
 
@@ -211,6 +220,11 @@ namespace StaticDLL
 
 
 
+			int mapWidth_, 
+				mapHeight_;
+
+
+
 
 			double	currentPositionX_,
 				currentPositionY_,
@@ -249,13 +263,23 @@ namespace StaticDLL
 				hasText_,
 				hasImage_,
 				hasImageReference_,
-				hasColor_;
+				hasColor_,
+				aiEnabled_;
+
+
+
+			std::vector<std::vector<Cell>> *cellMap_;
 
 
 			EnumDLL::CHARACTERFACINGDIRECTION faceDirection_;
 
+			EnumDLL::IMAGESETS imageSet_;
+
 			ALLEGRO_USTR *utext_;
 			char *text_;
+
+
+
 
 
 			Image *image_;
@@ -269,8 +293,8 @@ namespace StaticDLL
 
 
 
+
 			ALLEGRO_EVENT *ev_;
-			Map *map_;
 			Settings *settings_;
 			bool KeyLeft_;
 			bool KeyRight_;

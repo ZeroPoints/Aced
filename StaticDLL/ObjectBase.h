@@ -34,7 +34,7 @@ namespace StaticDLL
 				hasImage_ = false;
 				hasColor_ = false;
 				hasImageReference_ = false;
-				fprintf(stderr,"An Object Created\n");
+				//fprintf(stderr,"An Object Created\n");
 				return;
 			}
 
@@ -54,7 +54,7 @@ namespace StaticDLL
 					//dont delete image as all images are shared resource pointer
 					//delete image_;
 				}
-				fprintf(stderr,"An Object Destructed\n");
+				//fprintf(stderr,"An Object Destructed\n");
 				return;
 			}
 

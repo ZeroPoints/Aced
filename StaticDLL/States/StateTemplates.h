@@ -34,6 +34,7 @@ namespace StaticDLL{
 
 			STATICDLL_API ~StateEditorMode()
 			{
+				//fprintf(stderr, "A StateEditorMode Destructed\n");
 				delete editorOverLayController_;
 			}
 
@@ -50,7 +51,7 @@ namespace StaticDLL{
 			//This object isnt being Deleted at the moment
 			EditorOverLayController *editorOverLayController_;
 			
-			std::pair<StaticDLL::EnumDLL::STATES, Tile*> selectedTile_;
+			std::pair<StaticDLL::EnumDLL::STATES, EditorItemBase*> selectedItemBase_;
 	};
 
 
@@ -59,6 +60,7 @@ namespace StaticDLL{
 	class StateEditorMainMenu : public State
 	{
 		public:
+
 			STATICDLL_API void InitState(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, AssetLibrary *assetLibrary);
 			////key press probs goes in update
 			STATICDLL_API void KeyPress();
@@ -151,7 +153,6 @@ namespace StaticDLL{
 			std::vector<Player*> players_;
 			Player* player1_;
 
-			std::vector<DumbAI*> enemyList_;
 
 	};
 

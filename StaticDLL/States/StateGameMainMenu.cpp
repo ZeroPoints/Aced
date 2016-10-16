@@ -85,7 +85,7 @@ namespace StaticDLL{
 		else if(GetKeyPressState() == EnumDLL::STATES::LOAD)//load map
 		{
 			GetMap()->ResetMap();
-			GetMap()->LoadMapDialog();
+			GetMap()->LoadMapDialog(true);
 			SetStateDirection(EnumDLL::STATEDIRECTION::PUSH);
 			SetNextState(new StateGameMode());
 		}

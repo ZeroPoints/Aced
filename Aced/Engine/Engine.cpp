@@ -150,7 +150,7 @@ void Engine::PopState()
 		}
 		i++;
 	}
-	fprintf(stderr,"States Popped\n\n\n");
+	//fprintf(stderr,"States Popped\n\n\n");
 
 	// resume previous state..This will control where in the last state it should appear and what variables need to be reSet
 	if ( !states_.empty() ) {
@@ -180,7 +180,7 @@ void Engine::PopPushState()
 		}
 		i++;
 	}
-	fprintf(stderr,"States Popped\n\n\n");
+	//fprintf(stderr,"States Popped\n\n\n");
 
 	PushNewState(pushState);
 }

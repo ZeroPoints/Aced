@@ -7,7 +7,7 @@ namespace StaticDLL{
 
 
 	Menu::Menu() {
-		fprintf(stderr, "A Menu Created\n");
+		//fprintf(stderr, "A Menu Created\n");
 	}
 
 	Menu::~Menu() {
@@ -17,7 +17,7 @@ namespace StaticDLL{
 			delete item;
 			item = nullptr;
 		}
-		fprintf(stderr, "A Menu Destructed\n");
+		//fprintf(stderr, "A Menu Destructed\n");
 		return;
 	}
 	

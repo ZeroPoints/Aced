@@ -94,14 +94,17 @@
   <ItemGroup>
     <ClInclude Include="..\OpenSource\pugixml\pugiconfig.hpp" />
     <ClInclude Include="..\OpenSource\pugixml\pugixml.hpp" />
-    <ClInclude Include="AI\DumbAI.h" />
     <ClInclude Include="Config\AssetLibrary.h" />
+    <ClInclude Include="EditorOverLay\EditorItemBase.h" />
     <ClInclude Include="LivingEntity\Character.h" />
     <ClInclude Include="EditorOverLay\EditorOverLay.h" />
     <ClInclude Include="EditorOverLay\EditorOverlayController.h" />
     <ClInclude Include="ImageManagement\Image.h" />
     <ClInclude Include="ImageManagement\ImageLoader.h" />
     <ClInclude Include="ImageManagement\ImageSet.h" />
+    <ClInclude Include="World\Cell.h" />
+    <ClInclude Include="World\CharacterSpawn.h" />
+    <ClInclude Include="World\InteractiveObject.h" />
     <ClInclude Include="World\Map.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="LivingEntity\Player.h" />
@@ -117,8 +120,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\OpenSource\pugixml\pugixml.cpp" />
-    <ClCompile Include="AI\DumbAI.cpp" />
     <ClCompile Include="Config\AssetLibrary.cpp" />
+    <ClCompile Include="EditorOverLay\EditorItemBase.cpp" />
     <ClCompile Include="LivingEntity\Character.cpp" />
     <ClCompile Include="EditorOverLay\EditorOverLay.cpp" />
     <ClCompile Include="EditorOverLay\EditorOverlayController.cpp" />
@@ -135,6 +138,8 @@
     <ClCompile Include="States\StateGameMainMenu.cpp" />
     <ClCompile Include="States\StateGameMode.cpp" />
     <ClCompile Include="States\StateMapOptions.cpp" />
+    <ClCompile Include="World\Cell.cpp" />
+    <ClCompile Include="World\CharacterSpawn.cpp" />
     <ClCompile Include="World\Map.cpp" />
     <ClCompile Include="Menu\MenuOptions.cpp" />
     <ClCompile Include="LivingEntity\Player.cpp" />
@@ -143,9 +148,11 @@
     <ClCompile Include="Menu\MenuItem.cpp" />
     <ClCompile Include="States\StateOptions.cpp" />
     <ClCompile Include="EditorOverLay\TilePage.cpp" />
+    <ClCompile Include="World\InteractiveObject.cpp" />
     <ClCompile Include="World\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="..\Images\EnemyImageList.xml" />
     <Xml Include="..\Images\ObjectImageList.xml" />
     <Xml Include="..\Images\PlayersImageList.xml" />
     <Xml Include="..\Images\SystemImages.xml" />

@@ -40,7 +40,6 @@ namespace StaticDLL {
 
 
 
-		fprintf(stderr, "An Character Created\n");
 	}
 
 
@@ -414,9 +413,8 @@ namespace StaticDLL {
 
 		for (int i = 0; i < height; i++)
 		{
-			Tile *tileFutureRight1 = nullptr;
-			tileFutureRight1 = &map_->GetTiles()[(nextPosX) / Constants::TileSize()][(nextPosY + i) / Constants::TileSize()];
-			if (tileFutureRight1->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || tileFutureRight1->GetTileType() == EnumDLL::TILETYPE::COLLISIONRIGHTTILE)
+			Cell *cellFuture = &map_->GetCellMap()[(nextPosX) / Constants::TileSize()][(nextPosY + i) / Constants::TileSize()];
+			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || cellFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONRIGHTTILE)
 			{
 				return false;
 			}
@@ -434,9 +432,8 @@ namespace StaticDLL {
 
 		for (int i = 0; i < height; i++)
 		{
-			Tile *tileFuture = nullptr;
-			tileFuture = &map_->GetTiles()[(nextPosX) / Constants::TileSize() + GetWidth()][(nextPosY + i) / Constants::TileSize()];
-			if (tileFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || tileFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONLEFTTILE)
+			Cell *cellFuture = &map_->GetCellMap()[(nextPosX) / Constants::TileSize() + GetWidth()][(nextPosY + i) / Constants::TileSize()];
+			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || cellFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONLEFTTILE)
 			{
 				return false;
 			}
@@ -460,9 +457,8 @@ namespace StaticDLL {
 		}
 		for (int i = 0; i < width; i++)
 		{
-			Tile *tileFuture = nullptr;
-			tileFuture = &map_->GetTiles()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize() + GetHeight()];
-			if (tileFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || tileFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONTOPTILE)
+			Cell *cellFuture = &map_->GetCellMap()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize() + GetHeight()];
+			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || cellFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONTOPTILE)
 			{
 				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND);
 				SetVelocityY(0.1);
@@ -485,9 +481,8 @@ namespace StaticDLL {
 		}
 		for (int i = 0; i < width; i++)
 		{
-			Tile *tileFuture = nullptr;
-			tileFuture = &map_->GetTiles()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize()];
-			if (tileFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE)
+			Cell *cellFuture = &map_->GetCellMap()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize()];
+			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE)
 			{
 				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
 				SetVelocityY(0.1);

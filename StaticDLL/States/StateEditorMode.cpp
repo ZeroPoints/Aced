@@ -95,7 +95,7 @@ namespace StaticDLL{
 		}
 		else
 		{
-			selectedTile_  = editorOverLayController_->GetSelectedObject();
+			selectedItemBase_ = editorOverLayController_->GetSelectedObject();
 		}
 
 
@@ -145,10 +145,10 @@ namespace StaticDLL{
 
 		if(GetLeftMouseDown())
 		{
-			if(selectedTile_.second != nullptr)
+			if(selectedItemBase_.second != nullptr)
 			{
-				int mapSizeX = GetMap()->GetTiles().size();
-				int mapSizeY = GetMap()->GetTiles()[0].size();
+				int mapSizeX = GetMap()->GetCellMap().size();
+				int mapSizeY = GetMap()->GetCellMap()[0].size();
 				int tileXPos = (GetMouseCursorX() - GetMap()->GetMapXOffset() + Constants::TileSize()/2)/Constants::TileSize();
 				int tileYPos = (GetMouseCursorY() - GetMap()->GetMapYOffset() + Constants::TileSize()/2)/Constants::TileSize();
 				if(tileXPos >= 0 && 
@@ -157,74 +157,178 @@ namespace StaticDLL{
 					tileYPos < mapSizeY)
 				{
 					
-					if(selectedTile_.first == EnumDLL::STATES::TILECOLORPICKER)
+
+					//Tile color picker is weird prototype not sure if i wanna keep yet
+					if(selectedItemBase_.first == EnumDLL::STATES::TILECOLORPICKER)
 					{
-						if(selectedTile_.second->GetObjectImage() != nullptr)
+						if(selectedItemBase_.second->GetObjectImage() != nullptr)
 						{
-							if(selectedTile_.second->GetObjectImage()->GetId() == 0)
+							if(selectedItemBase_.second->GetObjectImage()->GetId() == 0)
 							{
-								GetMap()->GetTiles()[tileXPos][tileYPos].RemoveColor();
+								if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasTile()) {
+									GetMap()->GetCellMap()[tileXPos][tileYPos].GetTile()->RemoveColor();
+								}
 							}
 						}
 						else
 						{
-							GetMap()->GetTiles()[tileXPos][tileYPos].SetColor(selectedTile_.second->GetColor());
+							if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasTile()) {
+								GetMap()->GetCellMap()[tileXPos][tileYPos].GetTile()->SetColor(selectedItemBase_.second->GetColor());
+							}
 						}
 					}
-					else if(selectedTile_.first == EnumDLL::STATES::TILETYPEPICKER)
+					//Collision Types
+					else if(selectedItemBase_.first == EnumDLL::STATES::TILETYPEPICKER)
 					{
-						GetMap()->GetTiles()[tileXPos][tileYPos].SetTileTypeProperties(selectedTile_.second);
+						int cellEmpty = true;
+						if (GetMap()->EnemyAlreadyExistsAtXY(tileXPos, tileYPos)) {
+							cellEmpty = false;
+						}
+						if (cellEmpty) {
+							GetMap()->GetCellMap()[tileXPos][tileYPos].SetTileTypeProperties(selectedItemBase_.second);
+						}
 					}
-					else if (selectedTile_.first == EnumDLL::STATES::OBJECTIMAGEPICKER || selectedTile_.first == EnumDLL::STATES::TILEIMAGEPICKER)
+
+					//Normal tile placements-
+					else if (selectedItemBase_.first == EnumDLL::STATES::TILEIMAGEPICKER)
 					{
+						
+						//First check all fields so you dont place over a spot that already has a Solid Tile...
+						int cellEmpty = true;
+						if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetTileType() != EnumDLL::TILETYPE::EMPTYTILE)
+						{
+							cellEmpty = false;
+						}
+						else if (GetMap()->EnemyAlreadyExistsAtXY(tileXPos,tileYPos)) {
+							cellEmpty = false;
+						}
+						else if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasInteractiveObject()) {
+							cellEmpty = false;
+						}
+
+
+
+						//Id of 0 Means im removing object from map.
+						if (selectedItemBase_.second->GetObjectImage()->GetId() == 0 &&
+							GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasTile()) {
+							GetMap()->GetCellMap()[tileXPos][tileYPos].DeleteTile();
+						}
+						else if (selectedItemBase_.second->GetObjectImage()->GetId() == 0) {
+
+						}
+						else if (cellEmpty) {
+							if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasTile())
+							{
+								GetMap()->GetCellMap()[tileXPos][tileYPos].GetTile()->SetTileObjectImageFromTile(
+									selectedItemBase_.second, tileXPos, tileYPos);
+							}
+							else {
+								auto currentTile = new Tile();
+								currentTile->SetTileObjectImageFromTile(
+									selectedItemBase_.second, tileXPos, tileYPos);
+								GetMap()->GetCellMap()[tileXPos][tileYPos].SetTile(currentTile);
+							}
+						}
+					}
+
+
+
+					else if (selectedItemBase_.first == EnumDLL::STATES::OBJECTIMAGEPICKER) {
 						//Placement Logic For Object Image Picker
 						//Move To a Method and give it Details Comments as to why.
 
-
-
-
-						if (tileXPos + selectedTile_.second->GetWidth() > GetMap()->GetMapWidth() ||
-							tileYPos + selectedTile_.second->GetHeight() > GetMap()->GetMapHeight()) {
+						if (tileXPos + selectedItemBase_.second->GetWidth() > GetMap()->GetMapWidth() ||
+							tileYPos + selectedItemBase_.second->GetHeight() > GetMap()->GetMapHeight()) {
 						}
 						else {
 							//First check all fields so you dont place over a spot that already has a Solid Tile...
-							int collidesWithNonEmptyTile = false;
-							for (auto i = tileXPos; i < tileXPos+selectedTile_.second->GetWidth(); i++) {
-								for (auto j = tileYPos; j < tileYPos+selectedTile_.second->GetHeight(); j++) {
-									if (GetMap()->GetTiles()[i][j].GetTileType() != EnumDLL::TILETYPE::EMPTYTILE)
+							int cellEmpty = true;
+							for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
+								for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
+
+									if (GetMap()->GetCellMap()[i][j].GetTileType() != EnumDLL::TILETYPE::EMPTYTILE)
 									{
-										collidesWithNonEmptyTile = true;
+										cellEmpty = false;
+										break;
+									}
+									else if (GetMap()->EnemyAlreadyExistsAtXY(i, j)) {
+										cellEmpty = false;
+										break;
+									}
+									else if (GetMap()->GetCellMap()[i][j].GetHasInteractiveObject()) {
+										cellEmpty = false;
 										break;
 									}
 								}
-								if (collidesWithNonEmptyTile) {
+							}
+
+							//Id of 0 Means im removing object from map.
+							if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasInteractiveObject() && 
+								selectedItemBase_.second->GetObjectImage()->GetId() == 0) {
+								auto imageRefX = GetMap()->GetCellMap()[tileXPos][tileYPos].GetInteractiveObject()->GetImageReferenceX();
+								auto imageRefY = GetMap()->GetCellMap()[tileXPos][tileYPos].GetInteractiveObject()->GetImageReferenceY();
+								auto imageWidth = GetMap()->GetCellMap()[imageRefX][imageRefY].GetInteractiveObject()->GetObjectImage()->GetWidth();
+								auto imageHeight = GetMap()->GetCellMap()[imageRefX][imageRefY].GetInteractiveObject()->GetObjectImage()->GetHeight();
+								for (auto i = imageRefX; i < imageRefX + imageWidth; i++) {
+									for (auto j = imageRefY; j < imageRefY + imageHeight; j++) {
+										GetMap()->GetCellMap()[i][j].DeleteInteractiveObject();
+									}
+								}
+							}
+							else if (selectedItemBase_.second->GetObjectImage()->GetId() == 0) {
+
+							}
+							else if (cellEmpty) {
+								for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
+									for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
+										auto currentInteractiveObject = new InteractiveObject();
+										currentInteractiveObject->SetObjectProperties(selectedItemBase_.second, !(i == tileXPos && j == tileYPos), tileXPos, tileYPos);
+										GetMap()->GetCellMap()[i][j].SetInteractiveObject(currentInteractiveObject, !(i == tileXPos && j == tileYPos));
+									}
+								}
+							}
+						}
+
+					}
+
+
+
+					else if (selectedItemBase_.first == EnumDLL::STATES::ENEMYPICKER) {
+
+						//Check that your not placing item over a tile position
+						//Check not over existing char
+
+						int tileEmpty = true;
+						for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
+							for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
+								if (GetMap()->GetCellMap()[i][j].GetTileType() != EnumDLL::TILETYPE::EMPTYTILE)
+								{
+									tileEmpty = false;
+									break;
+								}
+								else if (GetMap()->EnemyAlreadyExistsAtXY(i, j)) {
+									tileEmpty = false;
+									break;
+								}
+								else if (GetMap()->GetCellMap()[i][j].GetHasInteractiveObject()) {
+									tileEmpty = false;
 									break;
 								}
 							}
+						}
 
 
-							//Id of 0 Means im removing image.
-							if (selectedTile_.second->GetObjectImage()->GetId() == 0) {
-								bool removeWholeObject = GetMap()->GetTiles()[tileXPos][tileYPos].GetHasImageOrReference();
-
-								if (removeWholeObject) {
-									auto imageRefX = GetMap()->GetTiles()[tileXPos][tileYPos].GetImageReferenceX();
-									auto imageRefY = GetMap()->GetTiles()[tileXPos][tileYPos].GetImageReferenceY();
-									auto imageWidth = GetMap()->GetTiles()[imageRefX][imageRefY].GetObjectImage()->GetWidth();
-									auto imageHeight = GetMap()->GetTiles()[imageRefX][imageRefY].GetObjectImage()->GetHeight();
-
-									for (auto i = imageRefX; i < imageRefX + imageWidth; i++) {
-										for (auto j = imageRefY; j < imageRefY + imageHeight; j++) {
-											GetMap()->GetTiles()[i][j].RemoveAllProperties();
-										}
-									}
-								}
-							}
-							else if (!collidesWithNonEmptyTile) {
-								for (auto i = tileXPos; i < tileXPos + selectedTile_.second->GetWidth(); i++) {
-									for (auto j = tileYPos; j < tileYPos + selectedTile_.second->GetHeight(); j++) {
-										GetMap()->GetTiles()[i][j].SetTileObjectImageFromTile(selectedTile_.second, !(i == tileXPos && j == tileYPos), tileXPos, tileYPos);
-									}
+						//Remover item
+						if (selectedItemBase_.second->GetObjectImage()->GetId() == 0) {
+							//removes enemy if it exists at point
+							GetMap()->RemoveEnemyFromMap(tileXPos, tileYPos);
+						}
+						//Empty slot place enemy spawner
+						else if (tileEmpty) {
+							//should hopefully ever be 1x1 enemy sizes otherwise change add enemy to be special
+							for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
+								for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
+									GetMap()->AddEnemyToMap(selectedItemBase_.second, tileXPos, tileYPos);
 								}
 							}
 						}
@@ -236,7 +340,7 @@ namespace StaticDLL{
 
 		if(GetEvent()->type == ALLEGRO_EVENT_TIMER)
 		{			
-			GetMap()->PreCalc();
+			GetMap()->Update();
 			//Update overlay. Will return with no actions if action state of it is NONE.
 			editorOverLayController_->Update();
 			SetRedraw(true);

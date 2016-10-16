@@ -37,7 +37,7 @@ class Engine
 				popLevel--;
 			}
 
-			fprintf(stderr,"A Editor Engine Destructed\n");
+			//fprintf(stderr,"A Editor Engine Destructed\n");
         }
 		
 

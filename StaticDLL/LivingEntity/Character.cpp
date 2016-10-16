@@ -2,7 +2,7 @@
 
 namespace StaticDLL {
 
-	Character::Character(Settings *settings, Map *map)
+	Character::Character(Settings *settings, int mapWidth, int mapHeight, std::vector<std::vector<Cell>> *cellMap)
 	{
 		hasText_ = false;
 		movespeed_ = 0;
@@ -10,13 +10,19 @@ namespace StaticDLL {
 		hasImage_ = false;
 		hasColor_ = false;
 		hasImageReference_ = false;
+		aiEnabled_ = true;
+
+		mapWidth_ = mapWidth;
+		mapHeight_ = mapHeight;
+
+		cellMap_ = cellMap;
+
 
 		settings_ = settings;
-		map_ = map;
 		KeyLeft_ = false;
 		KeyRight_ = false;
 		KeySpace_ = false;
-		SetCurrentPosition(map_->GetMapWidth() / Constants::TileSize() + 1, map_->GetMapHeight() / Constants::TileSize() + 1);
+		SetCurrentPosition(mapWidth_ / Constants::TileSize() + 1, mapHeight_ / Constants::TileSize() + 1);
 		SetColor(al_map_rgb_f(1, 1, 1));
 		SetWidth(0.8);
 		SetHeight(0.8);
@@ -39,8 +45,16 @@ namespace StaticDLL {
 
 
 
-		fprintf(stderr, "An Character Created\n");
 	}
+
+
+
+
+	Character::~Character() {
+		//fprintf(stderr, "An Character Destructed\n");
+	}
+
+
 
 
 
@@ -134,13 +148,20 @@ namespace StaticDLL {
 
 	void Character::SetKeyRight(bool val) {
 		KeyRight_ = val;
+		KeyLeft_ = !val;
 	}
 	void Character::SetKeyLeft(bool val) {
 		KeyLeft_ = val;
+		KeyRight_ = !val;
 	}
 
 
-
+	void Character::SetAIEnabled(bool val) {
+		aiEnabled_ = val;
+	}
+	void Character::SetImageSet(EnumDLL::IMAGESETS imageSet) {
+		imageSet_ = imageSet;
+	}
 
 
 	//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -223,9 +244,17 @@ namespace StaticDLL {
 		return KeyLeft_;
 	}
 
+	bool Character::GetHasImage() {
+		return hasImage_;
+	}
 
-
-
+	Image *Character::GetObjectImage()
+	{
+		return image_;
+	}
+	EnumDLL::IMAGESETS Character::GetImageSet() {
+		return imageSet_;
+	}
 
 	//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -254,7 +283,7 @@ namespace StaticDLL {
 
 
 
-	void Character::DrawObjectRotate() {
+	void Character::DrawObjectRotate(double mapXOffset, double mapYOffset) {
 		//0.8
 
 
@@ -267,8 +296,8 @@ namespace StaticDLL {
 				chosenColor_,
 				image_->GetImageWidth() / 2.0,
 				image_->GetImageHeight() / 2.0,
-				(currentPositionX_ + width_ / 2)*Constants::TileSize() + map_->GetMapXOffset(),
-				(currentPositionY_ + height_ / 2)*Constants::TileSize() + map_->GetMapYOffset(),
+				(currentPositionX_ + width_ / 2)*Constants::TileSize() + mapXOffset,
+				(currentPositionY_ + height_ / 2)*Constants::TileSize() + mapYOffset,
 				width_*Constants::TileSize() / (image_->GetImageWidth()*1.0),
 				height_*Constants::TileSize() / (image_->GetImageHeight()*1.0),
 				currentRotation_,
@@ -281,8 +310,8 @@ namespace StaticDLL {
 				image_->GetImage(),
 				image_->GetImageWidth() / 2.0,
 				image_->GetImageHeight() / 2.0,
-				(currentPositionX_ + width_ / 2)*Constants::TileSize() + map_->GetMapXOffset(),
-				(currentPositionY_ + height_ / 2)*Constants::TileSize() + map_->GetMapYOffset(),
+				(currentPositionX_ + width_ / 2)*Constants::TileSize() + mapXOffset,
+				(currentPositionY_ + height_ / 2)*Constants::TileSize() + mapYOffset,
 				width_*Constants::TileSize() / (image_->GetImageWidth()*1.0),
 				height_*Constants::TileSize() / (image_->GetImageHeight()*1.0),
 				currentRotation_,
@@ -375,27 +404,44 @@ namespace StaticDLL {
 
 	void Character::Update()
 	{
-		if (KeyRight_)
-		{
-			CollisionMovingRight();
-		}
-		else if (KeyLeft_)
-		{
-			CollisionMovingLeft();
-		}
+		//Ai module for character
+		if (aiEnabled_) {
+			if (GetCurrentPositionX() - GetMoveSpeedDelta() <= 0) {
+				SetKeyRight(true);
+				SetKeyLeft(false);
+			}
+			else if (GetCurrentPositionX() + GetWidth() + GetMoveSpeedDelta() >= mapWidth_) {
+				SetKeyLeft(true);
+				SetKeyRight(false);
+			}
 
 
-		//Characters forever in a state of falling?
-		if (GetCharacterYAxisState() == EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING ||
-			GetCharacterYAxisState() == EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND)
-		{
-			Falling();
-		}
-		else if (GetCharacterYAxisState() == EnumDLL::CHARACTERYAXISSTATES::CHARACTERJUMPING)
-		{
-			Jumping();
-		}
 
+
+			if (KeyRight_)
+			{
+				CollisionMovingRight();
+			}
+			else if (KeyLeft_)
+			{
+				CollisionMovingLeft();
+			}
+
+
+			//Characters forever in a state of falling?
+			if (GetCharacterYAxisState() == EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING ||
+				GetCharacterYAxisState() == EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND)
+			{
+				Falling();
+			}
+			else if (GetCharacterYAxisState() == EnumDLL::CHARACTERYAXISSTATES::CHARACTERJUMPING)
+			{
+				Jumping();
+			}
+
+
+
+		}
 	}
 
 
@@ -413,9 +459,8 @@ namespace StaticDLL {
 
 		for (int i = 0; i < height; i++)
 		{
-			Tile *tileFutureRight1 = nullptr;
-			tileFutureRight1 = &map_->GetTiles()[(nextPosX) / Constants::TileSize()][(nextPosY + i) / Constants::TileSize()];
-			if (tileFutureRight1->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || tileFutureRight1->GetTileType() == EnumDLL::TILETYPE::COLLISIONRIGHTTILE)
+			auto cellFuture = &cellMap_->at((nextPosX) / Constants::TileSize()).at((nextPosY + i) / Constants::TileSize());
+			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || cellFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONRIGHTTILE)
 			{
 				return false;
 			}
@@ -427,15 +472,14 @@ namespace StaticDLL {
 		double height = GetHeight()*Constants::TileSize();
 
 		//check if tile is going off bounds return false;
-		if ((nextPosX) / Constants::TileSize() + GetWidth() > map_->GetMapWidth()) {
+		if ((nextPosX) / Constants::TileSize() + GetWidth() > mapWidth_) {
 			return false;
 		}
 
 		for (int i = 0; i < height; i++)
 		{
-			Tile *tileFuture = nullptr;
-			tileFuture = &map_->GetTiles()[(nextPosX) / Constants::TileSize() + GetWidth()][(nextPosY + i) / Constants::TileSize()];
-			if (tileFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || tileFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONLEFTTILE)
+			auto cellFuture = &cellMap_->at((nextPosX) / Constants::TileSize() + GetWidth()).at((nextPosY + i) / Constants::TileSize());
+			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || cellFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONLEFTTILE)
 			{
 				return false;
 			}
@@ -451,7 +495,7 @@ namespace StaticDLL {
 	{
 		double width = GetWidth()*Constants::TileSize();
 		//check if tile is going off bounds return false;
-		if ((nextPosY) / Constants::TileSize() + GetHeight() >= map_->GetMapHeight()) {
+		if ((nextPosY) / Constants::TileSize() + GetHeight() >= mapHeight_) {
 			SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND);
 			SetVelocityY(0.1);
 			//set no moving
@@ -459,9 +503,8 @@ namespace StaticDLL {
 		}
 		for (int i = 0; i < width; i++)
 		{
-			Tile *tileFuture = nullptr;
-			tileFuture = &map_->GetTiles()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize() + GetHeight()];
-			if (tileFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || tileFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONTOPTILE)
+			auto cellFuture = &cellMap_->at((nextPosX + i) / Constants::TileSize()).at((nextPosY) / Constants::TileSize() + GetHeight());
+			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || cellFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONTOPTILE)
 			{
 				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND);
 				SetVelocityY(0.1);
@@ -484,9 +527,8 @@ namespace StaticDLL {
 		}
 		for (int i = 0; i < width; i++)
 		{
-			Tile *tileFuture = nullptr;
-			tileFuture = &map_->GetTiles()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize()];
-			if (tileFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE)
+			auto cellFuture = &cellMap_->at((nextPosX + i) / Constants::TileSize()).at((nextPosY) / Constants::TileSize() );
+			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE)
 			{
 				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
 				SetVelocityY(0.1);
@@ -512,6 +554,10 @@ namespace StaticDLL {
 				SetCurrentPositionX(nextPosX / Constants::TileSize());
 				
 			}
+			else {
+				SetKeyRight(true);
+				return;
+			}
 		}
 	}
 
@@ -531,6 +577,10 @@ namespace StaticDLL {
 				SetCurrentPositionX(nextPosX / Constants::TileSize());
 				
 
+			}
+			else {
+				SetKeyLeft(true);
+				return;
 			}
 		}
 	}

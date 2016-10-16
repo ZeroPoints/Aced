@@ -9,7 +9,7 @@
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <vector>
-#include "../World/Tile.h"
+#include "EditorItemBase.h"
 #include "../Config/Settings.h"
 #include "../Static/Definitions.h"
 #include "../ObjectBase.h"
@@ -34,26 +34,26 @@ namespace StaticDLL{
 
 			STATICDLL_API TilePage(Settings *settings){
 				settings_ = settings;
-				fprintf(stderr,"An TilePage Created\n");
+				//fprintf(stderr,"An TilePage Created\n");
 			}
 
 
 
 			STATICDLL_API ~TilePage()
 			{
-				fprintf(stderr,"An TilePage Destructed\n");
+				//fprintf(stderr,"An TilePage Destructed\n");
 			}
 			
 
 
 			//Draws the tiles from reference. Uses set tiles as its range indicator
-			STATICDLL_API void DrawTiles(std::vector<std::vector<Tile>> &tileRef, bool showCollision);
+			STATICDLL_API void DrawItemBaseList(std::vector<std::vector<EditorItemBase>> &tileRef, bool showCollision);
 
 
 
 			//Check This pages tiles for click intersects
 			//Check each tile that is in range for click intersecting and returns the tile reference and the x and y value of that tile
-			STATICDLL_API bool MouseActivity(std::vector<std::vector<Tile>> &tileRef, int mouseX, int mouseY);
+			STATICDLL_API bool MouseActivity(std::vector<std::vector<EditorItemBase>> &tileRef, int mouseX, int mouseY);
 
 
 
@@ -73,9 +73,9 @@ namespace StaticDLL{
 
 
 			//give public access to the tile reference
-			STATICDLL_API Tile* GetSelectedTile()
+			STATICDLL_API EditorItemBase* GetSelectedItemBase()
 			{
-				return selectedTile_;
+				return selectedItemBase_;
 			}
 
 
@@ -99,7 +99,7 @@ namespace StaticDLL{
 			int yRangeMin_, yRangeMax_, x_;
 
 			//Selected tile reference that the user has clicked on
-			Tile* selectedTile_;
+			EditorItemBase* selectedItemBase_;
 			//The X and Y indicator of that tile
 			int selectedTileX_, selectedTileY_;
 

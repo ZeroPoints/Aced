@@ -29,7 +29,7 @@ namespace StaticDLL{
 	{
 		public:
 			STATICDLL_API ImageSet(std::vector<Image*> images, EnumDLL::IMAGESETS id);
-
+			STATICDLL_API ~ImageSet();
 
 			STATICDLL_API std::vector<Image*> GetImageDictionary();
 

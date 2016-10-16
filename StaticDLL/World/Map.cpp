@@ -1,7 +1,7 @@
 #include "map.h"
 
 
-namespace StaticDLL{
+namespace StaticDLL {
 
 	Map::Map(Settings *settings, ALLEGRO_DISPLAY *display, AssetLibrary *assetLibrary)
 	{
@@ -12,11 +12,24 @@ namespace StaticDLL{
 		mapMoveXDelta_ = 0;
 		mapMoveYDelta_ = 0;
 		ResetMap();
+
+
+
 	}
 
 
 
 
+	Map::~Map() {
+
+		for (Character* item : enemyList_)
+		{
+			delete item;
+			item = nullptr;
+		}
+		//fprintf(stderr, "A Map Destructed\n");
+
+	}
 
 
 
@@ -32,7 +45,7 @@ namespace StaticDLL{
 
 	//Gets
 
-	
+
 
 	bool Map::GetPlayerPlaced() {
 		return playerplaced_;
@@ -63,8 +76,8 @@ namespace StaticDLL{
 	int Map::GetPlayerStartY() {
 		return playerStartY_;
 	}
-	std::vector<std::vector<Tile>> &Map::GetTiles() {
-		return tiles_;
+	std::vector<std::vector<Cell>> &Map::GetCellMap() {
+		return cellMap_;
 	}
 	/*std::vector<ObjectBase> &Map::GetObjects() {
 		return objects_;
@@ -77,6 +90,12 @@ namespace StaticDLL{
 	double Map::GetMapMoveYDelta() {
 		return mapMoveYDelta_;
 	}
+
+
+	std::vector<Character*> &Map::GetEnemyList() {
+		return enemyList_;
+	}
+
 
 
 
@@ -92,11 +111,11 @@ namespace StaticDLL{
 		width_ = newmapwidth;
 		height_ = newmapheight;
 
-		tiles_.resize(width_);//resize the first vector of vectors
+		cellMap_.resize(width_);//resize the first vector of vectors
 							  //thenr esize each vector that is in them
 		for (int i = 0; i < width_; i++)
 		{
-			tiles_[i].resize(height_);
+			cellMap_[i].resize(height_);
 		}
 	}
 
@@ -122,7 +141,7 @@ namespace StaticDLL{
 
 		for (int i = 0; i < width_; i++)
 		{
-			tiles_[i].resize(height_);
+			cellMap_[i].resize(height_);
 		}
 
 		int YGREATER = 0;
@@ -139,11 +158,8 @@ namespace StaticDLL{
 			{
 				for (int j = k; j < height_; j++)
 				{
-					tiles_[i][j].SetColor(al_map_rgb_f(1, 1, 1));//sets all tiles to grey
-					tiles_[i][j].SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
-					tiles_[i][j].SetCurrentPosition(i, j);
-					tiles_[i][j].SetWidth(1);
-					tiles_[i][j].SetHeight(1);
+					cellMap_[i][j].SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
+					cellMap_[i][j].SetCurrentPosition(i, j);
 				}
 			}
 		}
@@ -154,7 +170,7 @@ namespace StaticDLL{
 	{
 		oldMapWidth_ = width_;
 		width_ = newmapwidth;
-		tiles_.resize(width_);
+		cellMap_.resize(width_);
 		int XGREATER = 0;
 		int k = 0;
 		if (width_ > oldMapWidth_)
@@ -166,17 +182,14 @@ namespace StaticDLL{
 		{
 			for (int i = k; i < width_; i++)
 			{
-				tiles_[i].resize(height_);
+				cellMap_[i].resize(height_);
 			}
 			for (int i = k; i < width_; i++)
 			{
 				for (int j = 0; j < height_; j++)
 				{
-					tiles_[i][j].SetColor(al_map_rgb_f(1, 1, 1));//sets all tiles to grey
-					tiles_[i][j].SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
-					tiles_[i][j].SetCurrentPosition(i, j);
-					tiles_[i][j].SetWidth(1);
-					tiles_[i][j].SetHeight(1);
+					cellMap_[i][j].SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
+					cellMap_[i][j].SetCurrentPosition(i, j);
 				}
 			}
 		}
@@ -218,9 +231,6 @@ namespace StaticDLL{
 
 	void Map::DrawMap()
 	{
-		/*mapXoffset_ = 20;
-		mapYoffset_ = 180;*/
-		
 
 		int i;
 		int j;
@@ -228,11 +238,17 @@ namespace StaticDLL{
 		{
 			for (j = topViewPoint_; j < botViewPoint_; j++)
 			{
-				tiles_[i][j].DrawObject(mapXoffset_, mapYoffset_);
-				tiles_[i][j].DrawObjectType(mapXoffset_, mapYoffset_, settings_->GetColorCollisionInvert());
+				cellMap_[i][j].Draw(mapXoffset_, mapYoffset_, settings_->GetColorCollisionInvert());
 			}
 		}
 		al_draw_rectangle(mapXoffset_, mapYoffset_, mapXoffset_ + width_*Constants::TileSize(), mapYoffset_ + height_*Constants::TileSize(), al_map_rgb_f(0, 0, 0), 1);
+
+
+
+
+		for (int i = 0; i < enemyList_.size(); i++) {
+			enemyList_[i]->DrawObjectRotate(mapXoffset_, mapYoffset_);
+		}
 	}
 
 
@@ -242,7 +258,7 @@ namespace StaticDLL{
 
 	//Misc
 
-	void Map::PreCalc()
+	void Map::Update()
 	{
 		//SetMapXOffset(GetMapXOffset() + GetMapMoveXDelta());
 		//SetMapXOffset(GetMapXOffset() + GetMapMoveYDelta());
@@ -253,8 +269,8 @@ namespace StaticDLL{
 
 		int XRight;
 		int YBot;
-		XRight = tiles_.size();
-		YBot = tiles_[0].size();
+		XRight = cellMap_.size();
+		YBot = cellMap_[0].size();
 		int FinXLeft;
 		int FinXRight;
 		int FinYTop;
@@ -323,6 +339,15 @@ namespace StaticDLL{
 		leftViewPoint_ = FinXLeft;
 		botViewPoint_ = FinYBot;
 		topViewPoint_ = FinYTop;
+
+
+
+
+
+		for (int i = 0; i < enemyList_.size(); i++) {
+			enemyList_[i]->Update();
+		}
+
 	}
 
 
@@ -368,68 +393,101 @@ namespace StaticDLL{
 		xmlMap.append_attribute("playerplaced").set_value(playerplaced_);
 		xmlMap.append_attribute("playerx").set_value(playerStartX_);
 		xmlMap.append_attribute("playery").set_value(playerStartY_);
-		pugi::xml_node xmlTileSet = xmlMap.append_child("tilevector");
-		for (int i = 0; i < tiles_.size(); i++)
-		{
-			for (int j = 0; j < tiles_[i].size(); j++)
-			{
-				Tile *currentTile = &tiles_[i][j];
-				pugi::xml_node xmlCurrentTile = xmlTileSet.append_child("tile");
-				xmlCurrentTile.append_attribute("tiletype").set_value(currentTile->GetTileType());
-				xmlCurrentTile.append_attribute("x").set_value(currentTile->GetCurrentPositionX());
-				xmlCurrentTile.append_attribute("y").set_value(currentTile->GetCurrentPositionY());
-				xmlCurrentTile.append_attribute("clickable").set_value(currentTile->GetClickable());
-				xmlCurrentTile.append_attribute("color_a").set_value(currentTile->GetColor().a);
-				xmlCurrentTile.append_attribute("color_b").set_value(currentTile->GetColor().b);
-				xmlCurrentTile.append_attribute("color_g").set_value(currentTile->GetColor().g);
-				xmlCurrentTile.append_attribute("color_r").set_value(currentTile->GetColor().r);
 
-				xmlCurrentTile.append_attribute("height").set_value(currentTile->GetHeight());
-				xmlCurrentTile.append_attribute("width").set_value(currentTile->GetWidth());
 
-				auto hasImage = currentTile->GetHasImage();
-				auto hasImageReference = currentTile->GetHasImageReference();
-				auto hasColor = currentTile->GetHasColor();
-
-				xmlCurrentTile.append_attribute("hasImage").set_value(hasImage);
-				xmlCurrentTile.append_attribute("hasImageReference").set_value(hasImageReference);
-				xmlCurrentTile.append_attribute("hasColor").set_value(hasColor);
-
-				if (hasImage || hasImageReference)
+		if (enemyList_.size() > 0) {
+			pugi::xml_node xmlenemyset = xmlMap.append_child("enemyspawn");
+			for (int i = 0; i < enemyList_.size(); i++) {
+				Character *currentEnemy = enemyList_[i];
+				pugi::xml_node xmlcurrentEnemy = xmlenemyset.append_child("enemy");
+				xmlcurrentEnemy.append_attribute("x").set_value(currentEnemy->GetCurrentPositionX());
+				xmlcurrentEnemy.append_attribute("y").set_value(currentEnemy->GetCurrentPositionY());
+				auto hasImage = currentEnemy->GetHasImage();
+				xmlcurrentEnemy.append_attribute("hasImage").set_value(hasImage);
+				if (hasImage)
 				{
-					pugi::xml_node xmlCurrentImage = xmlCurrentTile.append_child("image");
-					if (hasImage) {
-						xmlCurrentImage.append_attribute("id").set_value(currentTile->GetObjectImage()->GetId());
-						xmlCurrentImage.append_attribute("imageSet").set_value(currentTile->GetImageSet());
-					}
-					xmlCurrentImage.append_attribute("imageReferenceX").set_value(currentTile->GetImageReferenceX());
-					xmlCurrentImage.append_attribute("imageReferenceY").set_value(currentTile->GetImageReferenceY());
+					pugi::xml_node xmlCurrentImage = xmlcurrentEnemy.append_child("image");
+					xmlCurrentImage.append_attribute("id").set_value(currentEnemy->GetObjectImage()->GetId());
+					xmlCurrentImage.append_attribute("imageSet").set_value(currentEnemy->GetImageSet());
 				}
-
-
 			}
 		}
+
+
+
+		pugi::xml_node xmlTileSet = xmlMap.append_child("tilevector");
+		for (int i = 0; i < cellMap_.size(); i++)
+		{
+			for (int j = 0; j < cellMap_[i].size(); j++)
+			{
+				Cell *currentCell = &cellMap_[i][j];
+				pugi::xml_node xmlcurrentCell = xmlTileSet.append_child("cell");
+
+				xmlcurrentCell.append_attribute("x").set_value(currentCell->GetCurrentPositionX());
+				xmlcurrentCell.append_attribute("y").set_value(currentCell->GetCurrentPositionY());
+				xmlcurrentCell.append_attribute("tiletype").set_value(currentCell->GetTileType());
+
+				if (currentCell->GetHasTile()) {
+					//Store the TILES data in file
+					pugi::xml_node xmlcurrentTile = xmlcurrentCell.append_child("tile");
+					if (currentCell->GetTile()->GetHasColor()) {
+						xmlcurrentTile.append_attribute("color_a").set_value(currentCell->GetTile()->GetColor().a);
+						xmlcurrentTile.append_attribute("color_b").set_value(currentCell->GetTile()->GetColor().b);
+						xmlcurrentTile.append_attribute("color_g").set_value(currentCell->GetTile()->GetColor().g);
+						xmlcurrentTile.append_attribute("color_r").set_value(currentCell->GetTile()->GetColor().r);
+					}
+					auto hasImage = currentCell->GetTile()->GetHasImage();
+					xmlcurrentTile.append_attribute("hasImage").set_value(hasImage);
+					if (hasImage)
+					{
+						pugi::xml_node xmlCurrentImage = xmlcurrentTile.append_child("image");
+						xmlCurrentImage.append_attribute("id").set_value(currentCell->GetTile()->GetObjectImage()->GetId());
+						xmlCurrentImage.append_attribute("imageSet").set_value(currentCell->GetTile()->GetImageSet());
+					}
+				}
+
+				if (currentCell->GetHasInteractiveObject()) {
+					pugi::xml_node xmlcurrentInteractiveObject = xmlcurrentCell.append_child("interactiveobject");
+					auto hasImage = currentCell->GetInteractiveObject()->GetHasImage();
+					auto hasImageReference = currentCell->GetInteractiveObject()->GetHasImageReference();
+					xmlcurrentInteractiveObject.append_attribute("hasImage").set_value(hasImage);
+					xmlcurrentInteractiveObject.append_attribute("hasImageReference").set_value(hasImageReference);
+					if (hasImage || hasImageReference)
+					{
+						pugi::xml_node xmlCurrentImage = xmlcurrentInteractiveObject.append_child("image");
+						if (hasImage) {
+							xmlCurrentImage.append_attribute("id").set_value(currentCell->GetInteractiveObject()->GetObjectImage()->GetId());
+							xmlCurrentImage.append_attribute("imageSet").set_value(currentCell->GetInteractiveObject()->GetImageSet());
+						}
+						xmlCurrentImage.append_attribute("imageReferenceX").set_value(currentCell->GetInteractiveObject()->GetImageReferenceX());
+						xmlCurrentImage.append_attribute("imageReferenceY").set_value(currentCell->GetInteractiveObject()->GetImageReferenceY());
+					}
+				}
+			}
+		}
+
+
 		return xmlDoc.save_file(al_path_cstr(mapPath_, '/'));
 	}
 
 
 
-	void Map::LoadMapDialog()
+	void Map::LoadMapDialog(bool gamestart)
 	{
 		ALLEGRO_FILECHOOSER *loadDialog = NULL;
 		loadDialog = al_create_native_file_dialog("..\\Maps\\", "Load Mapx file", "*.*", 0);
 		al_show_native_file_dialog(display_, loadDialog);
 		mapPath_ = al_create_path(al_get_native_file_dialog_path(loadDialog, 0));
-		LoadMap();
+		LoadMap(gamestart);
 		//ADJUST offset if a player has been placed but since player placed is false somteimes set it to top left corner as players pos will be created at this point
 		mapXoffset_ = width_*Constants::TileSize() <= settings_->GetScreenWidth() ? settings_->GetScreenWidth() / 2 - width_*Constants::TileSize() / 2 : 0;
 		mapYoffset_ = height_*Constants::TileSize() <= settings_->GetScreenHeight() ? settings_->GetScreenHeight() / 2 - height_*Constants::TileSize() / 2 : 0;
-		PreCalc();
+		Update();
 		al_destroy_native_file_dialog(loadDialog);
 	}
 
 
-	void Map::LoadMap()
+	void Map::LoadMap(bool gamestart)
 	{
 		pugi::xml_document xmlDoc;
 		pugi::xml_parse_result xmlParseResult = xmlDoc.load_file(al_path_cstr(mapPath_, '/'));
@@ -440,125 +498,260 @@ namespace StaticDLL{
 		playerplaced_ = xmlMap.attribute("playerplaced").as_bool();
 		playerStartY_ = xmlMap.attribute("playery").as_int();
 		playerStartX_ = xmlMap.attribute("playerx").as_int();
+
+
+
+		pugi::xml_node xmlenemyset = xmlMap.child("enemyspawn");
+		for (pugi::xml_node_iterator xmlcurrentEnemy = xmlenemyset.children().begin(); xmlcurrentEnemy != xmlenemyset.children().end(); xmlcurrentEnemy++)
+		{
+			bool hasImage = false;
+
+			auto enemy = new Character(settings_, width_, height_, &cellMap_);
+
+			enemy->SetAIEnabled(gamestart);
+			enemy->SetKeyRight(gamestart);
+
+
+			enemyList_.push_back(enemy);
+
+
+			//Cycle through attributes of this node
+			for (pugi::xml_attribute_iterator xmlTileAttribute = xmlcurrentEnemy->attributes_begin(); xmlTileAttribute != xmlcurrentEnemy->attributes_end(); xmlTileAttribute++)
+			{
+				auto currentCellAttributeName = xmlTileAttribute->name();
+				if (strcmp(currentCellAttributeName, "x") == 0)
+				{
+					enemy->SetCurrentPositionX(xmlTileAttribute->as_double());
+				}
+				else if (strcmp(currentCellAttributeName, "y") == 0)
+				{
+					enemy->SetCurrentPositionY(xmlTileAttribute->as_double());
+				}
+				else if (strcmp(currentCellAttributeName, "hasImage") == 0)
+				{
+					hasImage = xmlTileAttribute->as_bool();
+				}
+			}
+
+			if (hasImage) {
+				//go through the tiles actual nodes within this node
+				for (pugi::xml_node_iterator xmlcurrentCellNode = xmlcurrentEnemy->children().begin(); xmlcurrentCellNode != xmlcurrentEnemy->children().end(); xmlcurrentCellNode++)
+				{
+					auto currentCellNodeName = xmlcurrentCellNode->name();
+					//if no img property it will skip from settings its property
+					if (strcmp(currentCellNodeName, "image") == 0)
+					{
+						auto imgId = xmlcurrentCellNode->attribute("id").as_int();
+						auto imageSetId = xmlcurrentCellNode->attribute("imageSet").as_int();
+						int indexOfImageSet = -1;
+						for (int k = 0; k < assetLibrary_->GetImageSetDictionary().size(); k++)
+						{
+							if (assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
+							{
+								indexOfImageSet = k;
+							}
+						}
+						if (indexOfImageSet >= 0) {
+							auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageDictionary();
+							for (int j = 0; j < imageDictionary.size(); j++)
+							{
+								if (imageDictionary[j]->GetId() == imgId)
+								{
+									enemy->SetObjectImageColor(imageDictionary[j]);
+									enemy->SetImageSet(EnumDLL::IMAGESETS(imageSetId));
+									break;
+								}
+							}
+						}
+
+					}
+				}
+
+			}
+
+		}
+
+
+
+
 		//Start first node
 		//Will probably make a node iterator later if the map has many objects in it
 		pugi::xml_node xmlTileSet = xmlMap.child("tilevector");
 		int i = 0;
 		int j = 0;
-		tiles_.resize(0);
-		tiles_.clear();
+		cellMap_.resize(0);
+		cellMap_.clear();
 		//is this the best way to clean those objects?
-		tiles_.resize(width_);
-		for (i = 0; i < tiles_.size(); i++)
+		cellMap_.resize(width_);
+		for (i = 0; i < cellMap_.size(); i++)
 		{
-			tiles_[i].resize(height_);
+			cellMap_[i].resize(height_);
 		}
 		i = 0;
-		for (pugi::xml_node_iterator xmlCurrentTile = xmlTileSet.children().begin(); xmlCurrentTile != xmlTileSet.children().end(); xmlCurrentTile++)
+		for (pugi::xml_node_iterator xmlcurrentCell = xmlTileSet.children().begin();
+			xmlcurrentCell != xmlTileSet.children().end();
+			xmlcurrentCell++)
 		{
-			Tile* currentTile = &tiles_[i][j];
-			bool hasImage = false;
-			bool hasImageReference = false;
-			bool hasColor = false;
+			Cell* currentCell = &cellMap_[i][j];
 
-			//Cycle through attributes of this node
-			for (pugi::xml_attribute_iterator xmlTileAttribute = xmlCurrentTile->attributes_begin(); xmlTileAttribute != xmlCurrentTile->attributes_end(); xmlTileAttribute++)
+
+			for (pugi::xml_attribute_iterator xmlCellAttribute = xmlcurrentCell->attributes_begin();
+				xmlCellAttribute != xmlcurrentCell->attributes_end();
+				xmlCellAttribute++)
 			{
-				auto currentTileAttributeName = xmlTileAttribute->name();
-				if (strcmp(currentTileAttributeName, "tiletype") == 0)
+				auto currentCellAttributeName = xmlCellAttribute->name();
+				if (strcmp(currentCellAttributeName, "x") == 0)
 				{
-					currentTile->SetTileType(EnumDLL::TILETYPE(xmlTileAttribute->as_int()));
+					currentCell->SetCurrentPositionX(xmlCellAttribute->as_float());
 				}
-				else if (strcmp(currentTileAttributeName, "x") == 0)
+				else if (strcmp(currentCellAttributeName, "y") == 0)
 				{
-					currentTile->SetCurrentPositionX(xmlTileAttribute->as_double());
+					currentCell->SetCurrentPositionY(xmlCellAttribute->as_float());
 				}
-				else if (strcmp(currentTileAttributeName, "y") == 0)
+				else if (strcmp(currentCellAttributeName, "tiletype") == 0)
 				{
-					currentTile->SetCurrentPositionY(xmlTileAttribute->as_double());
-				}
-				else if (strcmp(currentTileAttributeName, "clickable") == 0)
-				{
-					currentTile->SetClickable(xmlTileAttribute->as_bool());
-				}
-				else if (strcmp(currentTileAttributeName, "color_a") == 0)
-				{
-					currentTile->SetColorA(xmlTileAttribute->as_float());
-				}
-				else if (strcmp(currentTileAttributeName, "color_b") == 0)
-				{
-					currentTile->SetColorB(xmlTileAttribute->as_float());
-				}
-				else if (strcmp(currentTileAttributeName, "color_g") == 0)
-				{
-					currentTile->SetColorG(xmlTileAttribute->as_float());
-				}
-				else if (strcmp(currentTileAttributeName, "color_r") == 0)
-				{
-					currentTile->SetColorR(xmlTileAttribute->as_float());
-				}
-				else if (strcmp(currentTileAttributeName, "height") == 0)
-				{
-					currentTile->SetHeight(xmlTileAttribute->as_double());
-				}
-				else if (strcmp(currentTileAttributeName, "width") == 0)
-				{
-					currentTile->SetWidth(xmlTileAttribute->as_double());
-				}
-				else if (strcmp(currentTileAttributeName, "hasImage") == 0)
-				{
-					hasImage = xmlTileAttribute->as_bool();
-				}
-				else if (strcmp(currentTileAttributeName, "hasImageReference") == 0)
-				{
-					hasImageReference = xmlTileAttribute->as_bool();
-				}
-				else if (strcmp(currentTileAttributeName, "hasColor") == 0)
-				{
-					currentTile->SetHasColor(xmlTileAttribute->as_bool());
+					currentCell->SetTileType(EnumDLL::TILETYPE(xmlCellAttribute->as_int()));
 				}
 			}
-			if (hasImage || hasImageReference) {
-				//go through the tiles actual nodes within this node
-				for (pugi::xml_node_iterator xmlCurrentTileNode = xmlCurrentTile->children().begin(); xmlCurrentTileNode != xmlCurrentTile->children().end(); xmlCurrentTileNode++)
-				{
-					auto currentTileNodeName = xmlCurrentTileNode->name();
-					//if no img property it will skip from settings its property
-					if (strcmp(currentTileNodeName, "image") == 0)
+
+
+
+
+
+			for (pugi::xml_node_iterator xmlcurrentCellInnerNode = xmlcurrentCell->children().begin();
+				xmlcurrentCellInnerNode != xmlcurrentCell->children().end();
+				xmlcurrentCellInnerNode++)
+			{
+				auto currentCellNodeName = xmlcurrentCellInnerNode->name();
+				//Build tile object from properties
+				if (strcmp(currentCellNodeName, "tile") == 0) {
+					Tile* currentTile = new Tile();
+					bool hasImage = false;
+					//Cycle through attributes of this node
+					for (pugi::xml_attribute_iterator xmlTileAttribute = xmlcurrentCellInnerNode->attributes_begin();
+						xmlTileAttribute != xmlcurrentCellInnerNode->attributes_end();
+						xmlTileAttribute++)
 					{
-						auto imageReferenceX = xmlCurrentTileNode->attribute("imageReferenceX").as_int();
-						auto imageReferenceY = xmlCurrentTileNode->attribute("imageReferenceY").as_int();
-						if (hasImageReference) {
-							currentTile->SetTileObjectImageFromImage(nullptr, hasImageReference, imageReferenceX, imageReferenceY);
+						auto currentTileAttributeName = xmlTileAttribute->name();
+						if (strcmp(currentTileAttributeName, "color_a") == 0)
+						{
+							currentTile->SetColorA(xmlTileAttribute->as_float());
 						}
-						else {
-							auto imgId = xmlCurrentTileNode->attribute("id").as_int();
-							auto imageSetId = xmlCurrentTileNode->attribute("imageSet").as_int();
-							int indexOfImageSet = -1;
-							for (int k = 0; k < assetLibrary_->GetImageSetDictionary().size(); k++)
+						else if (strcmp(currentTileAttributeName, "color_b") == 0)
+						{
+							currentTile->SetColorB(xmlTileAttribute->as_float());
+						}
+						else if (strcmp(currentTileAttributeName, "color_g") == 0)
+						{
+							currentTile->SetColorG(xmlTileAttribute->as_float());
+						}
+						else if (strcmp(currentTileAttributeName, "color_r") == 0)
+						{
+							currentTile->SetColorR(xmlTileAttribute->as_float());
+						}
+						else if (strcmp(currentTileAttributeName, "hasImage") == 0)
+						{
+							hasImage = xmlTileAttribute->as_bool();
+						}
+					}
+					if (hasImage) {
+						//go through the tiles actual nodes within this node
+						for (pugi::xml_node_iterator xmlcurrentTileInnerNode = xmlcurrentCellInnerNode->children().begin();
+							xmlcurrentTileInnerNode != xmlcurrentCellInnerNode->children().end();
+							xmlcurrentTileInnerNode++)
+						{
+							auto currentTileNodeName = xmlcurrentTileInnerNode->name();
+							//if no img property it will skip from settings its property
+							if (strcmp(currentTileNodeName, "image") == 0)
 							{
-								if (assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
+								//Grab img set id and img id and cycle through the imageset dictionary for selected imageset
+								//And grab the selected img and set tiles img
+								//turn into a funciton
+								auto imgId = xmlcurrentTileInnerNode->attribute("id").as_int();
+								auto imageSetId = xmlcurrentTileInnerNode->attribute("imageSet").as_int();
+								int indexOfImageSet = -1;
+								for (int k = 0; k < assetLibrary_->GetImageSetDictionary().size(); k++)
 								{
-									indexOfImageSet = k;
-								}
-							}
-							if (indexOfImageSet >= 0) {
-								auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageDictionary();
-								for (int j = 0; j < imageDictionary.size(); j++)
-								{
-									if (imageDictionary[j]->GetId() == imgId)
+									if (assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
 									{
-										currentTile->SetTileObjectImageFromImage(imageDictionary[j], hasImageReference, imageReferenceX, imageReferenceY);
-										currentTile->SetImageSet(EnumDLL::IMAGESETS(imageSetId));
-										break;
+										indexOfImageSet = k;
+									}
+								}
+								if (indexOfImageSet >= 0) {
+									auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageDictionary();
+									for (int j = 0; j < imageDictionary.size(); j++)
+									{
+										if (imageDictionary[j]->GetId() == imgId)
+										{
+
+											currentTile->SetTileImage(imageDictionary[j]);
+											currentTile->SetImageSet(EnumDLL::IMAGESETS(imageSetId));
+											break;
+										}
 									}
 								}
 							}
 						}
-						
 					}
+					currentCell->SetTile(currentTile);
 				}
 
+
+				else if (strcmp(currentCellNodeName, "interactiveobject") == 0) {
+					InteractiveObject* currentInteractiveObject = new InteractiveObject();
+					bool hasImage = false;
+					bool hasImageReference = false;
+
+					//Cycle through attributes of this node
+					for (pugi::xml_attribute_iterator xmlInteractiveObjectAttribute = xmlcurrentCellInnerNode->attributes_begin();
+						xmlInteractiveObjectAttribute != xmlcurrentCellInnerNode->attributes_end();
+						xmlInteractiveObjectAttribute++)
+					{
+						auto currentInteractiveObjectAttributeName = xmlInteractiveObjectAttribute->name();
+						if (strcmp(currentInteractiveObjectAttributeName, "hasImage") == 0)
+						{
+							hasImage = xmlInteractiveObjectAttribute->as_bool();
+						}
+						else if (strcmp(currentInteractiveObjectAttributeName, "hasImageReference") == 0)
+						{
+							hasImageReference = xmlInteractiveObjectAttribute->as_bool();
+						}
+					}
+					if (hasImage || hasImageReference) {
+						for (pugi::xml_node_iterator xmlcurrentInteractiveObjectInnerNode = xmlcurrentCellInnerNode->children().begin();
+							xmlcurrentInteractiveObjectInnerNode != xmlcurrentCellInnerNode->children().end();
+							xmlcurrentInteractiveObjectInnerNode++)
+						{
+							auto currentInteractiveObjectNodeName = xmlcurrentInteractiveObjectInnerNode->name();
+							if (strcmp(currentInteractiveObjectNodeName, "image") == 0)
+							{
+								auto imgId = xmlcurrentInteractiveObjectInnerNode->attribute("id").as_int();
+								auto imageSetId = xmlcurrentInteractiveObjectInnerNode->attribute("imageSet").as_int();
+								int indexOfImageSet = -1;
+								for (int k = 0; k < assetLibrary_->GetImageSetDictionary().size(); k++)
+								{
+									if (assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
+									{
+										indexOfImageSet = k;
+									}
+								}
+								if (indexOfImageSet >= 0) {
+									auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageDictionary();
+									for (int j = 0; j < imageDictionary.size(); j++)
+									{
+										if (imageDictionary[j]->GetId() == imgId)
+										{
+											currentInteractiveObject->SetImage(imageDictionary[j]);
+											currentInteractiveObject->SetImageSet(EnumDLL::IMAGESETS(imageSetId));
+											break;
+										}
+									}
+								}
+							}
+						}
+					}
+					currentCell->SetInteractiveObject(currentInteractiveObject, hasImageReference);
+				}
 			}
 			//if we at the end of current row of vector of tiles we go to the next vector of vectors
 			j++;
@@ -568,6 +761,10 @@ namespace StaticDLL{
 				i++;
 			}
 		}
+
+
+
+
 	}
 
 	void Map::ResetMap()
@@ -575,40 +772,93 @@ namespace StaticDLL{
 
 		offSetBeforeRightClickDragY_ = 0;
 		offSetBeforeRightClickDragX_ = 0;
-		CreateTiles(10, 10);
+		CreateCellMap(10, 10);
 		for (int i = 0; i < width_; i++)
 		{
 			for (int j = 0; j < height_; j++)
 			{
-				tiles_[i][j].SetColor(al_map_rgb_f(1, 1, 1));//sets all tiles to grey
-				tiles_[i][j].SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
-				tiles_[i][j].SetCurrentPosition(i, j);
-				tiles_[i][j].SetWidth(1);
-				tiles_[i][j].SetHeight(1);
+				cellMap_[i][j].SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
+				cellMap_[i][j].SetCurrentPosition(i, j);
 			}
 		}
+
+
+		while (enemyList_.size() > 0) {
+			delete enemyList_[0];
+			enemyList_.erase(enemyList_.begin() + 0);
+		}
+
 
 
 		mapXoffset_ = settings_->GetScreenWidth() / 2 - width_*Constants::TileSize() / 2;
 		mapYoffset_ = settings_->GetScreenHeight() / 2 - height_*Constants::TileSize() / 2;
 
-		PreCalc();
+		Update();
 	}
 
 
-	void Map::CreateTiles(int newmapwidth, int newmapheight)
+	void Map::CreateCellMap(int newmapwidth, int newmapheight)
 	{
 		height_ = newmapheight;
 		width_ = newmapwidth;
-		std::vector<std::vector<Tile>> tiles(newmapwidth, std::vector<Tile>(newmapheight));
-		tiles_ = tiles;
+		std::vector<std::vector<Cell>> cells(newmapwidth, std::vector<Cell>(newmapheight));
+		cellMap_ = cells;
 	}
 
 
 
 
 
-	
+
+	void Map::AddEnemyToMap(EditorItemBase *item, int tileXPos, int tileYPos) {
+
+
+		auto enemy = new Character(settings_, item->GetWidth(), item->GetHeight(), &cellMap_);
+		//enemy->SetGravityY(0);
+		enemy->SetCurrentPositionX(tileXPos);
+		enemy->SetCurrentPositionY(tileYPos);
+		enemy->SetObjectImageColor(item->GetObjectImage());
+		enemy->SetImageSet(item->GetImageSet());
+		//enemy->SetMoveSpeed(0);
+		//enemy->SetMoveSpeedDelta(0);
+		//enemy->SetVelocityY(0);
+		enemy->SetAIEnabled(false);
+
+		enemyList_.push_back(enemy);
+
+	}
+
+
+
+	void Map::RemoveEnemyFromMap(int tileXPos, int tileYPos) {
+
+		for (auto i = 0; i < enemyList_.size(); i++) {
+			if (enemyList_[i]->GetCurrentPositionX() == tileXPos && enemyList_[i]->GetCurrentPositionY() == tileYPos) {
+				//Go through vector find the one then remove
+				delete enemyList_[i];
+				enemyList_.erase(enemyList_.begin() + i);
+			}
+		}
+	}
+
+
+
+
+	bool Map::EnemyAlreadyExistsAtXY(int tileXPos, int tileYPos) {
+
+		for (auto i = 0; i < enemyList_.size(); i++) {
+			if (enemyList_[i]->GetCurrentPositionX() == tileXPos && enemyList_[i]->GetCurrentPositionY() == tileYPos) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+
+
+
+
 	//-----------------------------------------------------------------------------------------------------
 
 	//Testing

@@ -32,6 +32,9 @@ namespace StaticDLL{
 			case EnumDLL::STATES::OBJECTIMAGEPICKER:
 				imageSetId_ = EnumDLL::IMAGESETS::OBJECTIMAGESET;
 				break;
+			case EnumDLL::STATES::ENEMYPICKER:
+				imageSetId_ = EnumDLL::IMAGESETS::ENEMYIMAGESET;
+				break;
 		}
 
 		for(int i = 0; i < assetLibrary_->GetImageSetDictionary().size(); i ++)
@@ -52,7 +55,6 @@ namespace StaticDLL{
 		CreateTileWindow();
 
 		
-		fprintf(stderr,"An Overlay Created\n");
 
 	}
 
@@ -72,6 +74,16 @@ namespace StaticDLL{
 		else if(id_ == EnumDLL::STATES::TILETYPEPICKER)
 		{
 			CreateTileTypes();
+			CreateTilePages();
+		}
+		else if (id_ == EnumDLL::STATES::OBJECTIMAGEPICKER)
+		{
+			CreateObjectImagePicker();
+			CreateTilePages();
+		}
+		else if (id_ == EnumDLL::STATES::ENEMYPICKER)
+		{
+			CreateEnemyImagePicker();
 			CreateTilePages();
 		}
 		tilePickerWindow_->SetWidth(widthMax_);
@@ -120,6 +132,11 @@ namespace StaticDLL{
 			CreateObjectImagePicker();
 			CreateTilePages();
 		}
+		else if (id_ == EnumDLL::STATES::ENEMYPICKER)
+		{
+			CreateEnemyImagePicker();
+			CreateTilePages();
+		}
 	}
 
 
@@ -140,8 +157,8 @@ namespace StaticDLL{
 		//reset pages
 		tilePages_.resize(0);
 		tilePages_.clear();
-		int pages = tiles_[0].size()/(screenHeight/2);
-		int extraPage = (tiles_[0].size()%(screenHeight/2))>0?1:0;
+		int pages = itemBaseList_[0].size()/(screenHeight/2);
+		int extraPage = (itemBaseList_[0].size()%(screenHeight/2))>0?1:0;
 		//There was a reason i added extra page but i cant remmeber but its working
 		//Go through the tile pages adding in the tiles as a ref
 		for(int i = 0; i < pages+extraPage; i++)
@@ -149,13 +166,13 @@ namespace StaticDLL{
 			tilePages_.push_back(new TilePage(settings_));
 			int newMin = (screenHeight/2*i) == 0 ? 0 : (screenHeight/2*i);
 			int newMax = (screenHeight/2*i) + screenHeight/2;
-			if(newMin > tiles_[0].size())
+			if(newMin > itemBaseList_[0].size())
 			{
-				newMin = tiles_[0].size();
+				newMin = itemBaseList_[0].size();
 			}
-			if(newMax > tiles_[0].size())
+			if(newMax > itemBaseList_[0].size())
 			{
-				newMax = tiles_[0].size();
+				newMax = itemBaseList_[0].size();
 			}
 			tilePages_[i]->SetTiles(newMin, newMax, tileVectorWidthMax_);
 		}
@@ -167,7 +184,7 @@ namespace StaticDLL{
 	void EditorOverLay::Draw()
 	{
 		DrawTilePicker();
-		DrawTiles();
+		DrawItemBaseList();
 	}
 
 
@@ -182,10 +199,10 @@ namespace StaticDLL{
 	}
 
 	//Draw the tiles on the pages
-	void EditorOverLay::DrawTiles()
+	void EditorOverLay::DrawItemBaseList()
 	{
 		//draw collision boxes if page id is tiletype
-		tilePages_[currentTilePage_]->DrawTiles(tiles_, (id_ == EnumDLL::STATES::TILETYPEPICKER));
+		tilePages_[currentTilePage_]->DrawItemBaseList(itemBaseList_, (id_ == EnumDLL::STATES::TILETYPEPICKER));
 	}
 
 
@@ -210,30 +227,9 @@ namespace StaticDLL{
 			switch(event->mouse.button)
 			{
 				case 1:
-					if(tilePages_[currentTilePage_]->MouseActivity(tiles_, mouseX, mouseY))
+					if(tilePages_[currentTilePage_]->MouseActivity(itemBaseList_, mouseX, mouseY))
 					{
-						if(id_ == EnumDLL::STATES::TILETYPEPICKER)
-						{
-							if(GetSelectedTile()->GetTileType() == EnumDLL::TILETYPE::INVERTCOLLISIONCOLOR)
-							{
-								for(int i = 0; i < tiles_.size(); i++)
-								{
-									for(int j = 0; j < tiles_[i].size(); j++)
-									{
-										ALLEGRO_COLOR curColor = tiles_[i][j].GetColor();
-										curColor.r = !curColor.r;
-										curColor.g = !curColor.g;
-										curColor.b = !curColor.b;
-
-										tiles_[i][j].SetColor(curColor);
-									}
-								}
-								settings_->SetColorCollisionInvert(!settings_->GetColorCollisionInvert());
-								settings_->SaveSettings();
-							}
-						}
 						return true;
-
 					}
 			}
 		}
@@ -294,17 +290,17 @@ namespace StaticDLL{
 		}
 
 		//is this the best way to clean those objects?
-		tiles_.resize(0);
-		tiles_.clear();
+		itemBaseList_.resize(0);
+		itemBaseList_.clear();
 
-		tiles_.resize(tileVectorWidthMax_);
+		itemBaseList_.resize(tileVectorWidthMax_);
 		
 
 
 		int i = 0;
 		for(int j = 0; j < imageDictionarySize_; j++)
 		{
-			Tile* tempTile = new Tile();
+			EditorItemBase* tempTile = new EditorItemBase();
 			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
 			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
 			tempTile->SetWidth(1);
@@ -317,7 +313,7 @@ namespace StaticDLL{
 
 			tempTile->SetCurrentPosition(posX,posY);
 
-			tiles_[j%tileVectorWidthMax_].push_back(*tempTile);
+			itemBaseList_[j%tileVectorWidthMax_].push_back(*tempTile);
 			//go to next placement
 
 			i++;
@@ -350,16 +346,16 @@ namespace StaticDLL{
 
 
 		//is this the best way to clean those objects?
-		tiles_.resize(0);
-		tiles_.clear();
+		itemBaseList_.resize(0);
+		itemBaseList_.clear();
 
-		tiles_.resize(tileVectorWidthMax_);
+		itemBaseList_.resize(tileVectorWidthMax_);
 		
 
 		int i = 0;
 		for(int j = 0; j < imageDictionarySize_; j++)
 		{
-			Tile* tempTile = new Tile();
+			EditorItemBase* tempTile = new EditorItemBase();
 			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
 
 			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
@@ -372,7 +368,7 @@ namespace StaticDLL{
 
 			tempTile->SetCurrentPosition(posX,posY);
 
-			tiles_[j%tileVectorWidthMax_].push_back(*tempTile);
+			itemBaseList_[j%tileVectorWidthMax_].push_back(*tempTile);
 			//go to next placement
 
 			i++;
@@ -399,41 +395,21 @@ namespace StaticDLL{
 		int l = 0;
 		int posX = leftOffset+k*displacementOffset;
 		int posY = topOffset + ((l*displacementOffset)%(screenHeight));
-		std::vector<Tile> objs;
-		Tile* currentTile = new Tile();
+		std::vector<EditorItemBase> objs;
+		EditorItemBase* currentTile = new EditorItemBase();
 
 
 		bool invert = settings_->GetColorCollisionInvert();
 
-		currentTile = new Tile();
+
+		currentTile = new EditorItemBase();
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
 		currentTile->SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
 		currentTile->SetCurrentPosition(posX,posY);
 		currentTile->SetWidth(1);
 		currentTile->SetHeight(1);
 		objs.push_back(*currentTile);
-		
 
-
-
-		k = (k + 1)%tileVectorWidthMax_;
-		if(k % tileVectorWidthMax_ == 0)
-		{
-			l++;
-		}
-		posX = leftOffset+k*displacementOffset;
-		posY = topOffset + ((l*displacementOffset)%(screenHeight));
-
-
-
-
-		currentTile = new Tile();
-		currentTile->SetColor(al_map_rgb_f(invert,invert,invert));
-		currentTile->SetTileType(EnumDLL::TILETYPE::INVERTCOLLISIONCOLOR);
-		currentTile->SetCurrentPosition(posX,posY);
-		currentTile->SetWidth(1);
-		currentTile->SetHeight(1);
-		objs.push_back(*currentTile);
 
 
 
@@ -449,7 +425,7 @@ namespace StaticDLL{
 
 
 
-		currentTile = new Tile();
+		currentTile = new EditorItemBase();
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
 		currentTile->SetTileType(EnumDLL::TILETYPE::COLLISIONTOPTILE);
 		currentTile->SetCurrentPosition(posX,posY);
@@ -470,7 +446,7 @@ namespace StaticDLL{
 
 
 
-		currentTile = new Tile();
+		currentTile = new EditorItemBase();
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
 		currentTile->SetTileType(EnumDLL::TILETYPE::COLLISIONLEFTTILE);
 		currentTile->SetCurrentPosition(posX,posY);
@@ -491,7 +467,7 @@ namespace StaticDLL{
 
 
 
-		currentTile = new Tile();
+		currentTile = new EditorItemBase();
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
 		currentTile->SetTileType(EnumDLL::TILETYPE::COLLISIONRIGHTTILE);
 		currentTile->SetCurrentPosition(posX,posY);
@@ -519,10 +495,10 @@ namespace StaticDLL{
 		objs.push_back(*currentTile);
 
 		
-		tiles_.resize(tileVectorWidthMax_);
+		itemBaseList_.resize(tileVectorWidthMax_);
 		for(int i = 0; i < objs.size(); i++)
 		{
-			tiles_[i%tileVectorWidthMax_].push_back(objs[i]);
+			itemBaseList_[i%tileVectorWidthMax_].push_back(objs[i]);
 		}
 	}
 
@@ -543,17 +519,17 @@ namespace StaticDLL{
 		}
 
 		//is this the best way to clean those objects?
-		tiles_.resize(0);
-		tiles_.clear();
+		itemBaseList_.resize(0);
+		itemBaseList_.clear();
 
-		tiles_.resize(tileVectorWidthMax_);
+		itemBaseList_.resize(tileVectorWidthMax_);
 
 
 
 		int i = 0;
 		for (int j = 0; j < imageDictionarySize_; j++)
 		{
-			Tile* tempTile = new Tile();
+			EditorItemBase* tempTile = new EditorItemBase();
 			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
 			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
 			tempTile->SetImageSet(imageSetId_);
@@ -564,7 +540,7 @@ namespace StaticDLL{
 
 			tempTile->SetCurrentPosition(posX, posY);
 
-			tiles_[j%tileVectorWidthMax_].push_back(*tempTile);
+			itemBaseList_[j%tileVectorWidthMax_].push_back(*tempTile);
 			//go to next placement
 
 			i++;
@@ -576,5 +552,57 @@ namespace StaticDLL{
 
 
 	}
+
+
+
+
+
+	void EditorOverLay::CreateEnemyImagePicker()
+	{
+		int topOffset = 2;
+		int leftOffset = 1;
+		int displacementOffset = 2;
+		int screenHeight = settings_->GetDisplayHeight() - 2;
+		//Displace counter for screen height if its not even
+		if (screenHeight % 2 == 1)
+		{
+			screenHeight--;
+		}
+
+		//is this the best way to clean those objects?
+		itemBaseList_.resize(0);
+		itemBaseList_.clear();
+
+		itemBaseList_.resize(tileVectorWidthMax_);
+
+
+
+		int i = 0;
+		for (int j = 0; j < imageDictionarySize_; j++)
+		{
+			EditorItemBase* tempTile = new EditorItemBase();
+			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
+			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
+			tempTile->SetImageSet(imageSetId_);
+
+
+			int posX = leftOffset + (j%tileVectorWidthMax_)*displacementOffset;
+			int posY = topOffset + (i / tileVectorWidthMax_*displacementOffset) % (screenHeight);
+
+			tempTile->SetCurrentPosition(posX, posY);
+
+			itemBaseList_[j%tileVectorWidthMax_].push_back(*tempTile);
+			//go to next placement
+
+			i++;
+
+			//delete the copy of object
+			delete tempTile;
+		}
+
+
+
+	}
+
 
 }

@@ -41,6 +41,7 @@ namespace StaticDLL{
 
 			STATICDLL_API ~EditorOverLayController()
 			{
+				//fprintf(stderr, "A EditorOverLayController Destructed\n");
 				delete tileWindowArrow_;
 				delete tileWindowBotLeftArrow_;
 				delete tileWindowBotRightArrow_;
@@ -52,7 +53,6 @@ namespace StaticDLL{
 				}
 
 				delete menuBar_;
-				fprintf(stderr,"An Overlay Destructed\n");
 			}
 			
 
@@ -132,14 +132,14 @@ namespace StaticDLL{
 
 			
 
-			STATICDLL_API std::pair<StaticDLL::EnumDLL::STATES, Tile*> GetSelectedObject()
+			STATICDLL_API std::pair<StaticDLL::EnumDLL::STATES, EditorItemBase*> GetSelectedObject()
 			{
-				std::pair<StaticDLL::EnumDLL::STATES, Tile*> val;
+				std::pair<StaticDLL::EnumDLL::STATES, EditorItemBase*> val;
 
 				auto result = FindEditorOverLay(currentEditorOverlayId_);
 				if(result != nullptr)
 				{
-					val.second = result->GetSelectedTile();
+					val.second = result->GetSelectedItemBase();
 					val.first = result->GetId();
 					return val;
 				}

@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<map width="10" height="10" playerplaced="true" playerx="-858993460" playery="-858993460">
+	<enemyspawn>
+		<enemy x="5" y="0" hasImage="true">
+			<image id="1" imageSet="6" />
+		</enemy>
+		<enemy x="5" y="1" hasImage="true">
+			<image id="1" imageSet="6" />
+		</enemy>
+		<enemy x="5" y="2" hasImage="true">
+			<image id="1" imageSet="6" />
+		</enemy>
+		<enemy x="5" y="3" hasImage="true">
+			<image id="1" imageSet="6" />
+		</enemy>
+		<enemy x="5" y="4" hasImage="true">
+			<image id="1" imageSet="6" />
+		</enemy>
+		<enemy x="4" y="4" hasImage="true">
+			<image id="1" imageSet="6" />
+		</enemy>
+		<enemy x="4" y="5" hasImage="true">
+			<image id="1" imageSet="6" />
+		</enemy>
+		<enemy x="4" y="6" hasImage="true">
+			<image id="1" imageSet="6" />
+		</enemy>
+		<enemy x="4" y="7" hasImage="true">
+			<image id="1" imageSet="6" />
+		</enemy>
+		<enemy x="4" y="8" hasImage="true">
+			<image id="1" imageSet="6" />
+		</enemy>
+	</enemyspawn>
+	<tilevector>
+		<cell x="0" y="0" tiletype="0">
+			<interactiveobject hasImage="true" hasImageReference="false">
+				<image id="1" imageSet="5" imageReferenceX="0" imageReferenceY="0" />
+			</interactiveobject>
+		</cell>
+		<cell x="0" y="1" tiletype="0">
+			<interactiveobject hasImage="true" hasImageReference="true">
+				<image id="1" imageSet="5" imageReferenceX="0" imageReferenceY="0" />
+			</interactiveobject>
+		</cell>
+		<cell x="0" y="2" tiletype="0" />
+		<cell x="0" y="3" tiletype="0" />
+		<cell x="0" y="4" tiletype="0" />
+		<cell x="0" y="5" tiletype="0" />
+		<cell x="0" y="6" tiletype="0" />
+		<cell x="0" y="7" tiletype="0">
+			<interactiveobject hasImage="true" hasImageReference="false">
+				<image id="1" imageSet="5" imageReferenceX="0" imageReferenceY="7" />
+			</interactiveobject>
+		</cell>
+		<cell x="0" y="8" tiletype="0">
+			<interactiveobject hasImage="true" hasImageReference="true">
+				<image id="1" imageSet="5" imageReferenceX="0" imageReferenceY="7" />
+			</interactiveobject>
+		</cell>
+		<cell x="0" y="9" tiletype="0" />
+		<cell x="1" y="0" tiletype="0" />
+		<cell x="1" y="1" tiletype="0" />
+		<cell x="1" y="2" tiletype="0" />
+		<cell x="1" y="3" tiletype="0" />
+		<cell x="1" y="4" tiletype="0" />
+		<cell x="1" y="5" tiletype="0" />
+		<cell x="1" y="6" tiletype="0" />
+		<cell x="1" y="7" tiletype="0" />
+		<cell x="1" y="8" tiletype="0" />
+		<cell x="1" y="9" tiletype="0" />
+		<cell x="2" y="0" tiletype="0" />
+		<cell x="2" y="1" tiletype="0" />
+		<cell x="2" y="2" tiletype="0" />
+		<cell x="2" y="3" tiletype="0" />
+		<cell x="2" y="4" tiletype="0" />
+		<cell x="2" y="5" tiletype="0" />
+		<cell x="2" y="6" tiletype="0" />
+		<cell x="2" y="7" tiletype="0" />
+		<cell x="2" y="8" tiletype="0">
+			<tile hasImage="true">
+				<image id="1" imageSet="1" />
+			</tile>
+		</cell>
+		<cell x="2" y="9" tiletype="0" />
+		<cell x="3" y="0" tiletype="0" />
+		<cell x="3" y="1" tiletype="0" />
+		<cell x="3" y="2" tiletype="0" />
+		<cell x="3" y="3" tiletype="0" />
+		<cell x="3" y="4" tiletype="0" />
+		<cell x="3" y="5" tiletype="0" />
+		<cell x="3" y="6" tiletype="0" />
+		<cell x="3" y="7" tiletype="0" />
+		<cell x="3" y="8" tiletype="0">
+			<tile hasImage="true">
+				<image id="1" imageSet="1" />
+			</tile>
+		</cell>
+		<cell x="3" y="9" tiletype="0" />
+		<cell x="4" y="0" tiletype="0" />
+		<cell x="4" y="1" tiletype="0" />
+		<cell x="4" y="2" tiletype="0" />
+		<cell x="4" y="3" tiletype="0" />
+		<cell x="4" y="4" tiletype="0" />
+		<cell x="4" y="5" tiletype="0" />
+		<cell x="4" y="6" tiletype="0" />
+		<cell x="4" y="7" tiletype="0" />
+		<cell x="4" y="8" tiletype="0" />
+		<cell x="4" y="9" tiletype="0" />
+		<cell x="5" y="0" tiletype="0" />
+		<cell x="5" y="1" tiletype="0" />
+		<cell x="5" y="2" tiletype="0" />
+		<cell x="5" y="3" tiletype="0" />
+		<cell x="5" y="4" tiletype="0" />
+		<cell x="5" y="5" tiletype="0" />
+		<cell x="5" y="6" tiletype="0" />
+		<cell x="5" y="7" tiletype="0" />
+		<cell x="5" y="8" tiletype="1" />
+		<cell x="5" y="9" tiletype="0" />
+		<cell x="6" y="0" tiletype="0" />
+		<cell x="6" y="1" tiletype="0" />
+		<cell x="6" y="2" tiletype="0" />
+		<cell x="6" y="3" tiletype="0" />
+		<cell x="6" y="4" tiletype="0" />
+		<cell x="6" y="5" tiletype="0" />
+		<cell x="6" y="6" tiletype="0" />
+		<cell x="6" y="7" tiletype="0" />
+		<cell x="6" y="8" tiletype="2">
+			<tile color_a="1" color_b="1" color_g="0.800000012" color_r="0.100000001" hasImage="true">
+				<image id="1" imageSet="1" />
+			</tile>
+		</cell>
+		<cell x="6" y="9" tiletype="0" />
+		<cell x="7" y="0" tiletype="0" />
+		<cell x="7" y="1" tiletype="0" />
+		<cell x="7" y="2" tiletype="0" />
+		<cell x="7" y="3" tiletype="0" />
+		<cell x="7" y="4" tiletype="0" />
+		<cell x="7" y="5" tiletype="0" />
+		<cell x="7" y="6" tiletype="0" />
+		<cell x="7" y="7" tiletype="0" />
+		<cell x="7" y="8" tiletype="2">
+			<tile color_a="1" color_b="1" color_g="0.800000012" color_r="0.100000001" hasImage="true">
+				<image id="1" imageSet="1" />
+			</tile>
+		</cell>
+		<cell x="7" y="9" tiletype="0" />
+		<cell x="8" y="0" tiletype="0" />
+		<cell x="8" y="1" tiletype="0" />
+		<cell x="8" y="2" tiletype="0" />
+		<cell x="8" y="3" tiletype="0" />
+		<cell x="8" y="4" tiletype="0" />
+		<cell x="8" y="5" tiletype="0" />
+		<cell x="8" y="6" tiletype="0" />
+		<cell x="8" y="7" tiletype="0" />
+		<cell x="8" y="8" tiletype="0" />
+		<cell x="8" y="9" tiletype="0" />
+		<cell x="9" y="0" tiletype="0" />
+		<cell x="9" y="1" tiletype="0" />
+		<cell x="9" y="2" tiletype="0" />
+		<cell x="9" y="3" tiletype="0" />
+		<cell x="9" y="4" tiletype="0" />
+		<cell x="9" y="5" tiletype="0" />
+		<cell x="9" y="6" tiletype="0" />
+		<cell x="9" y="7" tiletype="0" />
+		<cell x="9" y="8" tiletype="1">
+			<interactiveobject hasImage="true" hasImageReference="false">
+				<image id="1" imageSet="5" imageReferenceX="9" imageReferenceY="8" />
+			</interactiveobject>
+		</cell>
+		<cell x="9" y="9" tiletype="1">
+			<interactiveobject hasImage="true" hasImageReference="true">
+				<image id="1" imageSet="5" imageReferenceX="9" imageReferenceY="8" />
+			</interactiveobject>
+		</cell>
+	</tilevector>
+</map>

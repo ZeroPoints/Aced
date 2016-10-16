@@ -27,7 +27,6 @@ namespace StaticDLL{
 		CreateMenuBar();
 
 		
-		fprintf(stderr,"An Overlay Created\n");
 
 	}
 
@@ -111,6 +110,11 @@ namespace StaticDLL{
 
 		itemStore = new EditorOverLay(settings_, EnumDLL::STATES::OBJECTIMAGEPICKER, assetLibrary_);
 		itemStore->SetMenuHeader("  OBJECTS  ", headerPositionX, 0);
+		editorOverLays_.push_back(itemStore);
+		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
+
+		itemStore = new EditorOverLay(settings_, EnumDLL::STATES::ENEMYPICKER, assetLibrary_);
+		itemStore->SetMenuHeader("  ENEMIES  ", headerPositionX, 0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 	}
@@ -247,7 +251,7 @@ namespace StaticDLL{
 
 			if(overLayState_ == EnumDLL::OVERLAYSTATE::OVERLAYOPENED && overLayAction_ == EnumDLL::OVERLAYACTIONS::OVERLAYNONE)
 			{
-				result->DrawTiles();
+				result->DrawItemBaseList();
 			}
 
 		}

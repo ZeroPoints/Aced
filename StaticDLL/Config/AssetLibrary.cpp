@@ -26,6 +26,20 @@ namespace StaticDLL {
 	}
 
 
+
+	 AssetLibrary::~AssetLibrary()
+	 {
+		 //fprintf(stderr, "A Image Destructed\n");
+		 for (ImageSet* item : imageDictionary_)
+		 {
+			 delete item;
+			 item = nullptr;
+		 }
+	 }
+
+
+
+	
 	 
 
 	std::vector<ImageSet*> &AssetLibrary::GetImageSetDictionary()

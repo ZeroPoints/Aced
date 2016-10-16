@@ -11,15 +11,14 @@ namespace StaticDLL{
 		editable_ = false;
 		optionId_ = EnumDLL::OPTIONTYPES::NOOPTION;
 		Id_ = EnumDLL::STATES::NONE;
-		fprintf(stderr, "A Menu Item Created\n");
+		//fprintf(stderr, "A Menu Item Created\n");
 	}
 
 
 	MenuItem::~MenuItem() {
 		al_destroy_font(font30_);
-		//TODO: Destroy the ALLEGRO_USTR
 		al_ustr_free(menuItemProperty_);
-		fprintf(stderr, "A Menu Item Destructed\n");
+		//fprintf(stderr, "A Menu Item Destructed\n");
 		return;
 	}
 

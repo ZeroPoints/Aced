@@ -49,26 +49,7 @@ namespace StaticDLL{
 		}
 
 
-		for (int i = 0; i < 1; i++) {
-
-
-			auto enemy = new Character(GetSettings(), GetMap());
-			enemy->SetGravityY(-9.8);
-			enemy->SetCurrentPositionX(enemy->GetCurrentPositionX() + 1 + i);
-
-			for (int i = 0; i < GetAssetLibrary()->GetImageSetDictionary().size(); i++)
-			{
-				if (GetAssetLibrary()->GetImageSetDictionary()[i]->GetImageSetId() == EnumDLL::IMAGESETS::PLAYERIMAGESET)
-				{
-					enemy->SetObjectImageColor(GetAssetLibrary()->GetImageSetDictionary()[i]->GetImageDictionary()[0]);
-				}
-			}
-
-			auto currentAI = new DumbAI(enemy, GetMap());
-
-			enemyList_.push_back(currentAI);
-
-		}
+		
 
 
 
@@ -131,7 +112,7 @@ namespace StaticDLL{
 
 		if(GetEvent()->type == ALLEGRO_EVENT_TIMER)
 		{			
-			GetMap()->PreCalc();
+			GetMap()->Update();
 
 
 
@@ -144,10 +125,7 @@ namespace StaticDLL{
 
 
 
-			for (int i = 0; i < enemyList_.size(); i++) {
-				
-				enemyList_[i]->Update();
-			}
+			
 
 
 
@@ -169,9 +147,7 @@ namespace StaticDLL{
 		player1_->DrawObjectRotate();
 	
 
-		for (int i = 0; i < enemyList_.size(); i++) {
-			enemyList_[i]->Draw();
-		}
+		
 
 
 		al_draw_rectangle(GetMouseCursorX(),GetMouseCursorY(),GetMouseCursorX()+Constants::TileSize(),GetMouseCursorY()+Constants::TileSize(), al_map_rgb_f(0,0,0),2);//1

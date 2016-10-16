@@ -9,13 +9,15 @@
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_native_dialog.h>
 #include <vector>
-#include "tile.h"
+#include "cell.h"
 #include "../Config/Settings.h"
 #include <allegro5/allegro_font.h>//fonts
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
 #include "../../OpenSource/pugixml/pugixml.hpp"
 #include "../Config/AssetLibrary.h"
+#include "../LivingEntity/Character.h"
+
 
 
 
@@ -40,6 +42,7 @@ namespace StaticDLL{
 			//Offset dictates how displaced the map is from the view point.
 			STATICDLL_API Map(Settings *settings, ALLEGRO_DISPLAY *display, AssetLibrary *assetLibrary);
 
+			STATICDLL_API ~Map();
 
 			//Make a destructor for map...???????????>>><>
 
@@ -67,11 +70,12 @@ namespace StaticDLL{
 			STATICDLL_API int GetMapHeight();
 			STATICDLL_API int GetPlayerStartX();
 			STATICDLL_API int GetPlayerStartY();
-			STATICDLL_API std::vector<std::vector<Tile>> &GetTiles();
+			STATICDLL_API std::vector<std::vector<Cell>> &GetCellMap();
 			//STATICDLL_API std::vector<ObjectBase> &GetObjects();
 			STATICDLL_API double GetMapMoveXDelta();
 			STATICDLL_API double GetMapMoveYDelta();
 
+			STATICDLL_API std::vector<Character*> &GetEnemyList();
 
 
 
@@ -116,17 +120,22 @@ namespace StaticDLL{
 
 
 			//This Pre Calc function will calculate the drawing range for the maps boundaries. This should be run in update method
-			STATICDLL_API void PreCalc();
-			STATICDLL_API void CreateTiles(int newmapwidth, int newmapheight);
+			STATICDLL_API void Update();
+			STATICDLL_API void CreateCellMap(int newmapwidth, int newmapheight);
 			//Save dialog window for saving a map
 			STATICDLL_API void SaveMapDialog();
 			//Save function for saving the map in xml
 			STATICDLL_API bool SaveMap();
-			STATICDLL_API void LoadMapDialog();
-			STATICDLL_API void LoadMap();
+			STATICDLL_API void LoadMapDialog(bool gamestart);
+			STATICDLL_API void LoadMap(bool gamestart);
 			STATICDLL_API void ResetMap();
 
+			
+			STATICDLL_API void RemoveEnemyFromMap(int tileXPos, int tileYPos);
 
+			STATICDLL_API void AddEnemyToMap(EditorItemBase *item, int tileXPos, int tileYPos);
+
+			STATICDLL_API bool EnemyAlreadyExistsAtXY(int tileXPos, int tileYPos);
 
 
 			//-----------------------------------------------------------------------------------------------------
@@ -189,11 +198,10 @@ namespace StaticDLL{
 			bool playerplaced_;
 			int playerStartX_;//players starting position
 			int playerStartY_;
-			std::vector<std::vector<Tile>> tiles_;
 
 
-
-
+			std::vector<std::vector<Cell>> cellMap_;
+			std::vector<Character*> enemyList_;
 
 
 			//std::vector<ObjectBase> objects_;
