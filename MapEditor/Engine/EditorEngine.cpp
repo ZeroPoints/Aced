@@ -67,10 +67,18 @@ void EditorEngine::Run()
 			currentState_->SetRedraw(false);
 			currentState_->Draw();
 			//bread and butter
-			al_draw_textf(currentState_->GetFont(), chosenColorText_, 0, 20, ALLEGRO_ALIGN_LEFT, "%f" , ev.timer.timestamp);
+
+			char text[20];
+			sprintf(text, "%f", ev.timer.timestamp);
+			al_draw_text(currentState_->GetFont(), chosenColorText_, 
+				settings_->GetScreenWidth()-al_get_text_width(currentState_->GetFont(), text),
+				settings_->GetScreenHeight() - 20, ALLEGRO_ALIGN_LEFT, text);
+
 			al_flip_display();
 			al_clear_to_color(chosenColor_);//clears color to dark green to remove all back image
 		}
+
+
 		/*
 		Get state done or not
 		if done == true delete current state and Set new state

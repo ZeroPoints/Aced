@@ -16,6 +16,7 @@
 #include "../Config/Settings.h"
 #include "../ImageManagement/Image.h"
 #include "../World/Cell.h"
+#include <math.h>
 
 
 
@@ -58,19 +59,19 @@ namespace StaticDLL
 
 			
 
-			STATICDLL_API void SetCurrentPositionX(double x);
-			STATICDLL_API void SetCurrentPositionY(double y);
-			STATICDLL_API void SetCurrentPosition(double x, double y);
+			STATICDLL_API void SetCurrentPositionX(float x);
+			STATICDLL_API void SetCurrentPositionY(float y);
+			STATICDLL_API void SetCurrentPosition(float x, float y);
 			STATICDLL_API void SetColor(ALLEGRO_COLOR color);
-			STATICDLL_API void SetWidth(double val);
-			STATICDLL_API void SetHeight(double val);
-			STATICDLL_API void SetGravityY(double val);
-			STATICDLL_API void SetVelocityY(double val);
-			STATICDLL_API void SetMaxVelocityY(double val);
-			STATICDLL_API void SetAccelerationY(double val);
-			STATICDLL_API void SetMoveSpeedDelta(double val);
-			STATICDLL_API void SetMoveSpeed(double val);
-			STATICDLL_API void SetJumpSpeed(double val);
+			STATICDLL_API void SetWidth(float val);
+			STATICDLL_API void SetHeight(float val);
+			STATICDLL_API void SetGravityY(float val);
+			STATICDLL_API void SetVelocityY(float val);
+			STATICDLL_API void SetMaxVelocityY(float val);
+			STATICDLL_API void SetAccelerationY(float val);
+			STATICDLL_API void SetMoveSpeedDelta(float val);
+			STATICDLL_API void SetMoveSpeed(float val);
+			STATICDLL_API void SetJumpSpeed(float val);
 
 
 			STATICDLL_API void SetPlayerFacingDirection(EnumDLL::CHARACTERFACINGDIRECTION direction);
@@ -93,29 +94,29 @@ namespace StaticDLL
 
 			STATICDLL_API EnumDLL::CHARACTERYAXISSTATES GetCharacterYAxisState();
 
-			STATICDLL_API double GetHealth();
+			STATICDLL_API float GetHealth();
 
 
 
 			STATICDLL_API EnumDLL::CHARACTERFACINGDIRECTION GetPlayerFacingDirection();
 
-			STATICDLL_API double GetCurrentPositionX();
+			STATICDLL_API float GetCurrentPositionX();
 
 
-			STATICDLL_API double GetCurrentPositionY();
+			STATICDLL_API float GetCurrentPositionY();
 
 
-			STATICDLL_API double GetHeight();
-			STATICDLL_API double GetWidth();
+			STATICDLL_API float GetHeight();
+			STATICDLL_API float GetWidth();
 
-			STATICDLL_API double GetMoveSpeed();
-			STATICDLL_API double GetMoveSpeedDelta();
+			STATICDLL_API float GetMoveSpeed();
+			STATICDLL_API float GetMoveSpeedDelta();
 
-			STATICDLL_API double GetVelocityY();
-			STATICDLL_API double GetMaxVelocityY();
-			STATICDLL_API double GetAccelerationY();
+			STATICDLL_API float GetVelocityY();
+			STATICDLL_API float GetMaxVelocityY();
+			STATICDLL_API float GetAccelerationY();
 
-			STATICDLL_API double GetJumpSpeed();
+			STATICDLL_API float GetJumpSpeed();
 
 			
 			STATICDLL_API bool GetKeyRight();
@@ -141,7 +142,7 @@ namespace StaticDLL
 
 
 
-			STATICDLL_API void DrawObjectRotate(double mapXOffset, double mapYOffset);
+			STATICDLL_API void DrawObjectRotate(float mapXOffset, float mapYOffset);
 
 
 
@@ -226,7 +227,7 @@ namespace StaticDLL
 
 
 
-			double	currentPositionX_,
+			float	currentPositionX_,
 				currentPositionY_,
 				futurePositionX_,
 				futurePositionY_,

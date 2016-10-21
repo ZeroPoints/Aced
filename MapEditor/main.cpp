@@ -11,6 +11,7 @@
 #include "World/Map.h"
 //#include "ImageManagement/ImageLoader.h"
 #include "Config\AssetLibrary.h"
+#include "Static\Definitions.h"
 
 
 
@@ -49,6 +50,7 @@ int main(int argc, char **argv)
 	//http://gribblelab.org/CBootcamp/7_Memory_Stack_vs_Heap.html
 	
 
+	
 
 
 

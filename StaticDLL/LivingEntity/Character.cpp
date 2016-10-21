@@ -28,12 +28,12 @@ namespace StaticDLL {
 		SetHeight(0.8);
 
 		SetGravityY(-9.8);
-		SetVelocityY(0.1);
+		SetVelocityY(0.125);
 		SetMaxVelocityY(1);
-		SetAccelerationY(0.02);
+		SetAccelerationY(0.03125);
 
 
-		SetMoveSpeedDelta(0.1);
+		SetMoveSpeedDelta(0.0625);
 		SetMoveSpeed(30);
 		SetJumpSpeed(12);
 
@@ -78,46 +78,46 @@ namespace StaticDLL {
 
 
 
-	void Character::SetCurrentPosition(double x, double y) {
+	void Character::SetCurrentPosition(float x, float y) {
 		currentPositionX_ = x;
 		currentPositionY_ = y;
 	}
 	void Character::SetColor(ALLEGRO_COLOR color) {
 		chosenColor_ = color;
 	}
-	void Character::SetWidth(double val) {
+	void Character::SetWidth(float val) {
 		width_ = val;
 	}
-	void Character::SetHeight(double val) {
+	void Character::SetHeight(float val) {
 		height_ = val;
 	}
-	void Character::SetGravityY(double val) {
+	void Character::SetGravityY(float val) {
 		gravityY_ = val;
 	}
-	void Character::SetVelocityY(double val) {
+	void Character::SetVelocityY(float val) {
 		velocityY_ = val;
 	}
-	void Character::SetMaxVelocityY(double val) {
+	void Character::SetMaxVelocityY(float val) {
 		maxVelocityY_ = val;
 	}
-	void Character::SetAccelerationY(double val) {
+	void Character::SetAccelerationY(float val) {
 		accelerationY_ = val;
 	}
-	void Character::SetMoveSpeedDelta(double val) {
+	void Character::SetMoveSpeedDelta(float val) {
 		movespeedDelta_ = val;
 	}
-	void Character::SetMoveSpeed(double val) {
+	void Character::SetMoveSpeed(float val) {
 		movespeed_ = val;
 	}
-	void Character::SetJumpSpeed(double val) {
+	void Character::SetJumpSpeed(float val) {
 		jumpspeed_ = val;
 	}
 
-	void Character::SetCurrentPositionX(double val) {
+	void Character::SetCurrentPositionX(float val) {
 		currentPositionX_ = val;
 	}
 
-	void Character::SetCurrentPositionY(double val) {
+	void Character::SetCurrentPositionY(float val) {
 		currentPositionY_ = val;
 	}
 
@@ -179,12 +179,12 @@ namespace StaticDLL {
 
 
 
-	double Character::GetCurrentPositionX() {
+	float Character::GetCurrentPositionX() {
 		return currentPositionX_;
 	};
 
 
-	double Character::GetCurrentPositionY() {
+	float Character::GetCurrentPositionY() {
 		return currentPositionY_;
 	};
 
@@ -196,42 +196,42 @@ namespace StaticDLL {
 
 
 
-	double Character::GetHealth()
+	float Character::GetHealth()
 	{
 		return health_;
 	}
 
 
-	double Character::GetVelocityY() {
+	float Character::GetVelocityY() {
 		return velocityY_;
 	}
-	double Character::GetMaxVelocityY() {
+	float Character::GetMaxVelocityY() {
 		return maxVelocityY_;
 	}
-	double Character::GetAccelerationY() {
+	float Character::GetAccelerationY() {
 		return accelerationY_;
 	}
 
 
 
-	double Character::GetJumpSpeed() {
+	float Character::GetJumpSpeed() {
 		return jumpspeed_;
 	}
 
 
 
 
-	double Character::GetHeight() {
+	float Character::GetHeight() {
 		return height_;
 	}
-	double Character::GetWidth() {
+	float Character::GetWidth() {
 		return width_;
 	}
 
-	double Character::GetMoveSpeed() {
+	float Character::GetMoveSpeed() {
 		return movespeed_;
 	}
-	double Character::GetMoveSpeedDelta() {
+	float Character::GetMoveSpeedDelta() {
 		return movespeedDelta_;
 	}
 
@@ -283,7 +283,7 @@ namespace StaticDLL {
 
 
 
-	void Character::DrawObjectRotate(double mapXOffset, double mapYOffset) {
+	void Character::DrawObjectRotate(float mapXOffset, float mapYOffset) {
 		//0.8
 
 
@@ -450,7 +450,7 @@ namespace StaticDLL {
 	//this is moving in X direction
 	bool Character::CheckNextXPositionGoingLeft(float nextPosX, float nextPosY)
 	{
-		double height = GetHeight()*Constants::TileSize();
+		float height = GetHeight()*Constants::TileSize();
 
 		//check if tile is going off bounds return false;
 		if ((nextPosX) / Constants::TileSize() < 0) {
@@ -469,7 +469,7 @@ namespace StaticDLL {
 	}
 	bool Character::CheckNextXPositionGoingRight(float nextPosX, float nextPosY)
 	{
-		double height = GetHeight()*Constants::TileSize();
+		float height = GetHeight()*Constants::TileSize();
 
 		//check if tile is going off bounds return false;
 		if ((nextPosX) / Constants::TileSize() + GetWidth() > mapWidth_) {
@@ -481,6 +481,7 @@ namespace StaticDLL {
 			auto cellFuture = &cellMap_->at((nextPosX) / Constants::TileSize() + GetWidth()).at((nextPosY + i) / Constants::TileSize());
 			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || cellFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONLEFTTILE)
 			{
+
 				return false;
 			}
 		}
@@ -493,11 +494,11 @@ namespace StaticDLL {
 	//this is moving in Y direction
 	bool Character::CheckNextYPositionFalling(float nextPosX, float nextPosY)
 	{
-		double width = GetWidth()*Constants::TileSize();
+		float width = GetWidth()*Constants::TileSize();
 		//check if tile is going off bounds return false;
 		if ((nextPosY) / Constants::TileSize() + GetHeight() >= mapHeight_) {
 			SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND);
-			SetVelocityY(0.1);
+			SetVelocityY(0.125);
 			//set no moving
 			return false;
 		}
@@ -506,8 +507,9 @@ namespace StaticDLL {
 			auto cellFuture = &cellMap_->at((nextPosX + i) / Constants::TileSize()).at((nextPosY) / Constants::TileSize() + GetHeight());
 			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || cellFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONTOPTILE)
 			{
+				SetCurrentPositionY(cellFuture->GetCurrentPositionY() - GetHeight());
 				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND);
-				SetVelocityY(0.1);
+				SetVelocityY(0.125);
 				return false;
 			}
 		}
@@ -517,11 +519,11 @@ namespace StaticDLL {
 	//this is moving in Y direction
 	bool Character::CheckNextYPositionJumping(float nextPosX, float nextPosY)
 	{
-		double width = GetWidth()*Constants::TileSize();
+		float width = GetWidth()*Constants::TileSize();
 		//check if tile is going off bounds return false;
 		if ((nextPosY) / Constants::TileSize() < 0) {
 			SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
-			SetVelocityY(0.1);
+			SetVelocityY(0.125);
 			//set no moving
 			return false;
 		}
@@ -531,7 +533,7 @@ namespace StaticDLL {
 			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE)
 			{
 				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
-				SetVelocityY(0.1);
+				SetVelocityY(0.125);
 				return false;
 			}
 		}
@@ -596,11 +598,13 @@ namespace StaticDLL {
 			if (CheckNextYPositionFalling(GetCurrentPositionX()*Constants::TileSize(), nextPosY))
 			{
 				SetCurrentPositionY(nextPosY / Constants::TileSize());
-				
+			}
+			else {
+				break;
 			}
 		}
 		//Every tick update the fall speed
-		if (GetVelocityY() + GetAccelerationY() <= GetMaxVelocityY())
+		if (GetVelocityY() + GetAccelerationY() <= GetMaxVelocityY() && GetCharacterYAxisState() != EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND)
 		{
 			SetVelocityY(GetVelocityY() + GetAccelerationY());
 		}
@@ -629,7 +633,7 @@ namespace StaticDLL {
 		}
 		else
 		{
-			SetVelocityY(0.1);
+			SetVelocityY(0.125);
 			SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
 		}
 	}

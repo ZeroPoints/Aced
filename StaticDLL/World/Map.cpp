@@ -248,6 +248,12 @@ namespace StaticDLL {
 
 		for (int i = 0; i < enemyList_.size(); i++) {
 			enemyList_[i]->DrawObjectRotate(mapXoffset_, mapYoffset_);
+
+			char text[100];
+			sprintf(text, "Player%d:x=%f:y=%f", i, enemyList_[i]->GetCurrentPositionX(), enemyList_[i]->GetCurrentPositionY());
+			al_draw_text(font30_, al_map_rgb(0, 0, 0),
+				0,
+				20*(i+1), ALLEGRO_ALIGN_LEFT, text);
 		}
 	}
 

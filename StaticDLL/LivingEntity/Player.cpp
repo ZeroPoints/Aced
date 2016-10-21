@@ -23,12 +23,12 @@ namespace StaticDLL {
 		SetHeight(0.8);
 
 		SetGravityY(-9.8);
-		SetVelocityY(0.1);
+		SetVelocityY(0.125);
 		SetMaxVelocityY(1);
-		SetAccelerationY(0.02);
+		SetAccelerationY(0.03125);
 
 
-		SetMoveSpeedDelta(0.1);
+		SetMoveSpeedDelta(0.125);
 		SetMoveSpeed(30);
 		SetJumpSpeed(12);
 		font30_ = al_load_font("arial.ttf", 20, 0);
@@ -258,11 +258,6 @@ namespace StaticDLL {
 		//0.8
 
 
-		al_draw_textf(font30_, al_map_rgb_f(0, 0, 0), 0, 40, ALLEGRO_ALIGN_LEFT, "posX:%f", currentPositionX_);
-		al_draw_textf(font30_, al_map_rgb_f(0, 0, 0), 0, 60, ALLEGRO_ALIGN_LEFT, "posX:%f", map_->GetMapXOffset());
-		al_draw_textf(font30_, al_map_rgb_f(0, 0, 0), 0, 80, ALLEGRO_ALIGN_LEFT, "posX:%f", map_->GetMapYOffset());
-
-
 
 
 		if (hasImage_ &&  hasColor_)
@@ -451,7 +446,7 @@ namespace StaticDLL {
 		//check if tile is going off bounds return false;
 		if ((nextPosY) / Constants::TileSize() + GetHeight() >= map_->GetMapHeight()) {
 			SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND);
-			SetVelocityY(0.1);
+			SetVelocityY(0.125);
 			//set no moving
 			return false;
 		}
@@ -460,8 +455,9 @@ namespace StaticDLL {
 			Cell *cellFuture = &map_->GetCellMap()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize() + GetHeight()];
 			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || cellFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONTOPTILE)
 			{
+				SetCurrentPositionY(cellFuture->GetCurrentPositionY() - GetHeight());
 				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND);
-				SetVelocityY(0.1);
+				SetVelocityY(0.125);
 				return false;
 			}
 		}
@@ -475,7 +471,7 @@ namespace StaticDLL {
 		//check if tile is going off bounds return false;
 		if ((nextPosY) / Constants::TileSize() < 0) {
 			SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
-			SetVelocityY(0.1);
+			SetVelocityY(0.125);
 			//set no moving
 			return false;
 		}
@@ -485,7 +481,7 @@ namespace StaticDLL {
 			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE)
 			{
 				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
-				SetVelocityY(0.1);
+				SetVelocityY(0.125);
 				return false;
 			}
 		}
@@ -529,8 +525,9 @@ namespace StaticDLL {
 			{
 				AdjustPlayerRotation();
 				SetCurrentPositionX(nextPosX / Constants::TileSize());
-				if (map_->GetMapWidth() * 20 + map_->GetMapXOffset() - settings_->GetScreenWidth() <= 0 || nextPosX <= settings_->GetScreenWidth() / 2)
+				if (map_->GetMapWidth() * Constants::TileSize() + map_->GetMapXOffset() - settings_->GetScreenWidth() <= 0 || nextPosX <= settings_->GetScreenWidth() / 2)
 				{
+
 				}
 				else
 				{
@@ -538,6 +535,12 @@ namespace StaticDLL {
 					map_->SetMapXOffset(map_->GetMapXOffset() - GetMoveSpeedDelta());
 				}
 			}
+			else
+			{
+				AdjustPlayerRotation();
+
+			}
+			//If im going right but am as close as movespeed delta as possible do another check and fudge closer
 		}
 	}
 
@@ -552,7 +555,7 @@ namespace StaticDLL {
 			if (CheckNextYPositionFalling(GetCurrentPositionX()*Constants::TileSize(), nextPosY))
 			{
 				SetCurrentPositionY(nextPosY / Constants::TileSize());
-				if (map_->GetMapHeight() * 20 + map_->GetMapYOffset() - settings_->GetScreenHeight() <= 0 || nextPosY <= settings_->GetScreenHeight() / 2)
+				if (map_->GetMapHeight() * Constants::TileSize() + map_->GetMapYOffset() - settings_->GetScreenHeight() <= 0 || nextPosY <= settings_->GetScreenHeight() / 2)
 				{
 				}
 				else
@@ -561,9 +564,12 @@ namespace StaticDLL {
 					map_->SetMapYOffset(map_->GetMapYOffset() - GetVelocityY());
 				}
 			}
+			else {
+				break;
+			}
 		}
 		//Every tick update the fall speed
-		if (GetVelocityY() + GetAccelerationY() <= GetMaxVelocityY())
+		if (GetVelocityY() + GetAccelerationY() <= GetMaxVelocityY() && GetCharacterYAxisState() != EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND)
 		{
 			SetVelocityY(GetVelocityY() + GetAccelerationY());
 		}
@@ -600,7 +606,7 @@ namespace StaticDLL {
 		}
 		else
 		{
-			SetVelocityY(0.1);
+			SetVelocityY(0.125);
 			SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
 		}
 	}

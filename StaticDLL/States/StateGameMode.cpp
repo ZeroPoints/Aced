@@ -146,7 +146,11 @@ namespace StaticDLL{
 
 		player1_->DrawObjectRotate();
 	
-
+		char text[100];
+		sprintf(text, "Player:x=%f:y=%f", player1_->GetCurrentPositionX(), player1_->GetCurrentPositionY());
+		al_draw_text(GetFont(), al_map_rgb(0, 0, 0),
+			0,
+			20 * 9, ALLEGRO_ALIGN_LEFT, text);
 		
 
 

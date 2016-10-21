@@ -28,11 +28,21 @@ namespace StaticDLL{
 
 
 			enum IMAGESETS{PLAYERIMAGESET, TILEIMAGESET, TILECOLORSET, BACKGROUNDIMAGESET, SYSTEMIMAGESET, OBJECTIMAGESET, ENEMYIMAGESET};
+
 	};
+
+
+	struct Vector
+	{
+		float x;
+		float y;
+	};
+
+
 
 	class Constants{
 		public:
-			static const double TileSize() { return 20.0; }
+			static const float TileSize() { return 20.0; }
 
 
 	};
