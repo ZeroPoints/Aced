@@ -733,6 +733,9 @@ namespace StaticDLL {
 							{
 								auto imgId = xmlcurrentInteractiveObjectInnerNode->attribute("id").as_int();
 								auto imageSetId = xmlcurrentInteractiveObjectInnerNode->attribute("imageSet").as_int();
+								auto imageReferenceX = xmlcurrentInteractiveObjectInnerNode->attribute("imageReferenceX").as_int();
+								auto imageReferenceY = xmlcurrentInteractiveObjectInnerNode->attribute("imageReferenceY").as_int();
+
 								int indexOfImageSet = -1;
 								for (int k = 0; k < assetLibrary_->GetImageSetDictionary().size(); k++)
 								{
@@ -747,7 +750,9 @@ namespace StaticDLL {
 									{
 										if (imageDictionary[j]->GetId() == imgId)
 										{
-											currentInteractiveObject->SetImage(imageDictionary[j]);
+											currentInteractiveObject->SetImage(imageDictionary[j], 
+												i != imageReferenceX && j != imageReferenceY,
+												imageReferenceX, imageReferenceY);
 											currentInteractiveObject->SetImageSet(EnumDLL::IMAGESETS(imageSetId));
 											break;
 										}
