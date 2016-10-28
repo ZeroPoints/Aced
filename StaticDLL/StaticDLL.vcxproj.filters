@@ -209,6 +209,7 @@
       <Filter>Resource Files</Filter>
     </Xml>
     <Xml Include="..\Images\EnemyImageList.xml" />
+    <Xml Include="..\Images\ItemImageList.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Settings.config">

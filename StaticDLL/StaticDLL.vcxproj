@@ -153,6 +153,9 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\Images\EnemyImageList.xml" />
+    <Xml Include="..\Images\ItemImageList.xml">
+      <SubType>Designer</SubType>
+    </Xml>
     <Xml Include="..\Images\ObjectImageList.xml" />
     <Xml Include="..\Images\PlayersImageList.xml" />
     <Xml Include="..\Images\SystemImages.xml" />

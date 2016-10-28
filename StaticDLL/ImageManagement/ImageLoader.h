@@ -57,6 +57,7 @@ namespace StaticDLL{
 			STATICDLL_API void LoadSystemImages();
 			STATICDLL_API void LoadObjectImages();
 			STATICDLL_API void LoadEnemyImages();
+			STATICDLL_API void LoadItemImages();
 
 			
 

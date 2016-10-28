@@ -113,6 +113,11 @@ namespace StaticDLL{
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 
+		itemStore = new EditorOverLay(settings_, EnumDLL::STATES::ITEMPICKER, assetLibrary_);
+		itemStore->SetMenuHeader("  ITEMS  ", headerPositionX, 0);
+		editorOverLays_.push_back(itemStore);
+		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
+
 		itemStore = new EditorOverLay(settings_, EnumDLL::STATES::ENEMYPICKER, assetLibrary_);
 		itemStore->SetMenuHeader("  ENEMIES  ", headerPositionX, 0);
 		editorOverLays_.push_back(itemStore);

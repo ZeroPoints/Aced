@@ -35,6 +35,9 @@ namespace StaticDLL{
 			case EnumDLL::STATES::ENEMYPICKER:
 				imageSetId_ = EnumDLL::IMAGESETS::ENEMYIMAGESET;
 				break;
+			case EnumDLL::STATES::ITEMPICKER:
+				imageSetId_ = EnumDLL::IMAGESETS::ITEMIMAGESET;
+				break;
 		}
 
 		for(int i = 0; i < assetLibrary_->GetImageSetDictionary().size(); i ++)
@@ -86,6 +89,11 @@ namespace StaticDLL{
 			CreateEnemyImagePicker();
 			CreateTilePages();
 		}
+		else if (id_ == EnumDLL::STATES::ITEMPICKER)
+		{
+			CreateItemImagePicker();
+			CreateTilePages();
+		}
 		tilePickerWindow_->SetWidth(widthMax_);
 		tilePickerWindow_->SetHeight(settings_->GetDisplayHeight());
 		currentTilePage_ = 0;
@@ -135,6 +143,11 @@ namespace StaticDLL{
 		else if (id_ == EnumDLL::STATES::ENEMYPICKER)
 		{
 			CreateEnemyImagePicker();
+			CreateTilePages();
+		}
+		else if (id_ == EnumDLL::STATES::ITEMPICKER)
+		{
+			CreateItemImagePicker();
 			CreateTilePages();
 		}
 	}
@@ -558,6 +571,58 @@ namespace StaticDLL{
 
 
 	void EditorOverLay::CreateEnemyImagePicker()
+	{
+		int topOffset = 2;
+		int leftOffset = 1;
+		int displacementOffset = 2;
+		int screenHeight = settings_->GetDisplayHeight() - 2;
+		//Displace counter for screen height if its not even
+		if (screenHeight % 2 == 1)
+		{
+			screenHeight--;
+		}
+
+		//is this the best way to clean those objects?
+		itemBaseList_.resize(0);
+		itemBaseList_.clear();
+
+		itemBaseList_.resize(tileVectorWidthMax_);
+
+
+
+		int i = 0;
+		for (int j = 0; j < imageDictionarySize_; j++)
+		{
+			EditorItemBase* tempTile = new EditorItemBase();
+			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
+			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
+			tempTile->SetImageSet(imageSetId_);
+
+
+			int posX = leftOffset + (j%tileVectorWidthMax_)*displacementOffset;
+			int posY = topOffset + (i / tileVectorWidthMax_*displacementOffset) % (screenHeight);
+
+			tempTile->SetCurrentPosition(posX, posY);
+
+			itemBaseList_[j%tileVectorWidthMax_].push_back(*tempTile);
+			//go to next placement
+
+			i++;
+
+			//delete the copy of object
+			delete tempTile;
+		}
+
+
+
+	}
+
+
+
+
+
+
+	void EditorOverLay::CreateItemImagePicker()
 	{
 		int topOffset = 2;
 		int leftOffset = 1;

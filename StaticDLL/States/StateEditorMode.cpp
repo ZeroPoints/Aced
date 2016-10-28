@@ -333,6 +333,15 @@ namespace StaticDLL{
 							}
 						}
 					}
+
+					else if (selectedItemBase_.first == EnumDLL::STATES::ITEMPICKER) {
+
+						//Check that your not placing item over a tile position
+						//Check not over existing char
+
+						int tileEmpty = true;
+						
+					}
 				}
 			}
 		}

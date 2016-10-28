@@ -110,6 +110,8 @@ namespace StaticDLL{
 
 			STATICDLL_API void CreateObjectImagePicker();
 			STATICDLL_API void CreateEnemyImagePicker();
+			STATICDLL_API void CreateItemImagePicker();
+			
 			STATICDLL_API void CreateTileImagePicker();
 			STATICDLL_API void CreateTileTypes();
 
