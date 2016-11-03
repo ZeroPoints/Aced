@@ -472,7 +472,7 @@ namespace StaticDLL {
 		float height = GetHeight()*Constants::TileSize();
 
 		//check if tile is going off bounds return false;
-		if ((nextPosX) / Constants::TileSize() + GetWidth() > mapWidth_) {
+		if ((nextPosX) / Constants::TileSize() + GetWidth() >= mapWidth_) {
 			return false;
 		}
 

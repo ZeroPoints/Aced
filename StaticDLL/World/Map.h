@@ -17,6 +17,7 @@
 #include "../../OpenSource/pugixml/pugixml.hpp"
 #include "../Config/AssetLibrary.h"
 #include "../LivingEntity/Character.h"
+#include "Item.h"
 
 
 
@@ -76,6 +77,7 @@ namespace StaticDLL{
 			STATICDLL_API double GetMapMoveYDelta();
 
 			STATICDLL_API std::vector<Character*> &GetEnemyList();
+			STATICDLL_API std::vector<Item*> &GetItemList();
 
 
 
@@ -132,10 +134,13 @@ namespace StaticDLL{
 
 			
 			STATICDLL_API void RemoveEnemyFromMap(int tileXPos, int tileYPos);
+			STATICDLL_API void RemoveItemFromMap(int tileXPos, int tileYPos);
 
 			STATICDLL_API void AddEnemyToMap(EditorItemBase *item, int tileXPos, int tileYPos);
+			STATICDLL_API void AddItemToMap(EditorItemBase *item, int tileXPos, int tileYPos);
 
 			STATICDLL_API bool EnemyAlreadyExistsAtXY(int tileXPos, int tileYPos);
+			STATICDLL_API bool ItemAlreadyExistsAtXY(int tileXPos, int tileYPos);
 
 
 			//-----------------------------------------------------------------------------------------------------
@@ -202,6 +207,7 @@ namespace StaticDLL{
 
 			std::vector<std::vector<Cell>> cellMap_;
 			std::vector<Character*> enemyList_;
+			std::vector<Item*> itemList_;
 
 
 			//std::vector<ObjectBase> objects_;

@@ -27,6 +27,12 @@ namespace StaticDLL {
 			delete item;
 			item = nullptr;
 		}
+
+		for (Item* item : itemList_)
+		{
+			delete item;
+			item = nullptr;
+		}
 		//fprintf(stderr, "A Map Destructed\n");
 
 	}
@@ -94,6 +100,10 @@ namespace StaticDLL {
 
 	std::vector<Character*> &Map::GetEnemyList() {
 		return enemyList_;
+	}
+
+	std::vector<Item*> &Map::GetItemList() {
+		return itemList_;
 	}
 
 
@@ -255,6 +265,10 @@ namespace StaticDLL {
 				0,
 				20*(i+1), ALLEGRO_ALIGN_LEFT, text);
 		}
+
+		for (int i = 0; i < itemList_.size(); i++) {
+			itemList_[i]->DrawObject(mapXoffset_, mapYoffset_);
+		}
 	}
 
 
@@ -354,6 +368,9 @@ namespace StaticDLL {
 			enemyList_[i]->Update();
 		}
 
+		for (int i = 0; i < itemList_.size(); i++) {
+			//itemList_[i]->Update();
+		}
 	}
 
 
@@ -379,15 +396,6 @@ namespace StaticDLL {
 	Saves the map in XML format
 	hmmm using standard type members as attributes
 	using complex objects members as nodes
-	<map attrib1="" attrib2="" attrib3="">
-	<tileset>
-	<tile attribute1="blah" />
-	<tile attribute1="blah" />
-	<tile attribute1="blah" />
-	<tile attribute1="blah" />
-	</tileset>
-
-	</map>
 	*/
 	bool Map::SaveMap()
 	{
@@ -415,6 +423,24 @@ namespace StaticDLL {
 					pugi::xml_node xmlCurrentImage = xmlcurrentEnemy.append_child("image");
 					xmlCurrentImage.append_attribute("id").set_value(currentEnemy->GetObjectImage()->GetId());
 					xmlCurrentImage.append_attribute("imageSet").set_value(currentEnemy->GetImageSet());
+				}
+			}
+		}
+
+		if (itemList_.size() > 0) {
+			pugi::xml_node xmlenemyset = xmlMap.append_child("itemspawn");
+			for (int i = 0; i < itemList_.size(); i++) {
+				Item *currentItem = itemList_[i];
+				pugi::xml_node xmlcurrentEnemy = xmlenemyset.append_child("item");
+				xmlcurrentEnemy.append_attribute("x").set_value(currentItem->GetPosX());
+				xmlcurrentEnemy.append_attribute("y").set_value(currentItem->GetPosY());
+				auto hasImage = currentItem->GetHasImage();
+				xmlcurrentEnemy.append_attribute("hasImage").set_value(hasImage);
+				if (hasImage)
+				{
+					pugi::xml_node xmlCurrentImage = xmlcurrentEnemy.append_child("image");
+					xmlCurrentImage.append_attribute("id").set_value(currentItem->GetObjectImage()->GetId());
+					xmlCurrentImage.append_attribute("imageSet").set_value(currentItem->GetImageSet());
 				}
 			}
 		}
@@ -569,13 +595,82 @@ namespace StaticDLL {
 								}
 							}
 						}
-
 					}
 				}
+			}
+		}
 
+
+
+		pugi::xml_node xmlitemset = xmlMap.child("itemspawn");
+		for (pugi::xml_node_iterator xmlcurrentItem = xmlitemset.children().begin(); xmlcurrentItem != xmlitemset.children().end(); xmlcurrentItem++)
+		{
+			bool hasImage = false;
+
+			auto item = new Item();
+
+
+			itemList_.push_back(item);
+
+
+			//Cycle through attributes of this node
+			for (pugi::xml_attribute_iterator xmlTileAttribute = xmlcurrentItem->attributes_begin(); xmlTileAttribute != xmlcurrentItem->attributes_end(); xmlTileAttribute++)
+			{
+				auto currentCellAttributeName = xmlTileAttribute->name();
+				if (strcmp(currentCellAttributeName, "x") == 0)
+				{
+					item->SetPosX(xmlTileAttribute->as_double());
+				}
+				else if (strcmp(currentCellAttributeName, "y") == 0)
+				{
+					item->SetPosY(xmlTileAttribute->as_double());
+				}
+				else if (strcmp(currentCellAttributeName, "hasImage") == 0)
+				{
+					hasImage = xmlTileAttribute->as_bool();
+				}
 			}
 
+			if (hasImage) {
+				//go through the tiles actual nodes within this node
+				for (pugi::xml_node_iterator xmlcurrentCellNode = xmlcurrentItem->children().begin(); xmlcurrentCellNode != xmlcurrentItem->children().end(); xmlcurrentCellNode++)
+				{
+					auto currentCellNodeName = xmlcurrentCellNode->name();
+					//if no img property it will skip from settings its property
+					if (strcmp(currentCellNodeName, "image") == 0)
+					{
+						auto imgId = xmlcurrentCellNode->attribute("id").as_int();
+						auto imageSetId = xmlcurrentCellNode->attribute("imageSet").as_int();
+						int indexOfImageSet = -1;
+						for (int k = 0; k < assetLibrary_->GetImageSetDictionary().size(); k++)
+						{
+							if (assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
+							{
+								indexOfImageSet = k;
+							}
+						}
+						if (indexOfImageSet >= 0) {
+							auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageDictionary();
+							for (int j = 0; j < imageDictionary.size(); j++)
+							{
+								if (imageDictionary[j]->GetId() == imgId)
+								{
+									item->SetImage(imageDictionary[j]);
+									item->SetImageSet(EnumDLL::IMAGESETS(imageSetId));
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
 		}
+
+
+
+
+
+
 
 
 
@@ -799,6 +894,12 @@ namespace StaticDLL {
 			enemyList_.erase(enemyList_.begin() + 0);
 		}
 
+		while (itemList_.size() > 0) {
+			delete itemList_[0];
+			itemList_.erase(itemList_.begin() + 0);
+		}
+
+
 
 
 		mapXoffset_ = settings_->GetScreenWidth() / 2 - width_*Constants::TileSize() / 2;
@@ -841,6 +942,22 @@ namespace StaticDLL {
 
 
 
+	void Map::AddItemToMap(EditorItemBase *item, int tileXPos, int tileYPos) {
+
+
+		auto thing = new Item();
+
+		thing->SetPosX(tileXPos);
+		thing->SetPosY(tileYPos);
+		thing->SetObjectProperties(item);
+
+		itemList_.push_back(thing);
+
+	}
+
+
+
+
 	void Map::RemoveEnemyFromMap(int tileXPos, int tileYPos) {
 
 		for (auto i = 0; i < enemyList_.size(); i++) {
@@ -851,6 +968,20 @@ namespace StaticDLL {
 			}
 		}
 	}
+
+
+
+	void Map::RemoveItemFromMap(int tileXPos, int tileYPos) {
+
+		for (auto i = 0; i < itemList_.size(); i++) {
+			if (itemList_[i]->GetPosX() == tileXPos && itemList_[i]->GetPosY() == tileYPos) {
+				//Go through vector find the one then remove
+				delete itemList_[i];
+				itemList_.erase(itemList_.begin() + i);
+			}
+		}
+	}
+
 
 
 
@@ -866,6 +997,16 @@ namespace StaticDLL {
 	}
 
 
+
+	bool Map::ItemAlreadyExistsAtXY(int tileXPos, int tileYPos) {
+
+		for (auto i = 0; i < itemList_.size(); i++) {
+			if (itemList_[i]->GetPosX() == tileXPos && itemList_[i]->GetPosY() == tileYPos) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 
 

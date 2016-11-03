@@ -184,6 +184,10 @@ namespace StaticDLL{
 						if (GetMap()->EnemyAlreadyExistsAtXY(tileXPos, tileYPos)) {
 							cellEmpty = false;
 						}
+						else if (GetMap()->ItemAlreadyExistsAtXY(tileXPos, tileYPos)) {
+							cellEmpty = false;
+						}
+
 						if (cellEmpty) {
 							GetMap()->GetCellMap()[tileXPos][tileYPos].SetTileTypeProperties(selectedItemBase_.second);
 						}
@@ -203,6 +207,9 @@ namespace StaticDLL{
 							cellEmpty = false;
 						}
 						else if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasInteractiveObject()) {
+							cellEmpty = false;
+						}
+						else if (GetMap()->ItemAlreadyExistsAtXY(tileXPos, tileYPos)) {
 							cellEmpty = false;
 						}
 
@@ -256,6 +263,10 @@ namespace StaticDLL{
 										break;
 									}
 									else if (GetMap()->GetCellMap()[i][j].GetHasInteractiveObject()) {
+										cellEmpty = false;
+										break;
+									}
+									else if (GetMap()->ItemAlreadyExistsAtXY(i, j)) {
 										cellEmpty = false;
 										break;
 									}
@@ -314,6 +325,10 @@ namespace StaticDLL{
 									tileEmpty = false;
 									break;
 								}
+								else if (GetMap()->ItemAlreadyExistsAtXY(i, j)) {
+									tileEmpty = false;
+									break;
+								}
 							}
 						}
 
@@ -340,7 +355,45 @@ namespace StaticDLL{
 						//Check not over existing char
 
 						int tileEmpty = true;
-						
+						for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
+							for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
+								if (GetMap()->GetCellMap()[i][j].GetTileType() != EnumDLL::TILETYPE::EMPTYTILE)
+								{
+									tileEmpty = false;
+									break;
+								}
+								else if (GetMap()->EnemyAlreadyExistsAtXY(i, j)) {
+									tileEmpty = false;
+									break;
+								}
+								else if (GetMap()->GetCellMap()[i][j].GetHasInteractiveObject()) {
+									tileEmpty = false;
+									break;
+								}
+								else if (GetMap()->ItemAlreadyExistsAtXY(i, j)) {
+									tileEmpty = false;
+									break;
+								}
+							}
+						}
+
+
+						//Remover item
+						if (selectedItemBase_.second->GetObjectImage()->GetId() == 0) {
+							//removes enemy if it exists at point
+							GetMap()->RemoveItemFromMap(tileXPos, tileYPos);
+						}
+						//Empty slot place enemy spawner
+						else if (tileEmpty) {
+							//should hopefully ever be 1x1 enemy sizes otherwise change add enemy to be special
+							for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
+								for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
+									GetMap()->AddItemToMap(selectedItemBase_.second, tileXPos, tileYPos);
+								}
+							}
+						}
+
+
 					}
 				}
 			}

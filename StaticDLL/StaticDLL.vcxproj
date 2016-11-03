@@ -105,6 +105,7 @@
     <ClInclude Include="World\Cell.h" />
     <ClInclude Include="World\CharacterSpawn.h" />
     <ClInclude Include="World\InteractiveObject.h" />
+    <ClInclude Include="World\Item.h" />
     <ClInclude Include="World\Map.h" />
     <ClInclude Include="ObjectBase.h" />
     <ClInclude Include="LivingEntity\Player.h" />
@@ -140,6 +141,7 @@
     <ClCompile Include="States\StateMapOptions.cpp" />
     <ClCompile Include="World\Cell.cpp" />
     <ClCompile Include="World\CharacterSpawn.cpp" />
+    <ClCompile Include="World\Item.cpp" />
     <ClCompile Include="World\Map.cpp" />
     <ClCompile Include="Menu\MenuOptions.cpp" />
     <ClCompile Include="LivingEntity\Player.cpp" />
