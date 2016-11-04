@@ -223,6 +223,10 @@ namespace StaticDLL {
 		return KeyLeft_;
 	}
 
+	std::vector<Item*> &Player::GetItemList() {
+		return itemList_;
+	}
+
 
 
 
@@ -421,7 +425,7 @@ namespace StaticDLL {
 		double height = GetHeight()*Constants::TileSize();
 
 		//check if tile is going off bounds return false;
-		if ((nextPosX) / Constants::TileSize() + GetWidth() > map_->GetMapWidth()) {
+		if ((nextPosX) / Constants::TileSize() + GetWidth() >= map_->GetMapWidth()) {
 			return false;
 		}
 
@@ -610,9 +614,29 @@ namespace StaticDLL {
 			SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
 		}
 	}
+
+
+
+
+	void Player::AddItemToInventory(EditorItemBase *thing) {
+		auto item = new Item();
+		item->SetPosX(0);
+		item->SetPosY(0);
+		item->SetObjectProperties(thing);
+		itemList_.push_back(item);
+	}
+
+
+	void Player::RemoveItemFromInventory(int id) {
+
+		delete itemList_[id];
+		itemList_.erase(itemList_.begin() + 0);
+
+	}
+
+
+		
 }
-
-
 
 
 

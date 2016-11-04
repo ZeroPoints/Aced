@@ -867,11 +867,9 @@ namespace StaticDLL {
 				i++;
 			}
 		}
-
-
-
-
 	}
+
+
 
 	void Map::ResetMap()
 	{
@@ -898,8 +896,6 @@ namespace StaticDLL {
 			delete itemList_[0];
 			itemList_.erase(itemList_.begin() + 0);
 		}
-
-
 
 
 		mapXoffset_ = settings_->GetScreenWidth() / 2 - width_*Constants::TileSize() / 2;

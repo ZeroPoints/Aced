@@ -117,6 +117,10 @@ namespace StaticDLL{
 			STATICDLL_API Map GetMap();
 			STATICDLL_API Settings GetSettings();
 
+			STATICDLL_API std::vector<Item*> &GetItemList();
+
+
+
 
 			//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -191,9 +195,10 @@ namespace StaticDLL{
 
 
 
+			STATICDLL_API void AddItemToInventory(EditorItemBase *item);
 
 
-
+			STATICDLL_API void RemoveItemFromInventory(int id);
 
 
 
@@ -207,6 +212,8 @@ namespace StaticDLL{
 
 		EnumDLL::CHARACTERYAXISSTATES characterYAxisState_;
 
+
+		std::vector<Item*> itemList_;
 
 
 
