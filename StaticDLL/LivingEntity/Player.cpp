@@ -262,6 +262,12 @@ namespace StaticDLL {
 		//0.8
 
 
+		char text[100];
+		sprintf(text, "Player-items=%d", itemList_.size());
+		al_draw_text(font30_, al_map_rgb(0, 0, 0),
+			0,
+			20 * (5 + 1), ALLEGRO_ALIGN_LEFT, text);
+
 
 
 		if (hasImage_ &&  hasColor_)
@@ -394,6 +400,13 @@ namespace StaticDLL {
 		{
 			Jumping();
 		}
+
+
+		auto item = map_->ItemCollisionCheckAtXY(currentPositionX_, currentPositionY_, width_, height_);
+		if (item != nullptr) {
+			AddItemToInventory(item);
+		}
+
 
 	}
 
@@ -618,12 +631,10 @@ namespace StaticDLL {
 
 
 
-	void Player::AddItemToInventory(EditorItemBase *thing) {
-		auto item = new Item();
-		item->SetPosX(0);
-		item->SetPosY(0);
-		item->SetObjectProperties(thing);
-		itemList_.push_back(item);
+	void Player::AddItemToInventory(Item *thing) {
+		thing->SetPosX(10);
+		thing->SetPosY(10);
+		itemList_.push_back(thing);
 	}
 
 

@@ -141,7 +141,8 @@ namespace StaticDLL{
 
 			STATICDLL_API bool EnemyAlreadyExistsAtXY(int tileXPos, int tileYPos);
 			STATICDLL_API bool ItemAlreadyExistsAtXY(int tileXPos, int tileYPos);
-
+			STATICDLL_API Item* ItemCollisionCheckAtXY(double playerX, double playerY, double width, double height);
+			
 
 			//-----------------------------------------------------------------------------------------------------
 

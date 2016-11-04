@@ -1005,6 +1005,23 @@ namespace StaticDLL {
 	}
 
 
+	Item* Map::ItemCollisionCheckAtXY(double playerX, double playerY, double width, double height) {
+		for (auto i = 0; i < itemList_.size(); i++) {
+			auto item = itemList_[i];
+			if (playerX < item->GetPosX() + item->GetObjectImage()->GetWidth() 
+				&& playerX + width > item->GetPosX() &&
+				playerY < item->GetPosY() + item->GetObjectImage()->GetHeight()
+				&& playerY + height > item->GetPosY()
+				) {
+				itemList_.erase(itemList_.begin() + i);
+				return item;
+			}
+		}
+		return nullptr;
+	}
+
+
+
 
 
 	//-----------------------------------------------------------------------------------------------------

@@ -195,7 +195,7 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API void AddItemToInventory(EditorItemBase *item);
+			STATICDLL_API void AddItemToInventory(Item *item);
 
 
 			STATICDLL_API void RemoveItemFromInventory(int id);
