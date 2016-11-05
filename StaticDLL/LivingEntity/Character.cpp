@@ -598,8 +598,12 @@ namespace StaticDLL {
 			if (CheckNextYPositionFalling(GetCurrentPositionX()*Constants::TileSize(), nextPosY))
 			{
 				SetCurrentPositionY(nextPosY / Constants::TileSize());
+				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
+
 			}
 			else {
+				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND);
+
 				break;
 			}
 		}
