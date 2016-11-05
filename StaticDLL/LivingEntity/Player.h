@@ -254,7 +254,8 @@ namespace StaticDLL{
 			hasText_,
 			hasImage_,
 			hasImageReference_,
-			hasColor_;
+			hasColor_,
+			showInvetory_;
 
 
 		EnumDLL::CHARACTERFACINGDIRECTION faceDirection_;

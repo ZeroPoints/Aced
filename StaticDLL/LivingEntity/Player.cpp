@@ -11,6 +11,8 @@ namespace StaticDLL {
 		hasImage_ = false;
 		hasColor_ = false;
 		hasImageReference_ = false;
+		showInvetory_ = false;
+
 
 		settings_ = settings;
 		map_ = map;
@@ -262,11 +264,7 @@ namespace StaticDLL {
 		//0.8
 
 
-		char text[100];
-		sprintf(text, "Player-items=%d", itemList_.size());
-		al_draw_text(font30_, al_map_rgb(0, 0, 0),
-			0,
-			20 * (5 + 1), ALLEGRO_ALIGN_LEFT, text);
+
 
 
 
@@ -299,6 +297,20 @@ namespace StaticDLL {
 				0
 			);
 		}
+
+
+
+
+		if (showInvetory_) {
+
+			for (int i = 0; i < itemList_.size(); i++) {
+
+				itemList_[i]->DrawObject(0, 0);
+
+			}
+		}
+
+
 	};
 
 
@@ -344,6 +356,9 @@ namespace StaticDLL {
 					SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERJUMPING);
 					val = 1;
 				}
+				break;
+			case ALLEGRO_KEY_TAB:
+				showInvetory_ = !showInvetory_;
 				break;
 			case ALLEGRO_KEY_RIGHT://choose later....
 				KeyRight_ = true;
@@ -400,6 +415,7 @@ namespace StaticDLL {
 		{
 			Jumping();
 		}
+
 
 
 		auto item = map_->ItemCollisionCheckAtXY(currentPositionX_, currentPositionY_, width_, height_);
@@ -548,7 +564,7 @@ namespace StaticDLL {
 				}
 				else
 				{
-					map_->SetMapMoveXDelta(- GetMoveSpeedDelta());
+					map_->SetMapMoveXDelta(-GetMoveSpeedDelta());
 					map_->SetMapXOffset(map_->GetMapXOffset() - GetMoveSpeedDelta());
 				}
 			}
@@ -577,7 +593,7 @@ namespace StaticDLL {
 				}
 				else
 				{
-					map_->SetMapMoveYDelta(- GetVelocityY());
+					map_->SetMapMoveYDelta(-GetVelocityY());
 					map_->SetMapYOffset(map_->GetMapYOffset() - GetVelocityY());
 				}
 			}
@@ -611,7 +627,7 @@ namespace StaticDLL {
 				}
 				else
 				{
-					map_->SetMapMoveYDelta(- GetVelocityY());
+					map_->SetMapMoveYDelta(-GetVelocityY());
 					map_->SetMapYOffset(map_->GetMapYOffset() - GetVelocityY());
 				}
 			}
@@ -632,8 +648,27 @@ namespace StaticDLL {
 
 
 	void Player::AddItemToInventory(Item *thing) {
-		thing->SetPosX(10);
-		thing->SetPosY(10);
+		double x, y;
+		if (itemList_.size() == 0) {
+			//offset init item placement by half a tilesize
+			x = 0.5;
+			y = 0.5;
+		}
+		else {
+			auto lastItemPos = itemList_[itemList_.size() - 1];
+			//.25 for padding between items
+			x = lastItemPos->GetPosX() + 1.25;
+			y = lastItemPos->GetPosY();
+		}
+
+		if (x > 10) {
+			y = y + 1.25;
+			x = 0.5;
+		}
+
+
+		thing->SetPosX(x);
+		thing->SetPosY(y);
 		itemList_.push_back(thing);
 	}
 
@@ -646,7 +681,7 @@ namespace StaticDLL {
 	}
 
 
-		
+
 }
 
 
