@@ -47,7 +47,7 @@ namespace StaticDLL{
 		STATICDLL_API int GetCurrentSelection();
 		STATICDLL_API Settings* GetSettings();
 		STATICDLL_API Map* GetMap();
-		STATICDLL_API EnumDLL::STATES GetId();
+		STATICDLL_API STATES GetId();
 		STATICDLL_API int GetMenuHeight();
 		STATICDLL_API int GetMenuWidth();
 		STATICDLL_API int GetMenuX();
@@ -81,7 +81,7 @@ namespace StaticDLL{
 		STATICDLL_API void SetSubMenuHeaderX(int menuSubHeaderX);
 		STATICDLL_API void SetSubMenuHeaderY(int menuSubHeaderY);
 		STATICDLL_API void SetSubMenuHeader(char menuSubHeader[]);
-		STATICDLL_API void SetId(EnumDLL::STATES newId);
+		STATICDLL_API void SetId(STATES newId);
 		STATICDLL_API void SetMap(Map *currentMap);
 		STATICDLL_API void SetSelectItemY(int val);
 		STATICDLL_API void SetSelectItemX(int val);
@@ -113,7 +113,7 @@ namespace StaticDLL{
 		STATICDLL_API void InitMenuItems();
 		STATICDLL_API void CalculateMenuSelectorCubePosition();
 		STATICDLL_API void AddMenuItem(MenuItem* newMenuItem);
-		STATICDLL_API EnumDLL::STATES KeyPress(ALLEGRO_EVENT *ev);
+		STATICDLL_API STATES KeyPress(ALLEGRO_EVENT *ev);
 
 
 			//-----------------------------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ namespace StaticDLL{
 
 		private:
 			ALLEGRO_FONT *font30_;
-			EnumDLL::STATES Id_;
+			STATES Id_;
 			Map *currentMap_;
 			Settings *settings_;
 			char *menuHeader_;//title

@@ -102,7 +102,7 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API EditorOverLay* FindEditorOverLay(EnumDLL::STATES id)
+			STATICDLL_API EditorOverLay* FindEditorOverLay(STATES id)
 			{
 				for(int i = 0; i < editorOverLays_.size(); i++)
 				{
@@ -118,13 +118,13 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API EnumDLL::OVERLAYSTATE GetOverLayState()
+			STATICDLL_API OVERLAYSTATE GetOverLayState()
 			{
 				return overLayState_;
 			}
 
 
-			STATICDLL_API void SetOverLayAction(EnumDLL::OVERLAYACTIONS action)
+			STATICDLL_API void SetOverLayAction(OVERLAYACTIONS action)
 			{
 				overLayAction_ = action;
 			}
@@ -132,9 +132,9 @@ namespace StaticDLL{
 
 			
 
-			STATICDLL_API std::pair<StaticDLL::EnumDLL::STATES, EditorItemBase*> GetSelectedObject()
+			STATICDLL_API std::pair<StaticDLL::STATES, EditorItemBase*> GetSelectedObject()
 			{
-				std::pair<StaticDLL::EnumDLL::STATES, EditorItemBase*> val;
+				std::pair<StaticDLL::STATES, EditorItemBase*> val;
 
 				auto result = FindEditorOverLay(currentEditorOverlayId_);
 				if(result != nullptr)
@@ -173,8 +173,8 @@ namespace StaticDLL{
 			int height_;
 
 
-			StaticDLL::EnumDLL::OVERLAYACTIONS overLayAction_;
-			StaticDLL::EnumDLL::OVERLAYSTATE overLayState_;
+			StaticDLL::OVERLAYACTIONS overLayAction_;
+			StaticDLL::OVERLAYSTATE overLayState_;
 
 
 
@@ -187,7 +187,7 @@ namespace StaticDLL{
 			ObjectBase *menuBar_;
 
 
-			EnumDLL::STATES currentEditorOverlayId_;
+			STATES currentEditorOverlayId_;
 
 			std::vector<EditorOverLay*> editorOverLays_;
 			

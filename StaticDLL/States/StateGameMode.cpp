@@ -12,16 +12,16 @@ namespace StaticDLL{
 		SetAssetLibrary(assetLibrary);
 		SetDisplay(display);
 		SetSettings(settings);
-		SetId(EnumDLL::STATES::EDITORMODE);
+		SetId(STATES::EDITORMODE);
 		SetEventQueue(NULL);
 		SetRedraw(true);
 		SetDone(false);
 		SetRunning(true);
-		SetKeyPressReturnVal(EnumDLL::STATES::DEFAULT);
+		SetKeyPressReturnVal(STATES::DEFAULT);
 		SetFont(al_load_font("arial.ttf", 20, 0));
 		SetTimer(al_create_timer(1.0/60));
 		SetEventQueue(al_create_event_queue());
-		SetStateDirection(EnumDLL::STATEDIRECTION::NA);
+		SetStateDirection(STATEDIRECTION::NA);
 
 
 		al_register_event_source(GetEventQueue(), al_get_keyboard_event_source());
@@ -42,7 +42,7 @@ namespace StaticDLL{
 
 		for(int i = 0; i < GetAssetLibrary()->GetImageSetDictionary().size(); i++)
 		{
-			if(GetAssetLibrary()->GetImageSetDictionary()[i]->GetImageSetId() == EnumDLL::IMAGESETS::PLAYERIMAGESET)
+			if(GetAssetLibrary()->GetImageSetDictionary()[i]->GetImageSetId() == StaticDLL::IMAGESETS::PLAYERIMAGESET)
 			{
 				player1_->SetObjectImageColor(GetAssetLibrary()->GetImageSetDictionary()[i]->GetImageDictionary()[0]);
 			}
@@ -59,7 +59,7 @@ namespace StaticDLL{
 
 
 	void StateGameMode::Resume(){
-		SetStateDirection(EnumDLL::STATEDIRECTION::NA);
+		SetStateDirection(STATEDIRECTION::NA);
 		SetNextState(NULL);
 	}
 
@@ -74,7 +74,7 @@ namespace StaticDLL{
 					//this will need to change to pushing a menu ontop instead of popping.
 					//as popping cleans current states progress
 					SetPopLevel(1);
-					SetStateDirection(EnumDLL::STATEDIRECTION::POP);
+					SetStateDirection(STATEDIRECTION::POP);
 					break;
 			}
 		}
@@ -146,11 +146,11 @@ namespace StaticDLL{
 
 		player1_->DrawObjectRotate();
 	
-		char text[100];
+		/*char text[100];
 		sprintf(text, "Player:x=%f:y=%f", player1_->GetCurrentPositionX(), player1_->GetCurrentPositionY());
 		al_draw_text(GetFont(), al_map_rgb(0, 0, 0),
 			0,
-			20 * 9, ALLEGRO_ALIGN_LEFT, text);
+			20 * 9, ALLEGRO_ALIGN_LEFT, text);*/
 		
 
 

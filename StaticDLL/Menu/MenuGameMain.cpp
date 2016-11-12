@@ -17,26 +17,26 @@ namespace StaticDLL{
 		SetFont(al_load_font("arial.ttf", 30, 0));
 
 		SetMenuHeader("Game Main Menu");
-		SetId(EnumDLL::STATES::EDITORMAINMENU);
+		SetId(STATES::EDITORMAINMENU);
 		
 		MenuItem* itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::NEW);
+		itemStore->SetId(STATES::NEW);
 		itemStore->SetMenuItemText("New Map");
 		AddMenuItem(itemStore);
 
 		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::LOAD);
+		itemStore->SetId(STATES::LOAD);
 		itemStore->SetMenuItemText("Load Map");
 		AddMenuItem(itemStore);
 
 		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::OPTIONS);
+		itemStore->SetId(STATES::OPTIONS);
 		itemStore->SetMenuItemText("Options");
 		AddMenuItem(itemStore);
 
 		
 		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::QUIT);
+		itemStore->SetId(STATES::QUIT);
 		itemStore->SetMenuItemText("Quit");
 		AddMenuItem(itemStore);
 

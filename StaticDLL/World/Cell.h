@@ -50,7 +50,7 @@ namespace StaticDLL {
 
 			//layers setters
 			STATICDLL_API void SetTile(Tile* tile);
-			STATICDLL_API void SetTileType(EnumDLL::TILETYPE tileType);
+			STATICDLL_API void SetTileType(TILETYPE tileType);
 			STATICDLL_API void SetTileTypeProperties(EditorItemBase *selectedTile);
 
 
@@ -77,7 +77,7 @@ namespace StaticDLL {
 
 
 
-			STATICDLL_API EnumDLL::TILETYPE GetTileType();
+			STATICDLL_API TILETYPE GetTileType();
 
 
 			STATICDLL_API double GetCurrentPositionY();
@@ -95,9 +95,10 @@ namespace StaticDLL {
 
 			STATICDLL_API bool GetHasTile();
 			STATICDLL_API bool GetHasInteractiveObject();
+			STATICDLL_API bool GetHasInteractiveObjectReference();
 
 
-
+			
 
 			//-----------------------------------------------------------------------------------------------------
 
@@ -162,7 +163,7 @@ namespace StaticDLL {
 
 
 
-			EnumDLL::TILETYPE tileType_;
+			TILETYPE tileType_;
 
 
 

@@ -67,7 +67,7 @@ namespace StaticDLL{
 	//		pugi::xml_node xmlTiles = xmlNewDoc.child("images");
 	//		xmlNewDoc.save_file("..\\Images\\SystemImages.xml");
 	//	}
-	//	ImageSet* imageSet = new ImageSet(images, EnumDLL::IMAGESETS::SYSTEMIMAGESET);
+	//	ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::SYSTEMIMAGESET);
 	//	imageDictionary_.push_back(imageSet);
 	//}
 
@@ -95,7 +95,7 @@ namespace StaticDLL{
 			pugi::xml_node xmlTiles = xmlNewDoc.child("tiles");
 			xmlNewDoc.save_file("..\\Images\\TileImageList.xml");
 		}
-		ImageSet* imageSet = new ImageSet(images, EnumDLL::IMAGESETS::TILEIMAGESET);
+		ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::TILEIMAGESET);
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -129,7 +129,7 @@ namespace StaticDLL{
 			}
 		}
 
-		ImageSet* imageSet = new ImageSet(images, EnumDLL::IMAGESETS::TILECOLORSET);
+		ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::TILECOLORSET);
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -157,7 +157,7 @@ namespace StaticDLL{
 			pugi::xml_node xmlTiles = xmlNewDoc.child("player");
 			xmlNewDoc.save_file("..\\Images\\PlayersImageList.xml");
 		}
-		ImageSet* imageSet = new ImageSet(images, EnumDLL::IMAGESETS::PLAYERIMAGESET);
+		ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::PLAYERIMAGESET);
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -181,6 +181,8 @@ namespace StaticDLL{
 			for (pugi::xml_node_iterator it = xmlImages.children().begin(); it != xmlImages.children().end(); it++)
 			{
 				Image* tempImage = new Image(it->attribute("id").as_int(), it->attribute("file").value());
+				//tempImage->SetItemType(ITEMTYPES(it->attribute("itemtype").as_int()));
+				tempImage->SetObjectType(OBJECTTYPES(it->attribute("objecttype").as_int()));
 				images.push_back(tempImage);
 			}
 		}
@@ -190,7 +192,7 @@ namespace StaticDLL{
 			pugi::xml_node xmlTiles = xmlNewDoc.child("object");
 			xmlNewDoc.save_file("..\\Images\\ObjectImageList.xml");
 		}
-		ImageSet* imageSet = new ImageSet(images, EnumDLL::IMAGESETS::OBJECTIMAGESET);
+		ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::OBJECTIMAGESET);
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -218,7 +220,7 @@ namespace StaticDLL{
 			pugi::xml_node xmlTiles = xmlNewDoc.child("enemy");
 			xmlNewDoc.save_file("..\\Images\\EnemyImageList.xml");
 		}
-		ImageSet* imageSet = new ImageSet(images, EnumDLL::IMAGESETS::ENEMYIMAGESET);
+		ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::ENEMYIMAGESET);
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -238,6 +240,8 @@ namespace StaticDLL{
 			for (pugi::xml_node_iterator it = xmlImages.children().begin(); it != xmlImages.children().end(); it++)
 			{
 				Image* tempImage = new Image(it->attribute("id").as_int(), it->attribute("file").value());
+				tempImage->SetItemType(ITEMTYPES(it->attribute("itemtype").as_int()));
+				//tempImage->SetObjectType(OBJECTTYPES(it->attribute("objecttype").as_int()));
 				images.push_back(tempImage);
 			}
 		}
@@ -247,7 +251,12 @@ namespace StaticDLL{
 			pugi::xml_node xmlTiles = xmlNewDoc.child("item");
 			xmlNewDoc.save_file("..\\Images\\ItemImageList.xml");
 		}
-		ImageSet* imageSet = new ImageSet(images, EnumDLL::IMAGESETS::ITEMIMAGESET);
+		ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::ITEMIMAGESET);
 		imageDictionary_.push_back(imageSet);
 	}
+
+
+
+
+
 }

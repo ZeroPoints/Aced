@@ -40,19 +40,19 @@ void EditorEngine::Run()
 		currentState_->KeyPress();
 		currentState_->MouseActivity();
 
-		if(currentState_->GetStateDirection() == EnumDLL::STATEDIRECTION::PUSH){
+		if(currentState_->GetStateDirection() == STATEDIRECTION::PUSH){
 			PushState();
 			continue;
 		}
-		else if(currentState_->GetStateDirection() == EnumDLL::STATEDIRECTION::POP){
+		else if(currentState_->GetStateDirection() == STATEDIRECTION::POP){
 			PopState();
 			continue;
 		}
-		else if(currentState_->GetStateDirection() == EnumDLL::STATEDIRECTION::POPPUSH){
+		else if(currentState_->GetStateDirection() == STATEDIRECTION::POPPUSH){
 			PopPushState();
 			continue;
 		}
-		else if(currentState_->GetStateDirection() == EnumDLL::STATEDIRECTION::POPTOFIRST){
+		else if(currentState_->GetStateDirection() == STATEDIRECTION::POPTOFIRST){
 			PopStateToFirst();
 			continue;
 		}

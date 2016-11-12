@@ -10,8 +10,8 @@ namespace StaticDLL{
 		widthMax_ = 9;
 		height_ = settings_->GetDisplayHeight()*Constants::TileSize();
 
-		overLayState_ = StaticDLL::EnumDLL::OVERLAYSTATE::OVERLAYOPENED;
-		overLayAction_ = StaticDLL::EnumDLL::OVERLAYACTIONS::OVERLAYNONE;
+		overLayState_ = StaticDLL::OVERLAYSTATE::OVERLAYOPENED;
+		overLayAction_ = StaticDLL::OVERLAYACTIONS::OVERLAYNONE;
 
 
 		chosenColor_ = al_map_rgb_f(0.8,0.8,0.8);
@@ -80,7 +80,7 @@ namespace StaticDLL{
 	void EditorOverLayController::CreateEditorOverlays()
 	{
 		//set first tile picker window
-		currentEditorOverlayId_ = EnumDLL::STATES::TILEIMAGEPICKER;
+		currentEditorOverlayId_ = STATES::TILEIMAGEPICKER;
 
 		//store them all in memory and access through id.
 		//Dont want to use a push pop state system for it. 
@@ -91,34 +91,34 @@ namespace StaticDLL{
 
 
 
-		EditorOverLay* itemStore = new EditorOverLay(settings_, EnumDLL::STATES::TILEIMAGEPICKER, assetLibrary_);
+		EditorOverLay* itemStore = new EditorOverLay(settings_, STATES::TILEIMAGEPICKER, assetLibrary_);
 		itemStore->SetMenuHeader("  TILE IMAGES  ", 0,0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 
-		itemStore = new EditorOverLay(settings_, EnumDLL::STATES::TILECOLORPICKER, assetLibrary_);
+		itemStore = new EditorOverLay(settings_, STATES::TILECOLORPICKER, assetLibrary_);
 		itemStore->SetMenuHeader("  TILE COLOURS  ", headerPositionX,0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 
 
 		//load tile types from source pass into function
-		itemStore = new EditorOverLay(settings_, EnumDLL::STATES::TILETYPEPICKER, assetLibrary_);
+		itemStore = new EditorOverLay(settings_, STATES::TILETYPEPICKER, assetLibrary_);
 		itemStore->SetMenuHeader("  TILE TYPES  ", headerPositionX,0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 
-		itemStore = new EditorOverLay(settings_, EnumDLL::STATES::OBJECTIMAGEPICKER, assetLibrary_);
+		itemStore = new EditorOverLay(settings_, STATES::OBJECTIMAGEPICKER, assetLibrary_);
 		itemStore->SetMenuHeader("  OBJECTS  ", headerPositionX, 0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 
-		itemStore = new EditorOverLay(settings_, EnumDLL::STATES::ITEMPICKER, assetLibrary_);
+		itemStore = new EditorOverLay(settings_, STATES::ITEMPICKER, assetLibrary_);
 		itemStore->SetMenuHeader("  ITEMS  ", headerPositionX, 0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 
-		itemStore = new EditorOverLay(settings_, EnumDLL::STATES::ENEMYPICKER, assetLibrary_);
+		itemStore = new EditorOverLay(settings_, STATES::ENEMYPICKER, assetLibrary_);
 		itemStore->SetMenuHeader("  ENEMIES  ", headerPositionX, 0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
@@ -143,13 +143,13 @@ namespace StaticDLL{
 	void EditorOverLayController::Update()
 	{
 
-		if(overLayAction_ == EnumDLL::OVERLAYACTIONS::OVERLAYNONE)
+		if(overLayAction_ == OVERLAYACTIONS::OVERLAYNONE)
 		{
 			return;
 		}
-		if(overLayAction_ == EnumDLL::OVERLAYACTIONS::OVERLAYOPENING)
+		if(overLayAction_ == OVERLAYACTIONS::OVERLAYOPENING)
 		{
-			if(overLayState_ == EnumDLL::OVERLAYSTATE::OVERLAYCLOSED)
+			if(overLayState_ == OVERLAYSTATE::OVERLAYCLOSED)
 			{
 				auto result = FindEditorOverLay(currentEditorOverlayId_);
 				if(result != nullptr)
@@ -163,8 +163,8 @@ namespace StaticDLL{
 					}
 					else
 					{
-						overLayState_ = EnumDLL::OVERLAYSTATE::OVERLAYOPENED;
-						overLayAction_ = EnumDLL::OVERLAYACTIONS::OVERLAYNONE;
+						overLayState_ = OVERLAYSTATE::OVERLAYOPENED;
+						overLayAction_ = OVERLAYACTIONS::OVERLAYNONE;
 					}
 				}
 
@@ -172,9 +172,9 @@ namespace StaticDLL{
 				
 			}
 		}
-		else if(overLayAction_ == EnumDLL::OVERLAYACTIONS::OVERLAYCLOSING)
+		else if(overLayAction_ == OVERLAYACTIONS::OVERLAYCLOSING)
 		{
-			if(overLayState_ == EnumDLL::OVERLAYSTATE::OVERLAYOPENED)
+			if(overLayState_ == OVERLAYSTATE::OVERLAYOPENED)
 			{
 				auto result = FindEditorOverLay(currentEditorOverlayId_);
 				if(result != nullptr)
@@ -189,8 +189,8 @@ namespace StaticDLL{
 					}
 					else
 					{
-						overLayState_ = EnumDLL::OVERLAYSTATE::OVERLAYCLOSED;
-						overLayAction_ = EnumDLL::OVERLAYACTIONS::OVERLAYNONE;
+						overLayState_ = OVERLAYSTATE::OVERLAYCLOSED;
+						overLayAction_ = OVERLAYACTIONS::OVERLAYNONE;
 					}
 				}
 				
@@ -219,7 +219,7 @@ namespace StaticDLL{
 	{
 		tileWindowArrow_->DrawObject();
 		////If its not opened dont draw it
-		if(overLayState_ == EnumDLL::OVERLAYSTATE::OVERLAYOPENED && overLayAction_ == EnumDLL::OVERLAYACTIONS::OVERLAYNONE)
+		if(overLayState_ == OVERLAYSTATE::OVERLAYOPENED && overLayAction_ == OVERLAYACTIONS::OVERLAYNONE)
 		{
 			//Get current windows tile overlay and get its page to see if its greater then its size//function get total pages
 			auto result = FindEditorOverLay(currentEditorOverlayId_);
@@ -254,7 +254,7 @@ namespace StaticDLL{
 			//If its not opened dont draw it
 			result->DrawTilePicker();
 
-			if(overLayState_ == EnumDLL::OVERLAYSTATE::OVERLAYOPENED && overLayAction_ == EnumDLL::OVERLAYACTIONS::OVERLAYNONE)
+			if(overLayState_ == OVERLAYSTATE::OVERLAYOPENED && overLayAction_ == OVERLAYACTIONS::OVERLAYNONE)
 			{
 				result->DrawItemBaseList();
 			}
@@ -286,13 +286,13 @@ namespace StaticDLL{
 				case 1:
 					if(tileWindowArrow_->ClickIntersects(mouseX, mouseY))
 					{
-						if(overLayState_ == EnumDLL::OVERLAYSTATE::OVERLAYCLOSED)
+						if(overLayState_ == OVERLAYSTATE::OVERLAYCLOSED)
 						{
-							overLayAction_ = EnumDLL::OVERLAYACTIONS::OVERLAYOPENING;
+							overLayAction_ = OVERLAYACTIONS::OVERLAYOPENING;
 						}
-						else if(overLayState_ == EnumDLL::OVERLAYSTATE::OVERLAYOPENED)
+						else if(overLayState_ == OVERLAYSTATE::OVERLAYOPENED)
 						{
-							overLayAction_ = EnumDLL::OVERLAYACTIONS::OVERLAYCLOSING;
+							overLayAction_ = OVERLAYACTIONS::OVERLAYCLOSING;
 						}
 						return true;
 					}
@@ -300,7 +300,7 @@ namespace StaticDLL{
 
 
 					//If its not opened dont detect mouse click
-					if(overLayState_ == EnumDLL::OVERLAYSTATE::OVERLAYOPENED && overLayAction_ == EnumDLL::OVERLAYACTIONS::OVERLAYNONE)
+					if(overLayState_ == OVERLAYSTATE::OVERLAYOPENED && overLayAction_ == OVERLAYACTIONS::OVERLAYNONE)
 					{
 						//Mouse click for other tile arrows
 						if(tileWindowBotLeftArrow_->ClickIntersects(mouseX, mouseY))
@@ -336,8 +336,8 @@ namespace StaticDLL{
 						{
 							currentEditorOverlayId_ = editorOverLays_[i]->GetId();
 
-							overLayAction_ = EnumDLL::OVERLAYACTIONS::OVERLAYOPENING;
-							overLayState_ = EnumDLL::OVERLAYSTATE::OVERLAYCLOSED;
+							overLayAction_ = OVERLAYACTIONS::OVERLAYOPENING;
+							overLayState_ = OVERLAYSTATE::OVERLAYCLOSED;
 
 							auto result = FindEditorOverLay(currentEditorOverlayId_);
 							if(result != nullptr)
@@ -381,13 +381,13 @@ namespace StaticDLL{
 			switch(event->keyboard.keycode)
 			{
 				case ALLEGRO_KEY_TAB:
-					if(overLayState_ == EnumDLL::OVERLAYSTATE::OVERLAYCLOSED)
+					if(overLayState_ == OVERLAYSTATE::OVERLAYCLOSED)
 					{
-						overLayAction_ = EnumDLL::OVERLAYACTIONS::OVERLAYOPENING;
+						overLayAction_ = OVERLAYACTIONS::OVERLAYOPENING;
 					}
-					else if(overLayState_ == EnumDLL::OVERLAYSTATE::OVERLAYOPENED)
+					else if(overLayState_ == OVERLAYSTATE::OVERLAYOPENED)
 					{
-						overLayAction_ = EnumDLL::OVERLAYACTIONS::OVERLAYCLOSING;
+						overLayAction_ = OVERLAYACTIONS::OVERLAYCLOSING;
 					}
 					break;
 			}

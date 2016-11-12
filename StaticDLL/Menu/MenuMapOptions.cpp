@@ -20,7 +20,7 @@ namespace StaticDLL{
 		SetFont(al_load_font("arial.ttf", 30, 0));
 
 		SetMenuHeader("Map Options");
-		SetId(EnumDLL::STATES::EDITORMAPOPTIONS);
+		SetId(STATES::EDITORMAPOPTIONS);
 		
 
 
@@ -44,7 +44,7 @@ namespace StaticDLL{
 
 		itemStore = new MenuItem;
 		itemStore->InitMenuItemProperty(al_ustr_new(""));
-		itemStore->SetOptionId(EnumDLL::OPTIONTYPES::WIDTHOPTION);
+		itemStore->SetOptionId(OPTIONTYPES::WIDTHOPTION);
 		itemStore->SetMenuItemText("New Width:");
 		AddMenuItem(itemStore);
 
@@ -67,7 +67,7 @@ namespace StaticDLL{
 
 		itemStore = new MenuItem;
 		itemStore->InitMenuItemProperty(al_ustr_new(""));
-		itemStore->SetOptionId(EnumDLL::OPTIONTYPES::HEIGHTOPTION);
+		itemStore->SetOptionId(OPTIONTYPES::HEIGHTOPTION);
 		itemStore->SetMenuItemText("New Height:");
 		AddMenuItem(itemStore);
 
@@ -75,12 +75,12 @@ namespace StaticDLL{
 
 
 		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::SAVE);
+		itemStore->SetId(STATES::SAVE);
 		itemStore->SetMenuItemText("Save");
 		AddMenuItem(itemStore);
 		
 		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::RETURN);
+		itemStore->SetId(STATES::RETURN);
 		itemStore->SetMenuItemText("Return");
 		AddMenuItem(itemStore);
 

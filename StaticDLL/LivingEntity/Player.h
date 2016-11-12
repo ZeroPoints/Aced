@@ -46,7 +46,7 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API void SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES characterState);
+			STATICDLL_API void SetCharacterYAxisState(CHARACTERYAXISSTATES characterState);
 
 
 			STATICDLL_API void SetHealth(int hp);
@@ -69,7 +69,7 @@ namespace StaticDLL{
 			STATICDLL_API void SetJumpSpeed(double val);
 
 
-			STATICDLL_API void SetPlayerFacingDirection(EnumDLL::CHARACTERFACINGDIRECTION direction);
+			STATICDLL_API void SetPlayerFacingDirection(CHARACTERFACINGDIRECTION direction);
 			STATICDLL_API virtual void SetObjectImageColor(Image *image);
 
 			STATICDLL_API void SetKeyRight(bool val);
@@ -84,13 +84,13 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API EnumDLL::CHARACTERYAXISSTATES GetCharacterYAxisState();
+			STATICDLL_API CHARACTERYAXISSTATES GetCharacterYAxisState();
 
 			STATICDLL_API double GetHealth();
 
 
 
-			STATICDLL_API EnumDLL::CHARACTERFACINGDIRECTION GetPlayerFacingDirection();
+			STATICDLL_API CHARACTERFACINGDIRECTION GetPlayerFacingDirection();
 
 			STATICDLL_API double GetCurrentPositionX();
 
@@ -145,6 +145,7 @@ namespace StaticDLL{
 
 			STATICDLL_API int Keypress(ALLEGRO_EVENT *ev);
 
+			STATICDLL_API void KeyPressUpdateE();
 
 
 
@@ -158,6 +159,7 @@ namespace StaticDLL{
 			STATICDLL_API bool CheckNextXPositionGoingLeft(float nextPosX, float nextPosY);
 			STATICDLL_API bool CheckNextXPositionGoingRight(float nextPosX, float nextPosY);
 
+			STATICDLL_API bool CheckNextPositionForObject(Cell &cellFuture);
 
 
 
@@ -210,7 +212,7 @@ namespace StaticDLL{
 	private:
 		int health_;
 
-		EnumDLL::CHARACTERYAXISSTATES characterYAxisState_;
+		CHARACTERYAXISSTATES characterYAxisState_;
 
 
 		std::vector<Item*> itemList_;
@@ -258,7 +260,7 @@ namespace StaticDLL{
 			showInvetory_;
 
 
-		EnumDLL::CHARACTERFACINGDIRECTION faceDirection_;
+		CHARACTERFACINGDIRECTION faceDirection_;
 
 		ALLEGRO_USTR *utext_;
 		char *text_;
@@ -266,7 +268,7 @@ namespace StaticDLL{
 
 		Image *image_;
 
-		EnumDLL::STATES Id_, keyPressState_, keyPressReturnVal_;
+		STATES Id_, keyPressState_, keyPressReturnVal_;
 		ALLEGRO_FONT *font30_;
 		ALLEGRO_EVENT_QUEUE *event_queue_;
 		ALLEGRO_EVENT event_;
@@ -278,6 +280,7 @@ namespace StaticDLL{
 		ALLEGRO_EVENT *ev_;
 		Map *map_;
 		Settings *settings_;
+		bool KeyE_;
 		bool KeyLeft_;
 		bool KeyRight_;
 		bool KeySpace_;

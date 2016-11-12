@@ -51,7 +51,7 @@ namespace StaticDLL {
 	}
 
 
-	void Cell::SetTileType(EnumDLL::TILETYPE tileType)
+	void Cell::SetTileType(TILETYPE tileType)
 	{
 		tileType_ = tileType;
 	}
@@ -101,11 +101,14 @@ namespace StaticDLL {
 	{
 		return hasInteractiveObject_ || hasInteractiveObjectReference_;
 	}
+	bool Cell::GetHasInteractiveObjectReference()
+	{
+		return hasInteractiveObjectReference_;
+	}
 
 
 
-
-	EnumDLL::TILETYPE Cell::GetTileType()
+	TILETYPE Cell::GetTileType()
 	{
 		return tileType_;
 	}
@@ -133,6 +136,8 @@ namespace StaticDLL {
 	//No matter what draw a collision type
 
 	void Cell::Draw(int xoffset, int yoffset, bool invertCollision) {
+
+		//DOBULE check that this ref code even needed???
 		if (!hasInteractiveObjectReference_ && hasTile_) {
 			tile_->DrawObject(x_,y_,xoffset, yoffset);
 		}
@@ -159,7 +164,7 @@ namespace StaticDLL {
 		newColor.g = invert ? !tileCollisionTypeColor_.g : tileCollisionTypeColor_.g;
 		newColor.b = invert ? !tileCollisionTypeColor_.b : tileCollisionTypeColor_.b;
 
-		if (tileType_ == EnumDLL::TILETYPE::SOLIDTILE)
+		if (tileType_ == TILETYPE::SOLIDTILE)
 		{
 			al_draw_rectangle(
 				GetCurrentPositionX()*Constants::TileSize() + xOffset + (Constants::TileSize() / 5),
@@ -169,7 +174,7 @@ namespace StaticDLL {
 				newColor, 2
 			);
 		}
-		else if (tileType_ == EnumDLL::TILETYPE::COLLISIONTOPTILE)
+		else if (tileType_ == TILETYPE::COLLISIONTOPTILE)
 		{
 			al_draw_line(
 				GetCurrentPositionX()*Constants::TileSize() + xOffset + (Constants::TileSize() / 5),
@@ -179,7 +184,7 @@ namespace StaticDLL {
 				newColor, 2
 			);
 		}
-		else if (tileType_ == EnumDLL::TILETYPE::COLLISIONLEFTTILE)
+		else if (tileType_ == TILETYPE::COLLISIONLEFTTILE)
 		{
 			al_draw_line(
 				GetCurrentPositionX()*Constants::TileSize() + xOffset + (Constants::TileSize() / 5),
@@ -189,7 +194,7 @@ namespace StaticDLL {
 				newColor, 2
 			);
 		}
-		else if (tileType_ == EnumDLL::TILETYPE::COLLISIONRIGHTTILE)
+		else if (tileType_ == TILETYPE::COLLISIONRIGHTTILE)
 		{
 			al_draw_line(
 				GetCurrentPositionX()*Constants::TileSize() + Constants::TileSize() + xOffset - (Constants::TileSize() / 5),
@@ -199,7 +204,7 @@ namespace StaticDLL {
 				newColor, 2
 			);
 		}
-		//else if (tileType_ == EnumDLL::TILETYPE::invert)
+		//else if (tileType_ == TILETYPE::invert)
 		//{
 		//	//reverse inversion tile 
 		//	newColor.r = invert ? tileCollisionTypeColor_.r : !tileCollisionTypeColor_.r;

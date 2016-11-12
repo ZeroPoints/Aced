@@ -34,7 +34,7 @@ namespace StaticDLL {
 
 
 
-	EnumDLL::TILETYPE EditorItemBase::GetTileType()
+	TILETYPE EditorItemBase::GetTileType()
 	{
 		return tileType_;
 	}
@@ -70,7 +70,7 @@ namespace StaticDLL {
 		return chosenColor_;
 	}
 
-	EnumDLL::IMAGESETS EditorItemBase::GetImageSet() {
+	StaticDLL::IMAGESETS EditorItemBase::GetImageSet() {
 		return imageSet_;
 	}
 
@@ -103,7 +103,7 @@ namespace StaticDLL {
 	void EditorItemBase::SetTileProperties(EditorItemBase *selectedTile, bool isReference)
 	{
 		//So if the current location tile is not already empty force new tile SOLID properties over it.
-		if (GetTileType() == EnumDLL::TILETYPE::EMPTYTILE)
+		if (GetTileType() == TILETYPE::EMPTYTILE)
 		{
 			SetTileTypeProperties(selectedTile);
 		}
@@ -114,7 +114,7 @@ namespace StaticDLL {
 
 
 
-	void EditorItemBase::SetTileType(EnumDLL::TILETYPE tileType)
+	void EditorItemBase::SetTileType(TILETYPE tileType)
 	{
 		tileType_ = tileType;
 	}
@@ -271,7 +271,7 @@ namespace StaticDLL {
 		currentPositionY_ = y;
 	}
 
-	void EditorItemBase::SetImageSet(EnumDLL::IMAGESETS set) {
+	void EditorItemBase::SetImageSet(StaticDLL::IMAGESETS set) {
 		imageSet_ = set;
 	}
 
@@ -301,7 +301,7 @@ namespace StaticDLL {
 		newColor.g = invert ? !tileCollisionTypeColor_.g : tileCollisionTypeColor_.g;
 		newColor.b = invert ? !tileCollisionTypeColor_.b : tileCollisionTypeColor_.b;
 
-		if (tileType_ == EnumDLL::TILETYPE::SOLIDTILE)
+		if (tileType_ == TILETYPE::SOLIDTILE)
 		{
 			al_draw_rectangle(
 				GetCurrentPositionX()*Constants::TileSize() + xOffset + (Constants::TileSize() / 5),
@@ -311,7 +311,7 @@ namespace StaticDLL {
 				newColor, 2
 			);
 		}
-		else if (tileType_ == EnumDLL::TILETYPE::COLLISIONTOPTILE)
+		else if (tileType_ == TILETYPE::COLLISIONTOPTILE)
 		{
 			al_draw_line(
 				GetCurrentPositionX()*Constants::TileSize() + xOffset + (Constants::TileSize() / 5),
@@ -321,7 +321,7 @@ namespace StaticDLL {
 				newColor, 2
 			);
 		}
-		else if (tileType_ == EnumDLL::TILETYPE::COLLISIONLEFTTILE)
+		else if (tileType_ == TILETYPE::COLLISIONLEFTTILE)
 		{
 			al_draw_line(
 				GetCurrentPositionX()*Constants::TileSize() + xOffset + (Constants::TileSize() / 5),
@@ -331,7 +331,7 @@ namespace StaticDLL {
 				newColor, 2
 			);
 		}
-		else if (tileType_ == EnumDLL::TILETYPE::COLLISIONRIGHTTILE)
+		else if (tileType_ == TILETYPE::COLLISIONRIGHTTILE)
 		{
 			al_draw_line(
 				GetCurrentPositionX()*Constants::TileSize() + GetWidth()*Constants::TileSize() + xOffset - (Constants::TileSize() / 5),
@@ -441,7 +441,7 @@ namespace StaticDLL {
 		chosenColor_.b = 1;
 		chosenColor_.a = 0;
 		image_ = nullptr;
-		tileType_ = EnumDLL::TILETYPE::EMPTYTILE;
+		tileType_ = TILETYPE::EMPTYTILE;
 		imageReferenceX_ = 0;
 		imageReferenceY_ = 0;
 	};

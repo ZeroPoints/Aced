@@ -9,8 +9,8 @@ namespace StaticDLL{
 		font30_ = al_load_font("arial.ttf", 30, 0);
 		targetable_ = true;
 		editable_ = false;
-		optionId_ = EnumDLL::OPTIONTYPES::NOOPTION;
-		Id_ = EnumDLL::STATES::NONE;
+		optionId_ = OPTIONTYPES::NOOPTION;
+		Id_ = STATES::NONE;
 		//fprintf(stderr, "A Menu Item Created\n");
 	}
 
@@ -30,12 +30,12 @@ namespace StaticDLL{
 	//Gets
 
 
-	 EnumDLL::OPTIONTYPES MenuItem::GetOptionId()
+	 OPTIONTYPES MenuItem::GetOptionId()
 	{
 		return optionId_;
 	}
 
-	 EnumDLL::STATES MenuItem::GetId()
+	 STATES MenuItem::GetId()
 	{
 		return Id_;
 	}
@@ -118,12 +118,12 @@ namespace StaticDLL{
 		targetable_ = targetable;
 	}
 
-	void MenuItem::SetId(EnumDLL::STATES newId)
+	void MenuItem::SetId(STATES newId)
 	{
 		Id_ = newId;
 	}
 
-	void MenuItem::SetOptionId(EnumDLL::OPTIONTYPES newId)
+	void MenuItem::SetOptionId(OPTIONTYPES newId)
 	{
 		optionId_ = newId;
 	}

@@ -255,7 +255,7 @@ namespace StaticDLL
 			};
 
 
-			STATICDLL_API virtual void SetKeyPressState(EnumDLL::STATES state){
+			STATICDLL_API virtual void SetKeyPressState(STATES state){
 				keyPressState_ = state;
 			};
 
@@ -294,11 +294,11 @@ namespace StaticDLL
 			
 
 
-			STATICDLL_API void SetId(EnumDLL::STATES newId)
+			STATICDLL_API void SetId(STATES newId)
 			{
 				Id_ = newId;
 			}
-			STATICDLL_API EnumDLL::STATES GetId()
+			STATICDLL_API STATES GetId()
 			{
 				return Id_;
 			}
@@ -640,11 +640,11 @@ namespace StaticDLL
 
 
 
-			STATICDLL_API EnumDLL::CHARACTERFACINGDIRECTION GetPlayerFacingDirection()
+			STATICDLL_API CHARACTERFACINGDIRECTION GetPlayerFacingDirection()
 			{
 				return faceDirection_;
 			}
-			STATICDLL_API void SetPlayerFacingDirection(EnumDLL::CHARACTERFACINGDIRECTION direction)
+			STATICDLL_API void SetPlayerFacingDirection(CHARACTERFACINGDIRECTION direction)
 			{
 				faceDirection_ = direction;
 			}
@@ -658,7 +658,7 @@ namespace StaticDLL
 			}
 			STATICDLL_API void AdjustPlayerRotation()
 			{
-				if(EnumDLL::CHARACTERFACINGDIRECTION::CHARACTERLEFT == faceDirection_)
+				if(CHARACTERFACINGDIRECTION::CHARACTERLEFT == faceDirection_)
 				{
 					currentRotation_ = currentRotation_ - 0.005;
 				}
@@ -711,7 +711,7 @@ namespace StaticDLL
 					hasColor_;	
 
 
-			EnumDLL::CHARACTERFACINGDIRECTION faceDirection_;
+			CHARACTERFACINGDIRECTION faceDirection_;
 
 			ALLEGRO_USTR *utext_;
 			char *text_;
@@ -719,7 +719,7 @@ namespace StaticDLL
 
 			Image *image_;
 			
-			EnumDLL::STATES Id_, keyPressState_, keyPressReturnVal_;
+			STATES Id_, keyPressState_, keyPressReturnVal_;
 			ALLEGRO_FONT *font30_;
 			ALLEGRO_EVENT_QUEUE *event_queue_;
 			ALLEGRO_EVENT event_;

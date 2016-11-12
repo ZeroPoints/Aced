@@ -42,6 +42,9 @@ namespace StaticDLL{
 
 
 
+
+
+
 			//-----------------------------------------------------------------------------------------------------
 
 			//Gets
@@ -61,6 +64,28 @@ namespace StaticDLL{
 			//Need a Key for look up Maybe
 			STATICDLL_API int GetId();
 			
+
+			STATICDLL_API ITEMTYPES GetItemType();
+			STATICDLL_API OBJECTTYPES GetObjectType();
+
+
+
+
+
+
+			//-----------------------------------------------------------------------------------------------------
+
+			//Sets
+
+
+
+			STATICDLL_API void SetItemType(ITEMTYPES set);
+			STATICDLL_API void SetObjectType(OBJECTTYPES set);
+
+
+
+
+
 		private:
 
 			int id_;
@@ -78,6 +103,11 @@ namespace StaticDLL{
 
 
 			char *name_;
+
+
+
+			ITEMTYPES itemType_;
+			OBJECTTYPES objectType_;
 
 
 

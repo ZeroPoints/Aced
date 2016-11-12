@@ -51,7 +51,7 @@ namespace StaticDLL
 
 
 
-			STATICDLL_API void SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES characterState);
+			STATICDLL_API void SetCharacterYAxisState(CHARACTERYAXISSTATES characterState);
 
 
 			STATICDLL_API void SetHealth(int hp);
@@ -74,7 +74,7 @@ namespace StaticDLL
 			STATICDLL_API void SetJumpSpeed(float val);
 
 
-			STATICDLL_API void SetPlayerFacingDirection(EnumDLL::CHARACTERFACINGDIRECTION direction);
+			STATICDLL_API void SetPlayerFacingDirection(CHARACTERFACINGDIRECTION direction);
 			STATICDLL_API virtual void SetObjectImageColor(Image *image);
 
 			STATICDLL_API void SetKeyRight(bool val);
@@ -82,7 +82,7 @@ namespace StaticDLL
 
 			STATICDLL_API void SetAIEnabled(bool val);
 
-			STATICDLL_API void SetImageSet(EnumDLL::IMAGESETS imageSet);
+			STATICDLL_API void SetImageSet(StaticDLL::IMAGESETS imageSet);
 
 
 			//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -92,13 +92,13 @@ namespace StaticDLL
 
 
 
-			STATICDLL_API EnumDLL::CHARACTERYAXISSTATES GetCharacterYAxisState();
+			STATICDLL_API CHARACTERYAXISSTATES GetCharacterYAxisState();
 
 			STATICDLL_API float GetHealth();
 
 
 
-			STATICDLL_API EnumDLL::CHARACTERFACINGDIRECTION GetPlayerFacingDirection();
+			STATICDLL_API CHARACTERFACINGDIRECTION GetPlayerFacingDirection();
 
 			STATICDLL_API float GetCurrentPositionX();
 
@@ -127,7 +127,7 @@ namespace StaticDLL
 			STATICDLL_API bool GetHasImage();
 			STATICDLL_API Image *GetObjectImage();
 			
-			STATICDLL_API EnumDLL::IMAGESETS GetImageSet();
+			STATICDLL_API StaticDLL::IMAGESETS GetImageSet();
 
 
 			//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -217,7 +217,7 @@ namespace StaticDLL
 		private:
 			int health_;
 
-			EnumDLL::CHARACTERYAXISSTATES characterYAxisState_;
+			CHARACTERYAXISSTATES characterYAxisState_;
 
 
 
@@ -272,9 +272,9 @@ namespace StaticDLL
 			std::vector<std::vector<Cell>> *cellMap_;
 
 
-			EnumDLL::CHARACTERFACINGDIRECTION faceDirection_;
+			CHARACTERFACINGDIRECTION faceDirection_;
 
-			EnumDLL::IMAGESETS imageSet_;
+			StaticDLL::IMAGESETS imageSet_;
 
 			ALLEGRO_USTR *utext_;
 			char *text_;
@@ -285,7 +285,7 @@ namespace StaticDLL
 
 			Image *image_;
 
-			EnumDLL::STATES Id_, keyPressState_, keyPressReturnVal_;
+			STATES Id_, keyPressState_, keyPressReturnVal_;
 			ALLEGRO_FONT *font30_;
 			ALLEGRO_EVENT_QUEUE *event_queue_;
 			ALLEGRO_EVENT event_;

@@ -46,7 +46,7 @@ namespace StaticDLL{
 			STATICDLL_API bool GetHasColor();
 			STATICDLL_API bool GetHasImage();
 			STATICDLL_API ALLEGRO_COLOR GetColor();
-			STATICDLL_API EnumDLL::IMAGESETS GetImageSet();
+			STATICDLL_API StaticDLL::IMAGESETS GetImageSet();
 
 
 
@@ -69,7 +69,7 @@ namespace StaticDLL{
 			STATICDLL_API void SetColorA(float a);
 
 
-			STATICDLL_API void SetImageSet(EnumDLL::IMAGESETS set);
+			STATICDLL_API void SetImageSet(StaticDLL::IMAGESETS set);
 
 
 
@@ -104,7 +104,7 @@ namespace StaticDLL{
 				hasImage_,
 				hasColor_;
 
-			EnumDLL::IMAGESETS imageSet_;
+			StaticDLL::IMAGESETS imageSet_;
 
 			Image *image_;
 

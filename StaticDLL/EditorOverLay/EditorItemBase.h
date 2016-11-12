@@ -42,7 +42,7 @@ namespace StaticDLL {
 
 		//Gets
 
-		STATICDLL_API EnumDLL::TILETYPE GetTileType();
+		STATICDLL_API TILETYPE GetTileType();
 
 		STATICDLL_API double GetCurrentPositionY();
 		STATICDLL_API double GetCurrentPositionX();
@@ -54,7 +54,7 @@ namespace StaticDLL {
 
 		STATICDLL_API ALLEGRO_COLOR GetColor();
 
-		STATICDLL_API EnumDLL::IMAGESETS GetImageSet();
+		STATICDLL_API StaticDLL::IMAGESETS GetImageSet();
 
 
 
@@ -84,7 +84,7 @@ namespace StaticDLL {
 
 
 
-		STATICDLL_API void SetTileType(EnumDLL::TILETYPE tileType);
+		STATICDLL_API void SetTileType(TILETYPE tileType);
 
 		//Set Collision Type
 		STATICDLL_API void SetTileTypeProperties(EditorItemBase *selectedTile);
@@ -114,7 +114,7 @@ namespace StaticDLL {
 		STATICDLL_API void SetCurrentPositionX(double x);
 		STATICDLL_API void SetCurrentPositionY(double y);
 
-		STATICDLL_API void SetImageSet(EnumDLL::IMAGESETS set);
+		STATICDLL_API void SetImageSet(StaticDLL::IMAGESETS set);
 
 		STATICDLL_API void SetHasColor(bool hasColor);
 
@@ -171,9 +171,9 @@ namespace StaticDLL {
 
 
 
-		EnumDLL::TILETYPE tileType_;
+		TILETYPE tileType_;
 
-		EnumDLL::IMAGESETS imageSet_;
+		StaticDLL::IMAGESETS imageSet_;
 
 
 		ALLEGRO_COLOR tileCollisionTypeColor_;
@@ -182,7 +182,7 @@ namespace StaticDLL {
 
 		Image *image_;
 
-		EnumDLL::STATES Id_;
+		STATES Id_;
 		ALLEGRO_COLOR chosenColor_;
 
 	};

@@ -12,16 +12,16 @@ namespace StaticDLL{
 		SetAssetLibrary(assetLibrary);
 		SetDisplay(display);
 		SetSettings(settings);
-		SetId(EnumDLL::STATES::MAPOPTIONS);
+		SetId(STATES::MAPOPTIONS);
 		SetEventQueue(NULL);
 		SetRedraw(true);
 		SetDone(false);
 		SetRunning(true);
-		SetKeyPressReturnVal(EnumDLL::STATES::DEFAULT);
+		SetKeyPressReturnVal(STATES::DEFAULT);
 		SetFont(al_load_font("arial.ttf", 20, 0));
 		SetTimer(al_create_timer(1.0/60));
 		SetEventQueue(al_create_event_queue());
-		SetStateDirection(EnumDLL::STATEDIRECTION::NA);
+		SetStateDirection(STATEDIRECTION::NA);
 
 
 		al_register_event_source(GetEventQueue(), al_get_keyboard_event_source());
@@ -44,12 +44,12 @@ namespace StaticDLL{
 	void StateOptions::KeyPress(){
 		//keypress here
 		SetKeyPressState(GetMenu()->KeyPress(GetEvent()));
-		if(GetKeyPressState() == EnumDLL::STATES::SAVE)//new map
+		if(GetKeyPressState() == STATES::SAVE)//new map
 		{
 			//Go through each menu item. 
 			for(int i = 0; i < GetMenu()->GetMenuItems().size(); i++)
 			{
-				if(GetMenu()->GetMenuItems()[i]->GetOptionId() == EnumDLL::OPTIONTYPES::WIDTHOPTION)
+				if(GetMenu()->GetMenuItems()[i]->GetOptionId() == OPTIONTYPES::WIDTHOPTION)
 				{
 					auto *u = GetMenu()->GetMenuItems()[i]->GetMenuItemProperty();
 					auto *s = al_cstr_dup(u);
@@ -59,7 +59,7 @@ namespace StaticDLL{
 						GetSettings()->SetScreenWidth(v);
 					}
 				}
-				else if(GetMenu()->GetMenuItems()[i]->GetOptionId() == EnumDLL::OPTIONTYPES::HEIGHTOPTION)
+				else if(GetMenu()->GetMenuItems()[i]->GetOptionId() == OPTIONTYPES::HEIGHTOPTION)
 				{
 					auto *u = GetMenu()->GetMenuItems()[i]->GetMenuItemProperty();
 					auto *s = al_cstr_dup(u);
@@ -77,12 +77,12 @@ namespace StaticDLL{
 			//save settings changes
 			GetSettings()->SaveSettings();
 
-			SetStateDirection(EnumDLL::STATEDIRECTION::POP);
+			SetStateDirection(STATEDIRECTION::POP);
 			SetPopLevel(1);
 		}
-		else if(GetKeyPressState() == EnumDLL::STATES::RETURN)
+		else if(GetKeyPressState() == STATES::RETURN)
 		{
-			SetStateDirection(EnumDLL::STATEDIRECTION::POP);
+			SetStateDirection(STATEDIRECTION::POP);
 			SetPopLevel(1);
 		}
 	}

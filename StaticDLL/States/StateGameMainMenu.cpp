@@ -28,16 +28,16 @@ namespace StaticDLL{
 		SetAssetLibrary(assetLibrary);
 		SetDisplay(display);
 		SetSettings(settings);
-		SetId(EnumDLL::STATES::EDITORMAINMENU);
+		SetId(STATES::EDITORMAINMENU);
 		SetEventQueue(NULL);
 		SetRedraw(true);
 		SetDone(false);
 		SetRunning(true);
-		SetKeyPressReturnVal(EnumDLL::STATES::DEFAULT);
+		SetKeyPressReturnVal(STATES::DEFAULT);
 		SetFont(al_load_font("arial.ttf", 20, 0));
 		SetTimer(al_create_timer(1.0/60));
 		SetEventQueue(al_create_event_queue());
-		SetStateDirection(EnumDLL::STATEDIRECTION::NA);
+		SetStateDirection(STATEDIRECTION::NA);
 
 
 		al_register_event_source(GetEventQueue(), al_get_keyboard_event_source());
@@ -62,7 +62,7 @@ namespace StaticDLL{
 
 
 	void StateGameMainMenu::Resume(){
-		SetStateDirection(EnumDLL::STATEDIRECTION::NA);
+		SetStateDirection(STATEDIRECTION::NA);
 		SetNextState(NULL);
 		//Resize menus
 		//I dont have a resize menu type function atm
@@ -76,25 +76,25 @@ namespace StaticDLL{
 	void StateGameMainMenu::KeyPress(){
 		//keypress here
 		SetKeyPressState(GetMenu()->KeyPress(GetEvent()));
-		if(GetKeyPressState() == EnumDLL::STATES::NEW)//new map
+		if(GetKeyPressState() == STATES::NEW)//new map
 		{
 			GetMap()->ResetMap();
-			SetStateDirection(EnumDLL::STATEDIRECTION::PUSH);
+			SetStateDirection(STATEDIRECTION::PUSH);
 			SetNextState(new StateGameMode());
 		}
-		else if(GetKeyPressState() == EnumDLL::STATES::LOAD)//load map
+		else if(GetKeyPressState() == STATES::LOAD)//load map
 		{
 			GetMap()->ResetMap();
 			GetMap()->LoadMapDialog(true);
-			SetStateDirection(EnumDLL::STATEDIRECTION::PUSH);
+			SetStateDirection(STATEDIRECTION::PUSH);
 			SetNextState(new StateGameMode());
 		}
-		else if(GetKeyPressState() == EnumDLL::STATES::OPTIONS)
+		else if(GetKeyPressState() == STATES::OPTIONS)
 		{
-			SetStateDirection(EnumDLL::STATEDIRECTION::PUSH);
+			SetStateDirection(STATEDIRECTION::PUSH);
 			SetNextState(new StateOptions());
 		}
-		else if(GetKeyPressState() == EnumDLL::STATES::QUIT)
+		else if(GetKeyPressState() == STATES::QUIT)
 		{
 			SetRunning(false);
 		}

@@ -44,7 +44,7 @@ namespace StaticDLL {
 		STATICDLL_API Image *GetObjectImage();
 
 		STATICDLL_API ALLEGRO_COLOR GetColor();
-		STATICDLL_API EnumDLL::IMAGESETS GetImageSet();
+		STATICDLL_API StaticDLL::IMAGESETS GetImageSet();
 
 
 
@@ -59,6 +59,10 @@ namespace StaticDLL {
 		STATICDLL_API double GetPosX();
 
 		STATICDLL_API double GetPosY();
+		STATICDLL_API ITEMTYPES GetItemType();
+		STATICDLL_API OBJECTTYPES GetObjectType();
+
+
 
 
 		//-----------------------------------------------------------------------------------------------------
@@ -81,13 +85,16 @@ namespace StaticDLL {
 
 
 
-		STATICDLL_API void SetImageSet(EnumDLL::IMAGESETS set);
+		STATICDLL_API void SetImageSet(StaticDLL::IMAGESETS set);
+
 
 
 		STATICDLL_API void SetPosX(double x);
 
 		STATICDLL_API void SetPosY(double y);
 
+		STATICDLL_API void SetItemType(ITEMTYPES set);
+		STATICDLL_API void SetObjectType(OBJECTTYPES set);
 
 
 		//-----------------------------------------------------------------------------------------------------
@@ -128,7 +135,10 @@ namespace StaticDLL {
 
 
 
-		EnumDLL::IMAGESETS imageSet_;
+		StaticDLL::IMAGESETS imageSet_;
+		ITEMTYPES itemType_;
+		OBJECTTYPES objectType_;
+
 
 		Image *image_;
 	};

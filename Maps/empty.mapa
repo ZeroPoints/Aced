@@ -6,37 +6,7 @@
 		</enemy>
 	</enemyspawn>
 	<itemspawn>
-		<item x="4" y="9" hasImage="true">
-			<image id="1" imageSet="7" />
-		</item>
 		<item x="5" y="9" hasImage="true">
-			<image id="1" imageSet="7" />
-		</item>
-		<item x="6" y="7" hasImage="true">
-			<image id="1" imageSet="7" />
-		</item>
-		<item x="7" y="7" hasImage="true">
-			<image id="1" imageSet="7" />
-		</item>
-		<item x="8" y="7" hasImage="true">
-			<image id="1" imageSet="7" />
-		</item>
-		<item x="9" y="7" hasImage="true">
-			<image id="1" imageSet="7" />
-		</item>
-		<item x="1" y="7" hasImage="true">
-			<image id="1" imageSet="7" />
-		</item>
-		<item x="1" y="8" hasImage="true">
-			<image id="1" imageSet="7" />
-		</item>
-		<item x="2" y="8" hasImage="true">
-			<image id="1" imageSet="7" />
-		</item>
-		<item x="3" y="8" hasImage="true">
-			<image id="1" imageSet="7" />
-		</item>
-		<item x="4" y="8" hasImage="true">
 			<image id="1" imageSet="7" />
 		</item>
 	</itemspawn>
@@ -59,8 +29,16 @@
 		<cell x="1" y="5" tiletype="0" />
 		<cell x="1" y="6" tiletype="0" />
 		<cell x="1" y="7" tiletype="0" />
-		<cell x="1" y="8" tiletype="0" />
-		<cell x="1" y="9" tiletype="0" />
+		<cell x="1" y="8" tiletype="0">
+			<interactiveobject hasImage="true" hasImageReference="false">
+				<image id="1" imageSet="5" imageReferenceX="1" imageReferenceY="8" />
+			</interactiveobject>
+		</cell>
+		<cell x="1" y="9" tiletype="0">
+			<interactiveobject hasImage="true" hasImageReference="true">
+				<image id="1" imageSet="5" imageReferenceX="1" imageReferenceY="8" />
+			</interactiveobject>
+		</cell>
 		<cell x="2" y="0" tiletype="0" />
 		<cell x="2" y="1" tiletype="0" />
 		<cell x="2" y="2" tiletype="0" />
@@ -70,7 +48,7 @@
 		<cell x="2" y="6" tiletype="0" />
 		<cell x="2" y="7" tiletype="0" />
 		<cell x="2" y="8" tiletype="0" />
-		<cell x="2" y="9" tiletype="0" />
+		<cell x="2" y="9" tiletype="1" />
 		<cell x="3" y="0" tiletype="0" />
 		<cell x="3" y="1" tiletype="0" />
 		<cell x="3" y="2" tiletype="0" />
@@ -89,8 +67,16 @@
 		<cell x="4" y="5" tiletype="0" />
 		<cell x="4" y="6" tiletype="0" />
 		<cell x="4" y="7" tiletype="0" />
-		<cell x="4" y="8" tiletype="0" />
-		<cell x="4" y="9" tiletype="0" />
+		<cell x="4" y="8" tiletype="0">
+			<interactiveobject hasImage="true" hasImageReference="false">
+				<image id="1" imageSet="5" imageReferenceX="4" imageReferenceY="8" />
+			</interactiveobject>
+		</cell>
+		<cell x="4" y="9" tiletype="0">
+			<interactiveobject hasImage="true" hasImageReference="true">
+				<image id="1" imageSet="5" imageReferenceX="4" imageReferenceY="8" />
+			</interactiveobject>
+		</cell>
 		<cell x="5" y="0" tiletype="0" />
 		<cell x="5" y="1" tiletype="0" />
 		<cell x="5" y="2" tiletype="0" />
@@ -129,8 +115,16 @@
 		<cell x="8" y="5" tiletype="0" />
 		<cell x="8" y="6" tiletype="0" />
 		<cell x="8" y="7" tiletype="0" />
-		<cell x="8" y="8" tiletype="0" />
-		<cell x="8" y="9" tiletype="0" />
+		<cell x="8" y="8" tiletype="0">
+			<interactiveobject hasImage="true" hasImageReference="false">
+				<image id="1" imageSet="5" imageReferenceX="8" imageReferenceY="8" />
+			</interactiveobject>
+		</cell>
+		<cell x="8" y="9" tiletype="0">
+			<interactiveobject hasImage="true" hasImageReference="true">
+				<image id="1" imageSet="5" imageReferenceX="8" imageReferenceY="8" />
+			</interactiveobject>
+		</cell>
 		<cell x="9" y="0" tiletype="0" />
 		<cell x="9" y="1" tiletype="0" />
 		<cell x="9" y="2" tiletype="0" />

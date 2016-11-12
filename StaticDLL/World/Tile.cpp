@@ -50,7 +50,7 @@ namespace StaticDLL {
 		return chosenColor_;
 	}
 
-	EnumDLL::IMAGESETS Tile::GetImageSet() {
+	StaticDLL::IMAGESETS Tile::GetImageSet() {
 		return imageSet_;
 	}
 
@@ -140,7 +140,7 @@ namespace StaticDLL {
 	}
 	
 
-	void Tile::SetImageSet(EnumDLL::IMAGESETS set) {
+	void Tile::SetImageSet(StaticDLL::IMAGESETS set) {
 		imageSet_ = set;
 	}
 

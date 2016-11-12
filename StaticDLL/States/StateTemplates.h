@@ -51,7 +51,7 @@ namespace StaticDLL{
 			//This object isnt being Deleted at the moment
 			EditorOverLayController *editorOverLayController_;
 			
-			std::pair<StaticDLL::EnumDLL::STATES, EditorItemBase*> selectedItemBase_;
+			std::pair<StaticDLL::STATES, EditorItemBase*> selectedItemBase_;
 	};
 
 

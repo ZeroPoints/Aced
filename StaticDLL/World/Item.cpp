@@ -7,6 +7,7 @@ namespace StaticDLL {
 	{
 		hasImageReference_ = false;
 		hasImage_ = false;
+		itemType_ = ITEMTYPES::NA;
 	}
 
 
@@ -37,9 +38,10 @@ namespace StaticDLL {
 
 
 
-	EnumDLL::IMAGESETS Item::GetImageSet() {
+	StaticDLL::IMAGESETS Item::GetImageSet() {
 		return imageSet_;
 	}
+
 
 	bool Item::GetHasImage() {
 		return hasImageReference_ || hasImage_;
@@ -69,6 +71,13 @@ namespace StaticDLL {
 		return currentPositionY_;
 	}
 
+	ITEMTYPES Item::GetItemType() {
+		return itemType_;
+	}
+
+	OBJECTTYPES Item::GetObjectType() {
+		return objectType_;
+	}
 
 
 	//-----------------------------------------------------------------------------------------------------
@@ -87,10 +96,12 @@ namespace StaticDLL {
 		if (isReference) {
 			hasImageReference_ = true;
 			image_ = selectedImage;
+			itemType_ = selectedImage->GetItemType();
 		}
 		else {
 			hasImage_ = true;
 			image_ = selectedImage;
+			itemType_ = selectedImage->GetItemType();
 		}
 	}
 
@@ -106,10 +117,9 @@ namespace StaticDLL {
 
 
 
-	void Item::SetImageSet(EnumDLL::IMAGESETS set) {
+	void Item::SetImageSet(StaticDLL::IMAGESETS set) {
 		imageSet_ = set;
 	}
-
 
 
 
@@ -119,6 +129,14 @@ namespace StaticDLL {
 
 	void Item::SetPosY(double y) {
 		currentPositionY_ = y;
+	}
+
+	void Item::SetItemType(ITEMTYPES set) {
+		itemType_ = set;
+	}
+
+	void Item::SetObjectType(OBJECTTYPES set) {
+		objectType_ = set;
 	}
 
 

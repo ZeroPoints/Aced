@@ -18,47 +18,47 @@ namespace StaticDLL{
 		SetFont(al_load_font("arial.ttf", 30, 0));
 
 		SetMenuHeader("Editor Menu");
-		SetId(EnumDLL::STATES::EDITORMAINMENU);
+		SetId(STATES::EDITORMAINMENU);
 		
 		MenuItem* itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::RETURN);
+		itemStore->SetId(STATES::RETURN);
 		itemStore->SetMenuItemText("Return");
 		AddMenuItem(itemStore);
 
 		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::NEW);
+		itemStore->SetId(STATES::NEW);
 		itemStore->SetMenuItemText("New Map");
 		AddMenuItem(itemStore);
 
 		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::SAVE);
+		itemStore->SetId(STATES::SAVE);
 		itemStore->SetMenuItemText("Save Map");
 		AddMenuItem(itemStore);
 
 		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::LOAD);
+		itemStore->SetId(STATES::LOAD);
 		itemStore->SetMenuItemText("Load Map");
 		AddMenuItem(itemStore);
 
 		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::MAPOPTIONS);
+		itemStore->SetId(STATES::MAPOPTIONS);
 		itemStore->SetMenuItemText("Map Options");
 		AddMenuItem(itemStore);
 
 		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::OPTIONS);
+		itemStore->SetId(STATES::OPTIONS);
 		itemStore->SetMenuItemText("Options");
 		AddMenuItem(itemStore);
 
 		/*itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::ABOUT);
+		itemStore->SetId(STATES::ABOUT);
 		itemStore->SetMenuItemText("About");
 		AddMenuItem(itemStore);*/
 		
 	
 
 		itemStore = new MenuItem;
-		itemStore->SetId(EnumDLL::STATES::MAINMENU);
+		itemStore->SetId(STATES::MAINMENU);
 		itemStore->SetMenuItemText("Quit");
 		AddMenuItem(itemStore);
 

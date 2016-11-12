@@ -136,7 +136,7 @@ namespace StaticDLL
 
 		Image *image_;
 
-		EnumDLL::STATES Id_, keyPressState_, keyPressReturnVal_;
+		STATES Id_, keyPressState_, keyPressReturnVal_;
 		ALLEGRO_COLOR chosenColor_;
 
 

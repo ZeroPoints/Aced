@@ -38,7 +38,7 @@ namespace StaticDLL{
 	 Map* Menu::GetMap() {
 		return currentMap_;
 	}
-	 EnumDLL::STATES Menu::GetId()
+	 STATES Menu::GetId()
 	{
 		return Id_;
 	}
@@ -182,7 +182,7 @@ namespace StaticDLL{
 	{
 		currentMap_ = currentMap;
 	}
-	void Menu::SetId(EnumDLL::STATES newId)
+	void Menu::SetId(STATES newId)
 	{
 		Id_ = newId;
 	}
@@ -270,10 +270,10 @@ namespace StaticDLL{
 
 
 	//down arrow up arrow per vector items....enter to submit or esc to leave menu/submenu so  (menutype - 1)...title = 0, options = 1 dunno yet
-	EnumDLL::STATES Menu::KeyPress(ALLEGRO_EVENT *ev)
+	STATES Menu::KeyPress(ALLEGRO_EVENT *ev)
 	{
 		BOOL doneflag = false;
-		EnumDLL::STATES val = EnumDLL::STATES::NONE;
+		STATES val = STATES::NONE;
 
 		if (ev->type == ALLEGRO_EVENT_KEY_DOWN)
 		{
@@ -352,7 +352,7 @@ namespace StaticDLL{
 			{
 			case ALLEGRO_KEY_ESCAPE:
 				//quit
-				val = EnumDLL::STATES::RETURN;
+				val = STATES::RETURN;
 				break;
 			}
 		}

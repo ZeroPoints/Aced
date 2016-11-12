@@ -35,7 +35,7 @@ namespace StaticDLL{
 	{
 		public:
 
-			STATICDLL_API EditorOverLay(Settings *settings, EnumDLL::STATES id, AssetLibrary *assetLibrary);
+			STATICDLL_API EditorOverLay(Settings *settings, STATES id, AssetLibrary *assetLibrary);
 
 
 
@@ -97,13 +97,13 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API EnumDLL::OVERLAYSTATE GetOverLayState()
+			STATICDLL_API OVERLAYSTATE GetOverLayState()
 			{
 				return overLayState_;
 			}
 
 
-			STATICDLL_API void SetOverLayAction(EnumDLL::OVERLAYACTIONS action)
+			STATICDLL_API void SetOverLayAction(OVERLAYACTIONS action)
 			{
 				overLayAction_ = action;
 			}
@@ -164,11 +164,11 @@ namespace StaticDLL{
 
 
 			
-			STATICDLL_API void SetId(StaticDLL::EnumDLL::STATES id)
+			STATICDLL_API void SetId(StaticDLL::STATES id)
 			{
 				id_ = id;
 			}
-			STATICDLL_API StaticDLL::EnumDLL::STATES GetId()
+			STATICDLL_API StaticDLL::STATES GetId()
 			{
 				return id_;
 			}
@@ -202,7 +202,7 @@ namespace StaticDLL{
 
 
 
-			StaticDLL::EnumDLL::STATES id_;
+			StaticDLL::STATES id_;
 			
 			int top_;
 			int bottom_;
@@ -217,10 +217,10 @@ namespace StaticDLL{
 			Image *remove_;
 
 			
-			StaticDLL::EnumDLL::OVERLAYACTIONS overLayAction_;
-			StaticDLL::EnumDLL::OVERLAYSTATE overLayState_;
+			StaticDLL::OVERLAYACTIONS overLayAction_;
+			StaticDLL::OVERLAYSTATE overLayState_;
 
-			StaticDLL::EnumDLL::IMAGESETS imageSetId_;
+			StaticDLL::IMAGESETS imageSetId_;
 
 			ObjectBase *tilePickerWindow_;
 

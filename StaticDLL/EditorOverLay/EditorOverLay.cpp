@@ -3,7 +3,7 @@
 
 namespace StaticDLL{
 
-	EditorOverLay::EditorOverLay(Settings *settings, EnumDLL::STATES id, AssetLibrary *assetLibrary)
+	EditorOverLay::EditorOverLay(Settings *settings, STATES id, AssetLibrary *assetLibrary)
 	{
 		id_ = id;
 
@@ -15,28 +15,28 @@ namespace StaticDLL{
 
 		height_ = settings_->GetDisplayHeight()*Constants::TileSize();
 
-		overLayState_ = StaticDLL::EnumDLL::OVERLAYSTATE::OVERLAYOPENED;
-		overLayAction_ = StaticDLL::EnumDLL::OVERLAYACTIONS::OVERLAYNONE;
+		overLayState_ = StaticDLL::OVERLAYSTATE::OVERLAYOPENED;
+		overLayAction_ = StaticDLL::OVERLAYACTIONS::OVERLAYNONE;
 
 		chosenColor_ = al_map_rgb_f(0.8,0.8,0.8);
 		currentTilePage_ = 0;
 
 		switch(id_)
 		{
-			case EnumDLL::STATES::TILEIMAGEPICKER:
-				imageSetId_ = EnumDLL::IMAGESETS::TILEIMAGESET;
+			case STATES::TILEIMAGEPICKER:
+				imageSetId_ = StaticDLL::IMAGESETS::TILEIMAGESET;
 				break;
-			case EnumDLL::STATES::TILECOLORPICKER:
-				imageSetId_ = EnumDLL::IMAGESETS::TILECOLORSET;
+			case STATES::TILECOLORPICKER:
+				imageSetId_ = StaticDLL::IMAGESETS::TILECOLORSET;
 				break;
-			case EnumDLL::STATES::OBJECTIMAGEPICKER:
-				imageSetId_ = EnumDLL::IMAGESETS::OBJECTIMAGESET;
+			case STATES::OBJECTIMAGEPICKER:
+				imageSetId_ = StaticDLL::IMAGESETS::OBJECTIMAGESET;
 				break;
-			case EnumDLL::STATES::ENEMYPICKER:
-				imageSetId_ = EnumDLL::IMAGESETS::ENEMYIMAGESET;
+			case STATES::ENEMYPICKER:
+				imageSetId_ = StaticDLL::IMAGESETS::ENEMYIMAGESET;
 				break;
-			case EnumDLL::STATES::ITEMPICKER:
-				imageSetId_ = EnumDLL::IMAGESETS::ITEMIMAGESET;
+			case STATES::ITEMPICKER:
+				imageSetId_ = StaticDLL::IMAGESETS::ITEMIMAGESET;
 				break;
 		}
 
@@ -64,32 +64,32 @@ namespace StaticDLL{
 
 	void EditorOverLay::Resize()
 	{
-		if(id_ == EnumDLL::STATES::TILECOLORPICKER)
+		if(id_ == STATES::TILECOLORPICKER)
 		{
 			CreateTilesColors();
 			CreateTilePages();
 		}
-		else if(id_ == EnumDLL::STATES::TILEIMAGEPICKER)
+		else if(id_ == STATES::TILEIMAGEPICKER)
 		{
 			CreateTileImagePicker();
 			CreateTilePages();
 		}
-		else if(id_ == EnumDLL::STATES::TILETYPEPICKER)
+		else if(id_ == STATES::TILETYPEPICKER)
 		{
 			CreateTileTypes();
 			CreateTilePages();
 		}
-		else if (id_ == EnumDLL::STATES::OBJECTIMAGEPICKER)
+		else if (id_ == STATES::OBJECTIMAGEPICKER)
 		{
 			CreateObjectImagePicker();
 			CreateTilePages();
 		}
-		else if (id_ == EnumDLL::STATES::ENEMYPICKER)
+		else if (id_ == STATES::ENEMYPICKER)
 		{
 			CreateEnemyImagePicker();
 			CreateTilePages();
 		}
-		else if (id_ == EnumDLL::STATES::ITEMPICKER)
+		else if (id_ == STATES::ITEMPICKER)
 		{
 			CreateItemImagePicker();
 			CreateTilePages();
@@ -120,32 +120,32 @@ namespace StaticDLL{
 	//also sizes display of these
 	void EditorOverLay::FormatTiles()
 	{
-		if(id_ == EnumDLL::STATES::TILECOLORPICKER)
+		if(id_ == STATES::TILECOLORPICKER)
 		{
 			CreateTilesColors();
 			CreateTilePages();
 		}
-		else if(id_ == EnumDLL::STATES::TILEIMAGEPICKER)
+		else if(id_ == STATES::TILEIMAGEPICKER)
 		{
 			CreateTileImagePicker();
 			CreateTilePages();
 		}
-		else if(id_ == EnumDLL::STATES::TILETYPEPICKER)
+		else if(id_ == STATES::TILETYPEPICKER)
 		{
 			CreateTileTypes();
 			CreateTilePages();
 		}
-		else if (id_ == EnumDLL::STATES::OBJECTIMAGEPICKER)
+		else if (id_ == STATES::OBJECTIMAGEPICKER)
 		{
 			CreateObjectImagePicker();
 			CreateTilePages();
 		}
-		else if (id_ == EnumDLL::STATES::ENEMYPICKER)
+		else if (id_ == STATES::ENEMYPICKER)
 		{
 			CreateEnemyImagePicker();
 			CreateTilePages();
 		}
-		else if (id_ == EnumDLL::STATES::ITEMPICKER)
+		else if (id_ == STATES::ITEMPICKER)
 		{
 			CreateItemImagePicker();
 			CreateTilePages();
@@ -215,7 +215,7 @@ namespace StaticDLL{
 	void EditorOverLay::DrawItemBaseList()
 	{
 		//draw collision boxes if page id is tiletype
-		tilePages_[currentTilePage_]->DrawItemBaseList(itemBaseList_, (id_ == EnumDLL::STATES::TILETYPEPICKER));
+		tilePages_[currentTilePage_]->DrawItemBaseList(itemBaseList_, (id_ == STATES::TILETYPEPICKER));
 	}
 
 
@@ -314,7 +314,7 @@ namespace StaticDLL{
 		for(int j = 0; j < imageDictionarySize_; j++)
 		{
 			EditorItemBase* tempTile = new EditorItemBase();
-			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
+			tempTile->SetTileType(TILETYPE::SOLIDTILE);
 			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
 			tempTile->SetWidth(1);
 			tempTile->SetHeight(1);
@@ -369,7 +369,7 @@ namespace StaticDLL{
 		for(int j = 0; j < imageDictionarySize_; j++)
 		{
 			EditorItemBase* tempTile = new EditorItemBase();
-			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
+			tempTile->SetTileType(TILETYPE::SOLIDTILE);
 
 			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
 
@@ -417,7 +417,7 @@ namespace StaticDLL{
 
 		currentTile = new EditorItemBase();
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
-		currentTile->SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
+		currentTile->SetTileType(TILETYPE::EMPTYTILE);
 		currentTile->SetCurrentPosition(posX,posY);
 		currentTile->SetWidth(1);
 		currentTile->SetHeight(1);
@@ -440,7 +440,7 @@ namespace StaticDLL{
 
 		currentTile = new EditorItemBase();
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
-		currentTile->SetTileType(EnumDLL::TILETYPE::COLLISIONTOPTILE);
+		currentTile->SetTileType(TILETYPE::COLLISIONTOPTILE);
 		currentTile->SetCurrentPosition(posX,posY);
 		currentTile->SetWidth(1);
 		currentTile->SetHeight(1);
@@ -461,7 +461,7 @@ namespace StaticDLL{
 
 		currentTile = new EditorItemBase();
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
-		currentTile->SetTileType(EnumDLL::TILETYPE::COLLISIONLEFTTILE);
+		currentTile->SetTileType(TILETYPE::COLLISIONLEFTTILE);
 		currentTile->SetCurrentPosition(posX,posY);
 		currentTile->SetWidth(1);
 		currentTile->SetHeight(1);
@@ -482,7 +482,7 @@ namespace StaticDLL{
 
 		currentTile = new EditorItemBase();
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
-		currentTile->SetTileType(EnumDLL::TILETYPE::COLLISIONRIGHTTILE);
+		currentTile->SetTileType(TILETYPE::COLLISIONRIGHTTILE);
 		currentTile->SetCurrentPosition(posX,posY);
 		currentTile->SetWidth(1);
 		currentTile->SetHeight(1);
@@ -501,7 +501,7 @@ namespace StaticDLL{
 
 
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
-		currentTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
+		currentTile->SetTileType(TILETYPE::SOLIDTILE);
 		currentTile->SetCurrentPosition(posX,posY);
 		currentTile->SetWidth(1);
 		currentTile->SetHeight(1);
@@ -543,7 +543,7 @@ namespace StaticDLL{
 		for (int j = 0; j < imageDictionarySize_; j++)
 		{
 			EditorItemBase* tempTile = new EditorItemBase();
-			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
+			tempTile->SetTileType(TILETYPE::SOLIDTILE);
 			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
 			tempTile->SetImageSet(imageSetId_);
 
@@ -594,7 +594,7 @@ namespace StaticDLL{
 		for (int j = 0; j < imageDictionarySize_; j++)
 		{
 			EditorItemBase* tempTile = new EditorItemBase();
-			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
+			tempTile->SetTileType(TILETYPE::SOLIDTILE);
 			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
 			tempTile->SetImageSet(imageSetId_);
 
@@ -646,7 +646,7 @@ namespace StaticDLL{
 		for (int j = 0; j < imageDictionarySize_; j++)
 		{
 			EditorItemBase* tempTile = new EditorItemBase();
-			tempTile->SetTileType(EnumDLL::TILETYPE::SOLIDTILE);
+			tempTile->SetTileType(TILETYPE::SOLIDTILE);
 			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
 			tempTile->SetImageSet(imageSetId_);
 

@@ -33,9 +33,9 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API EnumDLL::OPTIONTYPES GetOptionId();
+			STATICDLL_API OPTIONTYPES GetOptionId();
 
-			STATICDLL_API EnumDLL::STATES GetId();
+			STATICDLL_API STATES GetId();
 			STATICDLL_API int GetMenuItemHeight();
 			STATICDLL_API int GetMenuItemWidth();
 			STATICDLL_API int GetMenuItemX();
@@ -60,8 +60,8 @@ namespace StaticDLL{
 			STATICDLL_API void SetMenuItemY(int menuItemY);
 			STATICDLL_API void SetMenuItemText(char *menuItemText);
 			STATICDLL_API void SetMenuItemProperty(ALLEGRO_USTR *menuItemProperty);
-			STATICDLL_API void SetId(EnumDLL::STATES newId);
-			STATICDLL_API void SetOptionId(EnumDLL::OPTIONTYPES newId);
+			STATICDLL_API void SetId(STATES newId);
+			STATICDLL_API void SetOptionId(OPTIONTYPES newId);
 
 
 			STATICDLL_API void SetMenuItemTargetable(bool targetable);
@@ -107,8 +107,8 @@ namespace StaticDLL{
 		private:
 			ALLEGRO_FONT *font30_;
 			ALLEGRO_USTR *menuItemProperty_;
-			EnumDLL::OPTIONTYPES optionId_;
-			EnumDLL::STATES Id_;
+			OPTIONTYPES optionId_;
+			STATES Id_;
 			bool editable_;
 			bool targetable_;
 			char *menuItemText_;//text

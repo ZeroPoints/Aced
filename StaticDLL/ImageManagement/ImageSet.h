@@ -28,18 +28,18 @@ namespace StaticDLL{
 	class ImageSet
 	{
 		public:
-			STATICDLL_API ImageSet(std::vector<Image*> images, EnumDLL::IMAGESETS id);
+			STATICDLL_API ImageSet(std::vector<Image*> images, StaticDLL::IMAGESETS id);
 			STATICDLL_API ~ImageSet();
 
 			STATICDLL_API std::vector<Image*> GetImageDictionary();
 
-			STATICDLL_API EnumDLL::IMAGESETS GetImageSetId();
+			STATICDLL_API StaticDLL::IMAGESETS GetImageSetId();
 
 
 			
 		private:
 
-			EnumDLL::IMAGESETS id_;
+			StaticDLL::IMAGESETS id_;
 
 			std::vector<Image*> imageDictionary_;
 

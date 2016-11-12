@@ -168,7 +168,7 @@ namespace StaticDLL {
 			{
 				for (int j = k; j < height_; j++)
 				{
-					cellMap_[i][j].SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
+					cellMap_[i][j].SetTileType(TILETYPE::EMPTYTILE);
 					cellMap_[i][j].SetCurrentPosition(i, j);
 				}
 			}
@@ -198,7 +198,7 @@ namespace StaticDLL {
 			{
 				for (int j = 0; j < height_; j++)
 				{
-					cellMap_[i][j].SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
+					cellMap_[i][j].SetTileType(TILETYPE::EMPTYTILE);
 					cellMap_[i][j].SetCurrentPosition(i, j);
 				}
 			}
@@ -259,11 +259,11 @@ namespace StaticDLL {
 		for (int i = 0; i < enemyList_.size(); i++) {
 			enemyList_[i]->DrawObjectRotate(mapXoffset_, mapYoffset_);
 
-			char text[100];
+			/*char text[100];
 			sprintf(text, "Player%d:x=%f:y=%f", i, enemyList_[i]->GetCurrentPositionX(), enemyList_[i]->GetCurrentPositionY());
 			al_draw_text(font30_, al_map_rgb(0, 0, 0),
 				0,
-				20*(i+1), ALLEGRO_ALIGN_LEFT, text);
+				20*(i+1), ALLEGRO_ALIGN_LEFT, text);*/
 		}
 
 		for (int i = 0; i < itemList_.size(); i++) {
@@ -422,7 +422,7 @@ namespace StaticDLL {
 				{
 					pugi::xml_node xmlCurrentImage = xmlcurrentEnemy.append_child("image");
 					xmlCurrentImage.append_attribute("id").set_value(currentEnemy->GetObjectImage()->GetId());
-					xmlCurrentImage.append_attribute("imageSet").set_value(currentEnemy->GetImageSet());
+					xmlCurrentImage.append_attribute("imageSet").set_value((int)currentEnemy->GetImageSet());
 				}
 			}
 		}
@@ -440,7 +440,7 @@ namespace StaticDLL {
 				{
 					pugi::xml_node xmlCurrentImage = xmlcurrentEnemy.append_child("image");
 					xmlCurrentImage.append_attribute("id").set_value(currentItem->GetObjectImage()->GetId());
-					xmlCurrentImage.append_attribute("imageSet").set_value(currentItem->GetImageSet());
+					xmlCurrentImage.append_attribute("imageSet").set_value((int)currentItem->GetImageSet());
 				}
 			}
 		}
@@ -457,7 +457,7 @@ namespace StaticDLL {
 
 				xmlcurrentCell.append_attribute("x").set_value(currentCell->GetCurrentPositionX());
 				xmlcurrentCell.append_attribute("y").set_value(currentCell->GetCurrentPositionY());
-				xmlcurrentCell.append_attribute("tiletype").set_value(currentCell->GetTileType());
+				xmlcurrentCell.append_attribute("tiletype").set_value((int)currentCell->GetTileType());
 
 				if (currentCell->GetHasTile()) {
 					//Store the TILES data in file
@@ -474,7 +474,7 @@ namespace StaticDLL {
 					{
 						pugi::xml_node xmlCurrentImage = xmlcurrentTile.append_child("image");
 						xmlCurrentImage.append_attribute("id").set_value(currentCell->GetTile()->GetObjectImage()->GetId());
-						xmlCurrentImage.append_attribute("imageSet").set_value(currentCell->GetTile()->GetImageSet());
+						xmlCurrentImage.append_attribute("imageSet").set_value((int)currentCell->GetTile()->GetImageSet());
 					}
 				}
 
@@ -489,7 +489,7 @@ namespace StaticDLL {
 						pugi::xml_node xmlCurrentImage = xmlcurrentInteractiveObject.append_child("image");
 						if (hasImage) {
 							xmlCurrentImage.append_attribute("id").set_value(currentCell->GetInteractiveObject()->GetObjectImage()->GetId());
-							xmlCurrentImage.append_attribute("imageSet").set_value(currentCell->GetInteractiveObject()->GetImageSet());
+							xmlCurrentImage.append_attribute("imageSet").set_value((int)currentCell->GetInteractiveObject()->GetImageSet());
 						}
 						xmlCurrentImage.append_attribute("imageReferenceX").set_value(currentCell->GetInteractiveObject()->GetImageReferenceX());
 						xmlCurrentImage.append_attribute("imageReferenceY").set_value(currentCell->GetInteractiveObject()->GetImageReferenceY());
@@ -578,7 +578,7 @@ namespace StaticDLL {
 						int indexOfImageSet = -1;
 						for (int k = 0; k < assetLibrary_->GetImageSetDictionary().size(); k++)
 						{
-							if (assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
+							if ((int)assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
 							{
 								indexOfImageSet = k;
 							}
@@ -590,7 +590,7 @@ namespace StaticDLL {
 								if (imageDictionary[j]->GetId() == imgId)
 								{
 									enemy->SetObjectImageColor(imageDictionary[j]);
-									enemy->SetImageSet(EnumDLL::IMAGESETS(imageSetId));
+									enemy->SetImageSet(StaticDLL::IMAGESETS(imageSetId));
 									break;
 								}
 							}
@@ -644,7 +644,7 @@ namespace StaticDLL {
 						int indexOfImageSet = -1;
 						for (int k = 0; k < assetLibrary_->GetImageSetDictionary().size(); k++)
 						{
-							if (assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
+							if ((int)assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
 							{
 								indexOfImageSet = k;
 							}
@@ -656,7 +656,7 @@ namespace StaticDLL {
 								if (imageDictionary[j]->GetId() == imgId)
 								{
 									item->SetImage(imageDictionary[j]);
-									item->SetImageSet(EnumDLL::IMAGESETS(imageSetId));
+									item->SetImageSet(StaticDLL::IMAGESETS(imageSetId));
 									break;
 								}
 							}
@@ -711,7 +711,7 @@ namespace StaticDLL {
 				}
 				else if (strcmp(currentCellAttributeName, "tiletype") == 0)
 				{
-					currentCell->SetTileType(EnumDLL::TILETYPE(xmlCellAttribute->as_int()));
+					currentCell->SetTileType(TILETYPE(xmlCellAttribute->as_int()));
 				}
 			}
 
@@ -773,7 +773,7 @@ namespace StaticDLL {
 								int indexOfImageSet = -1;
 								for (int k = 0; k < assetLibrary_->GetImageSetDictionary().size(); k++)
 								{
-									if (assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
+									if ((int)assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
 									{
 										indexOfImageSet = k;
 									}
@@ -786,7 +786,7 @@ namespace StaticDLL {
 										{
 
 											currentTile->SetTileImage(imageDictionary[j]);
-											currentTile->SetImageSet(EnumDLL::IMAGESETS(imageSetId));
+											currentTile->SetImageSet(StaticDLL::IMAGESETS(imageSetId));
 											break;
 										}
 									}
@@ -834,7 +834,7 @@ namespace StaticDLL {
 								int indexOfImageSet = -1;
 								for (int k = 0; k < assetLibrary_->GetImageSetDictionary().size(); k++)
 								{
-									if (assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
+									if ((int)assetLibrary_->GetImageSetDictionary()[k]->GetImageSetId() == imageSetId)
 									{
 										indexOfImageSet = k;
 									}
@@ -848,7 +848,7 @@ namespace StaticDLL {
 											currentInteractiveObject->SetImage(imageDictionary[j], 
 												i != imageReferenceX && j != imageReferenceY,
 												imageReferenceX, imageReferenceY);
-											currentInteractiveObject->SetImageSet(EnumDLL::IMAGESETS(imageSetId));
+											currentInteractiveObject->SetImageSet(StaticDLL::IMAGESETS(imageSetId));
 											break;
 										}
 									}
@@ -881,7 +881,7 @@ namespace StaticDLL {
 		{
 			for (int j = 0; j < height_; j++)
 			{
-				cellMap_[i][j].SetTileType(EnumDLL::TILETYPE::EMPTYTILE);
+				cellMap_[i][j].SetTileType(TILETYPE::EMPTYTILE);
 				cellMap_[i][j].SetCurrentPosition(i, j);
 			}
 		}

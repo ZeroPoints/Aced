@@ -15,16 +15,16 @@ namespace StaticDLL{
 		SetAssetLibrary(assetLibrary);
 		SetDisplay(display);
 		SetSettings(settings);
-		SetId(EnumDLL::STATES::EDITORMODE);
+		SetId(STATES::EDITORMODE);
 		SetEventQueue(NULL);
 		SetRedraw(true);
 		SetDone(false);
 		SetRunning(true);
-		SetKeyPressReturnVal(EnumDLL::STATES::DEFAULT);
+		SetKeyPressReturnVal(STATES::DEFAULT);
 		SetFont(al_load_font("arial.ttf", 20, 0));
 		SetTimer(al_create_timer(1.0/60));
 		SetEventQueue(al_create_event_queue());
-		SetStateDirection(EnumDLL::STATEDIRECTION::NA);
+		SetStateDirection(STATEDIRECTION::NA);
 
 
 		al_register_event_source(GetEventQueue(), al_get_keyboard_event_source());
@@ -51,7 +51,7 @@ namespace StaticDLL{
 
 	void StateEditorMode::Resume(){
 		editorOverLayController_->Resize();
-		SetStateDirection(EnumDLL::STATEDIRECTION::NA);
+		SetStateDirection(STATEDIRECTION::NA);
 		SetNextState(NULL);
 
 		//Resize menus
@@ -68,7 +68,7 @@ namespace StaticDLL{
 			switch(GetEvent()->keyboard.keycode)
 			{
 				case ALLEGRO_KEY_ESCAPE:						
-					SetStateDirection(EnumDLL::STATEDIRECTION::PUSH);
+					SetStateDirection(STATEDIRECTION::PUSH);
 					SetNextState(new StateEditorMenu());
 					break;
 			}
@@ -159,7 +159,7 @@ namespace StaticDLL{
 					
 
 					//Tile color picker is weird prototype not sure if i wanna keep yet
-					if(selectedItemBase_.first == EnumDLL::STATES::TILECOLORPICKER)
+					if(selectedItemBase_.first == STATES::TILECOLORPICKER)
 					{
 						if(selectedItemBase_.second->GetObjectImage() != nullptr)
 						{
@@ -178,7 +178,7 @@ namespace StaticDLL{
 						}
 					}
 					//Collision Types
-					else if(selectedItemBase_.first == EnumDLL::STATES::TILETYPEPICKER)
+					else if(selectedItemBase_.first == STATES::TILETYPEPICKER)
 					{
 						int cellEmpty = true;
 						if (GetMap()->EnemyAlreadyExistsAtXY(tileXPos, tileYPos)) {
@@ -194,12 +194,12 @@ namespace StaticDLL{
 					}
 
 					//Normal tile placements-
-					else if (selectedItemBase_.first == EnumDLL::STATES::TILEIMAGEPICKER)
+					else if (selectedItemBase_.first == STATES::TILEIMAGEPICKER)
 					{
 						
 						//First check all fields so you dont place over a spot that already has a Solid Tile...
 						int cellEmpty = true;
-						if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetTileType() != EnumDLL::TILETYPE::EMPTYTILE)
+						if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetTileType() != TILETYPE::EMPTYTILE)
 						{
 							cellEmpty = false;
 						}
@@ -240,7 +240,7 @@ namespace StaticDLL{
 
 
 
-					else if (selectedItemBase_.first == EnumDLL::STATES::OBJECTIMAGEPICKER) {
+					else if (selectedItemBase_.first == STATES::OBJECTIMAGEPICKER) {
 						//Placement Logic For Object Image Picker
 						//Move To a Method and give it Details Comments as to why.
 
@@ -253,7 +253,7 @@ namespace StaticDLL{
 							for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
 								for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
 
-									if (GetMap()->GetCellMap()[i][j].GetTileType() != EnumDLL::TILETYPE::EMPTYTILE)
+									if (GetMap()->GetCellMap()[i][j].GetTileType() != TILETYPE::EMPTYTILE)
 									{
 										cellEmpty = false;
 										break;
@@ -304,7 +304,7 @@ namespace StaticDLL{
 
 
 
-					else if (selectedItemBase_.first == EnumDLL::STATES::ENEMYPICKER) {
+					else if (selectedItemBase_.first == STATES::ENEMYPICKER) {
 
 						//Check that your not placing item over a tile position
 						//Check not over existing char
@@ -312,7 +312,7 @@ namespace StaticDLL{
 						int tileEmpty = true;
 						for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
 							for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
-								if (GetMap()->GetCellMap()[i][j].GetTileType() != EnumDLL::TILETYPE::EMPTYTILE)
+								if (GetMap()->GetCellMap()[i][j].GetTileType() != TILETYPE::EMPTYTILE)
 								{
 									tileEmpty = false;
 									break;
@@ -349,7 +349,7 @@ namespace StaticDLL{
 						}
 					}
 
-					else if (selectedItemBase_.first == EnumDLL::STATES::ITEMPICKER) {
+					else if (selectedItemBase_.first == STATES::ITEMPICKER) {
 
 						//Check that your not placing item over a tile position
 						//Check not over existing char
@@ -357,7 +357,7 @@ namespace StaticDLL{
 						int tileEmpty = true;
 						for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
 							for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
-								if (GetMap()->GetCellMap()[i][j].GetTileType() != EnumDLL::TILETYPE::EMPTYTILE)
+								if (GetMap()->GetCellMap()[i][j].GetTileType() != TILETYPE::EMPTYTILE)
 								{
 									tileEmpty = false;
 									break;

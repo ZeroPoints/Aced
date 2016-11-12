@@ -15,6 +15,7 @@
 #include "../Static/Definitions.h"
 #include "../ImageManagement/Image.h"
 #include "../EditorOverLay/EditorItemBase.h"
+#include "../World/Item.h"
 
 
 
@@ -44,7 +45,7 @@ namespace StaticDLL {
 		STATICDLL_API Image *GetObjectImage();
 
 		STATICDLL_API ALLEGRO_COLOR GetColor();
-		STATICDLL_API EnumDLL::IMAGESETS GetImageSet();
+		STATICDLL_API StaticDLL::IMAGESETS GetImageSet();
 
 
 
@@ -53,6 +54,11 @@ namespace StaticDLL {
 
 		STATICDLL_API double GetImageReferenceX();
 		STATICDLL_API double GetImageReferenceY();
+
+		STATICDLL_API OBJECTTYPES GetObjectType();
+		STATICDLL_API ITEMTYPES GetItemType();
+
+
 
 
 
@@ -77,7 +83,10 @@ namespace StaticDLL {
 
 
 
-		STATICDLL_API void SetImageSet(EnumDLL::IMAGESETS set);
+		STATICDLL_API void SetImageSet(StaticDLL::IMAGESETS set);
+
+		STATICDLL_API void SetObjectType(OBJECTTYPES set);
+		STATICDLL_API void SetItemType(ITEMTYPES set);
 
 
 
@@ -101,6 +110,8 @@ namespace StaticDLL {
 
 		STATICDLL_API void RemoveAllProperties();
 		STATICDLL_API void RemoveImage();
+		//returns false  if interaction user can walk over object
+		STATICDLL_API bool CollisionInteraction(std::vector<Item*> &itemList);
 
 
 	private:
@@ -118,7 +129,10 @@ namespace StaticDLL {
 
 
 
-		EnumDLL::IMAGESETS imageSet_;
+		StaticDLL::IMAGESETS imageSet_;
+		OBJECTTYPES objectType_;
+		ITEMTYPES itemType_;
+
 
 		Image *image_;
 	};

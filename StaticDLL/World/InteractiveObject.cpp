@@ -7,6 +7,7 @@ namespace StaticDLL {
 	{
 		hasImageReference_ = false;
 		hasImage_ = false;
+		objectType_ = OBJECTTYPES::NA;
 	}
 
 
@@ -37,7 +38,7 @@ namespace StaticDLL {
 
 
 
-	EnumDLL::IMAGESETS InteractiveObject::GetImageSet() {
+	StaticDLL::IMAGESETS InteractiveObject::GetImageSet() {
 		return imageSet_;
 	}
 
@@ -55,6 +56,19 @@ namespace StaticDLL {
 	double InteractiveObject::GetImageReferenceY() {
 		return imageReferenceY_;
 	}
+
+
+
+
+	OBJECTTYPES InteractiveObject::GetObjectType() {
+		return objectType_;
+	}
+
+	ITEMTYPES InteractiveObject::GetItemType() {
+		return itemType_;
+	}
+
+	
 
 
 
@@ -77,10 +91,12 @@ namespace StaticDLL {
 		if (isReference) {
 			hasImageReference_ = true;
 			image_ = selectedImage;
+			objectType_ = selectedImage->GetObjectType();
 		}
 		else {
 			hasImage_ = true;
 			image_ = selectedImage;
+			objectType_ = selectedImage->GetObjectType();
 		}
 	}
 
@@ -96,10 +112,18 @@ namespace StaticDLL {
 
 
 
-	void InteractiveObject::SetImageSet(EnumDLL::IMAGESETS set) {
+	void InteractiveObject::SetImageSet(StaticDLL::IMAGESETS set) {
 		imageSet_ = set;
 	}
 
+	void InteractiveObject::SetObjectType(OBJECTTYPES set) {
+		objectType_ = set;
+	}
+
+
+	void InteractiveObject::SetItemType(ITEMTYPES set) {
+		itemType_ = set;
+	}
 
 
 
@@ -169,4 +193,33 @@ namespace StaticDLL {
 		//test this doesnt effect the actual object in imageloader memory dictionary
 		image_ = nullptr;
 	};
+
+
+
+	//returns false  if interaction user can walk over object
+	bool InteractiveObject::CollisionInteraction(std::vector<Item*> &itemList) {
+
+		switch (objectType_)
+		{
+		case StaticDLL::OBJECTTYPES::DOOR:
+			//if door and holding a key walk throguh the door
+			/*for (int i = 0; i < itemList.size(); i++)
+			{
+				if (itemList[i]->GetItemType() == ITEMTYPES::KEY)
+				{
+					return false;
+				}
+			}*/
+			return true;
+			break;
+
+		default:
+			break;
+		}
+
+
+		//return true
+		return false;
+	}
+
 }

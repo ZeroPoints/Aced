@@ -3,7 +3,7 @@
 
 
 namespace StaticDLL{
-	ImageSet::ImageSet(std::vector<Image*> images, EnumDLL::IMAGESETS id){
+	ImageSet::ImageSet(std::vector<Image*> images, StaticDLL::IMAGESETS id){
 
 		imageDictionary_ = images;
 
@@ -32,7 +32,7 @@ namespace StaticDLL{
 		return imageDictionary_;
 	}
 
-	EnumDLL::IMAGESETS ImageSet::GetImageSetId()
+	StaticDLL::IMAGESETS ImageSet::GetImageSetId()
 	{
 		return id_;
 	}

@@ -60,12 +60,12 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API virtual EnumDLL::STATES GetId()
+			STATICDLL_API virtual STATES GetId()
 			{
 				return Id_;
 			}
 
-			STATICDLL_API virtual EnumDLL::STATES GetKeyPressState()
+			STATICDLL_API virtual STATES GetKeyPressState()
 			{
 				return keyPressState_;
 			}
@@ -154,7 +154,7 @@ namespace StaticDLL{
 				return menu_;
 			}
 
-			STATICDLL_API virtual EnumDLL::STATEDIRECTION GetStateDirection() {
+			STATICDLL_API virtual STATEDIRECTION GetStateDirection() {
 				return stateDirection_;
 			}
 
@@ -178,17 +178,17 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API virtual void SetId(EnumDLL::STATES newId)
+			STATICDLL_API virtual void SetId(STATES newId)
 			{
 				Id_ = newId;
 			}
 
-			STATICDLL_API virtual void SetKeyPressState(EnumDLL::STATES keyPress) {
+			STATICDLL_API virtual void SetKeyPressState(STATES keyPress) {
 				keyPressState_ = keyPress;
 			}
 
 			////keyPressReturnVal_ unused
-			STATICDLL_API virtual void SetKeyPressReturnVal(EnumDLL::STATES val) {
+			STATICDLL_API virtual void SetKeyPressReturnVal(STATES val) {
 				keyPressReturnVal_ = val;
 			}
 
@@ -281,7 +281,7 @@ namespace StaticDLL{
 			}
 
 
-			STATICDLL_API virtual void SetStateDirection(EnumDLL::STATEDIRECTION direction) {
+			STATICDLL_API virtual void SetStateDirection(STATEDIRECTION direction) {
 				stateDirection_ = direction;
 			}
 
@@ -367,8 +367,8 @@ namespace StaticDLL{
 			ALLEGRO_FONT *font30_;
 			ALLEGRO_TIMER *timer;
 			//state pair for editorengine.cpp to push pop state accordingly if need be
-			EnumDLL::STATEDIRECTION stateDirection_;
-			EnumDLL::STATES Id_, keyPressState_, keyPressReturnVal_;//keyPressReturnVal_ unused
+			STATEDIRECTION stateDirection_;
+			STATES Id_, keyPressState_, keyPressReturnVal_;//keyPressReturnVal_ unused
 			AssetLibrary *assetLibrary_;
 			Map *currentMap_;
 			Menu *menu_;

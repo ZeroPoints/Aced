@@ -38,7 +38,7 @@ namespace StaticDLL {
 
 
 
-		SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
+		SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERFALLING);
 
 
 
@@ -54,7 +54,7 @@ namespace StaticDLL {
 
 
 
-	void Player::SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES characterState)
+	void Player::SetCharacterYAxisState(CHARACTERYAXISSTATES characterState)
 	{
 		characterYAxisState_ = characterState;
 	}
@@ -110,7 +110,7 @@ namespace StaticDLL {
 	}
 
 
-	void Player::SetPlayerFacingDirection(EnumDLL::CHARACTERFACINGDIRECTION direction)
+	void Player::SetPlayerFacingDirection(CHARACTERFACINGDIRECTION direction)
 	{
 		faceDirection_ = direction;
 	}
@@ -153,7 +153,7 @@ namespace StaticDLL {
 
 
 
-	EnumDLL::CHARACTERFACINGDIRECTION Player::GetPlayerFacingDirection()
+	CHARACTERFACINGDIRECTION Player::GetPlayerFacingDirection()
 	{
 		return faceDirection_;
 	}
@@ -170,7 +170,7 @@ namespace StaticDLL {
 	};
 
 
-	EnumDLL::CHARACTERYAXISSTATES Player::GetCharacterYAxisState()
+	CHARACTERYAXISSTATES Player::GetCharacterYAxisState()
 	{
 		return characterYAxisState_;
 	}
@@ -246,7 +246,7 @@ namespace StaticDLL {
 
 	void Player::AdjustPlayerRotation()
 	{
-		if (EnumDLL::CHARACTERFACINGDIRECTION::CHARACTERLEFT == faceDirection_)
+		if (CHARACTERFACINGDIRECTION::CHARACTERLEFT == faceDirection_)
 		{
 			currentRotation_ = currentRotation_ - 0.005;
 		}
@@ -350,10 +350,10 @@ namespace StaticDLL {
 			switch (ev->keyboard.keycode)
 			{
 			case ALLEGRO_KEY_SPACE:
-				if (GetCharacterYAxisState() == EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND)
+				if (GetCharacterYAxisState() == CHARACTERYAXISSTATES::CHARACTERONGROUND)
 				{
 					SetVelocityY(-0.5);
-					SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERJUMPING);
+					SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERJUMPING);
 					val = 1;
 				}
 				break;
@@ -365,6 +365,9 @@ namespace StaticDLL {
 				break;
 			case ALLEGRO_KEY_LEFT://choose later....
 				KeyLeft_ = true;
+				break;
+			case ALLEGRO_KEY_E://choose later....
+				KeyE_ = true;
 				break;
 				//case ALLEGRO_KEY_SPACE://choose later....
 				//	KeySpace_ = true;
@@ -393,8 +396,70 @@ namespace StaticDLL {
 
 
 
+
+	//Player E interaction handler for objects
+	void Player::KeyPressUpdateE() {
+		//Perform Special Action
+		if (faceDirection_ == CHARACTERFACINGDIRECTION::CHARACTERRIGHT) {
+			float nextPosX = GetCurrentPositionX()*Constants::TileSize() + 1;
+			double height = GetHeight()*Constants::TileSize();
+			//check if tile is going off bounds return false;
+			if ((nextPosX) / Constants::TileSize() + GetWidth() >= map_->GetMapWidth()) {
+				return;
+			}
+			for (int i = 0; i < height; i++)
+			{
+				Cell *cellFuture = &map_->GetCellMap()[(nextPosX) / Constants::TileSize() + GetWidth()][(GetCurrentPositionY()*Constants::TileSize() + i) / Constants::TileSize()];
+				//detect if its an object and if it is use item
+				if (CheckNextPositionForObject(*cellFuture)) {
+					//Object exists if its a door do something
+					switch (cellFuture->GetInteractiveObject()->GetObjectType()) {
+						case OBJECTTYPES::DOOR:
+							return;
+							break;
+					}
+					return;
+				}
+			}
+		}
+		else if (faceDirection_ == CHARACTERFACINGDIRECTION::CHARACTERLEFT) {
+			float nextPosX = GetCurrentPositionX()*Constants::TileSize() - 1;
+			double height = GetHeight()*Constants::TileSize();
+			//check if tile is going off bounds return false;
+			if ((nextPosX) / Constants::TileSize() < 0) {
+				return;
+			}
+			for (int i = 0; i < height; i++)
+			{
+				Cell *cellFuture = &map_->GetCellMap()[(nextPosX) / Constants::TileSize()][(GetCurrentPositionY()*Constants::TileSize() + i) / Constants::TileSize()];
+				//detect if its an object and if it is use item
+				if (CheckNextPositionForObject(*cellFuture)) {
+					//Object exists if its a door do something
+					switch (cellFuture->GetInteractiveObject()->GetObjectType()) {
+					case OBJECTTYPES::DOOR:
+						return;
+						break;
+					}
+					return;
+				}
+			}
+		}
+	}
+
+
+
+
+
+
+
 	void Player::Update()
 	{
+		if (KeyE_) {
+			KeyE_ = false;
+			KeyPressUpdateE();
+		}
+
+
 		if (KeyRight_)
 		{
 			CollisionMovingRight();
@@ -406,12 +471,12 @@ namespace StaticDLL {
 
 
 		//Characters forever in a state of falling?
-		if (GetCharacterYAxisState() == EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING ||
-			GetCharacterYAxisState() == EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND)
+		if (GetCharacterYAxisState() == CHARACTERYAXISSTATES::CHARACTERFALLING ||
+			GetCharacterYAxisState() == CHARACTERYAXISSTATES::CHARACTERONGROUND)
 		{
 			Falling();
 		}
-		else if (GetCharacterYAxisState() == EnumDLL::CHARACTERYAXISSTATES::CHARACTERJUMPING)
+		else if (GetCharacterYAxisState() == CHARACTERYAXISSTATES::CHARACTERJUMPING)
 		{
 			Jumping();
 		}
@@ -425,6 +490,23 @@ namespace StaticDLL {
 
 
 	}
+
+
+
+	//Checks the next cell if that cell has object then check if player has an item that can interact with it???
+	bool Player::CheckNextPositionForObject(Cell &cellFuture) {
+
+		if (cellFuture.GetHasInteractiveObject()) {
+
+			if (cellFuture.GetInteractiveObject()->CollisionInteraction(itemList_)) {
+				//player interaction code
+				//return true to stop user walking into that objects space
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 
 
@@ -442,13 +524,18 @@ namespace StaticDLL {
 		for (int i = 0; i < height; i++)
 		{
 			Cell *cellFuture = &map_->GetCellMap()[(nextPosX) / Constants::TileSize()][(nextPosY + i) / Constants::TileSize()];
-			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || cellFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONRIGHTTILE)
+			//detect if its an object and if it is use item
+			if (CheckNextPositionForObject(*cellFuture)) {
+				return false;
+			}
+			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE || cellFuture->GetTileType() == TILETYPE::COLLISIONRIGHTTILE)
 			{
 				return false;
 			}
 		}
 		return true;
 	}
+
 	bool Player::CheckNextXPositionGoingRight(float nextPosX, float nextPosY)
 	{
 		double height = GetHeight()*Constants::TileSize();
@@ -461,7 +548,11 @@ namespace StaticDLL {
 		for (int i = 0; i < height; i++)
 		{
 			Cell *cellFuture = &map_->GetCellMap()[(nextPosX) / Constants::TileSize() + GetWidth()][(nextPosY + i) / Constants::TileSize()];
-			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || cellFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONLEFTTILE)
+			//detect if its an object and if it is use item
+			if (CheckNextPositionForObject(*cellFuture)) {
+				return false;
+			}
+			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE || cellFuture->GetTileType() == TILETYPE::COLLISIONLEFTTILE)
 			{
 				return false;
 			}
@@ -478,7 +569,7 @@ namespace StaticDLL {
 		double width = GetWidth()*Constants::TileSize();
 		//check if tile is going off bounds return false;
 		if ((nextPosY) / Constants::TileSize() + GetHeight() >= map_->GetMapHeight()) {
-			SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND);
+			SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERONGROUND);
 			SetVelocityY(0.125);
 			//set no moving
 			return false;
@@ -486,10 +577,14 @@ namespace StaticDLL {
 		for (int i = 0; i < width; i++)
 		{
 			Cell *cellFuture = &map_->GetCellMap()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize() + GetHeight()];
-			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE || cellFuture->GetTileType() == EnumDLL::TILETYPE::COLLISIONTOPTILE)
+			//detect if its an object and if it is use item
+			if (CheckNextPositionForObject(*cellFuture)) {
+				return false;
+			}
+			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE || cellFuture->GetTileType() == TILETYPE::COLLISIONTOPTILE)
 			{
 				SetCurrentPositionY(cellFuture->GetCurrentPositionY() - GetHeight());
-				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND);
+				SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERONGROUND);
 				SetVelocityY(0.125);
 				return false;
 			}
@@ -503,7 +598,7 @@ namespace StaticDLL {
 		double width = GetWidth()*Constants::TileSize();
 		//check if tile is going off bounds return false;
 		if ((nextPosY) / Constants::TileSize() < 0) {
-			SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
+			SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERFALLING);
 			SetVelocityY(0.125);
 			//set no moving
 			return false;
@@ -511,9 +606,13 @@ namespace StaticDLL {
 		for (int i = 0; i < width; i++)
 		{
 			Cell *cellFuture = &map_->GetCellMap()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize()];
-			if (cellFuture->GetTileType() == EnumDLL::TILETYPE::SOLIDTILE)
+			//detect if its an object and if it is use item
+			if (CheckNextPositionForObject(*cellFuture)) {
+				return false;
+			}
+			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE)
 			{
-				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
+				SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERFALLING);
 				SetVelocityY(0.125);
 				return false;
 			}
@@ -522,9 +621,21 @@ namespace StaticDLL {
 	}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 	void Player::CollisionMovingLeft()
 	{
-		SetPlayerFacingDirection(EnumDLL::CHARACTERFACINGDIRECTION::CHARACTERLEFT);
+		SetPlayerFacingDirection(CHARACTERFACINGDIRECTION::CHARACTERLEFT);
 		for (int i = 0; i < GetMoveSpeed(); i++)
 		{
 			float nextPosX = GetCurrentPositionX()*Constants::TileSize() - GetMoveSpeedDelta();
@@ -550,7 +661,7 @@ namespace StaticDLL {
 
 	void Player::CollisionMovingRight()
 	{
-		SetPlayerFacingDirection(EnumDLL::CHARACTERFACINGDIRECTION::CHARACTERRIGHT);
+		SetPlayerFacingDirection(CHARACTERFACINGDIRECTION::CHARACTERRIGHT);
 		for (int i = 0; i < GetMoveSpeed(); i++)
 		{
 			float nextPosX = GetCurrentPositionX()*Constants::TileSize() + GetMoveSpeedDelta();
@@ -588,7 +699,7 @@ namespace StaticDLL {
 			if (CheckNextYPositionFalling(GetCurrentPositionX()*Constants::TileSize(), nextPosY))
 			{
 				SetCurrentPositionY(nextPosY / Constants::TileSize());
-				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
+				SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERFALLING);
 				if (map_->GetMapHeight() * Constants::TileSize() + map_->GetMapYOffset() - settings_->GetScreenHeight() <= 0 || nextPosY <= settings_->GetScreenHeight() / 2)
 				{
 				}
@@ -599,12 +710,12 @@ namespace StaticDLL {
 				}
 			}
 			else {
-				SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND);
+				SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERONGROUND);
 				break;
 			}
 		}
 		//Every tick update the fall speed
-		if (GetVelocityY() + GetAccelerationY() <= GetMaxVelocityY() && GetCharacterYAxisState() != EnumDLL::CHARACTERYAXISSTATES::CHARACTERONGROUND)
+		if (GetVelocityY() + GetAccelerationY() <= GetMaxVelocityY() && GetCharacterYAxisState() != CHARACTERYAXISSTATES::CHARACTERONGROUND)
 		{
 			SetVelocityY(GetVelocityY() + GetAccelerationY());
 		}
@@ -642,7 +753,7 @@ namespace StaticDLL {
 		else
 		{
 			SetVelocityY(0.125);
-			SetCharacterYAxisState(EnumDLL::CHARACTERYAXISSTATES::CHARACTERFALLING);
+			SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERFALLING);
 		}
 	}
 
