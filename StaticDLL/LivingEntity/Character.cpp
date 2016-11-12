@@ -37,7 +37,7 @@ namespace StaticDLL {
 		SetMoveSpeed(30);
 		SetJumpSpeed(12);
 
-		font30_ = al_load_font("arial.ttf", 20, 0);
+		font30_ = al_load_font("arial.ttf", Constants::TileSize(), 0);
 
 
 

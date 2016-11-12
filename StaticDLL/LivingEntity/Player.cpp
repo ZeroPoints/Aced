@@ -33,7 +33,7 @@ namespace StaticDLL {
 		SetMoveSpeedDelta(0.125);
 		SetMoveSpeed(30);
 		SetJumpSpeed(12);
-		font30_ = al_load_font("arial.ttf", 20, 0);
+		font30_ = al_load_font("arial.ttf", Constants::TileSize(), 0);
 
 
 
@@ -579,6 +579,9 @@ namespace StaticDLL {
 			Cell *cellFuture = &map_->GetCellMap()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize() + GetHeight()];
 			//detect if its an object and if it is use item
 			if (CheckNextPositionForObject(*cellFuture)) {
+				SetCurrentPositionY(cellFuture->GetCurrentPositionY() - GetHeight());
+				SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERONGROUND);
+				SetVelocityY(0.125);
 				return false;
 			}
 			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE || cellFuture->GetTileType() == TILETYPE::COLLISIONTOPTILE)
@@ -608,6 +611,8 @@ namespace StaticDLL {
 			Cell *cellFuture = &map_->GetCellMap()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize()];
 			//detect if its an object and if it is use item
 			if (CheckNextPositionForObject(*cellFuture)) {
+				SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERFALLING);
+				SetVelocityY(0.125);
 				return false;
 			}
 			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE)
@@ -652,6 +657,9 @@ namespace StaticDLL {
 					map_->SetMapMoveXDelta(GetMoveSpeedDelta());
 					map_->SetMapXOffset(map_->GetMapXOffset() + GetMoveSpeedDelta());
 				}
+			}
+			else {
+				AdjustPlayerRotation();
 			}
 		}
 	}

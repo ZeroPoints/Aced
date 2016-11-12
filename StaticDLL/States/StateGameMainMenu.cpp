@@ -34,7 +34,7 @@ namespace StaticDLL{
 		SetDone(false);
 		SetRunning(true);
 		SetKeyPressReturnVal(STATES::DEFAULT);
-		SetFont(al_load_font("arial.ttf", 20, 0));
+		SetFont(al_load_font("arial.ttf", Constants::TileSize(), 0));
 		SetTimer(al_create_timer(1.0/60));
 		SetEventQueue(al_create_event_queue());
 		SetStateDirection(STATEDIRECTION::NA);

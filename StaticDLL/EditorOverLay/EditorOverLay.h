@@ -177,11 +177,11 @@ namespace StaticDLL{
 
 			STATICDLL_API void IncrementOverLayWindowWidth()
 			{
-				tilePickerWindow_->SetWidth(tilePickerWindow_->GetWidth() + (10.0/Constants::TileSize()));
+				tilePickerWindow_->SetWidth(tilePickerWindow_->GetWidth() + (0.5));
 			}
 			STATICDLL_API void DecrementOverLayWindowWidth()
 			{
-				tilePickerWindow_->SetWidth(tilePickerWindow_->GetWidth() - (10.0/Constants::TileSize()));
+				tilePickerWindow_->SetWidth(tilePickerWindow_->GetWidth() - (0.5));
 			}
 			STATICDLL_API double GetOverlayWindowWidth()
 			{

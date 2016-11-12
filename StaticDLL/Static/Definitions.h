@@ -45,7 +45,7 @@ namespace StaticDLL{
 
 	class Constants{
 		public:
-			static const float TileSize() { return 20.0; }
+			static const float TileSize() { return 16.0; }
 
 
 	};

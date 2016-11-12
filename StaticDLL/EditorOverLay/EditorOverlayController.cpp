@@ -159,7 +159,7 @@ namespace StaticDLL{
 						//Set tile picker overlay window width
 						//Increment current overlays width
 						result->IncrementOverLayWindowWidth();
-						tileWindowArrow_->SetCurrentPositionX(tileWindowArrow_->GetCurrentPositionX() + (10.0/Constants::TileSize()));
+						tileWindowArrow_->SetCurrentPositionX(tileWindowArrow_->GetCurrentPositionX() + (0.5));
 					}
 					else
 					{
@@ -185,7 +185,7 @@ namespace StaticDLL{
 						//Set tile picker overlay window width
 						//Decrement current overlays width
 						result->DecrementOverLayWindowWidth();
-						tileWindowArrow_->SetCurrentPositionX(tileWindowArrow_->GetCurrentPositionX() - (10.0/Constants::TileSize()));
+						tileWindowArrow_->SetCurrentPositionX(tileWindowArrow_->GetCurrentPositionX() - (0.5));
 					}
 					else
 					{

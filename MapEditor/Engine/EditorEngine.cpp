@@ -72,7 +72,7 @@ void EditorEngine::Run()
 			sprintf(text, "%f", ev.timer.timestamp);
 			al_draw_text(currentState_->GetFont(), chosenColorText_, 
 				settings_->GetScreenWidth()-al_get_text_width(currentState_->GetFont(), text),
-				settings_->GetScreenHeight() - 20, ALLEGRO_ALIGN_LEFT, text);
+				settings_->GetScreenHeight() - Constants::TileSize(), ALLEGRO_ALIGN_LEFT, text);
 
 			al_flip_display();
 			al_clear_to_color(chosenColor_);//clears color to dark green to remove all back image

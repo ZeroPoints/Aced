@@ -258,10 +258,10 @@ namespace StaticDLL{
 		menuHeaderItem_ = new ObjectBase();
 		menuHeaderItem_->SetText(al_ustr_new(text));
 		menuHeaderItem_->SetCurrentPosition(positionX,positionY);
-		menuHeaderItem_->SetFont(al_load_font("arial.ttf", 20, 0));
+		menuHeaderItem_->SetFont(al_load_font("arial.ttf", Constants::TileSize(), 0));
 		menuHeaderItem_->SetColor(al_map_rgb_f(0,0,0));
 		menuHeaderItem_->SetWidth(menuHeaderItem_->GetFontWidth());
-		menuHeaderItem_->SetHeight(20);
+		menuHeaderItem_->SetHeight(Constants::TileSize());
 	}
 
 	

@@ -8,7 +8,7 @@ namespace StaticDLL {
 		assetLibrary_ = assetLibrary;
 		settings_ = settings;
 		display_ = display;
-		font30_ = al_load_font("arial.ttf", 20, 0);
+		font30_ = al_load_font("arial.ttf", Constants::TileSize(), 0);
 		mapMoveXDelta_ = 0;
 		mapMoveYDelta_ = 0;
 		ResetMap();
@@ -846,7 +846,7 @@ namespace StaticDLL {
 										if (imageDictionary[j]->GetId() == imgId)
 										{
 											currentInteractiveObject->SetImage(imageDictionary[j], 
-												i != imageReferenceX && j != imageReferenceY,
+												hasImageReference,
 												imageReferenceX, imageReferenceY);
 											currentInteractiveObject->SetImageSet(StaticDLL::IMAGESETS(imageSetId));
 											break;

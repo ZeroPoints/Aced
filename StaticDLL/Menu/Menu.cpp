@@ -261,8 +261,8 @@ namespace StaticDLL{
 	{
 		SetSelectItemY(GetMenuItems()[GetCurrentSelection()]->GetMenuItemY() + 7);
 		SetSelectItemX(GetMenuX() + GetMenuWidth() - 25);
-		SetSelectItemHeight(20);
-		SetSelectItemWidth(20);
+		SetSelectItemHeight(Constants::TileSize());
+		SetSelectItemWidth(Constants::TileSize());
 	}
 
 
