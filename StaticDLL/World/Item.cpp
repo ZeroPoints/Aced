@@ -31,9 +31,9 @@ namespace StaticDLL {
 
 
 
-	Image *Item::GetObjectImage()
+	ImageBundle *Item::GetImageBundle()
 	{
-		return image_;
+		return imageBundle_;
 	}
 
 
@@ -89,29 +89,13 @@ namespace StaticDLL {
 
 
 
-	void Item::SetImage(
-		Image *selectedImage, bool isReference, int x, int y) {
-		imageReferenceX_ = x;
-		imageReferenceY_ = y;
-		if (isReference) {
-			hasImageReference_ = true;
-			image_ = selectedImage;
-			itemType_ = selectedImage->GetItemType();
-		}
-		else {
-			hasImage_ = true;
-			image_ = selectedImage;
-			itemType_ = selectedImage->GetItemType();
-		}
+	void Item::SetImageBundle(ImageBundle *selectedImage) {
+		hasImage_ = true;
+		imageBundle_ = selectedImage;
+		itemType_ = selectedImage->GetItemType();
 	}
 
 
-
-	void Item::SetObjectProperties(
-		EditorItemBase *selectedObject, bool isReference, int x, int y) {
-		SetImage(selectedObject->GetObjectImage(), isReference, x, y);
-		SetImageSet(selectedObject->GetImageSet());
-	}
 
 
 
@@ -166,12 +150,14 @@ namespace StaticDLL {
 		if (hasImage_)
 		{
 			al_draw_scaled_bitmap(
-				image_->GetImage(),
-				0, 0, image_->GetWidth()*Constants::TileSize(), image_->GetHeight()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage(),
+				0, 0, 
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()*Constants::TileSize(), 
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()*Constants::TileSize(),
 				currentPositionX_*Constants::TileSize() + xOffset,
 				currentPositionY_*Constants::TileSize() + yOffset,
-				image_->GetWidth()*Constants::TileSize(),
-				image_->GetHeight()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()*Constants::TileSize(),
 				0
 			);
 		}
@@ -198,7 +184,7 @@ namespace StaticDLL {
 	void Item::RemoveAllProperties() {
 		hasImageReference_ = false;
 		hasImage_ = false;
-		image_ = nullptr;
+		imageBundle_ = nullptr;
 		imageReferenceX_ = 0;
 		imageReferenceY_ = 0;
 	};
@@ -208,6 +194,6 @@ namespace StaticDLL {
 		hasImage_ = false;
 		hasImageReference_ = false;
 		//test this doesnt effect the actual object in imageloader memory dictionary
-		image_ = nullptr;
+		imageBundle_ = nullptr;
 	};
 }

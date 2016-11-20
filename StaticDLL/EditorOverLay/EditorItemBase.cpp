@@ -56,9 +56,9 @@ namespace StaticDLL {
 		return hasColor_;
 	}
 
-	Image *EditorItemBase::GetObjectImage()
+	ImageBundle *EditorItemBase::GetImageBundle()
 	{
-		return image_;
+		return imageBundle_;
 	}
 	bool EditorItemBase::GetHasImage()
 	{
@@ -99,19 +99,6 @@ namespace StaticDLL {
 	//Sets
 
 
-	//Sets equivalent properties for the tile from another tile object
-	void EditorItemBase::SetTileProperties(EditorItemBase *selectedTile, bool isReference)
-	{
-		//So if the current location tile is not already empty force new tile SOLID properties over it.
-		if (GetTileType() == TILETYPE::EMPTYTILE)
-		{
-			SetTileTypeProperties(selectedTile);
-		}
-		SetObjectProperties(selectedTile, isReference);
-	}
-
-
-
 
 
 	void EditorItemBase::SetTileType(TILETYPE tileType)
@@ -136,105 +123,31 @@ namespace StaticDLL {
 	}
 
 
+	void EditorItemBase::SetHasImageReference(bool reference) {
+		hasImageReference_ = reference;
+	}
+
+
+
 
 
 	//Seperate all Setting property types for setting tiles to a value
-	void EditorItemBase::SetTileObjectImageFromTile(EditorItemBase *selectedTile, bool isReference, int x, int y) {
+	void EditorItemBase::SetItemBase(EditorItemBase *itemBase) {
 
-		//Both tiles ref or not will be same collision type
-		tileType_ = selectedTile->GetTileType();
-
-		imageReferenceX_ = x;
-		imageReferenceY_ = y;
-
-
-		if (isReference) {
-			hasImageReference_ = true;
-		}
-		else {
-			hasImage_ = true;
-			image_ = selectedTile->GetObjectImage();
-			imageSet_ = selectedTile->GetImageSet();
-		}
-	}
-
-	void EditorItemBase::SetTileObjectImageFromImage(Image *selectedImage, bool isReference, int x, int y) {
-
-		imageReferenceX_ = x;
-		imageReferenceY_ = y;
-
-		if (isReference) {
-			hasImageReference_ = true;
-		}
-		else {
-			hasImage_ = true;
-			image_ = selectedImage;
-		}
-	}
-
-
-
-
-	void EditorItemBase::SetObjectProperties(EditorItemBase *selectedObject, bool isReference) {
-
-		if (selectedObject->GetHasColor() && selectedObject->GetHasImage())
-		{
-			hasImage_ = true;
-			SetObjectImageColor(selectedObject->GetObjectImage());
-			hasColor_ = true;
-			chosenColor_ = selectedObject->chosenColor_;
-		}
-		else if (selectedObject->GetObjectImage())
-		{
-			hasImage_ = true;
-			if (!isReference) {
-				SetObjectImageColor(selectedObject->GetObjectImage());
-				height_ = selectedObject->GetHeight();
-				width_ = selectedObject->GetWidth();
-			}
-			else {
-				//any image that is a ref is just passed as image  
-				hasImageReference_ = true;
-				image_ = selectedObject->GetObjectImage();
-				height_ = 1;
-				width_ = 1;
-			}
-
-
-		}
-		else if (selectedObject->GetHasColor())
-		{
-			hasColor_ = true;
-			chosenColor_ = selectedObject->chosenColor_;
-		}
-
-		return;
 
 	}
 
 
 
-
-	//This is used in tile page 
-	//Put some color tintin intelligence into setting this objects properties.
-	//So can add color if it exists. Or add image if it exists
-	//This is used to set objects properties based on if the image has a color or a image
-	//TODO: ADD in color and image together aswell just incase later
-	void EditorItemBase::SetObjectImageColor(Image *image)
-	{
-		if (image->GetImage() != nullptr)
-		{
-			hasImage_ = true;
-			image_ = image;
-			height_ = image->GetHeight();
-			width_ = image->GetWidth();
-		}
-		else
-		{
-			hasColor_ = true;
-			chosenColor_ = image->GetColor();
-		}
+	void EditorItemBase::SetImageBundle(ImageBundle *imageBundle) {
+		imageBundle_ = imageBundle;
+		hasImage_ = true;
+		width_ = imageBundle->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth();
+		height_ = imageBundle->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight();
 	}
+
+
+
 
 
 
@@ -263,12 +176,17 @@ namespace StaticDLL {
 	void EditorItemBase::SetCurrentPosition(double x, double y) {
 		currentPositionX_ = x;
 		currentPositionY_ = y;
+
+		imageReferenceX_ = x;
+		imageReferenceY_ = y;
 	}
 	void EditorItemBase::SetCurrentPositionX(double x) {
 		currentPositionX_ = x;
+		imageReferenceX_ = x;
 	}
 	void EditorItemBase::SetCurrentPositionY(double y) {
 		currentPositionY_ = y;
+		imageReferenceY_ = y;
 	}
 
 	void EditorItemBase::SetImageSet(StaticDLL::IMAGESETS set) {
@@ -357,25 +275,29 @@ namespace StaticDLL {
 		if (hasImage_ &&  hasColor_)
 		{
 			al_draw_tinted_scaled_bitmap(
-				image_->GetImage(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage(),
 				chosenColor_,
-				0, 0, image_->GetWidth()*Constants::TileSize(), image_->GetHeight()*Constants::TileSize(),
+				0, 0, 
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()*Constants::TileSize(), 
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()*Constants::TileSize(),
 				currentPositionX_*Constants::TileSize() + xOffset,
 				currentPositionY_*Constants::TileSize() + yOffset,
-				image_->GetWidth()*Constants::TileSize(),
-				image_->GetHeight()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()*Constants::TileSize(),
 				0
 			);
 		}
 		else if (hasImage_)
 		{
 			al_draw_scaled_bitmap(
-				image_->GetImage(),
-				0, 0, image_->GetWidth()*Constants::TileSize(), image_->GetHeight()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage(),
+				0, 0, 
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()*Constants::TileSize(), 
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()*Constants::TileSize(),
 				currentPositionX_*Constants::TileSize() + xOffset,
 				currentPositionY_*Constants::TileSize() + yOffset,
-				image_->GetWidth()*Constants::TileSize(),
-				image_->GetHeight()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()*Constants::TileSize(),
 				0
 			);
 		}
@@ -440,7 +362,7 @@ namespace StaticDLL {
 		chosenColor_.g = 1;
 		chosenColor_.b = 1;
 		chosenColor_.a = 0;
-		image_ = nullptr;
+		imageBundle_ = nullptr;
 		tileType_ = TILETYPE::EMPTYTILE;
 		imageReferenceX_ = 0;
 		imageReferenceY_ = 0;
@@ -451,7 +373,7 @@ namespace StaticDLL {
 		hasImage_ = false;
 		hasImageReference_ = false;
 		//test this doesnt effect the actual object in imageloader memory dictionary
-		image_ = nullptr;
+		imageBundle_ = nullptr;
 	};
 	//set flag and set color to white
 	void EditorItemBase::RemoveColor() {

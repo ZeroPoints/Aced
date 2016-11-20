@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
-<!--Tiles are for the tile picker and tile images the id will match with a tile cell if that cell has an image-->
-<item>
-	<img id="0" itemtype="0" file="..//Images//RemoveImage.png" />
-	<img id="1" itemtype="1" file="..//Images//Player.png" />
-</item>
+<ImageSet >
+	<!--Bundled for a single asset-->
+	<ImageBundle id="0" itemtype="1" >
+		<!--Animation States-->
+		<ImageStateGroup id="0">
+			<!--Frames in animation-->
+			<Image id="0" file="..//Images//Player.png" />
+		</ImageStateGroup >
+	</ImageBundle>
+</ImageSet>

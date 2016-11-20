@@ -3,9 +3,9 @@
 
 
 namespace StaticDLL{
-	ImageSet::ImageSet(std::vector<Image*> images, StaticDLL::IMAGESETS id){
+	ImageSet::ImageSet(std::vector<ImageBundle*> imageBundle, StaticDLL::IMAGESETS id){
 
-		imageDictionary_ = images;
+		imageBundleDictionary_ = imageBundle;
 
 		id_ = id;
 		
@@ -16,8 +16,7 @@ namespace StaticDLL{
 
 	ImageSet::~ImageSet()
 	{
-		//fprintf(stderr, "A ImageSet Destructed\n");
-		for (Image* item : imageDictionary_)
+		for (ImageBundle* item : imageBundleDictionary_)
 		{
 			delete item;
 			item = nullptr;
@@ -25,15 +24,38 @@ namespace StaticDLL{
 	}
 
 
+	//-----------------------------------------------------------------------------------------------------
+
+	//Gets
 
 
-	std::vector<Image*> ImageSet::GetImageDictionary()
+	std::vector<ImageBundle*> ImageSet::GetImageBundleDictionary()
 	{
-		return imageDictionary_;
+		return imageBundleDictionary_;
 	}
 
 	StaticDLL::IMAGESETS ImageSet::GetImageSetId()
 	{
 		return id_;
 	}
+
+
+
+
+
+	//-----------------------------------------------------------------------------------------------------
+
+	//Sets
+
+
+	void ImageSet::SetImageSetId(StaticDLL::IMAGESETS id) {
+		id_ = id;
+	}
+
+	void ImageSet::SetImageBundleDictionary(std::vector<ImageBundle*> imageBundleDictionary)
+	{
+		imageBundleDictionary_ = imageBundleDictionary;
+	}
+
+
 }

@@ -126,14 +126,6 @@ namespace StaticDLL{
 	{
 		return id_;
 	}
-	ITEMTYPES Image::GetItemType() {
-		return itemType_;
-	}
-
-	OBJECTTYPES Image::GetObjectType() {
-		return objectType_;
-	}
-
 
 
 
@@ -141,15 +133,6 @@ namespace StaticDLL{
 
 	//Sets
 
-
-
-	void Image::SetItemType(ITEMTYPES set) {
-		itemType_ = set;
-	}
-
-	void Image::SetObjectType(OBJECTTYPES set) {
-		objectType_ = set;
-	}
 
 
 

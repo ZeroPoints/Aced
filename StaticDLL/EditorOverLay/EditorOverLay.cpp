@@ -44,8 +44,8 @@ namespace StaticDLL{
 		{
 			if(assetLibrary_->GetImageSetDictionary()[i]->GetImageSetId() == imageSetId_)
 			{
-				imageDictionaryId_ = i;
-				imageDictionarySize_ = assetLibrary_->GetImageSetDictionary()[i]->GetImageDictionary().size();
+				imageBundleDictionaryId_ = i;
+				imageBundleDictionarySize_ = assetLibrary_->GetImageSetDictionary()[i]->GetImageBundleDictionary().size();
 				break;
 			}
 		}
@@ -311,11 +311,11 @@ namespace StaticDLL{
 
 
 		int i = 0;
-		for(int j = 0; j < imageDictionarySize_; j++)
+		for(int j = 0; j < imageBundleDictionarySize_; j++)
 		{
 			EditorItemBase* tempTile = new EditorItemBase();
 			tempTile->SetTileType(TILETYPE::SOLIDTILE);
-			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
+			tempTile->SetImageBundle(assetLibrary_->GetImageSetDictionary()[imageBundleDictionaryId_]->GetImageBundleDictionary()[j]);
 			tempTile->SetWidth(1);
 			tempTile->SetHeight(1);
 			tempTile->SetImageSet(imageSetId_);
@@ -366,12 +366,12 @@ namespace StaticDLL{
 		
 
 		int i = 0;
-		for(int j = 0; j < imageDictionarySize_; j++)
+		for(int j = 0; j < imageBundleDictionarySize_; j++)
 		{
 			EditorItemBase* tempTile = new EditorItemBase();
 			tempTile->SetTileType(TILETYPE::SOLIDTILE);
 
-			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
+			tempTile->SetImageBundle(assetLibrary_->GetImageSetDictionary()[imageBundleDictionaryId_]->GetImageBundleDictionary()[j]);
 
 			tempTile->SetWidth(1);
 			tempTile->SetHeight(1);
@@ -540,11 +540,11 @@ namespace StaticDLL{
 
 
 		int i = 0;
-		for (int j = 0; j < imageDictionarySize_; j++)
+		for (int j = 0; j < imageBundleDictionarySize_; j++)
 		{
 			EditorItemBase* tempTile = new EditorItemBase();
 			tempTile->SetTileType(TILETYPE::SOLIDTILE);
-			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
+			tempTile->SetImageBundle(assetLibrary_->GetImageSetDictionary()[imageBundleDictionaryId_]->GetImageBundleDictionary()[j]);
 			tempTile->SetImageSet(imageSetId_);
 
 
@@ -591,11 +591,11 @@ namespace StaticDLL{
 
 
 		int i = 0;
-		for (int j = 0; j < imageDictionarySize_; j++)
+		for (int j = 0; j < imageBundleDictionarySize_; j++)
 		{
 			EditorItemBase* tempTile = new EditorItemBase();
 			tempTile->SetTileType(TILETYPE::SOLIDTILE);
-			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
+			tempTile->SetImageBundle(assetLibrary_->GetImageSetDictionary()[imageBundleDictionaryId_]->GetImageBundleDictionary()[j]);
 			tempTile->SetImageSet(imageSetId_);
 
 
@@ -643,11 +643,11 @@ namespace StaticDLL{
 
 
 		int i = 0;
-		for (int j = 0; j < imageDictionarySize_; j++)
+		for (int j = 0; j < imageBundleDictionarySize_; j++)
 		{
 			EditorItemBase* tempTile = new EditorItemBase();
 			tempTile->SetTileType(TILETYPE::SOLIDTILE);
-			tempTile->SetObjectImageColor(assetLibrary_->GetImageSetDictionary()[imageDictionaryId_]->GetImageDictionary()[j]);
+			tempTile->SetImageBundle(assetLibrary_->GetImageSetDictionary()[imageBundleDictionaryId_]->GetImageBundleDictionary()[j]);
 			tempTile->SetImageSet(imageSetId_);
 
 

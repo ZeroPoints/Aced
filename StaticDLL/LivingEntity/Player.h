@@ -13,7 +13,7 @@
 #include <allegro5/allegro_ttf.h>//fonts
 #include "../Config/Settings.h"
 #include "../World/Map.h"
-#include "../ImageManagement/Image.h"
+#include "../ImageManagement/ImageBundle.h"
 
 
 

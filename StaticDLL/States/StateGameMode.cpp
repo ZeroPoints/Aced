@@ -44,7 +44,7 @@ namespace StaticDLL{
 		{
 			if(GetAssetLibrary()->GetImageSetDictionary()[i]->GetImageSetId() == StaticDLL::IMAGESETS::PLAYERIMAGESET)
 			{
-				player1_->SetObjectImageColor(GetAssetLibrary()->GetImageSetDictionary()[i]->GetImageDictionary()[0]);
+				player1_->SetObjectImageColor(GetAssetLibrary()->GetImageSetDictionary()[i]->GetImageBundleDictionary()[0]->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]);
 			}
 		}
 

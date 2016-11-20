@@ -36,9 +36,9 @@ namespace StaticDLL {
 		return hasColor_;
 	}
 
-	Image *Tile::GetObjectImage()
+	ImageBundle *Tile::GetImageBundle()
 	{
-		return image_;
+		return imageBundle_;
 	}
 	bool Tile::GetHasImage()
 	{
@@ -71,48 +71,27 @@ namespace StaticDLL {
 
 
 	//Seperate all Setting property types for setting tiles to a value
-	void Tile::SetTileObjectImageFromTile(EditorItemBase *selectedTile, int x, int y) {
+	void Tile::SetTileBase(EditorItemBase *selectedTile) {
 		//Both tiles ref or not will be same collision type
 		hasImage_ = true;
-		image_ = selectedTile->GetObjectImage();
+		imageBundle_ = selectedTile->GetImageBundle();
 		imageSet_ = selectedTile->GetImageSet();
 	}
 
-	void Tile::SetTileImage(Image *selectedImage) {
+
+
+
+
+
+
+	void Tile::SetImageBundle(ImageBundle *imageBundle) {
 		hasImage_ = true;
-		image_ = selectedImage;
+		imageBundle_ = imageBundle;
 	}
 
 
 
 
-	void Tile::SetObjectProperties(EditorItemBase *selectedObject) {
-
-		if (selectedObject->GetHasColor() && selectedObject->GetHasImage())
-		{
-			SetImage(selectedObject->GetObjectImage());
-			SetColor(selectedObject->GetColor());
-		}
-		else if (selectedObject->GetObjectImage())
-		{
-			SetImage(selectedObject->GetObjectImage());
-		}
-		else if (selectedObject->GetHasColor())
-		{
-			SetColor(selectedObject->GetColor());
-		}
-
-		return;
-
-	}
-
-
-
-	void Tile::SetImage(Image *image)
-	{
-		hasImage_ = true;
-		image_ = image;
-	}
 
 
 
@@ -163,25 +142,29 @@ namespace StaticDLL {
 		if (hasImage_ &&  hasColor_)
 		{
 			al_draw_tinted_scaled_bitmap(
-				image_->GetImage(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage(),
 				chosenColor_,
-				0, 0, image_->GetWidth()*Constants::TileSize(), image_->GetHeight()*Constants::TileSize(),
+				0, 0, 
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()*Constants::TileSize(), 
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()*Constants::TileSize(),
 				currentPositionX*Constants::TileSize() + xOffset,
 				currentPositionY*Constants::TileSize() + yOffset,
-				image_->GetWidth()*Constants::TileSize(),
-				image_->GetHeight()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()*Constants::TileSize(),
 				0
 			);
 		}
 		else if (hasImage_)
 		{
 			al_draw_scaled_bitmap(
-				image_->GetImage(),
-				0, 0, image_->GetWidth()*Constants::TileSize(), image_->GetHeight()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage(),
+				0, 0, 
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()*Constants::TileSize(), 
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()*Constants::TileSize(),
 				currentPositionX*Constants::TileSize() + xOffset,
 				currentPositionY*Constants::TileSize() + yOffset,
-				image_->GetWidth()*Constants::TileSize(),
-				image_->GetHeight()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()*Constants::TileSize(),
 				0
 			);
 		}
@@ -221,7 +204,7 @@ namespace StaticDLL {
 
 	void Tile::RemoveImage() {
 		hasImage_ = false;
-		image_ = nullptr;
+		imageBundle_ = nullptr;
 	};
 
 	void Tile::RemoveColor() {

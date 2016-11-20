@@ -31,9 +31,9 @@ namespace StaticDLL {
 
 
 
-	Image *InteractiveObject::GetObjectImage()
+	ImageBundle *InteractiveObject::GetImageBundle()
 	{
-		return image_;
+		return imageBundle_;
 	}
 
 
@@ -84,27 +84,30 @@ namespace StaticDLL {
 
 
 
-	void InteractiveObject::SetImage(
-		Image *selectedImage, bool isReference, int x, int y) {
+	void InteractiveObject::SetImageBundle(ImageBundle *selectedImage) {
+		hasImage_ = true;
+		imageBundle_ = selectedImage;
+		objectType_ = selectedImage->GetObjectType();
+	}
+
+	void InteractiveObject::SetImageReferenceX(double x) {
 		imageReferenceX_ = x;
+	}
+	void InteractiveObject::SetImageReferenceY(double y) {
 		imageReferenceY_ = y;
-		if (isReference) {
-			hasImageReference_ = true;
-			image_ = selectedImage;
-			objectType_ = selectedImage->GetObjectType();
-		}
-		else {
-			hasImage_ = true;
-			image_ = selectedImage;
-			objectType_ = selectedImage->GetObjectType();
-		}
+	}
+
+	void InteractiveObject::SetHasImageReference(bool reference) {
+		hasImageReference_ = reference;
 	}
 
 
 
-	void InteractiveObject::SetObjectProperties(
-		EditorItemBase *selectedObject, bool isReference, int x, int y) {
-		SetImage(selectedObject->GetObjectImage(), isReference, x, y);
+
+
+
+	void InteractiveObject::SetItemBase(EditorItemBase *selectedObject) {
+		SetImageBundle(selectedObject->GetImageBundle());
 		SetImageSet(selectedObject->GetImageSet());
 	}
 
@@ -149,12 +152,14 @@ namespace StaticDLL {
 		if (hasImage_)
 		{
 			al_draw_scaled_bitmap(
-				image_->GetImage(),
-				0, 0, image_->GetWidth()*Constants::TileSize(), image_->GetHeight()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage(),
+				0, 0, 
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()*Constants::TileSize(), 
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()*Constants::TileSize(),
 				currentPositionX*Constants::TileSize() + xOffset,
 				currentPositionY*Constants::TileSize() + yOffset,
-				image_->GetWidth()*Constants::TileSize(),
-				image_->GetHeight()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()*Constants::TileSize(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()*Constants::TileSize(),
 				0
 			);
 		}
@@ -181,7 +186,7 @@ namespace StaticDLL {
 	void InteractiveObject::RemoveAllProperties() {
 		hasImageReference_ = false;
 		hasImage_ = false;
-		image_ = nullptr;
+		imageBundle_ = nullptr;
 		imageReferenceX_ = 0;
 		imageReferenceY_ = 0;
 	};
@@ -191,7 +196,7 @@ namespace StaticDLL {
 		hasImage_ = false;
 		hasImageReference_ = false;
 		//test this doesnt effect the actual object in imageloader memory dictionary
-		image_ = nullptr;
+		imageBundle_ = nullptr;
 	};
 
 

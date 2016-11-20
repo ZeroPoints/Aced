@@ -67,8 +67,10 @@ namespace StaticDLL {
 			STATICDLL_API void SetCurrentPositionY(double y);
 
 
-			STATICDLL_API void SetInteractiveObject(InteractiveObject* interactiveObject, bool isReference);
+			STATICDLL_API void SetInteractiveObject(InteractiveObject* interactiveObject);
+			STATICDLL_API void SetInteractiveObjectReference(bool isReference);
 
+			
 
 
 			//-----------------------------------------------------------------------------------------------------

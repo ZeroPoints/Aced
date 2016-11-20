@@ -161,9 +161,9 @@ namespace StaticDLL{
 					//Tile color picker is weird prototype not sure if i wanna keep yet
 					if(selectedItemBase_.first == STATES::TILECOLORPICKER)
 					{
-						if(selectedItemBase_.second->GetObjectImage() != nullptr)
+						if(selectedItemBase_.second->GetImageBundle() != nullptr)
 						{
-							if(selectedItemBase_.second->GetObjectImage()->GetId() == 0)
+							if(selectedItemBase_.second->GetImageBundle()->GetId() == -1)
 							{
 								if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasTile()) {
 									GetMap()->GetCellMap()[tileXPos][tileYPos].GetTile()->RemoveColor();
@@ -216,23 +216,23 @@ namespace StaticDLL{
 
 
 						//Id of 0 Means im removing object from map.
-						if (selectedItemBase_.second->GetObjectImage()->GetId() == 0 &&
+						if (selectedItemBase_.second->GetImageBundle()->GetId() == -1 &&
 							GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasTile()) {
 							GetMap()->GetCellMap()[tileXPos][tileYPos].DeleteTile();
 						}
-						else if (selectedItemBase_.second->GetObjectImage()->GetId() == 0) {
+						else if (selectedItemBase_.second->GetImageBundle()->GetId() == -1) {
 
 						}
 						else if (cellEmpty) {
 							if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasTile())
 							{
-								GetMap()->GetCellMap()[tileXPos][tileYPos].GetTile()->SetTileObjectImageFromTile(
-									selectedItemBase_.second, tileXPos, tileYPos);
+								GetMap()->GetCellMap()[tileXPos][tileYPos].GetTile()->SetTileBase(selectedItemBase_.second);
 							}
 							else {
 								auto currentTile = new Tile();
-								currentTile->SetTileObjectImageFromTile(
-									selectedItemBase_.second, tileXPos, tileYPos);
+
+								currentTile->SetTileBase(selectedItemBase_.second);
+
 								GetMap()->GetCellMap()[tileXPos][tileYPos].SetTile(currentTile);
 							}
 						}
@@ -275,26 +275,31 @@ namespace StaticDLL{
 
 							//Id of 0 Means im removing object from map.
 							if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasInteractiveObject() && 
-								selectedItemBase_.second->GetObjectImage()->GetId() == 0) {
+								selectedItemBase_.second->GetImageBundle()->GetId() == -1) {
 								auto imageRefX = GetMap()->GetCellMap()[tileXPos][tileYPos].GetInteractiveObject()->GetImageReferenceX();
 								auto imageRefY = GetMap()->GetCellMap()[tileXPos][tileYPos].GetInteractiveObject()->GetImageReferenceY();
-								auto imageWidth = GetMap()->GetCellMap()[imageRefX][imageRefY].GetInteractiveObject()->GetObjectImage()->GetWidth();
-								auto imageHeight = GetMap()->GetCellMap()[imageRefX][imageRefY].GetInteractiveObject()->GetObjectImage()->GetHeight();
+								auto imageWidth = GetMap()->GetCellMap()[imageRefX][imageRefY].GetInteractiveObject()->GetImageBundle()->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth();
+								auto imageHeight = GetMap()->GetCellMap()[imageRefX][imageRefY].GetInteractiveObject()->GetImageBundle()->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight();
 								for (auto i = imageRefX; i < imageRefX + imageWidth; i++) {
 									for (auto j = imageRefY; j < imageRefY + imageHeight; j++) {
 										GetMap()->GetCellMap()[i][j].DeleteInteractiveObject();
 									}
 								}
 							}
-							else if (selectedItemBase_.second->GetObjectImage()->GetId() == 0) {
+							else if (selectedItemBase_.second->GetImageBundle()->GetId() == -1) {
 
 							}
 							else if (cellEmpty) {
 								for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
 									for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
 										auto currentInteractiveObject = new InteractiveObject();
-										currentInteractiveObject->SetObjectProperties(selectedItemBase_.second, !(i == tileXPos && j == tileYPos), tileXPos, tileYPos);
-										GetMap()->GetCellMap()[i][j].SetInteractiveObject(currentInteractiveObject, !(i == tileXPos && j == tileYPos));
+										currentInteractiveObject->SetItemBase(selectedItemBase_.second);
+										currentInteractiveObject->SetHasImageReference(!(i == tileXPos && j == tileYPos));
+										currentInteractiveObject->SetImageReferenceX(tileXPos);
+										currentInteractiveObject->SetImageReferenceY(tileYPos);
+										GetMap()->GetCellMap()[i][j].SetInteractiveObject(currentInteractiveObject);
+										GetMap()->GetCellMap()[i][j].SetInteractiveObjectReference(!(i == tileXPos && j == tileYPos));
+
 									}
 								}
 							}
@@ -334,7 +339,7 @@ namespace StaticDLL{
 
 
 						//Remover item
-						if (selectedItemBase_.second->GetObjectImage()->GetId() == 0) {
+						if (selectedItemBase_.second->GetImageBundle()->GetId() == -1) {
 							//removes enemy if it exists at point
 							GetMap()->RemoveEnemyFromMap(tileXPos, tileYPos);
 						}
@@ -379,7 +384,7 @@ namespace StaticDLL{
 
 
 						//Remover item
-						if (selectedItemBase_.second->GetObjectImage()->GetId() == 0) {
+						if (selectedItemBase_.second->GetImageBundle()->GetId() == -1) {
 							//removes enemy if it exists at point
 							GetMap()->RemoveItemFromMap(tileXPos, tileYPos);
 						}

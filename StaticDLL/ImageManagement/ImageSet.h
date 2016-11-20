@@ -11,7 +11,7 @@
 #include <allegro5/allegro_font.h>//fonts
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
-#include "Image.h"
+#include "ImageBundle.h"
 #include "../Static/Definitions.h"
 
 
@@ -28,12 +28,33 @@ namespace StaticDLL{
 	class ImageSet
 	{
 		public:
-			STATICDLL_API ImageSet(std::vector<Image*> images, StaticDLL::IMAGESETS id);
+			STATICDLL_API ImageSet(std::vector<ImageBundle*> imageBundle, StaticDLL::IMAGESETS id);
 			STATICDLL_API ~ImageSet();
 
-			STATICDLL_API std::vector<Image*> GetImageDictionary();
+
+
+			//-----------------------------------------------------------------------------------------------------
+
+			//Gets
+
+			STATICDLL_API std::vector<ImageBundle*> GetImageBundleDictionary();
 
 			STATICDLL_API StaticDLL::IMAGESETS GetImageSetId();
+
+
+
+			//-----------------------------------------------------------------------------------------------------
+
+			//Sets
+
+
+			STATICDLL_API void SetImageBundleDictionary(std::vector<ImageBundle*> imageBundleDictionary);
+
+			STATICDLL_API void SetImageSetId(StaticDLL::IMAGESETS id);
+
+
+
+
 
 
 			
@@ -41,7 +62,7 @@ namespace StaticDLL{
 
 			StaticDLL::IMAGESETS id_;
 
-			std::vector<Image*> imageDictionary_;
+			std::vector<ImageBundle*> imageBundleDictionary_;
 
 	};
 }

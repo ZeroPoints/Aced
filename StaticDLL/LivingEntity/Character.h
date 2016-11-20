@@ -14,7 +14,7 @@
 #include <allegro5/allegro_font.h>//fonts
 #include <allegro5/allegro_ttf.h>//fonts
 #include "../Config/Settings.h"
-#include "../ImageManagement/Image.h"
+#include "../ImageManagement/ImageBundle.h"
 #include "../World/Cell.h"
 #include <math.h>
 
@@ -75,7 +75,9 @@ namespace StaticDLL
 
 
 			STATICDLL_API void SetPlayerFacingDirection(CHARACTERFACINGDIRECTION direction);
-			STATICDLL_API virtual void SetObjectImageColor(Image *image);
+
+			STATICDLL_API void SetImageBundle(ImageBundle *image);
+
 
 			STATICDLL_API void SetKeyRight(bool val);
 			STATICDLL_API void SetKeyLeft(bool val);
@@ -125,7 +127,7 @@ namespace StaticDLL
 			STATICDLL_API Settings GetSettings();
 
 			STATICDLL_API bool GetHasImage();
-			STATICDLL_API Image *GetObjectImage();
+			STATICDLL_API ImageBundle *GetImageBundle();
 			
 			STATICDLL_API StaticDLL::IMAGESETS GetImageSet();
 
@@ -283,7 +285,7 @@ namespace StaticDLL
 
 
 
-			Image *image_;
+			ImageBundle *imageBundle_;
 
 			STATES Id_, keyPressState_, keyPressReturnVal_;
 			ALLEGRO_FONT *font30_;

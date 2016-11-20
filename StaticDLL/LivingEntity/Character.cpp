@@ -128,19 +128,19 @@ namespace StaticDLL {
 	}
 
 	
-	void Character::SetObjectImageColor(Image *image)
+	void Character::SetImageBundle(ImageBundle *imageBundle)
 	{
-		if (image->GetImage() != nullptr)
+		if (imageBundle->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage() != nullptr)
 		{
 			hasImage_ = true;
-			image_ = image;
-			height_ = image->GetHeight();
-			width_ = image->GetWidth();
+			imageBundle_ = imageBundle;
+			height_ = imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight();
+			width_ = imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth();
 		}
 		else
 		{
 			hasColor_ = true;
-			chosenColor_ = image->GetColor();
+			//chosenColor_ = imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage()->GetColor();
 		}
 	}
 
@@ -248,9 +248,9 @@ namespace StaticDLL {
 		return hasImage_;
 	}
 
-	Image *Character::GetObjectImage()
+	ImageBundle *Character::GetImageBundle()
 	{
-		return image_;
+		return imageBundle_;
 	}
 	StaticDLL::IMAGESETS Character::GetImageSet() {
 		return imageSet_;
@@ -286,20 +286,17 @@ namespace StaticDLL {
 	void Character::DrawObjectRotate(float mapXOffset, float mapYOffset) {
 		//0.8
 
-
-		
-
 		if (hasImage_ &&  hasColor_)
 		{
 			al_draw_tinted_scaled_rotated_bitmap(
-				image_->GetImage(),
+				imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage(),
 				chosenColor_,
-				image_->GetImageWidth() / 2.0,
-				image_->GetImageHeight() / 2.0,
+				imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageWidth() / 2.0,
+				imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageHeight() / 2.0,
 				(currentPositionX_ + width_ / 2)*Constants::TileSize() + mapXOffset,
 				(currentPositionY_ + height_ / 2)*Constants::TileSize() + mapYOffset,
-				width_*Constants::TileSize() / (image_->GetImageWidth()*1.0),
-				height_*Constants::TileSize() / (image_->GetImageHeight()*1.0),
+				width_*Constants::TileSize() / (imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageWidth()*1.0),
+				height_*Constants::TileSize() / (imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageHeight()*1.0),
 				currentRotation_,
 				0
 			);
@@ -307,13 +304,13 @@ namespace StaticDLL {
 		else if (hasImage_)
 		{
 			al_draw_scaled_rotated_bitmap(
-				image_->GetImage(),
-				image_->GetImageWidth() / 2.0,
-				image_->GetImageHeight() / 2.0,
+				imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage(),
+				imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageWidth() / 2.0,
+				imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageHeight() / 2.0,
 				(currentPositionX_ + width_ / 2)*Constants::TileSize() + mapXOffset,
 				(currentPositionY_ + height_ / 2)*Constants::TileSize() + mapYOffset,
-				width_*Constants::TileSize() / (image_->GetImageWidth()*1.0),
-				height_*Constants::TileSize() / (image_->GetImageHeight()*1.0),
+				width_*Constants::TileSize() / (imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageWidth()*1.0),
+				height_*Constants::TileSize() / (imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageHeight()*1.0),
 				currentRotation_,
 				0
 			);

@@ -96,6 +96,8 @@
     <ClInclude Include="..\OpenSource\pugixml\pugixml.hpp" />
     <ClInclude Include="Config\AssetLibrary.h" />
     <ClInclude Include="EditorOverLay\EditorItemBase.h" />
+    <ClInclude Include="ImageManagement\ImageBundle.h" />
+    <ClInclude Include="ImageManagement\ImageStateGroup.h" />
     <ClInclude Include="LivingEntity\Character.h" />
     <ClInclude Include="EditorOverLay\EditorOverLay.h" />
     <ClInclude Include="EditorOverLay\EditorOverlayController.h" />
@@ -123,6 +125,8 @@
     <ClCompile Include="..\OpenSource\pugixml\pugixml.cpp" />
     <ClCompile Include="Config\AssetLibrary.cpp" />
     <ClCompile Include="EditorOverLay\EditorItemBase.cpp" />
+    <ClCompile Include="ImageManagement\ImageBundle.cpp" />
+    <ClCompile Include="ImageManagement\ImageStateGroup.cpp" />
     <ClCompile Include="LivingEntity\Character.cpp" />
     <ClCompile Include="EditorOverLay\EditorOverLay.cpp" />
     <ClCompile Include="EditorOverLay\EditorOverlayController.cpp" />

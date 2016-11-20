@@ -42,7 +42,7 @@ namespace StaticDLL{
 			//Gets
 
 
-			STATICDLL_API Image *GetObjectImage();
+			STATICDLL_API ImageBundle *GetImageBundle();
 			STATICDLL_API bool GetHasColor();
 			STATICDLL_API bool GetHasImage();
 			STATICDLL_API ALLEGRO_COLOR GetColor();
@@ -57,10 +57,9 @@ namespace StaticDLL{
 
 
 
-			STATICDLL_API void SetTileObjectImageFromTile(EditorItemBase *selectedTile, int x = 0, int y = 0);
-			STATICDLL_API void SetTileImage(Image *selectedImage);
-			STATICDLL_API void SetObjectProperties(EditorItemBase *selectedObject);
-			STATICDLL_API void SetImage(Image *image);
+			STATICDLL_API void SetTileBase(EditorItemBase *selectedTile);
+
+			STATICDLL_API void SetImageBundle(ImageBundle *image);
 
 			STATICDLL_API void SetColor(ALLEGRO_COLOR color);
 			STATICDLL_API void SetColorR(float r);
@@ -106,7 +105,7 @@ namespace StaticDLL{
 
 			StaticDLL::IMAGESETS imageSet_;
 
-			Image *image_;
+			ImageBundle *imageBundle_;
 
 			ALLEGRO_COLOR chosenColor_;
 

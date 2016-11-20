@@ -13,7 +13,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
 #include "../Static/Definitions.h"
-#include "../ImageManagement/Image.h"
+#include "../ImageManagement/ImageBundle.h"
 #include "../EditorOverLay/EditorItemBase.h"
 #include "../World/Item.h"
 
@@ -42,7 +42,7 @@ namespace StaticDLL {
 
 		//Gets
 
-		STATICDLL_API Image *GetObjectImage();
+		STATICDLL_API ImageBundle *GetImageBundle();
 
 		STATICDLL_API ALLEGRO_COLOR GetColor();
 		STATICDLL_API StaticDLL::IMAGESETS GetImageSet();
@@ -69,17 +69,18 @@ namespace StaticDLL {
 
 
 
-		STATICDLL_API void SetObjectProperties(
-			EditorItemBase *selectedObject,
-			bool isReference = false, int x = 0, int y = 0);
-
-		STATICDLL_API void SetImage(
-			Image *selectedImage,
-			bool isReference = false, int x = 0, int y = 0);
+		STATICDLL_API void SetItemBase(EditorItemBase *selectedObject);
 
 
 
+		STATICDLL_API void SetImageBundle(ImageBundle *selectedImage);
 
+
+
+		STATICDLL_API void SetImageReferenceX(double x);
+		STATICDLL_API void SetImageReferenceY(double y);
+
+		STATICDLL_API void SetHasImageReference(bool reference);
 
 
 
@@ -134,7 +135,7 @@ namespace StaticDLL {
 		ITEMTYPES itemType_;
 
 
-		Image *image_;
+		ImageBundle *imageBundle_;
 	};
 
 

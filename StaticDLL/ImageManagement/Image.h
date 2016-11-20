@@ -29,6 +29,12 @@ namespace StaticDLL{
 	class Image
 	{
 		public:
+
+
+
+
+
+
 			STATICDLL_API Image(int id, const char *file);
 			STATICDLL_API Image(int id, const char *file, const char *name);
 			STATICDLL_API Image(int id, const char *file, float r, float g, float b);
@@ -65,10 +71,6 @@ namespace StaticDLL{
 			STATICDLL_API int GetId();
 			
 
-			STATICDLL_API ITEMTYPES GetItemType();
-			STATICDLL_API OBJECTTYPES GetObjectType();
-
-
 
 
 
@@ -76,11 +78,6 @@ namespace StaticDLL{
 			//-----------------------------------------------------------------------------------------------------
 
 			//Sets
-
-
-
-			STATICDLL_API void SetItemType(ITEMTYPES set);
-			STATICDLL_API void SetObjectType(OBJECTTYPES set);
 
 
 
@@ -104,10 +101,6 @@ namespace StaticDLL{
 
 			char *name_;
 
-
-
-			ITEMTYPES itemType_;
-			OBJECTTYPES objectType_;
 
 
 

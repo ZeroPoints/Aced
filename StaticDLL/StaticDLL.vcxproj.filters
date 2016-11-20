@@ -99,6 +99,12 @@
     <ClInclude Include="World\Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ImageManagement\ImageBundle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageManagement\ImageStateGroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\OpenSource\pugixml\pugixml.cpp">
@@ -195,6 +201,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="World\Item.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageManagement\ImageBundle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageManagement\ImageStateGroup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

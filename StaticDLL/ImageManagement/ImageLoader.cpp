@@ -9,7 +9,7 @@ namespace StaticDLL{
 		
 		LoadTiles();
 
-		LoadColors();
+		//LoadColors();
 
 		LoadPlayers();
 
@@ -78,24 +78,43 @@ namespace StaticDLL{
 	{
 		pugi::xml_document xmlDoc;
 		auto result = xmlDoc.load_file("..\\Images\\TileImageList.xml");
-		std::vector<Image*> images;
 		//What happens if file doesnt exist? create one?
+
+		std::vector<ImageBundle*> imageBundleList;
+
+
 		if (result.status == 0)
 		{
-			pugi::xml_node xmlImages = xmlDoc.child("tiles");
-			for (pugi::xml_node_iterator it = xmlImages.children().begin(); it != xmlImages.children().end(); it++)
+			pugi::xml_node xmlImageSet = xmlDoc.child("ImageSet");
+			for (pugi::xml_node_iterator xmlImageBundleIterator = xmlImageSet.children().begin(); xmlImageBundleIterator != xmlImageSet.children().end(); xmlImageBundleIterator++)
 			{
-				Image* tempImage = new Image(it->attribute("id").as_int(), it->attribute("file").value());
-				images.push_back(tempImage);
+				ImageBundle* imageBundle = new ImageBundle(xmlImageBundleIterator->attribute("id").as_int());
+				std::vector<ImageStateGroup*> imageStateGroupList;
+				for (pugi::xml_node_iterator xmlImageStateGroupIterator = xmlImageBundleIterator->children().begin(); xmlImageStateGroupIterator != xmlImageBundleIterator->children().end(); xmlImageStateGroupIterator++)
+				{
+					ImageStateGroup* imageStateGroup = new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int());
+					std::vector<Image*> images;
+					for (pugi::xml_node_iterator xmlImagesIterator = xmlImageStateGroupIterator->children().begin(); xmlImagesIterator != xmlImageStateGroupIterator->children().end(); xmlImagesIterator++)
+					{
+						Image* tempImage = new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value());
+						images.push_back(tempImage);
+					}
+					imageStateGroup->SetImageDictionary(images);
+					imageStateGroupList.push_back(imageStateGroup);
+				}
+				imageBundle->SetImageStateGroupDictionary(imageStateGroupList);
+				imageBundleList.push_back(imageBundle);
 			}
 		}
 		else if (result.status == 1)
 		{
 			pugi::xml_document xmlNewDoc;
-			pugi::xml_node xmlTiles = xmlNewDoc.child("tiles");
+			pugi::xml_node xmlTiles = xmlNewDoc.child("ImageSet");
 			xmlNewDoc.save_file("..\\Images\\TileImageList.xml");
 		}
-		ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::TILEIMAGESET);
+
+
+		ImageSet* imageSet = new ImageSet(imageBundleList, StaticDLL::IMAGESETS::TILEIMAGESET);
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -103,35 +122,50 @@ namespace StaticDLL{
 
 
 
-	void ImageLoader::LoadColors()
-	{
-		pugi::xml_document xmlDoc;
-		auto result = xmlDoc.load_file("..\\Images\\TileColorList.xml");
-		std::vector<Image*> images;
-		//What happens if file doesnt exist? create one?
-		if (result.status == 0)
-		{
-			pugi::xml_node xmlImages = xmlDoc.child("colors");
-			int i = 0;
-			for (pugi::xml_node_iterator it = xmlImages.children().begin(); it != xmlImages.children().end(); it++)
-			{
-				Image* tempImage;
-				if (i == 0)
-				{
-					tempImage = new Image(it->attribute("id").as_int(), it->attribute("file").value());
-					i++;
-				}
-				else
-				{
-					tempImage = new Image(it->attribute("id").as_int(), it->attribute("r").as_float(), it->attribute("g").as_float(), it->attribute("b").as_float());
-				}
-				images.push_back(tempImage);
-			}
-		}
+	//void ImageLoader::LoadColors()
+	//{
+	//	pugi::xml_document xmlDoc;
+	//	auto result = xmlDoc.load_file("..\\Images\\TileColorList.xml");
+	//	std::vector<ImageStateGroup*> imageGroupList;
 
-		ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::TILECOLORSET);
-		imageDictionary_.push_back(imageSet);
-	}
+	//	//What happens if file doesnt exist? create one?
+	//	if (result.status == 0)
+	//	{
+	//		pugi::xml_node xmlImages = xmlDoc.child("colors");
+	//		int i = 0;
+	//		for (pugi::xml_node_iterator it = xmlImages.children().begin(); it != xmlImages.children().end(); it++)
+	//		{
+	//			ImageStateGroup* imageStateGroup = new ImageStateGroup(it->attribute("id").as_int());
+	//			std::vector<Image*> images;
+	//			Image* tempImage;
+	//			if (i == 0)
+	//			{
+	//				tempImage = new Image(it->attribute("id").as_int(), it->attribute("file").value());
+	//				i++;
+	//			}
+	//			else
+	//			{
+	//				tempImage = new Image(it->attribute("id").as_int(), it->attribute("r").as_float(), it->attribute("g").as_float(), it->attribute("b").as_float());
+	//			}
+	//			images.push_back(tempImage);
+	//			//sort out if this is pointer or new instance...
+	//			imageStateGroup->SetImageDictionary(images);
+
+	//			imageGroupList.push_back(imageStateGroup);
+	//		}
+
+	//	}
+
+	//	ImageBundle* imageBundle = new ImageBundle(0);
+	//	imageBundle->SetImageStateGroupDictionary(imageGroupList);
+
+	//	std::vector<ImageBundle*> imageBundleList;
+	//	imageBundleList.push_back(imageBundle);
+
+	//	ImageSet* imageSet = new ImageSet(imageBundleList, StaticDLL::IMAGESETS::TILECOLORSET);
+	//	imageDictionary_.push_back(imageSet);
+
+	//}
 
 
 
@@ -140,15 +174,29 @@ namespace StaticDLL{
 	{
 		pugi::xml_document xmlDoc;
 		auto result = xmlDoc.load_file("..\\Images\\PlayersImageList.xml");
-		std::vector<Image*> images;
+		std::vector<ImageBundle*> imageBundleList;
 		//What happens if file doesnt exist? create one?
 		if (result.status == 0)
 		{
-			pugi::xml_node xmlImages = xmlDoc.child("player");
-			for (pugi::xml_node_iterator it = xmlImages.children().begin(); it != xmlImages.children().end(); it++)
+			pugi::xml_node xmlImageSet = xmlDoc.child("ImageSet");
+			for (pugi::xml_node_iterator xmlImageBundleIterator = xmlImageSet.children().begin(); xmlImageBundleIterator != xmlImageSet.children().end(); xmlImageBundleIterator++)
 			{
-				Image* tempImage = new Image(it->attribute("id").as_int(), it->attribute("file").value());
-				images.push_back(tempImage);
+				ImageBundle* imageBundle = new ImageBundle(xmlImageBundleIterator->attribute("id").as_int());
+				std::vector<ImageStateGroup*> imageStateGroupList;
+				for (pugi::xml_node_iterator xmlImageStateGroupIterator = xmlImageBundleIterator->children().begin(); xmlImageStateGroupIterator != xmlImageBundleIterator->children().end(); xmlImageStateGroupIterator++)
+				{
+					ImageStateGroup* imageStateGroup = new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int());
+					std::vector<Image*> images;
+					for (pugi::xml_node_iterator xmlImagesIterator = xmlImageStateGroupIterator->children().begin(); xmlImagesIterator != xmlImageStateGroupIterator->children().end(); xmlImagesIterator++)
+					{
+						Image* tempImage = new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value());
+						images.push_back(tempImage);
+					}
+					imageStateGroup->SetImageDictionary(images);
+					imageStateGroupList.push_back(imageStateGroup);
+				}
+				imageBundle->SetImageStateGroupDictionary(imageStateGroupList);
+				imageBundleList.push_back(imageBundle);
 			}
 		}
 		else if (result.status == 1)
@@ -157,7 +205,9 @@ namespace StaticDLL{
 			pugi::xml_node xmlTiles = xmlNewDoc.child("player");
 			xmlNewDoc.save_file("..\\Images\\PlayersImageList.xml");
 		}
-		ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::PLAYERIMAGESET);
+
+
+		ImageSet* imageSet = new ImageSet(imageBundleList, StaticDLL::IMAGESETS::PLAYERIMAGESET);
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -173,17 +223,30 @@ namespace StaticDLL{
 	{
 		pugi::xml_document xmlDoc;
 		auto result = xmlDoc.load_file("..\\Images\\ObjectImageList.xml");
-		std::vector<Image*> images;
+		std::vector<ImageBundle*> imageBundleList;
 		//What happens if file doesnt exist? create one?
 		if (result.status == 0)
 		{
-			pugi::xml_node xmlImages = xmlDoc.child("object");
-			for (pugi::xml_node_iterator it = xmlImages.children().begin(); it != xmlImages.children().end(); it++)
+			pugi::xml_node xmlImageSet = xmlDoc.child("ImageSet");
+			for (pugi::xml_node_iterator xmlImageBundleIterator = xmlImageSet.children().begin(); xmlImageBundleIterator != xmlImageSet.children().end(); xmlImageBundleIterator++)
 			{
-				Image* tempImage = new Image(it->attribute("id").as_int(), it->attribute("file").value());
-				//tempImage->SetItemType(ITEMTYPES(it->attribute("itemtype").as_int()));
-				tempImage->SetObjectType(OBJECTTYPES(it->attribute("objecttype").as_int()));
-				images.push_back(tempImage);
+				ImageBundle* imageBundle = new ImageBundle(xmlImageBundleIterator->attribute("id").as_int());
+				imageBundle->SetObjectType((OBJECTTYPES)xmlImageBundleIterator->attribute("objecttype").as_int());
+				std::vector<ImageStateGroup*> imageStateGroupList;
+				for (pugi::xml_node_iterator xmlImageStateGroupIterator = xmlImageBundleIterator->children().begin(); xmlImageStateGroupIterator != xmlImageBundleIterator->children().end(); xmlImageStateGroupIterator++)
+				{
+					ImageStateGroup* imageStateGroup = new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int());
+					std::vector<Image*> images;
+					for (pugi::xml_node_iterator xmlImagesIterator = xmlImageStateGroupIterator->children().begin(); xmlImagesIterator != xmlImageStateGroupIterator->children().end(); xmlImagesIterator++)
+					{
+						Image* tempImage = new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value());
+						images.push_back(tempImage);
+					}
+					imageStateGroup->SetImageDictionary(images);
+					imageStateGroupList.push_back(imageStateGroup);
+				}
+				imageBundle->SetImageStateGroupDictionary(imageStateGroupList);
+				imageBundleList.push_back(imageBundle);
 			}
 		}
 		else if (result.status == 1)
@@ -192,7 +255,8 @@ namespace StaticDLL{
 			pugi::xml_node xmlTiles = xmlNewDoc.child("object");
 			xmlNewDoc.save_file("..\\Images\\ObjectImageList.xml");
 		}
-		ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::OBJECTIMAGESET);
+
+		ImageSet* imageSet = new ImageSet(imageBundleList, StaticDLL::IMAGESETS::OBJECTIMAGESET);
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -203,15 +267,29 @@ namespace StaticDLL{
 	{
 		pugi::xml_document xmlDoc;
 		auto result = xmlDoc.load_file("..\\Images\\EnemyImageList.xml");
-		std::vector<Image*> images;
+		std::vector<ImageBundle*> imageBundleList;
 		//What happens if file doesnt exist? create one?
 		if (result.status == 0)
 		{
-			pugi::xml_node xmlImages = xmlDoc.child("enemy");
-			for (pugi::xml_node_iterator it = xmlImages.children().begin(); it != xmlImages.children().end(); it++)
+			pugi::xml_node xmlImageSet = xmlDoc.child("ImageSet");
+			for (pugi::xml_node_iterator xmlImageBundleIterator = xmlImageSet.children().begin(); xmlImageBundleIterator != xmlImageSet.children().end(); xmlImageBundleIterator++)
 			{
-				Image* tempImage = new Image(it->attribute("id").as_int(), it->attribute("file").value());
-				images.push_back(tempImage);
+				ImageBundle* imageBundle = new ImageBundle(xmlImageBundleIterator->attribute("id").as_int());
+				std::vector<ImageStateGroup*> imageStateGroupList;
+				for (pugi::xml_node_iterator xmlImageStateGroupIterator = xmlImageBundleIterator->children().begin(); xmlImageStateGroupIterator != xmlImageBundleIterator->children().end(); xmlImageStateGroupIterator++)
+				{
+					ImageStateGroup* imageStateGroup = new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int());
+					std::vector<Image*> images;
+					for (pugi::xml_node_iterator xmlImagesIterator = xmlImageStateGroupIterator->children().begin(); xmlImagesIterator != xmlImageStateGroupIterator->children().end(); xmlImagesIterator++)
+					{
+						Image* tempImage = new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value());
+						images.push_back(tempImage);
+					}
+					imageStateGroup->SetImageDictionary(images);
+					imageStateGroupList.push_back(imageStateGroup);
+				}
+				imageBundle->SetImageStateGroupDictionary(imageStateGroupList);
+				imageBundleList.push_back(imageBundle);
 			}
 		}
 		else if (result.status == 1)
@@ -220,7 +298,9 @@ namespace StaticDLL{
 			pugi::xml_node xmlTiles = xmlNewDoc.child("enemy");
 			xmlNewDoc.save_file("..\\Images\\EnemyImageList.xml");
 		}
-		ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::ENEMYIMAGESET);
+
+
+		ImageSet* imageSet = new ImageSet(imageBundleList, StaticDLL::IMAGESETS::ENEMYIMAGESET);
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -232,17 +312,30 @@ namespace StaticDLL{
 	{
 		pugi::xml_document xmlDoc;
 		auto result = xmlDoc.load_file("..\\Images\\ItemImageList.xml");
-		std::vector<Image*> images;
+		std::vector<ImageBundle*> imageBundleList;
 		//What happens if file doesnt exist? create one?
 		if (result.status == 0)
 		{
-			pugi::xml_node xmlImages = xmlDoc.child("item");
-			for (pugi::xml_node_iterator it = xmlImages.children().begin(); it != xmlImages.children().end(); it++)
+			pugi::xml_node xmlImageSet = xmlDoc.child("ImageSet");
+			for (pugi::xml_node_iterator xmlImageBundleIterator = xmlImageSet.children().begin(); xmlImageBundleIterator != xmlImageSet.children().end(); xmlImageBundleIterator++)
 			{
-				Image* tempImage = new Image(it->attribute("id").as_int(), it->attribute("file").value());
-				tempImage->SetItemType(ITEMTYPES(it->attribute("itemtype").as_int()));
-				//tempImage->SetObjectType(OBJECTTYPES(it->attribute("objecttype").as_int()));
-				images.push_back(tempImage);
+				ImageBundle* imageBundle = new ImageBundle(xmlImageBundleIterator->attribute("id").as_int());
+				imageBundle->SetItemType((ITEMTYPES)xmlImageBundleIterator->attribute("itemtype").as_int());
+				std::vector<ImageStateGroup*> imageStateGroupList;
+				for (pugi::xml_node_iterator xmlImageStateGroupIterator = xmlImageBundleIterator->children().begin(); xmlImageStateGroupIterator != xmlImageBundleIterator->children().end(); xmlImageStateGroupIterator++)
+				{
+					ImageStateGroup* imageStateGroup = new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int());
+					std::vector<Image*> images;
+					for (pugi::xml_node_iterator xmlImagesIterator = xmlImageStateGroupIterator->children().begin(); xmlImagesIterator != xmlImageStateGroupIterator->children().end(); xmlImagesIterator++)
+					{
+						Image* tempImage = new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value());
+						images.push_back(tempImage);
+					}
+					imageStateGroup->SetImageDictionary(images);
+					imageStateGroupList.push_back(imageStateGroup);
+				}
+				imageBundle->SetImageStateGroupDictionary(imageStateGroupList);
+				imageBundleList.push_back(imageBundle);
 			}
 		}
 		else if (result.status == 1)
@@ -251,7 +344,10 @@ namespace StaticDLL{
 			pugi::xml_node xmlTiles = xmlNewDoc.child("item");
 			xmlNewDoc.save_file("..\\Images\\ItemImageList.xml");
 		}
-		ImageSet* imageSet = new ImageSet(images, StaticDLL::IMAGESETS::ITEMIMAGESET);
+
+
+
+		ImageSet* imageSet = new ImageSet(imageBundleList, StaticDLL::IMAGESETS::ITEMIMAGESET);
 		imageDictionary_.push_back(imageSet);
 	}
 

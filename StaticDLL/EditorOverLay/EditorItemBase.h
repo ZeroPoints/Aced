@@ -13,7 +13,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
 #include "../Static/Definitions.h"
-#include "../ImageManagement/Image.h"
+#include "../ImageManagement/ImageBundle.h"
 
 
 
@@ -48,7 +48,7 @@ namespace StaticDLL {
 		STATICDLL_API double GetCurrentPositionX();
 		STATICDLL_API double GetWidth();
 		STATICDLL_API double GetHeight();
-		STATICDLL_API Image *GetObjectImage();
+		STATICDLL_API ImageBundle *GetImageBundle();
 		STATICDLL_API bool GetHasColor();
 		STATICDLL_API bool GetHasImage();
 
@@ -71,15 +71,16 @@ namespace StaticDLL {
 
 		//Sets
 
-		//Sets equivalent properties for the tile from another tile object
-		STATICDLL_API void SetTileProperties(EditorItemBase *selectedTile, bool isReference = false);
 
 
 		/*
 		This sets a tile to an OBJECT image and if its an add shaped image it adds References to the other positions and passes in the X,Y position of the parent so it knows what IMAGE it relates to
 		*/
-		STATICDLL_API void SetTileObjectImageFromTile(EditorItemBase *selectedTile, bool isReference = false, int x = 0, int y = 0);
-		STATICDLL_API void SetTileObjectImageFromImage(Image *selectedImage, bool isReference = false, int x = 0, int y = 0);
+		STATICDLL_API void SetItemBase(EditorItemBase *itemBase);
+		STATICDLL_API void SetImageBundle(ImageBundle *imageBundle);
+		STATICDLL_API void SetHasImageReference(bool reference);
+
+
 
 
 
@@ -92,15 +93,6 @@ namespace StaticDLL {
 		STATICDLL_API void SetWidth(double x);
 
 		STATICDLL_API void SetHeight(double y);
-
-		STATICDLL_API void SetObjectProperties(EditorItemBase *selectedObject, bool isReference = false);
-
-
-		//Put some color tintin intelligence into setting this objects properties.
-		//So can add color if it exists. Or add image if it exists
-		//This is used to set objects properties based on if the image has a color or a image
-		//TODO: ADD in color and image together aswell just incase later
-		STATICDLL_API void SetObjectImageColor(Image *image);
 
 
 
@@ -180,7 +172,7 @@ namespace StaticDLL {
 
 
 
-		Image *image_;
+		ImageBundle *imageBundle_;
 
 		STATES Id_;
 		ALLEGRO_COLOR chosenColor_;

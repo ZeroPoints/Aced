@@ -41,7 +41,7 @@ namespace StaticDLL {
 
 		//Gets
 
-		STATICDLL_API Image *GetObjectImage();
+		STATICDLL_API ImageBundle *GetImageBundle();
 
 		STATICDLL_API ALLEGRO_COLOR GetColor();
 		STATICDLL_API StaticDLL::IMAGESETS GetImageSet();
@@ -71,15 +71,12 @@ namespace StaticDLL {
 
 
 
-		STATICDLL_API void SetObjectProperties(
-			EditorItemBase *selectedObject,
-			bool isReference = false, int x = 0, int y = 0);
+		STATICDLL_API void SetObjectProperties(EditorItemBase *selectedObject);
 
-		STATICDLL_API void SetImage(
-			Image *selectedImage,
-			bool isReference = false, int x = 0, int y = 0);
+		STATICDLL_API void SetImageBundle(ImageBundle *selectedImage);
 
 
+		STATICDLL_API void SetHasImageReference(bool reference);
 
 
 
@@ -140,7 +137,7 @@ namespace StaticDLL {
 		OBJECTTYPES objectType_;
 
 
-		Image *image_;
+		ImageBundle *imageBundle_;
 	};
 
 

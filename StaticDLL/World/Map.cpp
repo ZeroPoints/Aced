@@ -421,7 +421,7 @@ namespace StaticDLL {
 				if (hasImage)
 				{
 					pugi::xml_node xmlCurrentImage = xmlcurrentEnemy.append_child("image");
-					xmlCurrentImage.append_attribute("id").set_value(currentEnemy->GetObjectImage()->GetId());
+					xmlCurrentImage.append_attribute("id").set_value(currentEnemy->GetImageBundle()->GetId());
 					xmlCurrentImage.append_attribute("imageSet").set_value((int)currentEnemy->GetImageSet());
 				}
 			}
@@ -439,7 +439,7 @@ namespace StaticDLL {
 				if (hasImage)
 				{
 					pugi::xml_node xmlCurrentImage = xmlcurrentEnemy.append_child("image");
-					xmlCurrentImage.append_attribute("id").set_value(currentItem->GetObjectImage()->GetId());
+					xmlCurrentImage.append_attribute("id").set_value(currentItem->GetImageBundle()->GetId());
 					xmlCurrentImage.append_attribute("imageSet").set_value((int)currentItem->GetImageSet());
 				}
 			}
@@ -473,7 +473,7 @@ namespace StaticDLL {
 					if (hasImage)
 					{
 						pugi::xml_node xmlCurrentImage = xmlcurrentTile.append_child("image");
-						xmlCurrentImage.append_attribute("id").set_value(currentCell->GetTile()->GetObjectImage()->GetId());
+						xmlCurrentImage.append_attribute("id").set_value(currentCell->GetTile()->GetImageBundle()->GetId());
 						xmlCurrentImage.append_attribute("imageSet").set_value((int)currentCell->GetTile()->GetImageSet());
 					}
 				}
@@ -488,7 +488,7 @@ namespace StaticDLL {
 					{
 						pugi::xml_node xmlCurrentImage = xmlcurrentInteractiveObject.append_child("image");
 						if (hasImage) {
-							xmlCurrentImage.append_attribute("id").set_value(currentCell->GetInteractiveObject()->GetObjectImage()->GetId());
+							xmlCurrentImage.append_attribute("id").set_value(currentCell->GetInteractiveObject()->GetImageBundle()->GetId());
 							xmlCurrentImage.append_attribute("imageSet").set_value((int)currentCell->GetInteractiveObject()->GetImageSet());
 						}
 						xmlCurrentImage.append_attribute("imageReferenceX").set_value(currentCell->GetInteractiveObject()->GetImageReferenceX());
@@ -584,12 +584,12 @@ namespace StaticDLL {
 							}
 						}
 						if (indexOfImageSet >= 0) {
-							auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageDictionary();
+							auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageBundleDictionary();
 							for (int j = 0; j < imageDictionary.size(); j++)
 							{
 								if (imageDictionary[j]->GetId() == imgId)
 								{
-									enemy->SetObjectImageColor(imageDictionary[j]);
+									enemy->SetImageBundle(imageDictionary[j]);
 									enemy->SetImageSet(StaticDLL::IMAGESETS(imageSetId));
 									break;
 								}
@@ -650,12 +650,12 @@ namespace StaticDLL {
 							}
 						}
 						if (indexOfImageSet >= 0) {
-							auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageDictionary();
+							auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageBundleDictionary();
 							for (int j = 0; j < imageDictionary.size(); j++)
 							{
 								if (imageDictionary[j]->GetId() == imgId)
 								{
-									item->SetImage(imageDictionary[j]);
+									item->SetImageBundle(imageDictionary[j]);
 									item->SetImageSet(StaticDLL::IMAGESETS(imageSetId));
 									break;
 								}
@@ -779,13 +779,13 @@ namespace StaticDLL {
 									}
 								}
 								if (indexOfImageSet >= 0) {
-									auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageDictionary();
+									auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageBundleDictionary();
 									for (int j = 0; j < imageDictionary.size(); j++)
 									{
 										if (imageDictionary[j]->GetId() == imgId)
 										{
 
-											currentTile->SetTileImage(imageDictionary[j]);
+											currentTile->SetImageBundle(imageDictionary[j]);
 											currentTile->SetImageSet(StaticDLL::IMAGESETS(imageSetId));
 											break;
 										}
@@ -840,14 +840,15 @@ namespace StaticDLL {
 									}
 								}
 								if (indexOfImageSet >= 0) {
-									auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageDictionary();
+									auto imageDictionary = assetLibrary_->GetImageSetDictionary()[indexOfImageSet]->GetImageBundleDictionary();
 									for (int j = 0; j < imageDictionary.size(); j++)
 									{
 										if (imageDictionary[j]->GetId() == imgId)
 										{
-											currentInteractiveObject->SetImage(imageDictionary[j], 
-												hasImageReference,
-												imageReferenceX, imageReferenceY);
+											currentInteractiveObject->SetImageBundle(imageDictionary[j]);
+											currentInteractiveObject->SetHasImageReference(hasImageReference);
+											currentInteractiveObject->SetImageReferenceX(imageReferenceX);
+											currentInteractiveObject->SetImageReferenceY(imageReferenceY);
 											currentInteractiveObject->SetImageSet(StaticDLL::IMAGESETS(imageSetId));
 											break;
 										}
@@ -856,7 +857,8 @@ namespace StaticDLL {
 							}
 						}
 					}
-					currentCell->SetInteractiveObject(currentInteractiveObject, hasImageReference);
+					currentCell->SetInteractiveObject(currentInteractiveObject);
+					currentCell->SetInteractiveObjectReference(hasImageReference);
 				}
 			}
 			//if we at the end of current row of vector of tiles we go to the next vector of vectors
@@ -925,7 +927,7 @@ namespace StaticDLL {
 		//enemy->SetGravityY(0);
 		enemy->SetCurrentPositionX(tileXPos);
 		enemy->SetCurrentPositionY(tileYPos);
-		enemy->SetObjectImageColor(item->GetObjectImage());
+		enemy->SetImageBundle(item->GetImageBundle());
 		enemy->SetImageSet(item->GetImageSet());
 		//enemy->SetMoveSpeed(0);
 		//enemy->SetMoveSpeedDelta(0);
@@ -945,7 +947,8 @@ namespace StaticDLL {
 
 		thing->SetPosX(tileXPos);
 		thing->SetPosY(tileYPos);
-		thing->SetObjectProperties(item);
+		thing->SetImageBundle(item->GetImageBundle());
+		thing->SetImageSet(item->GetImageSet());
 
 		itemList_.push_back(thing);
 
@@ -1008,9 +1011,9 @@ namespace StaticDLL {
 	Item* Map::ItemCollisionCheckAtXY(double playerX, double playerY, double width, double height) {
 		for (auto i = 0; i < itemList_.size(); i++) {
 			auto item = itemList_[i];
-			if (playerX < item->GetPosX() + item->GetObjectImage()->GetWidth() 
+			if (playerX < item->GetPosX() + item->GetImageBundle()->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth() 
 				&& playerX + width > item->GetPosX() &&
-				playerY < item->GetPosY() + item->GetObjectImage()->GetHeight()
+				playerY < item->GetPosY() + item->GetImageBundle()->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()
 				&& playerY + height > item->GetPosY()
 				) {
 				itemList_.erase(itemList_.begin() + i);

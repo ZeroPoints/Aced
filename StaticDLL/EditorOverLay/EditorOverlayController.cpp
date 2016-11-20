@@ -95,12 +95,12 @@ namespace StaticDLL{
 		itemStore->SetMenuHeader("  TILE IMAGES  ", 0,0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
-
+/*
 		itemStore = new EditorOverLay(settings_, STATES::TILECOLORPICKER, assetLibrary_);
 		itemStore->SetMenuHeader("  TILE COLOURS  ", headerPositionX,0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
-
+*/
 
 		//load tile types from source pass into function
 		itemStore = new EditorOverLay(settings_, STATES::TILETYPEPICKER, assetLibrary_);

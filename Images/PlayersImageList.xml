@@ -1,8 +1,19 @@
 <?xml version="1.0"?>
 <!--Players images-->
-<player >
-  
-  <img id="0" file="..//Images//BallType1.png" />
-
-
-</player>
+<ImageSet >
+	<!--Bundled for a single asset-->
+	<ImageBundle id="0">
+		<!--Animation States-->
+		<ImageStateGroup id="0">
+			<!--Frames in animation-->
+			<Image id="0" file="..//Images//TestBlueGirl1.png" />
+			<!--<img id="1" file="..//Images//TestBlueGirl1.png" />-->
+			<!--<img id="2" file="..//Images//TestBlueGirl1.png" />-->
+			<!--<img id="3" file="..//Images//TestBlueGirl1.png" />-->
+		</ImageStateGroup >
+		<ImageStateGroup id="1">
+			<!--Frames in animation-->
+			<Image id="0" file="..//Images//TestBlueGirl1.png" />
+		</ImageStateGroup >
+	</ImageBundle>
+</ImageSet>

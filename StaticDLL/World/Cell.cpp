@@ -39,15 +39,15 @@ namespace StaticDLL {
 		tile_ = tile;
 	}
 
-	void Cell::SetInteractiveObject(InteractiveObject* interactiveObject, bool isReference)
+	void Cell::SetInteractiveObject(InteractiveObject* interactiveObject)
 	{
-		if (isReference) {
-			hasInteractiveObjectReference_ = true;
-		}
-		else {
-			hasInteractiveObject_ = true;
-		}
+		hasInteractiveObject_ = true;
 		interactiveObject_ = interactiveObject;
+	}
+
+	void Cell::SetInteractiveObjectReference(bool isReference)
+	{
+		hasInteractiveObjectReference_ = isReference;
 	}
 
 

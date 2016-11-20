@@ -212,8 +212,8 @@ namespace StaticDLL{
 			int tileVectorWidthMax_;
 			//The border of the entire Map
 			int height_;
-			int imageDictionarySize_;
-			int imageDictionaryId_;
+			int imageBundleDictionarySize_;
+			int imageBundleDictionaryId_;
 			Image *remove_;
 
 			
