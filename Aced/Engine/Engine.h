@@ -11,12 +11,12 @@
 #include <vector>
 
 
-#include "LivingEntity/Player.h"
-#include "World/map.h"
+#include "../AcedSharedDLL/LivingEntity/Player.h"
+#include "../AcedSharedDLL/World/map.h"
 #include "../AcedSharedDLL/Static/Definitions.h"
 
-#include "States/StateTemplates.h"
-#include "Settings/Settings.h"
+#include "../Aced/States/StateTemplates.h"
+#include "../Aced/Settings/Settings.h"
 
 
 

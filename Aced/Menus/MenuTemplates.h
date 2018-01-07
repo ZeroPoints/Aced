@@ -14,7 +14,7 @@
 #include "../AcedSharedDLL/Static/Definitions.h"
 
 
-#include "../Aced/Engine/Settings/Settings.h"
+#include "../Settings/Settings.h"
 
 
 

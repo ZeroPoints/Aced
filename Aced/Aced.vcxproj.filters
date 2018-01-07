@@ -21,49 +21,46 @@
     <ClCompile Include="Engine\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Menus\MenuEditor.cpp">
+    <ClCompile Include="Menus\MenuEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Menus\MenuEditorMain.cpp">
+    <ClCompile Include="Menus\MenuEditorMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Menus\MenuGameMain.cpp">
+    <ClCompile Include="Menus\MenuGameMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Menus\MenuMapOptions.cpp">
+    <ClCompile Include="Menus\MenuMapOptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Menus\MenuOptions.cpp">
+    <ClCompile Include="Menus\MenuOptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\States\StateEditorMainMenu.cpp">
+    <ClCompile Include="Settings\ImageLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\States\StateEditorMenu.cpp">
+    <ClCompile Include="Settings\Settings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\States\StateEditorMode.cpp">
+    <ClCompile Include="States\StateEditorMainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\States\StateGameMainMenu.cpp">
+    <ClCompile Include="States\StateEditorMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\States\StateGameMode.cpp">
+    <ClCompile Include="States\StateEditorMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\States\StateMapOptions.cpp">
+    <ClCompile Include="States\StateGameMainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\States\StateOptions.cpp">
+    <ClCompile Include="States\StateGameMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Settings\ImageLoader.cpp">
+    <ClCompile Include="States\StateMapOptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Settings\Settings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\OpenSource\pugixml\pugixml.cpp">
+    <ClCompile Include="States\StateOptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,22 +71,16 @@
     <ClInclude Include="Engine\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Menus\MenuTemplates.h">
+    <ClInclude Include="Menus\MenuTemplates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\States\StateTemplates.h">
+    <ClInclude Include="Settings\ImageLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Settings\ImageLoader.h">
+    <ClInclude Include="Settings\Settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Settings\Settings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenSource\pugixml\pugiconfig.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\OpenSource\pugixml\pugixml.hpp">
+    <ClInclude Include="States\StateTemplates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

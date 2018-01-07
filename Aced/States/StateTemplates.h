@@ -13,10 +13,10 @@
 #include <allegro5/allegro_physfs.h>
 
 #include "../AcedSharedDLL/States/State.h"
-#include "../Aced/Engine/Menus/MenuTemplates.h"
+#include "../Menus/MenuTemplates.h"
 #include "../AcedSharedDLL/World/Map.h"
 
-#include "../Aced/Engine/Settings/Settings.h"
+#include "../Settings/Settings.h"
 
 
 //-------------------------------------------------Editor mode States-------------------------------------------------

@@ -15,25 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="World\Cell.h">
+    <ClInclude Include="..\OpenSource\pugixml\pugiconfig.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="World\CharacterSpawn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World\InteractiveObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World\Item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World\Map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World\Tile.h">
+    <ClInclude Include="..\OpenSource\pugixml\pugixml.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Config\AssetLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\BaseSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EditorOverLay\EditorItemBase.h">
@@ -75,45 +66,42 @@
     <ClInclude Include="Menu\MenuItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Misc\ObjectBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="States\State.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Static\Definitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\OpenSource\pugixml\pugiconfig.hpp">
+    <ClInclude Include="World\Cell.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\OpenSource\pugixml\pugixml.hpp">
+    <ClInclude Include="World\CharacterSpawn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Config\BaseSettings.h">
+    <ClInclude Include="World\InteractiveObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Misc\ObjectBase.h">
+    <ClInclude Include="World\Item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="World\Cell.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World\CharacterSpawn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World\InteractiveObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World\Item.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World\Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World\Tile.cpp">
+    <ClCompile Include="..\OpenSource\pugixml\pugixml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Config\AssetLibrary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\BaseSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EditorOverLay\EditorItemBase.cpp">
@@ -155,13 +143,25 @@
     <ClCompile Include="Menu\MenuItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\OpenSource\pugixml\pugixml.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Config\BaseSettings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="States\State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World\CharacterSpawn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World\InteractiveObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Item.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

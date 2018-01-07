@@ -8,15 +8,18 @@
 #include <allegro5\allegro_primitives.h>//shapes
 #include <allegro5\allegro_image.h>//shapes
 #include "Engine/engine.h"
-#include "World/Map.h"
-#include "Config/AssetLibrary.h"
-
-#include "../Aced/Engine/Settings/Settings.h"
 
 
 
 
- 
+
+
+
+#include "../AcedSharedDLL/World/Map.h"
+#include "../AcedSharedDLL/Config/AssetLibrary.h"
+
+#include "../Aced/Settings/Settings.h"
+
 
 
 int main(int argc, char **argv)
