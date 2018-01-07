@@ -8,19 +8,22 @@
 #include <allegro5\allegro_primitives.h>//shapes
 #include <allegro5\allegro_image.h>//shapes
 #include "Engine/engine.h"
-#include "Config/Settings.h"
 #include "World/Map.h"
 #include "Config/AssetLibrary.h"
 
+#include "../Aced/Engine/Settings/Settings.h"
 
-using namespace StaticDLL;
 
-using namespace std;
+
+
  
 
 
 int main(int argc, char **argv)
 {
+
+
+
 	//ShowWindow( GetConsoleWindow(), SW_HIDE );//hide console window no body needs to see it now
 	//Load options at start from txt file...res/other options that are Saved later...?
 	Settings GameSettings = Settings();

@@ -1,21 +1,27 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <allegro5\allegro.h>
-#include <vector>
-#include "LivingEntity/Player.h"
-#include "World/map.h"
+
+
+
 #include <allegro5/allegro_font.h>//fonts
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
-#include "Static/Definitions.h"
-#include "States/State.h"
-#include "Config/Settings.h"
-#include <States/StateTemplates.h>
+#include <allegro5\allegro.h>
+#include <vector>
+
+
+#include "LivingEntity/Player.h"
+#include "World/map.h"
+#include "../AcedSharedDLL/Static/Definitions.h"
+
+#include "States/StateTemplates.h"
+#include "Settings/Settings.h"
 
 
 
-using namespace StaticDLL;
+
+using namespace AcedSharedDLL;
 
 
 //this files for hardcoding game engine stuff.

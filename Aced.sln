@@ -1,19 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Aced", "Aced\Aced.vcxproj", "{CC9C5BCE-09EF-451E-B763-19913D4123A4}"
 	ProjectSection(ProjectDependencies) = postProject
-		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657} = {2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}
+		{8A20F618-84B9-4345-AC92-A31CCBABF72C} = {8A20F618-84B9-4345-AC92-A31CCBABF72C}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapEditor", "MapEditor\MapEditor.vcxproj", "{05092535-DFF5-43C3-A023-1D721A3B3232}"
-	ProjectSection(ProjectDependencies) = postProject
-		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657} = {2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StaticDLL", "StaticDLL\StaticDLL.vcxproj", "{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AcedSharedDLL", "AcedSharedDLL\AcedSharedDLL.vcxproj", "{8A20F618-84B9-4345-AC92-A31CCBABF72C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,28 +28,25 @@ Global
 		{CC9C5BCE-09EF-451E-B763-19913D4123A4}.Release|Win32.ActiveCfg = Release|Win32
 		{CC9C5BCE-09EF-451E-B763-19913D4123A4}.Release|Win32.Build.0 = Release|Win32
 		{CC9C5BCE-09EF-451E-B763-19913D4123A4}.Release|x64.ActiveCfg = Release|Win32
-		{05092535-DFF5-43C3-A023-1D721A3B3232}.Debug|ARM.ActiveCfg = Debug|Win32
-		{05092535-DFF5-43C3-A023-1D721A3B3232}.Debug|Win32.ActiveCfg = Debug|Win32
-		{05092535-DFF5-43C3-A023-1D721A3B3232}.Debug|Win32.Build.0 = Debug|Win32
-		{05092535-DFF5-43C3-A023-1D721A3B3232}.Debug|x64.ActiveCfg = Debug|Win32
-		{05092535-DFF5-43C3-A023-1D721A3B3232}.Release|ARM.ActiveCfg = Release|Win32
-		{05092535-DFF5-43C3-A023-1D721A3B3232}.Release|Win32.ActiveCfg = Release|Win32
-		{05092535-DFF5-43C3-A023-1D721A3B3232}.Release|Win32.Build.0 = Release|Win32
-		{05092535-DFF5-43C3-A023-1D721A3B3232}.Release|x64.ActiveCfg = Release|Win32
-		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Debug|ARM.ActiveCfg = Debug|Win32
-		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Debug|Win32.Build.0 = Debug|Win32
-		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Debug|x64.ActiveCfg = Debug|Win32
-		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Release|ARM.ActiveCfg = Release|Win32
-		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Release|Win32.ActiveCfg = Release|Win32
-		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Release|Win32.Build.0 = Release|Win32
-		{2AFD68D6-2EC9-4B54-BE10-CBE5DAEA6657}.Release|x64.ActiveCfg = Release|Win32
+		{8A20F618-84B9-4345-AC92-A31CCBABF72C}.Debug|ARM.ActiveCfg = Debug|Win32
+		{8A20F618-84B9-4345-AC92-A31CCBABF72C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8A20F618-84B9-4345-AC92-A31CCBABF72C}.Debug|Win32.Build.0 = Debug|Win32
+		{8A20F618-84B9-4345-AC92-A31CCBABF72C}.Debug|x64.ActiveCfg = Debug|x64
+		{8A20F618-84B9-4345-AC92-A31CCBABF72C}.Debug|x64.Build.0 = Debug|x64
+		{8A20F618-84B9-4345-AC92-A31CCBABF72C}.Release|ARM.ActiveCfg = Release|Win32
+		{8A20F618-84B9-4345-AC92-A31CCBABF72C}.Release|Win32.ActiveCfg = Release|Win32
+		{8A20F618-84B9-4345-AC92-A31CCBABF72C}.Release|Win32.Build.0 = Release|Win32
+		{8A20F618-84B9-4345-AC92-A31CCBABF72C}.Release|x64.ActiveCfg = Release|x64
+		{8A20F618-84B9-4345-AC92-A31CCBABF72C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F63B4D3C-8E49-4800-AF29-BC1CCD130542}
+	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 1
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://win2008-64-tfs:8080/tfs/aced
 		SccProjectUniqueName0 = Aced\\Aced.vcxproj
@@ -62,15 +54,5 @@ Global
 		SccAuxPath0 = http://win2008-64-tfs:8080/tfs/aced
 		SccLocalPath0 = Aced
 		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName1 = MapEditor\\MapEditor.vcxproj
-		SccProjectName1 = MapEditor
-		SccAuxPath1 = http://win2008-64-tfs:8080/tfs/aced
-		SccLocalPath1 = MapEditor
-		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccProjectUniqueName2 = StaticDLL\\StaticDLL.vcxproj
-		SccProjectName2 = StaticDLL
-		SccAuxPath2 = http://win2008-64-tfs:8080/tfs/aced
-		SccLocalPath2 = StaticDLL
-		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,7 @@
 #include "Engine.h"
 
 
+
 Engine::Engine(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, AssetLibrary *assetLibrary)
 {
 	//init
@@ -15,7 +16,8 @@ Engine::Engine(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, As
 
 
 	//new used to keep it in memory the state. This needs to be freed when Engine is finished.
-	PushNewState(new StateGameMainMenu());
+
+	PushNewState(new StateGameMainMenu(display_, settings_, currentMap_, assetLibrary_));
 }
 
 
@@ -29,6 +31,7 @@ If those State directions have not been triggered. The game will run the current
 */
 void Engine::Run()
 {
+
 
 	ALLEGRO_EVENT ev;
 	while(currentState_->GetRunning()){
@@ -66,11 +69,13 @@ void Engine::Run()
 			currentState_->SetRedraw(false);
 			currentState_->Draw();
 			//bread and butter
+
 			char text[20];
-			sprintf(text, "%f", ev.timer.timestamp);
+			sprintf(text, "Time:%f", ev.timer.timestamp);
 			al_draw_text(currentState_->GetFont(), chosenColorText_,
-				settings_->GetScreenWidth() - al_get_text_width(currentState_->GetFont(), text),
+				0,
 				settings_->GetScreenHeight() - Constants::TileSize(), ALLEGRO_ALIGN_LEFT, text);
+
 
 			al_flip_display();
 			al_clear_to_color(chosenColor_);//clears color to dark green to remove all back image
@@ -111,7 +116,8 @@ void Engine::PushState()
 
 	// store and init the new state
 	states_.push_back(states_.back()->GetNextState());
-	states_.back()->InitState(display_, settings_, currentMap_, assetLibrary_);
+	//states_.back()->InitState();
+	//change init state to reset state
 	currentState_ = states_.back();
 }
 
@@ -131,7 +137,8 @@ void Engine::PushNewState(State* state)
 
 	// store and init the new state
 	states_.push_back(state);
-	states_.back()->InitState(display_, settings_, currentMap_, assetLibrary_);
+	//states_.back()->InitState();
+	//change init state to reset state
 	currentState_ = states_.back();
 }
 

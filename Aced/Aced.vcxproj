@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -11,11 +11,32 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\OpenSource\pugixml\pugixml.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\Menus\MenuEditor.cpp" />
+    <ClCompile Include="Engine\Menus\MenuEditorMain.cpp" />
+    <ClCompile Include="Engine\Menus\MenuGameMain.cpp" />
+    <ClCompile Include="Engine\Menus\MenuMapOptions.cpp" />
+    <ClCompile Include="Engine\Menus\MenuOptions.cpp" />
+    <ClCompile Include="Engine\Settings\ImageLoader.cpp" />
+    <ClCompile Include="Engine\Settings\Settings.cpp" />
+    <ClCompile Include="Engine\States\StateEditorMainMenu.cpp" />
+    <ClCompile Include="Engine\States\StateEditorMenu.cpp" />
+    <ClCompile Include="Engine\States\StateEditorMode.cpp" />
+    <ClCompile Include="Engine\States\StateGameMainMenu.cpp" />
+    <ClCompile Include="Engine\States\StateGameMode.cpp" />
+    <ClCompile Include="Engine\States\StateMapOptions.cpp" />
+    <ClCompile Include="Engine\States\StateOptions.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\OpenSource\pugixml\pugiconfig.hpp" />
+    <ClInclude Include="..\OpenSource\pugixml\pugixml.hpp" />
     <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\Menus\MenuTemplates.h" />
+    <ClInclude Include="Engine\Settings\ImageLoader.h" />
+    <ClInclude Include="Engine\Settings\Settings.h" />
+    <ClInclude Include="Engine\States\StateTemplates.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="arial.ttf" />
@@ -28,18 +49,19 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
     <SccProvider>SAK</SccProvider>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -66,14 +88,14 @@
       <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>F:\C++\Allegro\allegro-5.0.10-msvc-11.0\include;F:\C++\Allegro\Aced\StaticDLL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\C++\Allegro\allegro-5.0.10-msvc-11.0\include;F:\C++\Allegro\Aced\AcedSharedDLL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>F:\C++\Allegro\allegro-5.0.10-msvc-11.0\lib;F:\C++\Allegro\Aced\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>allegro-5.0.10-monolith-md-debug.lib;StaticDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>allegro-5.0.10-monolith-md-debug.lib;AcedSharedDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>

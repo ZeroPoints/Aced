@@ -6,14 +6,29 @@
 		<!--Animation States-->
 		<ImageStateGroup id="0">
 			<!--Frames in animation-->
-			<Image id="0" file="..//Images//TestBlueGirl1.png" />
-			<!--<img id="1" file="..//Images//TestBlueGirl1.png" />-->
-			<!--<img id="2" file="..//Images//TestBlueGirl1.png" />-->
-			<!--<img id="3" file="..//Images//TestBlueGirl1.png" />-->
+			<Image id="0" file="..//Images//MattGhost.png" />
 		</ImageStateGroup >
 		<ImageStateGroup id="1">
 			<!--Frames in animation-->
-			<Image id="0" file="..//Images//TestBlueGirl1.png" />
+			<Image id="0" file="..//Images//MattGhost.png" />
+		</ImageStateGroup >
+		<ImageStateGroup id="2">
+			<!--Frames in animation-->
+			<Image id="0" file="..//Images//MattGhost.png" />
+		</ImageStateGroup >
+		<ImageStateGroup id="3">
+			<!--Frames in animation-->
+			<Image id="0" file="..//Images//MattGhost.png" />
 		</ImageStateGroup >
 	</ImageBundle>
 </ImageSet>
+
+
+
+
+
+
+
+
+
+
