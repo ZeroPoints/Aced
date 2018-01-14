@@ -33,7 +33,7 @@ namespace AcedSharedDLL{
 	//Gets
 
 
-	std::vector<ImageSet*> ImageLoader::GetImageSetDictionary()
+	std::vector<std::shared_ptr<ImageSet>> &ImageLoader::GetImageSetDictionary()
 	{
 		return imageDictionary_;
 	}
@@ -80,7 +80,7 @@ namespace AcedSharedDLL{
 		auto result = xmlDoc.load_file("..\\Images\\TileImageList.xml");
 		//What happens if file doesnt exist? create one?
 
-		std::vector<ImageBundle*> imageBundleList;
+		std::vector<std::shared_ptr<ImageBundle>> imageBundleList;
 
 
 		if (result.status == 0)
@@ -88,15 +88,15 @@ namespace AcedSharedDLL{
 			pugi::xml_node xmlImageSet = xmlDoc.child("ImageSet");
 			for (pugi::xml_node_iterator xmlImageBundleIterator = xmlImageSet.children().begin(); xmlImageBundleIterator != xmlImageSet.children().end(); xmlImageBundleIterator++)
 			{
-				ImageBundle* imageBundle = new ImageBundle(xmlImageBundleIterator->attribute("id").as_int());
-				std::vector<ImageStateGroup*> imageStateGroupList;
+				std::shared_ptr<ImageBundle> imageBundle(new ImageBundle(xmlImageBundleIterator->attribute("id").as_int()));
+				std::vector<std::shared_ptr<ImageStateGroup>> imageStateGroupList;
 				for (pugi::xml_node_iterator xmlImageStateGroupIterator = xmlImageBundleIterator->children().begin(); xmlImageStateGroupIterator != xmlImageBundleIterator->children().end(); xmlImageStateGroupIterator++)
 				{
-					ImageStateGroup* imageStateGroup = new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int());
-					std::vector<Image*> images;
+					std::shared_ptr<ImageStateGroup> imageStateGroup(new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int()));
+					std::vector<std::shared_ptr<Image>> images;
 					for (pugi::xml_node_iterator xmlImagesIterator = xmlImageStateGroupIterator->children().begin(); xmlImagesIterator != xmlImageStateGroupIterator->children().end(); xmlImagesIterator++)
 					{
-						Image* tempImage = new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value());
+						std::shared_ptr<Image> tempImage(new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value()));
 						images.push_back(tempImage);
 					}
 					imageStateGroup->SetImageDictionary(images);
@@ -114,7 +114,7 @@ namespace AcedSharedDLL{
 		}
 
 
-		ImageSet* imageSet = new ImageSet(imageBundleList, AcedSharedDLL::IMAGESETS::TILEIMAGESET);
+		std::shared_ptr<ImageSet> imageSet(new ImageSet(imageBundleList, AcedSharedDLL::IMAGESETS::TILEIMAGESET));
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -174,22 +174,22 @@ namespace AcedSharedDLL{
 	{
 		pugi::xml_document xmlDoc;
 		auto result = xmlDoc.load_file("..\\Images\\PlayersImageList.xml");
-		std::vector<ImageBundle*> imageBundleList;
+		std::vector<std::shared_ptr<ImageBundle>> imageBundleList;
 		//What happens if file doesnt exist? create one?
 		if (result.status == 0)
 		{
 			pugi::xml_node xmlImageSet = xmlDoc.child("ImageSet");
 			for (pugi::xml_node_iterator xmlImageBundleIterator = xmlImageSet.children().begin(); xmlImageBundleIterator != xmlImageSet.children().end(); xmlImageBundleIterator++)
 			{
-				ImageBundle* imageBundle = new ImageBundle(xmlImageBundleIterator->attribute("id").as_int());
-				std::vector<ImageStateGroup*> imageStateGroupList;
+				std::shared_ptr<ImageBundle> imageBundle( new ImageBundle(xmlImageBundleIterator->attribute("id").as_int()));
+				std::vector<std::shared_ptr<ImageStateGroup>> imageStateGroupList;
 				for (pugi::xml_node_iterator xmlImageStateGroupIterator = xmlImageBundleIterator->children().begin(); xmlImageStateGroupIterator != xmlImageBundleIterator->children().end(); xmlImageStateGroupIterator++)
 				{
-					ImageStateGroup* imageStateGroup = new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int());
-					std::vector<Image*> images;
+					std::shared_ptr<ImageStateGroup> imageStateGroup( new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int()));
+					std::vector<std::shared_ptr<Image>> images;
 					for (pugi::xml_node_iterator xmlImagesIterator = xmlImageStateGroupIterator->children().begin(); xmlImagesIterator != xmlImageStateGroupIterator->children().end(); xmlImagesIterator++)
 					{
-						Image* tempImage = new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value());
+						std::shared_ptr<Image> tempImage(new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value()));
 						images.push_back(tempImage);
 					}
 					imageStateGroup->SetImageDictionary(images);
@@ -207,7 +207,7 @@ namespace AcedSharedDLL{
 		}
 
 
-		ImageSet* imageSet = new ImageSet(imageBundleList, AcedSharedDLL::IMAGESETS::PLAYERIMAGESET);
+		std::shared_ptr<ImageSet> imageSet(new ImageSet(imageBundleList, AcedSharedDLL::IMAGESETS::PLAYERIMAGESET));
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -223,23 +223,23 @@ namespace AcedSharedDLL{
 	{
 		pugi::xml_document xmlDoc;
 		auto result = xmlDoc.load_file("..\\Images\\ObjectImageList.xml");
-		std::vector<ImageBundle*> imageBundleList;
+		std::vector<std::shared_ptr<ImageBundle>> imageBundleList;
 		//What happens if file doesnt exist? create one?
 		if (result.status == 0)
 		{
 			pugi::xml_node xmlImageSet = xmlDoc.child("ImageSet");
 			for (pugi::xml_node_iterator xmlImageBundleIterator = xmlImageSet.children().begin(); xmlImageBundleIterator != xmlImageSet.children().end(); xmlImageBundleIterator++)
 			{
-				ImageBundle* imageBundle = new ImageBundle(xmlImageBundleIterator->attribute("id").as_int());
+				std::shared_ptr<ImageBundle> imageBundle(new ImageBundle(xmlImageBundleIterator->attribute("id").as_int()));
 				imageBundle->SetObjectType((OBJECTTYPES)xmlImageBundleIterator->attribute("objecttype").as_int());
-				std::vector<ImageStateGroup*> imageStateGroupList;
+				std::vector<std::shared_ptr<ImageStateGroup>> imageStateGroupList;
 				for (pugi::xml_node_iterator xmlImageStateGroupIterator = xmlImageBundleIterator->children().begin(); xmlImageStateGroupIterator != xmlImageBundleIterator->children().end(); xmlImageStateGroupIterator++)
 				{
-					ImageStateGroup* imageStateGroup = new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int());
-					std::vector<Image*> images;
+					std::shared_ptr<ImageStateGroup> imageStateGroup(new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int()));
+					std::vector<std::shared_ptr<Image>> images;
 					for (pugi::xml_node_iterator xmlImagesIterator = xmlImageStateGroupIterator->children().begin(); xmlImagesIterator != xmlImageStateGroupIterator->children().end(); xmlImagesIterator++)
 					{
-						Image* tempImage = new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value());
+						std::shared_ptr<Image> tempImage(new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value()));
 						images.push_back(tempImage);
 					}
 					imageStateGroup->SetImageDictionary(images);
@@ -256,7 +256,7 @@ namespace AcedSharedDLL{
 			xmlNewDoc.save_file("..\\Images\\ObjectImageList.xml");
 		}
 
-		ImageSet* imageSet = new ImageSet(imageBundleList, AcedSharedDLL::IMAGESETS::OBJECTIMAGESET);
+		std::shared_ptr<ImageSet> imageSet(new ImageSet(imageBundleList, AcedSharedDLL::IMAGESETS::OBJECTIMAGESET));
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -267,22 +267,22 @@ namespace AcedSharedDLL{
 	{
 		pugi::xml_document xmlDoc;
 		auto result = xmlDoc.load_file("..\\Images\\EnemyImageList.xml");
-		std::vector<ImageBundle*> imageBundleList;
+		std::vector<std::shared_ptr<ImageBundle>> imageBundleList;
 		//What happens if file doesnt exist? create one?
 		if (result.status == 0)
 		{
 			pugi::xml_node xmlImageSet = xmlDoc.child("ImageSet");
 			for (pugi::xml_node_iterator xmlImageBundleIterator = xmlImageSet.children().begin(); xmlImageBundleIterator != xmlImageSet.children().end(); xmlImageBundleIterator++)
 			{
-				ImageBundle* imageBundle = new ImageBundle(xmlImageBundleIterator->attribute("id").as_int());
-				std::vector<ImageStateGroup*> imageStateGroupList;
+				std::shared_ptr<ImageBundle> imageBundle(new ImageBundle(xmlImageBundleIterator->attribute("id").as_int()));
+				std::vector<std::shared_ptr<ImageStateGroup>> imageStateGroupList;
 				for (pugi::xml_node_iterator xmlImageStateGroupIterator = xmlImageBundleIterator->children().begin(); xmlImageStateGroupIterator != xmlImageBundleIterator->children().end(); xmlImageStateGroupIterator++)
 				{
-					ImageStateGroup* imageStateGroup = new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int());
-					std::vector<Image*> images;
+					std::shared_ptr<ImageStateGroup> imageStateGroup(new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int()));
+					std::vector<std::shared_ptr<Image>> images;
 					for (pugi::xml_node_iterator xmlImagesIterator = xmlImageStateGroupIterator->children().begin(); xmlImagesIterator != xmlImageStateGroupIterator->children().end(); xmlImagesIterator++)
 					{
-						Image* tempImage = new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value());
+						std::shared_ptr<Image> tempImage(new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value()));
 						images.push_back(tempImage);
 					}
 					imageStateGroup->SetImageDictionary(images);
@@ -300,7 +300,7 @@ namespace AcedSharedDLL{
 		}
 
 
-		ImageSet* imageSet = new ImageSet(imageBundleList, AcedSharedDLL::IMAGESETS::ENEMYIMAGESET);
+		std::shared_ptr<ImageSet> imageSet(new ImageSet(imageBundleList, AcedSharedDLL::IMAGESETS::ENEMYIMAGESET));
 		imageDictionary_.push_back(imageSet);
 	}
 
@@ -312,23 +312,23 @@ namespace AcedSharedDLL{
 	{
 		pugi::xml_document xmlDoc;
 		auto result = xmlDoc.load_file("..\\Images\\ItemImageList.xml");
-		std::vector<ImageBundle*> imageBundleList;
+		std::vector<std::shared_ptr<ImageBundle>> imageBundleList;
 		//What happens if file doesnt exist? create one?
 		if (result.status == 0)
 		{
 			pugi::xml_node xmlImageSet = xmlDoc.child("ImageSet");
 			for (pugi::xml_node_iterator xmlImageBundleIterator = xmlImageSet.children().begin(); xmlImageBundleIterator != xmlImageSet.children().end(); xmlImageBundleIterator++)
 			{
-				ImageBundle* imageBundle = new ImageBundle(xmlImageBundleIterator->attribute("id").as_int());
+				std::shared_ptr<ImageBundle> imageBundle( new ImageBundle(xmlImageBundleIterator->attribute("id").as_int()));
 				imageBundle->SetItemType((ITEMTYPES)xmlImageBundleIterator->attribute("itemtype").as_int());
-				std::vector<ImageStateGroup*> imageStateGroupList;
+				std::vector<std::shared_ptr<ImageStateGroup>> imageStateGroupList;
 				for (pugi::xml_node_iterator xmlImageStateGroupIterator = xmlImageBundleIterator->children().begin(); xmlImageStateGroupIterator != xmlImageBundleIterator->children().end(); xmlImageStateGroupIterator++)
 				{
-					ImageStateGroup* imageStateGroup = new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int());
-					std::vector<Image*> images;
+					std::shared_ptr<ImageStateGroup> imageStateGroup(new ImageStateGroup(xmlImageStateGroupIterator->attribute("id").as_int()));
+					std::vector<std::shared_ptr<Image>> images;
 					for (pugi::xml_node_iterator xmlImagesIterator = xmlImageStateGroupIterator->children().begin(); xmlImagesIterator != xmlImageStateGroupIterator->children().end(); xmlImagesIterator++)
 					{
-						Image* tempImage = new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value());
+						std::shared_ptr<Image> tempImage(new Image(xmlImagesIterator->attribute("id").as_int(), xmlImagesIterator->attribute("file").value()));
 						images.push_back(tempImage);
 					}
 					imageStateGroup->SetImageDictionary(images);
@@ -347,7 +347,7 @@ namespace AcedSharedDLL{
 
 
 
-		ImageSet* imageSet = new ImageSet(imageBundleList, AcedSharedDLL::IMAGESETS::ITEMIMAGESET);
+		std::shared_ptr<ImageSet> imageSet(new ImageSet(imageBundleList, AcedSharedDLL::IMAGESETS::ITEMIMAGESET));
 		imageDictionary_.push_back(imageSet);
 	}
 

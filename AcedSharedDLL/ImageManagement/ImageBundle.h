@@ -53,7 +53,7 @@ namespace AcedSharedDLL {
 		//Gets
 
 
-		ACEDSHAREDDLL_API std::vector<ImageStateGroup*> GetImageStateGroupDictionary();
+		ACEDSHAREDDLL_API std::vector<std::shared_ptr<ImageStateGroup>> &GetImageStateGroupDictionary();
 
 
 		ACEDSHAREDDLL_API int GetId();
@@ -69,7 +69,7 @@ namespace AcedSharedDLL {
 
 		//Sets
 
-		ACEDSHAREDDLL_API void SetImageStateGroupDictionary(std::vector<ImageStateGroup*> imageStateGroupDict);
+		ACEDSHAREDDLL_API void SetImageStateGroupDictionary(std::vector<std::shared_ptr<ImageStateGroup>> &imageStateGroupDict);
 
 		ACEDSHAREDDLL_API void SetId(int id);
 
@@ -87,7 +87,7 @@ namespace AcedSharedDLL {
 		int id_;
 
 
-		std::vector<ImageStateGroup*> imageStateGroupDictionary_;
+		std::vector<std::shared_ptr<ImageStateGroup>> imageStateGroupDictionary_;
 
 
 		ITEMTYPES itemType_;

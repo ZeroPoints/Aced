@@ -3,7 +3,7 @@
 
 namespace AcedSharedDLL{
 
-	EditorOverLayController::EditorOverLayController(BaseSettings *settings, AssetLibrary *assetLibrary)
+	EditorOverLayController::EditorOverLayController(std::shared_ptr<BaseSettings> &settings, std::shared_ptr<AssetLibrary> &assetLibrary)
 	{
 		settings_ = settings;
 		assetLibrary_ = assetLibrary;
@@ -57,19 +57,19 @@ namespace AcedSharedDLL{
 	void EditorOverLayController::CreateTileArrow()
 	{
 		//Create an arrow object
-		tileWindowArrow_ = new ObjectBase();
+		tileWindowArrow_ = std::shared_ptr<ObjectBase>(new ObjectBase());
 		tileWindowArrow_->SetCurrentPosition(widthMax_, settings_->GetDisplayHeight()/2);
 		tileWindowArrow_->SetWidth(1);
 		tileWindowArrow_->SetHeight(1);
 		tileWindowArrow_->SetColor(al_map_rgb_f(0,0,0));
 
-		tileWindowBotLeftArrow_ = new ObjectBase();
+		tileWindowBotLeftArrow_ = std::shared_ptr<ObjectBase>(new ObjectBase());
 		tileWindowBotLeftArrow_->SetCurrentPosition(0, (double)(settings_->GetScreenHeight()-Constants::TileSize())/Constants::TileSize());
 		tileWindowBotLeftArrow_->SetWidth(1);
 		tileWindowBotLeftArrow_->SetHeight(1);
 		tileWindowBotLeftArrow_->SetColor(al_map_rgb_f(0,0,0));
 
-		tileWindowBotRightArrow_ = new ObjectBase();
+		tileWindowBotRightArrow_ = std::shared_ptr<ObjectBase>(new ObjectBase());
 		tileWindowBotRightArrow_->SetCurrentPosition(widthMax_-1, (double)(settings_->GetScreenHeight()-Constants::TileSize())/Constants::TileSize());
 		tileWindowBotRightArrow_->SetWidth(1);
 		tileWindowBotRightArrow_->SetHeight(1);
@@ -91,8 +91,8 @@ namespace AcedSharedDLL{
 
 
 
-		EditorOverLay* itemStore = new EditorOverLay(settings_, STATES::TILEIMAGEPICKER, assetLibrary_);
-		itemStore->SetMenuHeader("  TILE IMAGES  ", 0,0);
+		std::shared_ptr<EditorOverLay> itemStore(new EditorOverLay(settings_, STATES::TILEIMAGEPICKER, assetLibrary_));
+		itemStore->SetMenuHeader(std::string("  TILE IMAGES  "), 0,0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 /*
@@ -103,23 +103,23 @@ namespace AcedSharedDLL{
 */
 
 		//load tile types from source pass into function
-		itemStore = new EditorOverLay(settings_, STATES::TILETYPEPICKER, assetLibrary_);
-		itemStore->SetMenuHeader("  TILE TYPES  ", headerPositionX,0);
+		itemStore = std::shared_ptr<EditorOverLay>(new EditorOverLay(settings_, STATES::TILETYPEPICKER, assetLibrary_));
+		itemStore->SetMenuHeader(std::string("  TILE TYPES  "), headerPositionX,0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 
-		itemStore = new EditorOverLay(settings_, STATES::OBJECTIMAGEPICKER, assetLibrary_);
-		itemStore->SetMenuHeader("  OBJECTS  ", headerPositionX, 0);
+		itemStore = std::shared_ptr<EditorOverLay>(new EditorOverLay(settings_, STATES::OBJECTIMAGEPICKER, assetLibrary_));
+		itemStore->SetMenuHeader(std::string("  OBJECTS  "), headerPositionX, 0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 
-		itemStore = new EditorOverLay(settings_, STATES::ITEMPICKER, assetLibrary_);
-		itemStore->SetMenuHeader("  ITEMS  ", headerPositionX, 0);
+		itemStore = std::shared_ptr<EditorOverLay>(new EditorOverLay(settings_, STATES::ITEMPICKER, assetLibrary_));
+		itemStore->SetMenuHeader(std::string("  ITEMS  "), headerPositionX, 0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 
-		itemStore = new EditorOverLay(settings_, STATES::ENEMYPICKER, assetLibrary_);
-		itemStore->SetMenuHeader("  ENEMIES  ", headerPositionX, 0);
+		itemStore = std::shared_ptr<EditorOverLay>(new EditorOverLay(settings_, STATES::ENEMYPICKER, assetLibrary_));
+		itemStore->SetMenuHeader(std::string("  ENEMIES  "), headerPositionX, 0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
 	}
@@ -128,7 +128,7 @@ namespace AcedSharedDLL{
 	void EditorOverLayController::CreateMenuBar()
 	{
 		//Create an arrow object
-		menuBar_ = new ObjectBase();
+		menuBar_ = std::shared_ptr<ObjectBase>(new ObjectBase());
 		menuBar_->SetCurrentPosition(0, 0);
 		menuBar_->SetWidth(settings_->GetDisplayWidth());
 		menuBar_->SetHeight(1);

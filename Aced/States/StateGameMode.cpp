@@ -3,7 +3,8 @@
 
 
 
-StateGameMode::StateGameMode(ALLEGRO_DISPLAY *display, Settings *settings, AcedSharedDLL::Map *currentMap, AcedSharedDLL::AssetLibrary *assetLibrary) : State(display, settings, currentMap, assetLibrary) {
+StateGameMode::StateGameMode(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap, std::shared_ptr<AcedSharedDLL::AssetLibrary> &assetLibrary) 
+	: State(display, (std::shared_ptr<AcedSharedDLL::BaseSettings>)settings, currentMap, assetLibrary) {
 
 	SetId(AcedSharedDLL::STATES::NEW);
 	SetEventQueue(NULL);
@@ -11,7 +12,7 @@ StateGameMode::StateGameMode(ALLEGRO_DISPLAY *display, Settings *settings, AcedS
 	SetDone(false);
 	SetRunning(true);
 	SetKeyPressReturnVal(AcedSharedDLL::STATES::DEFAULT);
-	SetFont(al_load_font("arial.ttf", AcedSharedDLL::Constants::TileSize(), 0));
+	//SetFont(al_load_font("arial.ttf", AcedSharedDLL::Constants::TileSize(), 0));
 	SetTimer(al_create_timer(1.0 / 60));
 	SetEventQueue(al_create_event_queue());
 	SetStateDirection(AcedSharedDLL::STATEDIRECTION::NA);
@@ -26,7 +27,8 @@ StateGameMode::StateGameMode(ALLEGRO_DISPLAY *display, Settings *settings, AcedS
 	SetLeftMouseDown(false);
 	SetPlayerSelected(false);
 
-	player1_ = new AcedSharedDLL::Player(GetSettings(), GetMap());
+	player1_ = std::shared_ptr<AcedSharedDLL::Player>(new AcedSharedDLL::Player(GetSettings(), GetMap()));
+
 	player1_->SetGravityY(-9.8);
 
 	for (int i = 0; i < GetAssetLibrary()->GetImageSetDictionary().size(); i++)
@@ -47,7 +49,7 @@ StateGameMode::StateGameMode(ALLEGRO_DISPLAY *display, Settings *settings, AcedS
 
 void StateGameMode::Resume() {
 	SetStateDirection(AcedSharedDLL::STATEDIRECTION::NA);
-	SetNextState(NULL);
+	//SetNextState(NULL);
 }
 
 

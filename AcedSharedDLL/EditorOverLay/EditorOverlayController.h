@@ -35,14 +35,14 @@ namespace AcedSharedDLL{
 	{
 		public:
 
-			ACEDSHAREDDLL_API EditorOverLayController(BaseSettings *settings, AssetLibrary *assetLibrary);
+			ACEDSHAREDDLL_API EditorOverLayController(std::shared_ptr<BaseSettings> &settings, std::shared_ptr<AssetLibrary> &assetLibrary);
 
 
 
 			ACEDSHAREDDLL_API ~EditorOverLayController()
 			{
 				//fprintf(stderr, "A EditorOverLayController Destructed\n");
-				delete tileWindowArrow_;
+				/*delete tileWindowArrow_;
 				delete tileWindowBotLeftArrow_;
 				delete tileWindowBotRightArrow_;
 
@@ -52,7 +52,7 @@ namespace AcedSharedDLL{
 					item = nullptr;
 				}
 
-				delete menuBar_;
+				delete menuBar_;*/
 			}
 			
 
@@ -102,7 +102,9 @@ namespace AcedSharedDLL{
 
 
 
-			ACEDSHAREDDLL_API EditorOverLay* FindEditorOverLay(STATES id)
+
+
+			ACEDSHAREDDLL_API std::shared_ptr<EditorOverLay> &FindEditorOverLay(STATES id)
 			{
 				for(int i = 0; i < editorOverLays_.size(); i++)
 				{
@@ -111,7 +113,7 @@ namespace AcedSharedDLL{
 						return editorOverLays_[i];
 					}
 				}
-				return nullptr;
+				return std::shared_ptr<EditorOverLay>(nullptr);
 			}
 
 
@@ -132,9 +134,9 @@ namespace AcedSharedDLL{
 
 			
 
-			ACEDSHAREDDLL_API std::pair<AcedSharedDLL::STATES, EditorItemBase*> GetSelectedObject()
+			ACEDSHAREDDLL_API std::pair<AcedSharedDLL::STATES, std::shared_ptr<EditorItemBase>> GetSelectedObject()
 			{
-				std::pair<AcedSharedDLL::STATES, EditorItemBase*> val;
+				std::pair<AcedSharedDLL::STATES, std::shared_ptr<EditorItemBase>> val;
 
 				auto result = FindEditorOverLay(currentEditorOverlayId_);
 				if(result != nullptr)
@@ -180,16 +182,16 @@ namespace AcedSharedDLL{
 
 
 			
-			ObjectBase *tileWindowArrow_;
-			ObjectBase *tileWindowBotLeftArrow_;
-			ObjectBase *tileWindowBotRightArrow_;
+			std::shared_ptr<ObjectBase> tileWindowArrow_;
+			std::shared_ptr<ObjectBase> tileWindowBotLeftArrow_;
+			std::shared_ptr<ObjectBase> tileWindowBotRightArrow_;
 
-			ObjectBase *menuBar_;
+			std::shared_ptr<ObjectBase> menuBar_;
 
 
 			STATES currentEditorOverlayId_;
 
-			std::vector<EditorOverLay*> editorOverLays_;
+			std::vector<std::shared_ptr<EditorOverLay>> editorOverLays_;
 			
 			ALLEGRO_EVENT_QUEUE *eventQueue_;
 			ALLEGRO_EVENT *event_;
@@ -198,8 +200,8 @@ namespace AcedSharedDLL{
 			ALLEGRO_FONT *font30_;
 
 
-			AssetLibrary *assetLibrary_;
-			BaseSettings *settings_;
+			std::shared_ptr<AssetLibrary> assetLibrary_;
+			std::shared_ptr<BaseSettings> settings_;
 	};
 }
 #endif

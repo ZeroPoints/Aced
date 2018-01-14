@@ -13,7 +13,7 @@
 #include <allegro5\allegro_primitives.h>//shapes
 #include "../../OpenSource/pugixml/pugixml.hpp"
 #include "ImageSet.h"
-
+#include <memory>
 
 
 #ifdef ACEDSHAREDDLL_EXPORTS
@@ -40,7 +40,7 @@ namespace AcedSharedDLL{
 			//Gets
 
 
-			ACEDSHAREDDLL_API std::vector<ImageSet*> GetImageSetDictionary();
+			ACEDSHAREDDLL_API std::vector<std::shared_ptr<ImageSet>> &GetImageSetDictionary();
 
 
 
@@ -65,7 +65,7 @@ namespace AcedSharedDLL{
 			
 		private:
 
-			std::vector<ImageSet*> imageDictionary_;
+			std::vector<std::shared_ptr<ImageSet>> imageDictionary_;
 
 	};
 }

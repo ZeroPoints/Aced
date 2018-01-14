@@ -15,7 +15,7 @@
 #include "../Static/Definitions.h"
 #include "../ImageManagement/ImageBundle.h"
 
-
+#include <memory>
 
 
 #ifdef ACEDSHAREDDLL_EXPORTS
@@ -48,7 +48,7 @@ namespace AcedSharedDLL {
 		ACEDSHAREDDLL_API double GetCurrentPositionX();
 		ACEDSHAREDDLL_API double GetWidth();
 		ACEDSHAREDDLL_API double GetHeight();
-		ACEDSHAREDDLL_API ImageBundle *GetImageBundle();
+		ACEDSHAREDDLL_API std::shared_ptr<ImageBundle> &GetImageBundle();
 		ACEDSHAREDDLL_API bool GetHasColor();
 		ACEDSHAREDDLL_API bool GetHasImage();
 
@@ -76,8 +76,8 @@ namespace AcedSharedDLL {
 		/*
 		This sets a tile to an OBJECT image and if its an add shaped image it adds References to the other positions and passes in the X,Y position of the parent so it knows what IMAGE it relates to
 		*/
-		ACEDSHAREDDLL_API void SetItemBase(EditorItemBase *itemBase);
-		ACEDSHAREDDLL_API void SetImageBundle(ImageBundle *imageBundle);
+		ACEDSHAREDDLL_API void SetItemBase(std::shared_ptr<EditorItemBase> &itemBase);
+		ACEDSHAREDDLL_API void SetImageBundle(std::shared_ptr<ImageBundle> &imageBundle);
 		ACEDSHAREDDLL_API void SetHasImageReference(bool reference);
 
 
@@ -88,7 +88,7 @@ namespace AcedSharedDLL {
 		ACEDSHAREDDLL_API void SetTileType(TILETYPE tileType);
 
 		//Set Collision Type
-		ACEDSHAREDDLL_API void SetTileTypeProperties(EditorItemBase *selectedTile);
+		ACEDSHAREDDLL_API void SetTileTypeProperties(std::shared_ptr<EditorItemBase> &selectedTile);
 
 		ACEDSHAREDDLL_API void SetWidth(double x);
 
@@ -172,7 +172,7 @@ namespace AcedSharedDLL {
 
 
 
-		ImageBundle *imageBundle_;
+		std::shared_ptr<ImageBundle> imageBundle_;
 
 		STATES Id_;
 		ALLEGRO_COLOR chosenColor_;

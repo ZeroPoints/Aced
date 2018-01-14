@@ -17,8 +17,8 @@ namespace AcedSharedDLL{
 
 
 	MenuItem::~MenuItem() {
-		al_destroy_font(font30_);
-		al_ustr_free(menuItemProperty_);
+		//al_destroy_font(font30_);
+		//al_ustr_free(menuItemProperty_);
 		//fprintf(stderr, "A Menu Item Destructed\n");
 		return;
 	}
@@ -60,7 +60,7 @@ namespace AcedSharedDLL{
 	{
 		return menuItemY_;
 	}
-	 char *MenuItem::GetMenuItemText()
+	 std::string MenuItem::GetMenuItemText()
 	{
 		return menuItemText_;
 	}
@@ -87,9 +87,9 @@ namespace AcedSharedDLL{
 
 
 
-	void MenuItem::SetMenuItemText(char *menuItemText)
+	void MenuItem::SetMenuItemText(const std::string &menuItemText)
 	{
-		menuItemText_ = menuItemText;
+		menuItemText_ = std::move(menuItemText);
 	}
 
 
@@ -140,7 +140,7 @@ namespace AcedSharedDLL{
 
 	void MenuItem::DrawMenuItem()
 	{
-		al_draw_text(font30_, al_map_rgb(255, 255, 255), menuItemX_, menuItemY_, ALLEGRO_ALIGN_CENTRE, menuItemText_);
+		al_draw_text(font30_, al_map_rgb(255, 255, 255), menuItemX_, menuItemY_, ALLEGRO_ALIGN_CENTRE, menuItemText_.c_str());
 
 		if (menuItemProperty_ != nullptr)
 		{

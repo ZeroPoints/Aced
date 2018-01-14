@@ -17,7 +17,7 @@
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
 
-
+#include <memory>
 
 #ifdef ACEDSHAREDDLL_EXPORTS
    #define ACEDSHAREDDLL_API __declspec(dllexport)
@@ -32,7 +32,7 @@ namespace AcedSharedDLL{
 	{
 		public:
 
-			ACEDSHAREDDLL_API TilePage(BaseSettings *settings){
+			ACEDSHAREDDLL_API TilePage(std::shared_ptr<BaseSettings> &settings){
 				settings_ = settings;
 				//fprintf(stderr,"An TilePage Created\n");
 			}
@@ -47,13 +47,13 @@ namespace AcedSharedDLL{
 
 
 			//Draws the tiles from reference. Uses set tiles as its range indicator
-			ACEDSHAREDDLL_API void DrawItemBaseList(std::vector<std::vector<EditorItemBase>> &tileRef, bool showCollision);
+			ACEDSHAREDDLL_API void DrawItemBaseList(std::vector<std::vector<std::shared_ptr<EditorItemBase>>> &tileRef, bool showCollision);
 
 
 
 			//Check This pages tiles for click intersects
 			//Check each tile that is in range for click intersecting and returns the tile reference and the x and y value of that tile
-			ACEDSHAREDDLL_API bool MouseActivity(std::vector<std::vector<EditorItemBase>> &tileRef, int mouseX, int mouseY);
+			ACEDSHAREDDLL_API bool MouseActivity(std::vector<std::vector<std::shared_ptr<EditorItemBase>>> &tileRef, int mouseX, int mouseY);
 
 
 
@@ -73,7 +73,7 @@ namespace AcedSharedDLL{
 
 
 			//give public access to the tile reference
-			ACEDSHAREDDLL_API EditorItemBase* GetSelectedItemBase()
+			ACEDSHAREDDLL_API std::shared_ptr<EditorItemBase> &GetSelectedItemBase()
 			{
 				return selectedItemBase_;
 			}
@@ -99,11 +99,11 @@ namespace AcedSharedDLL{
 			int yRangeMin_, yRangeMax_, x_;
 
 			//Selected tile reference that the user has clicked on
-			EditorItemBase* selectedItemBase_;
+			std::shared_ptr<EditorItemBase> selectedItemBase_;
 			//The X and Y indicator of that tile
 			int selectedTileX_, selectedTileY_;
 
-			BaseSettings *settings_;
+			std::shared_ptr<BaseSettings> settings_;
 	};
 }
 #endif

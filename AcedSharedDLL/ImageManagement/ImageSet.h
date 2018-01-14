@@ -13,7 +13,7 @@
 #include <allegro5\allegro_primitives.h>//shapes
 #include "ImageBundle.h"
 #include "../Static/Definitions.h"
-
+#include <memory>
 
 
 #ifdef ACEDSHAREDDLL_EXPORTS
@@ -28,7 +28,7 @@ namespace AcedSharedDLL{
 	class ImageSet
 	{
 		public:
-			ACEDSHAREDDLL_API ImageSet(std::vector<ImageBundle*> imageBundle, AcedSharedDLL::IMAGESETS id);
+			ACEDSHAREDDLL_API ImageSet(std::vector<std::shared_ptr<ImageBundle>> &imageBundle, AcedSharedDLL::IMAGESETS id);
 			ACEDSHAREDDLL_API ~ImageSet();
 
 
@@ -37,7 +37,7 @@ namespace AcedSharedDLL{
 
 			//Gets
 
-			ACEDSHAREDDLL_API std::vector<ImageBundle*> GetImageBundleDictionary();
+			ACEDSHAREDDLL_API std::vector<std::shared_ptr<ImageBundle>> &GetImageBundleDictionary();
 
 			ACEDSHAREDDLL_API AcedSharedDLL::IMAGESETS GetImageSetId();
 
@@ -48,7 +48,7 @@ namespace AcedSharedDLL{
 			//Sets
 
 
-			ACEDSHAREDDLL_API void SetImageBundleDictionary(std::vector<ImageBundle*> imageBundleDictionary);
+			ACEDSHAREDDLL_API void SetImageBundleDictionary(std::vector<std::shared_ptr<ImageBundle>> &imageBundleDictionary);
 
 			ACEDSHAREDDLL_API void SetImageSetId(AcedSharedDLL::IMAGESETS id);
 
@@ -62,7 +62,7 @@ namespace AcedSharedDLL{
 
 			AcedSharedDLL::IMAGESETS id_;
 
-			std::vector<ImageBundle*> imageBundleDictionary_;
+			std::vector<std::shared_ptr<ImageBundle>> imageBundleDictionary_;
 
 	};
 }

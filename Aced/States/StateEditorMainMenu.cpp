@@ -7,7 +7,8 @@
 State Editor Main Menu
 This is the main menu of the whole Editing mode Application
 */
-StateEditorMainMenu::StateEditorMainMenu(ALLEGRO_DISPLAY *display, Settings *settings, AcedSharedDLL::Map *currentMap, AcedSharedDLL::AssetLibrary *assetLibrary) : State(display, settings, currentMap, assetLibrary) {
+StateEditorMainMenu::StateEditorMainMenu(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap, std::shared_ptr<AcedSharedDLL::AssetLibrary> &assetLibrary) 
+	: State(display, (std::shared_ptr<AcedSharedDLL::BaseSettings>)settings, currentMap, assetLibrary) {
 	
 	SetId(AcedSharedDLL::STATES::EDITORMAINMENU);
 	SetEventQueue(NULL);
@@ -15,7 +16,7 @@ StateEditorMainMenu::StateEditorMainMenu(ALLEGRO_DISPLAY *display, Settings *set
 	SetDone(false);
 	SetRunning(true);
 	SetKeyPressReturnVal(AcedSharedDLL::STATES::DEFAULT);
-	SetFont(al_load_font("arial.ttf", AcedSharedDLL::Constants::TileSize(), 0));
+	//SetFont(al_load_font("arial.ttf", AcedSharedDLL::Constants::TileSize(), 0));
 	SetTimer(al_create_timer(1.0 / 60));
 	SetEventQueue(al_create_event_queue());
 	SetStateDirection(AcedSharedDLL::STATEDIRECTION::NA);
@@ -32,8 +33,7 @@ StateEditorMainMenu::StateEditorMainMenu(ALLEGRO_DISPLAY *display, Settings *set
 	SetPlayerSelected(false);
 	SetChosenColor(al_map_rgb_f(0, 0.3, 0.5));
 
-
-	SetMenu(new MenuEditorMain(settings));
+	SetMenu(std::shared_ptr<AcedSharedDLL::Menu>(new MenuEditorMain(settings)));
 	al_start_timer(GetTimer());
 }
 
@@ -42,7 +42,7 @@ StateEditorMainMenu::StateEditorMainMenu(ALLEGRO_DISPLAY *display, Settings *set
 
 void StateEditorMainMenu::Resume() {
 	SetStateDirection(AcedSharedDLL::STATEDIRECTION::NA);
-	SetNextState(NULL);
+	//SetNextState(NULL);
 	//Resize menus
 	//I dont have a resize menu type function atm
 	//i could just destroy and remake
@@ -59,19 +59,19 @@ void StateEditorMainMenu::KeyPress() {
 	{
 		GetMap()->ResetMap();
 		SetStateDirection(AcedSharedDLL::STATEDIRECTION::PUSH);
-		SetNextState(new StateEditorMode(GetDisplay(), (Settings*)GetSettings(), GetMap(), GetAssetLibrary()));
+		SetNextState(std::shared_ptr<State>(new StateEditorMode(GetDisplay(), std::dynamic_pointer_cast<Settings>(GetSettings()), GetMap(), GetAssetLibrary())));
 	}
 	else if (GetKeyPressState() == AcedSharedDLL::STATES::LOAD)//load map
 	{
 		GetMap()->ResetMap();
 		GetMap()->LoadMapDialog(false);
 		SetStateDirection(AcedSharedDLL::STATEDIRECTION::PUSH);
-		SetNextState(new StateEditorMode(GetDisplay(), (Settings*)GetSettings(), GetMap(), GetAssetLibrary()));
+		SetNextState(std::shared_ptr<State>(new StateEditorMode(GetDisplay(), std::dynamic_pointer_cast<Settings>(GetSettings()), GetMap(), GetAssetLibrary())));
 	}
 	else if (GetKeyPressState() == AcedSharedDLL::STATES::OPTIONS)
 	{
 		SetStateDirection(AcedSharedDLL::STATEDIRECTION::PUSH);
-		SetNextState(new StateOptions(GetDisplay(), (Settings*)GetSettings(), GetMap(), GetAssetLibrary()));
+		SetNextState(std::shared_ptr<State>(new StateOptions(GetDisplay(), std::dynamic_pointer_cast<Settings>(GetSettings()), GetMap(), GetAssetLibrary())));
 	}
 	else if (GetKeyPressState() == AcedSharedDLL::STATES::QUIT)
 	{

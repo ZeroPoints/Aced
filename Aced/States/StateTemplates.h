@@ -18,6 +18,7 @@
 
 #include "../Settings/Settings.h"
 
+#include <memory>
 
 //-------------------------------------------------Editor mode States-------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------
@@ -31,10 +32,10 @@ public:
 	 ~StateEditorMode()
 	{
 		//fprintf(stderr, "A StateEditorMode Destructed\n");
-		delete editorOverLayController_;
+		//delete editorOverLayController_;
 	}
 
-	 StateEditorMode(ALLEGRO_DISPLAY *display, Settings *settings, AcedSharedDLL::Map *currentMap, AcedSharedDLL::AssetLibrary *assetLibrary);
+	 StateEditorMode(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap, std::shared_ptr<AcedSharedDLL::AssetLibrary> &assetLibrary);
 	////key press probs goes in update
 	 void KeyPress();
 	 void MouseActivity();
@@ -45,9 +46,9 @@ public:
 	 void DragMap();
 private:
 	//This object isnt being Deleted at the moment
-	AcedSharedDLL::EditorOverLayController *editorOverLayController_;
+	std::shared_ptr<AcedSharedDLL::EditorOverLayController> editorOverLayController_;
 
-	std::pair<AcedSharedDLL::STATES, AcedSharedDLL::EditorItemBase*> selectedItemBase_;
+	std::pair<AcedSharedDLL::STATES, std::shared_ptr<AcedSharedDLL::EditorItemBase>> selectedItemBase_;
 };
 
 
@@ -56,7 +57,7 @@ private:
 class StateEditorMainMenu : public AcedSharedDLL::State
 {
 public:
-	StateEditorMainMenu(ALLEGRO_DISPLAY *display, Settings *settings, AcedSharedDLL::Map *currentMap, AcedSharedDLL::AssetLibrary *assetLibrary);
+	StateEditorMainMenu(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap, std::shared_ptr<AcedSharedDLL::AssetLibrary> &assetLibrary);
 	////key press probs goes in update
 	 void KeyPress();
 	 void Update();
@@ -73,7 +74,7 @@ private:
 class StateEditorMenu : public AcedSharedDLL::State
 {
 public:
-	StateEditorMenu(ALLEGRO_DISPLAY *display, Settings *settings, AcedSharedDLL::Map *currentMap, AcedSharedDLL::AssetLibrary *assetLibrary);
+	StateEditorMenu(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap, std::shared_ptr<AcedSharedDLL::AssetLibrary> &assetLibrary);
 	////key press probs goes in update
 	 void KeyPress();
 	 void Update();
@@ -90,7 +91,7 @@ private:
 class StateMapOptions : public AcedSharedDLL::State
 {
 public:
-	StateMapOptions(ALLEGRO_DISPLAY *display, Settings *settings, AcedSharedDLL::Map *currentMap, AcedSharedDLL::AssetLibrary *assetLibrary);
+	StateMapOptions(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap, std::shared_ptr<AcedSharedDLL::AssetLibrary> &assetLibrary);
 	////key press probs goes in update
 	 void KeyPress();
 	 void Update();
@@ -116,7 +117,7 @@ private:
 class StateOptions : public AcedSharedDLL::State
 {
 public:
-	StateOptions(ALLEGRO_DISPLAY *display, Settings *settings, AcedSharedDLL::Map *currentMap, AcedSharedDLL::AssetLibrary *assetLibrary);
+	StateOptions(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap, std::shared_ptr<AcedSharedDLL::AssetLibrary> &assetLibrary);
 	////key press probs goes in update
 	 void KeyPress();
 	 void Update();
@@ -137,7 +138,7 @@ private:
 class StateGameMode : public AcedSharedDLL::State
 {
 public:
-	StateGameMode(ALLEGRO_DISPLAY *display, Settings *settings, AcedSharedDLL::Map *currentMap, AcedSharedDLL::AssetLibrary *assetLibrary);
+	StateGameMode(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap, std::shared_ptr<AcedSharedDLL::AssetLibrary> &assetLibrary);
 	////key press probs goes in updateAcedSharedDLL::
 	 void KeyPress();
 	 void MouseActivity();
@@ -145,8 +146,8 @@ public:
 	 void Draw();
 	 void Resume();
 private:
-	std::vector<AcedSharedDLL::Player*> players_;
-	AcedSharedDLL::Player* player1_;
+	std::vector<std::shared_ptr<AcedSharedDLL::Player>> players_;
+	std::shared_ptr<AcedSharedDLL::Player> player1_;
 
 
 };
@@ -159,7 +160,7 @@ class StateGameMainMenu : public AcedSharedDLL::State
 {
 public:
 
-	StateGameMainMenu(ALLEGRO_DISPLAY *display, Settings *settings, AcedSharedDLL::Map *currentMap, AcedSharedDLL::AssetLibrary *assetLibrary);
+	StateGameMainMenu(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap, std::shared_ptr<AcedSharedDLL::AssetLibrary> &assetLibrary);
 
 
 	////key press probs goes in update

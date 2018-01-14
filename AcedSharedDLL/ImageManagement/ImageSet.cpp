@@ -3,7 +3,7 @@
 
 
 namespace AcedSharedDLL{
-	ImageSet::ImageSet(std::vector<ImageBundle*> imageBundle, AcedSharedDLL::IMAGESETS id){
+	ImageSet::ImageSet(std::vector<std::shared_ptr<ImageBundle>> &imageBundle, AcedSharedDLL::IMAGESETS id){
 
 		imageBundleDictionary_ = imageBundle;
 
@@ -16,11 +16,11 @@ namespace AcedSharedDLL{
 
 	ImageSet::~ImageSet()
 	{
-		for (ImageBundle* item : imageBundleDictionary_)
+		/*for (ImageBundle* item : imageBundleDictionary_)
 		{
 			delete item;
 			item = nullptr;
-		}
+		}*/
 	}
 
 
@@ -29,7 +29,7 @@ namespace AcedSharedDLL{
 	//Gets
 
 
-	std::vector<ImageBundle*> ImageSet::GetImageBundleDictionary()
+	std::vector<std::shared_ptr<ImageBundle>> &ImageSet::GetImageBundleDictionary()
 	{
 		return imageBundleDictionary_;
 	}
@@ -52,7 +52,7 @@ namespace AcedSharedDLL{
 		id_ = id;
 	}
 
-	void ImageSet::SetImageBundleDictionary(std::vector<ImageBundle*> imageBundleDictionary)
+	void ImageSet::SetImageBundleDictionary(std::vector<std::shared_ptr<ImageBundle>> &imageBundleDictionary)
 	{
 		imageBundleDictionary_ = imageBundleDictionary;
 	}

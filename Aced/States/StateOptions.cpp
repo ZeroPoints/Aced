@@ -3,7 +3,8 @@
 
 
 
-StateOptions::StateOptions(ALLEGRO_DISPLAY *display, Settings *settings, AcedSharedDLL::Map *currentMap, AcedSharedDLL::AssetLibrary *assetLibrary) : State(display, settings, currentMap, assetLibrary) {
+StateOptions::StateOptions(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap, std::shared_ptr<AcedSharedDLL::AssetLibrary> &assetLibrary) 
+	: State(display, (std::shared_ptr<AcedSharedDLL::BaseSettings>)settings, currentMap, assetLibrary) {
 
 	SetId(AcedSharedDLL::STATES::MAPOPTIONS);
 	SetEventQueue(NULL);
@@ -11,7 +12,7 @@ StateOptions::StateOptions(ALLEGRO_DISPLAY *display, Settings *settings, AcedSha
 	SetDone(false);
 	SetRunning(true);
 	SetKeyPressReturnVal(AcedSharedDLL::STATES::DEFAULT);
-	SetFont(al_load_font("arial.ttf", AcedSharedDLL::Constants::TileSize(), 0));
+	//SetFont(al_load_font("arial.ttf", AcedSharedDLL::Constants::TileSize(), 0));
 	SetTimer(al_create_timer(1.0 / 60));
 	SetEventQueue(al_create_event_queue());
 	SetStateDirection(AcedSharedDLL::STATEDIRECTION::NA);
@@ -26,7 +27,7 @@ StateOptions::StateOptions(ALLEGRO_DISPLAY *display, Settings *settings, AcedSha
 	SetLeftMouseDown(false);
 	SetPlayerSelected(false);
 	SetChosenColor(al_map_rgb_f(0, 0.3, 0.5));
-	SetMenu(new MenuOptions(settings, currentMap));
+	SetMenu(std::shared_ptr<AcedSharedDLL::Menu>(new MenuOptions(settings, currentMap)));
 	al_start_timer(GetTimer());
 }
 

@@ -3,7 +3,8 @@
 
 
 
-StateEditorMode::StateEditorMode(ALLEGRO_DISPLAY *display, Settings *settings, AcedSharedDLL::Map *currentMap, AcedSharedDLL::AssetLibrary *assetLibrary) : State(display, settings, currentMap, assetLibrary) {
+StateEditorMode::StateEditorMode(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap, std::shared_ptr<AcedSharedDLL::AssetLibrary> &assetLibrary) 
+	: State(display, (std::shared_ptr<AcedSharedDLL::BaseSettings>)settings, currentMap, assetLibrary) {
 
 	SetId(AcedSharedDLL::STATES::EDITORMODE);
 	SetEventQueue(NULL);
@@ -11,7 +12,7 @@ StateEditorMode::StateEditorMode(ALLEGRO_DISPLAY *display, Settings *settings, A
 	SetDone(false);
 	SetRunning(true);
 	SetKeyPressReturnVal(AcedSharedDLL::STATES::DEFAULT);
-	SetFont(al_load_font("arial.ttf", AcedSharedDLL::Constants::TileSize(), 0));
+	//SetFont(al_load_font("arial.ttf", AcedSharedDLL::Constants::TileSize(), 0));
 	SetTimer(al_create_timer(1.0 / 60));
 	SetEventQueue(al_create_event_queue());
 	SetStateDirection(AcedSharedDLL::STATEDIRECTION::NA);
@@ -27,7 +28,7 @@ StateEditorMode::StateEditorMode(ALLEGRO_DISPLAY *display, Settings *settings, A
 	SetLeftMouseDown(false);
 	SetPlayerSelected(false);
 
-	editorOverLayController_ = new AcedSharedDLL::EditorOverLayController(settings, GetAssetLibrary());
+	editorOverLayController_ = std::shared_ptr<AcedSharedDLL::EditorOverLayController>(new AcedSharedDLL::EditorOverLayController((std::shared_ptr<AcedSharedDLL::BaseSettings>)settings, GetAssetLibrary()));
 
 	SetChosenColor(al_map_rgb_f(1, 1, 1));
 	al_start_timer(GetTimer());
@@ -40,7 +41,7 @@ StateEditorMode::StateEditorMode(ALLEGRO_DISPLAY *display, Settings *settings, A
 void StateEditorMode::Resume() {
 	editorOverLayController_->Resize();
 	SetStateDirection(AcedSharedDLL::STATEDIRECTION::NA);
-	SetNextState(NULL);
+	//SetNextState(NULL);
 
 	//Resize menus
 	//I dont have a resize menu type function atm
@@ -57,7 +58,7 @@ void StateEditorMode::KeyPress() {
 		{
 		case ALLEGRO_KEY_ESCAPE:
 			SetStateDirection(AcedSharedDLL::STATEDIRECTION::PUSH);
-			SetNextState(new StateEditorMenu(GetDisplay(), (Settings*)GetSettings(), GetMap(), GetAssetLibrary()));
+			SetNextState(std::shared_ptr<State>(new StateEditorMenu(GetDisplay(), std::dynamic_pointer_cast<Settings>(GetSettings()), GetMap(), GetAssetLibrary())));
 			break;
 		}
 	}
@@ -153,15 +154,15 @@ void StateEditorMode::Update() {
 					{
 						if (selectedItemBase_.second->GetImageBundle()->GetId() == -1)
 						{
-							if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasTile()) {
-								GetMap()->GetCellMap()[tileXPos][tileYPos].GetTile()->RemoveColor();
+							if (GetMap()->GetCellMap()[tileXPos][tileYPos]->GetHasTile()) {
+								GetMap()->GetCellMap()[tileXPos][tileYPos]->GetTile()->RemoveColor();
 							}
 						}
 					}
 					else
 					{
-						if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasTile()) {
-							GetMap()->GetCellMap()[tileXPos][tileYPos].GetTile()->SetColor(selectedItemBase_.second->GetColor());
+						if (GetMap()->GetCellMap()[tileXPos][tileYPos]->GetHasTile()) {
+							GetMap()->GetCellMap()[tileXPos][tileYPos]->GetTile()->SetColor(selectedItemBase_.second->GetColor());
 						}
 					}
 				}
@@ -177,7 +178,7 @@ void StateEditorMode::Update() {
 					}
 
 					if (cellEmpty) {
-						GetMap()->GetCellMap()[tileXPos][tileYPos].SetTileTypeProperties(selectedItemBase_.second);
+						GetMap()->GetCellMap()[tileXPos][tileYPos]->SetTileTypeProperties(selectedItemBase_.second);
 					}
 				}
 
@@ -187,14 +188,14 @@ void StateEditorMode::Update() {
 
 					//First check all fields so you dont place over a spot that already has a Solid Tile...
 					int cellEmpty = true;
-					if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetTileType() != AcedSharedDLL::TILETYPE::EMPTYTILE)
+					if (GetMap()->GetCellMap()[tileXPos][tileYPos]->GetTileType() != AcedSharedDLL::TILETYPE::EMPTYTILE)
 					{
 						cellEmpty = false;
 					}
 					else if (GetMap()->EnemyAlreadyExistsAtXY(tileXPos, tileYPos)) {
 						cellEmpty = false;
 					}
-					else if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasInteractiveObject()) {
+					else if (GetMap()->GetCellMap()[tileXPos][tileYPos]->GetHasInteractiveObject()) {
 						cellEmpty = false;
 					}
 					else if (GetMap()->ItemAlreadyExistsAtXY(tileXPos, tileYPos)) {
@@ -205,23 +206,23 @@ void StateEditorMode::Update() {
 
 					//Id of 0 Means im removing object from map.
 					if (selectedItemBase_.second->GetImageBundle()->GetId() == -1 &&
-						GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasTile()) {
-						GetMap()->GetCellMap()[tileXPos][tileYPos].DeleteTile();
+						GetMap()->GetCellMap()[tileXPos][tileYPos]->GetHasTile()) {
+						GetMap()->GetCellMap()[tileXPos][tileYPos]->DeleteTile();
 					}
 					else if (selectedItemBase_.second->GetImageBundle()->GetId() == -1) {
 
 					}
 					else if (cellEmpty) {
-						if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasTile())
+						if (GetMap()->GetCellMap()[tileXPos][tileYPos]->GetHasTile())
 						{
-							GetMap()->GetCellMap()[tileXPos][tileYPos].GetTile()->SetTileBase(selectedItemBase_.second);
+							GetMap()->GetCellMap()[tileXPos][tileYPos]->GetTile()->SetTileBase(selectedItemBase_.second);
 						}
 						else {
-							auto currentTile = new AcedSharedDLL::Tile();
+							std::shared_ptr<AcedSharedDLL::Tile> currentTile(new AcedSharedDLL::Tile());
 
 							currentTile->SetTileBase(selectedItemBase_.second);
 
-							GetMap()->GetCellMap()[tileXPos][tileYPos].SetTile(currentTile);
+							GetMap()->GetCellMap()[tileXPos][tileYPos]->SetTile(currentTile);
 						}
 					}
 				}
@@ -241,7 +242,7 @@ void StateEditorMode::Update() {
 						for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
 							for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
 
-								if (GetMap()->GetCellMap()[i][j].GetTileType() != AcedSharedDLL::TILETYPE::EMPTYTILE)
+								if (GetMap()->GetCellMap()[i][j]->GetTileType() != AcedSharedDLL::TILETYPE::EMPTYTILE)
 								{
 									cellEmpty = false;
 									break;
@@ -250,7 +251,7 @@ void StateEditorMode::Update() {
 									cellEmpty = false;
 									break;
 								}
-								else if (GetMap()->GetCellMap()[i][j].GetHasInteractiveObject()) {
+								else if (GetMap()->GetCellMap()[i][j]->GetHasInteractiveObject()) {
 									cellEmpty = false;
 									break;
 								}
@@ -262,15 +263,15 @@ void StateEditorMode::Update() {
 						}
 
 						//Id of 0 Means im removing object from map.
-						if (GetMap()->GetCellMap()[tileXPos][tileYPos].GetHasInteractiveObject() &&
+						if (GetMap()->GetCellMap()[tileXPos][tileYPos]->GetHasInteractiveObject() &&
 							selectedItemBase_.second->GetImageBundle()->GetId() == -1) {
-							auto imageRefX = GetMap()->GetCellMap()[tileXPos][tileYPos].GetInteractiveObject()->GetImageReferenceX();
-							auto imageRefY = GetMap()->GetCellMap()[tileXPos][tileYPos].GetInteractiveObject()->GetImageReferenceY();
-							auto imageWidth = GetMap()->GetCellMap()[imageRefX][imageRefY].GetInteractiveObject()->GetImageBundle()->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth();
-							auto imageHeight = GetMap()->GetCellMap()[imageRefX][imageRefY].GetInteractiveObject()->GetImageBundle()->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight();
+							auto imageRefX = GetMap()->GetCellMap()[tileXPos][tileYPos]->GetInteractiveObject()->GetImageReferenceX();
+							auto imageRefY = GetMap()->GetCellMap()[tileXPos][tileYPos]->GetInteractiveObject()->GetImageReferenceY();
+							auto imageWidth = GetMap()->GetCellMap()[imageRefX][imageRefY]->GetInteractiveObject()->GetImageBundle()->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth();
+							auto imageHeight = GetMap()->GetCellMap()[imageRefX][imageRefY]->GetInteractiveObject()->GetImageBundle()->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight();
 							for (auto i = imageRefX; i < imageRefX + imageWidth; i++) {
 								for (auto j = imageRefY; j < imageRefY + imageHeight; j++) {
-									GetMap()->GetCellMap()[i][j].DeleteInteractiveObject();
+									GetMap()->GetCellMap()[i][j]->DeleteInteractiveObject();
 								}
 							}
 						}
@@ -280,13 +281,13 @@ void StateEditorMode::Update() {
 						else if (cellEmpty) {
 							for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
 								for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
-									auto currentInteractiveObject = new AcedSharedDLL::InteractiveObject();
+									std::shared_ptr<AcedSharedDLL::InteractiveObject> currentInteractiveObject(new AcedSharedDLL::InteractiveObject());
 									currentInteractiveObject->SetItemBase(selectedItemBase_.second);
 									currentInteractiveObject->SetHasImageReference(!(i == tileXPos && j == tileYPos));
 									currentInteractiveObject->SetImageReferenceX(tileXPos);
 									currentInteractiveObject->SetImageReferenceY(tileYPos);
-									GetMap()->GetCellMap()[i][j].SetInteractiveObject(currentInteractiveObject);
-									GetMap()->GetCellMap()[i][j].SetInteractiveObjectReference(!(i == tileXPos && j == tileYPos));
+									GetMap()->GetCellMap()[i][j]->SetInteractiveObject(currentInteractiveObject);
+									GetMap()->GetCellMap()[i][j]->SetInteractiveObjectReference(!(i == tileXPos && j == tileYPos));
 
 								}
 							}
@@ -305,7 +306,7 @@ void StateEditorMode::Update() {
 					int tileEmpty = true;
 					for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
 						for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
-							if (GetMap()->GetCellMap()[i][j].GetTileType() != AcedSharedDLL::TILETYPE::EMPTYTILE)
+							if (GetMap()->GetCellMap()[i][j]->GetTileType() != AcedSharedDLL::TILETYPE::EMPTYTILE)
 							{
 								tileEmpty = false;
 								break;
@@ -314,7 +315,7 @@ void StateEditorMode::Update() {
 								tileEmpty = false;
 								break;
 							}
-							else if (GetMap()->GetCellMap()[i][j].GetHasInteractiveObject()) {
+							else if (GetMap()->GetCellMap()[i][j]->GetHasInteractiveObject()) {
 								tileEmpty = false;
 								break;
 							}
@@ -350,7 +351,7 @@ void StateEditorMode::Update() {
 					int tileEmpty = true;
 					for (auto i = tileXPos; i < tileXPos + selectedItemBase_.second->GetWidth(); i++) {
 						for (auto j = tileYPos; j < tileYPos + selectedItemBase_.second->GetHeight(); j++) {
-							if (GetMap()->GetCellMap()[i][j].GetTileType() != AcedSharedDLL::TILETYPE::EMPTYTILE)
+							if (GetMap()->GetCellMap()[i][j]->GetTileType() != AcedSharedDLL::TILETYPE::EMPTYTILE)
 							{
 								tileEmpty = false;
 								break;
@@ -359,7 +360,7 @@ void StateEditorMode::Update() {
 								tileEmpty = false;
 								break;
 							}
-							else if (GetMap()->GetCellMap()[i][j].GetHasInteractiveObject()) {
+							else if (GetMap()->GetCellMap()[i][j]->GetHasInteractiveObject()) {
 								tileEmpty = false;
 								break;
 							}

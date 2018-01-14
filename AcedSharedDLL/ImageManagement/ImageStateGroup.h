@@ -14,7 +14,7 @@
 #include <allegro5\allegro_primitives.h>//shapes
 #include <allegro5\allegro_image.h>//images
 #include "Image.h"
-
+#include <memory>
 
 #ifdef ACEDSHAREDDLL_EXPORTS
 #define ACEDSHAREDDLL_API __declspec(dllexport)
@@ -53,7 +53,7 @@ namespace AcedSharedDLL {
 		//Gets
 
 
-		ACEDSHAREDDLL_API std::vector<Image*> GetImageDictionary();
+		ACEDSHAREDDLL_API std::vector<std::shared_ptr<Image>> &GetImageDictionary();
 
 
 		ACEDSHAREDDLL_API int GetId();
@@ -65,7 +65,7 @@ namespace AcedSharedDLL {
 
 		//Sets
 
-		ACEDSHAREDDLL_API void SetImageDictionary(std::vector<Image*> imageDict);
+		ACEDSHAREDDLL_API void SetImageDictionary(std::vector<std::shared_ptr<Image>> &imageDict);
 
 
 		ACEDSHAREDDLL_API void SetId(int id);
@@ -78,7 +78,7 @@ namespace AcedSharedDLL {
 		int id_;
 
 
-		std::vector<Image*> imageDictionary_;
+		std::vector<std::shared_ptr<Image>> imageDictionary_;
 
 	};
 }

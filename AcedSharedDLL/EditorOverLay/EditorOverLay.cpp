@@ -3,7 +3,7 @@
 
 namespace AcedSharedDLL{
 
-	EditorOverLay::EditorOverLay(BaseSettings *settings, STATES id, AssetLibrary *assetLibrary)
+	EditorOverLay::EditorOverLay(std::shared_ptr<BaseSettings> &settings, STATES id, std::shared_ptr<AssetLibrary> &assetLibrary)
 	{
 		id_ = id;
 
@@ -105,7 +105,7 @@ namespace AcedSharedDLL{
 	void EditorOverLay::CreateTileWindow()
 	{
 		//Create an arrow object
-		tilePickerWindow_ = new ObjectBase();
+		tilePickerWindow_ = std::shared_ptr<ObjectBase>(new ObjectBase());
 		tilePickerWindow_->SetCurrentPosition(0, 1);
 		tilePickerWindow_->SetWidth(widthMax_);
 		tilePickerWindow_->SetHeight(settings_->GetDisplayHeight());
@@ -176,7 +176,7 @@ namespace AcedSharedDLL{
 		//Go through the tile pages adding in the tiles as a ref
 		for(int i = 0; i < pages+extraPage; i++)
 		{
-			tilePages_.push_back(new TilePage(settings_));
+			tilePages_.push_back(std::shared_ptr<TilePage>(new TilePage(settings_)));
 			int newMin = (screenHeight/2*i) == 0 ? 0 : (screenHeight/2*i);
 			int newMax = (screenHeight/2*i) + screenHeight/2;
 			if(newMin > itemBaseList_[0].size())
@@ -253,10 +253,10 @@ namespace AcedSharedDLL{
 
 
 
-	void EditorOverLay::SetMenuHeader(char *text, double positionX, double positionY)
+	void EditorOverLay::SetMenuHeader(const std::string &text, double positionX, double positionY)
 	{
-		menuHeaderItem_ = new ObjectBase();
-		menuHeaderItem_->SetText(al_ustr_new(text));
+		menuHeaderItem_ = std::shared_ptr<ObjectBase>(new ObjectBase());
+		menuHeaderItem_->SetText(al_ustr_new(text.c_str()));
 		menuHeaderItem_->SetCurrentPosition(positionX,positionY);
 		menuHeaderItem_->SetFont(al_load_font("arial.ttf", Constants::TileSize(), 0));
 		menuHeaderItem_->SetColor(al_map_rgb_f(0,0,0));
@@ -313,7 +313,7 @@ namespace AcedSharedDLL{
 		int i = 0;
 		for(int j = 0; j < imageBundleDictionarySize_; j++)
 		{
-			EditorItemBase* tempTile = new EditorItemBase();
+			std::shared_ptr<EditorItemBase> tempTile = std::shared_ptr<EditorItemBase>(new EditorItemBase());
 			tempTile->SetTileType(TILETYPE::SOLIDTILE);
 			tempTile->SetImageBundle(assetLibrary_->GetImageSetDictionary()[imageBundleDictionaryId_]->GetImageBundleDictionary()[j]);
 			tempTile->SetWidth(1);
@@ -326,13 +326,13 @@ namespace AcedSharedDLL{
 
 			tempTile->SetCurrentPosition(posX,posY);
 
-			itemBaseList_[j%tileVectorWidthMax_].push_back(*tempTile);
+			itemBaseList_[j%tileVectorWidthMax_].push_back(tempTile);
 			//go to next placement
 
 			i++;
 
 			//delete the copy of object
-			delete tempTile;
+			//delete tempTile;
 		}
 
 
@@ -368,7 +368,7 @@ namespace AcedSharedDLL{
 		int i = 0;
 		for(int j = 0; j < imageBundleDictionarySize_; j++)
 		{
-			EditorItemBase* tempTile = new EditorItemBase();
+			std::shared_ptr<EditorItemBase> tempTile = std::shared_ptr<EditorItemBase>(new EditorItemBase());
 			tempTile->SetTileType(TILETYPE::SOLIDTILE);
 
 			tempTile->SetImageBundle(assetLibrary_->GetImageSetDictionary()[imageBundleDictionaryId_]->GetImageBundleDictionary()[j]);
@@ -381,13 +381,13 @@ namespace AcedSharedDLL{
 
 			tempTile->SetCurrentPosition(posX,posY);
 
-			itemBaseList_[j%tileVectorWidthMax_].push_back(*tempTile);
+			itemBaseList_[j%tileVectorWidthMax_].push_back(tempTile);
 			//go to next placement
 
 			i++;
 
 			//delete the copy of object
-			delete tempTile;
+			//delete tempTile;
 		}
 
 	}
@@ -408,20 +408,20 @@ namespace AcedSharedDLL{
 		int l = 0;
 		int posX = leftOffset+k*displacementOffset;
 		int posY = topOffset + ((l*displacementOffset)%(screenHeight));
-		std::vector<EditorItemBase> objs;
-		EditorItemBase* currentTile = new EditorItemBase();
+		std::vector<std::shared_ptr<EditorItemBase>> objs;
+		std::shared_ptr<EditorItemBase> currentTile(new EditorItemBase());
 
 
 		bool invert = false;//settings_->GetColorCollisionInvert();
 
 
-		currentTile = new EditorItemBase();
+		currentTile = std::shared_ptr<EditorItemBase>(new EditorItemBase());
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
 		currentTile->SetTileType(TILETYPE::EMPTYTILE);
 		currentTile->SetCurrentPosition(posX,posY);
 		currentTile->SetWidth(1);
 		currentTile->SetHeight(1);
-		objs.push_back(*currentTile);
+		objs.push_back(currentTile);
 
 
 
@@ -438,13 +438,13 @@ namespace AcedSharedDLL{
 
 
 
-		currentTile = new EditorItemBase();
+		currentTile = std::shared_ptr<EditorItemBase>(new EditorItemBase());
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
 		currentTile->SetTileType(TILETYPE::COLLISIONTOPTILE);
 		currentTile->SetCurrentPosition(posX,posY);
 		currentTile->SetWidth(1);
 		currentTile->SetHeight(1);
-		objs.push_back(*currentTile);
+		objs.push_back(currentTile);
 
 
 
@@ -459,13 +459,13 @@ namespace AcedSharedDLL{
 
 
 
-		currentTile = new EditorItemBase();
+		currentTile = std::shared_ptr<EditorItemBase>(new EditorItemBase());
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
 		currentTile->SetTileType(TILETYPE::COLLISIONLEFTTILE);
 		currentTile->SetCurrentPosition(posX,posY);
 		currentTile->SetWidth(1);
 		currentTile->SetHeight(1);
-		objs.push_back(*currentTile);
+		objs.push_back(currentTile);
 
 
 
@@ -480,13 +480,13 @@ namespace AcedSharedDLL{
 
 
 
-		currentTile = new EditorItemBase();
+		currentTile = std::shared_ptr<EditorItemBase>(new EditorItemBase());
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
 		currentTile->SetTileType(TILETYPE::COLLISIONRIGHTTILE);
 		currentTile->SetCurrentPosition(posX,posY);
 		currentTile->SetWidth(1);
 		currentTile->SetHeight(1);
-		objs.push_back(*currentTile);
+		objs.push_back(currentTile);
 
 
 
@@ -505,7 +505,7 @@ namespace AcedSharedDLL{
 		currentTile->SetCurrentPosition(posX,posY);
 		currentTile->SetWidth(1);
 		currentTile->SetHeight(1);
-		objs.push_back(*currentTile);
+		objs.push_back(currentTile);
 
 		
 		itemBaseList_.resize(tileVectorWidthMax_);
@@ -542,7 +542,7 @@ namespace AcedSharedDLL{
 		int i = 0;
 		for (int j = 0; j < imageBundleDictionarySize_; j++)
 		{
-			EditorItemBase* tempTile = new EditorItemBase();
+			std::shared_ptr<EditorItemBase> tempTile(new EditorItemBase());
 			tempTile->SetTileType(TILETYPE::SOLIDTILE);
 			tempTile->SetImageBundle(assetLibrary_->GetImageSetDictionary()[imageBundleDictionaryId_]->GetImageBundleDictionary()[j]);
 			tempTile->SetImageSet(imageSetId_);
@@ -553,13 +553,13 @@ namespace AcedSharedDLL{
 
 			tempTile->SetCurrentPosition(posX, posY);
 
-			itemBaseList_[j%tileVectorWidthMax_].push_back(*tempTile);
+			itemBaseList_[j%tileVectorWidthMax_].push_back(tempTile);
 			//go to next placement
 
 			i++;
 
 			//delete the copy of object
-			delete tempTile;
+			//delete tempTile;
 		}
 
 
@@ -593,7 +593,7 @@ namespace AcedSharedDLL{
 		int i = 0;
 		for (int j = 0; j < imageBundleDictionarySize_; j++)
 		{
-			EditorItemBase* tempTile = new EditorItemBase();
+			std::shared_ptr<EditorItemBase> tempTile(new EditorItemBase());
 			tempTile->SetTileType(TILETYPE::SOLIDTILE);
 			tempTile->SetImageBundle(assetLibrary_->GetImageSetDictionary()[imageBundleDictionaryId_]->GetImageBundleDictionary()[j]);
 			tempTile->SetImageSet(imageSetId_);
@@ -604,13 +604,13 @@ namespace AcedSharedDLL{
 
 			tempTile->SetCurrentPosition(posX, posY);
 
-			itemBaseList_[j%tileVectorWidthMax_].push_back(*tempTile);
+			itemBaseList_[j%tileVectorWidthMax_].push_back(tempTile);
 			//go to next placement
 
 			i++;
 
 			//delete the copy of object
-			delete tempTile;
+			//delete tempTile;
 		}
 
 
@@ -645,7 +645,7 @@ namespace AcedSharedDLL{
 		int i = 0;
 		for (int j = 0; j < imageBundleDictionarySize_; j++)
 		{
-			EditorItemBase* tempTile = new EditorItemBase();
+			std::shared_ptr<EditorItemBase> tempTile(new EditorItemBase());
 			tempTile->SetTileType(TILETYPE::SOLIDTILE);
 			tempTile->SetImageBundle(assetLibrary_->GetImageSetDictionary()[imageBundleDictionaryId_]->GetImageBundleDictionary()[j]);
 			tempTile->SetImageSet(imageSetId_);
@@ -656,13 +656,13 @@ namespace AcedSharedDLL{
 
 			tempTile->SetCurrentPosition(posX, posY);
 
-			itemBaseList_[j%tileVectorWidthMax_].push_back(*tempTile);
+			itemBaseList_[j%tileVectorWidthMax_].push_back(tempTile);
 			//go to next placement
 
 			i++;
 
 			//delete the copy of object
-			delete tempTile;
+			//delete tempTile;
 		}
 
 

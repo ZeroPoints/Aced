@@ -8,6 +8,10 @@
 #include "../Static/Definitions.h"
 
 
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+
 
 #include <string>
 #include <map>
@@ -44,6 +48,7 @@ namespace AcedSharedDLL{
 	{
 		public:
 			ACEDSHAREDDLL_API BaseSettings();
+			ACEDSHAREDDLL_API ~BaseSettings();
 
 
 			//Save all current setting changes back into doc
@@ -65,6 +70,7 @@ namespace AcedSharedDLL{
 			ACEDSHAREDDLL_API int GetScreenWidth();
 			ACEDSHAREDDLL_API int GetScreenHeight();
 
+			ACEDSHAREDDLL_API ALLEGRO_FONT *GetFont30();
 
 			ACEDSHAREDDLL_API void InitDefaultBaseSettings();
 
@@ -88,6 +94,7 @@ namespace AcedSharedDLL{
 			std::map<SETTINGCODES, SettingPair> settingsMap_;
 
 
+			ALLEGRO_FONT *font30_;
 
 
 

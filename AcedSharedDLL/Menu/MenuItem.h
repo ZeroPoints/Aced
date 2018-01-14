@@ -41,7 +41,7 @@ namespace AcedSharedDLL{
 			ACEDSHAREDDLL_API int GetMenuItemX();
 			ACEDSHAREDDLL_API int GetMenuItemPropertyX();
 			ACEDSHAREDDLL_API int GetMenuItemY();
-			ACEDSHAREDDLL_API char *GetMenuItemText();
+			ACEDSHAREDDLL_API std::string GetMenuItemText();
 			ACEDSHAREDDLL_API ALLEGRO_USTR *GetMenuItemProperty();
 			ACEDSHAREDDLL_API bool GetMenuItemTargetable();
 			ACEDSHAREDDLL_API bool GetMenuItemValueEditable();
@@ -58,7 +58,7 @@ namespace AcedSharedDLL{
 			ACEDSHAREDDLL_API void SetMenuItemPropertyX(int menuItemPropertyX);
 			ACEDSHAREDDLL_API void SetMenuItemX(int menuItemX);
 			ACEDSHAREDDLL_API void SetMenuItemY(int menuItemY);
-			ACEDSHAREDDLL_API void SetMenuItemText(char *menuItemText);
+			ACEDSHAREDDLL_API void SetMenuItemText(const std::string &menuItemText);
 			ACEDSHAREDDLL_API void SetMenuItemProperty(ALLEGRO_USTR *menuItemProperty);
 			ACEDSHAREDDLL_API void SetId(STATES newId);
 			ACEDSHAREDDLL_API void SetOptionId(OPTIONTYPES newId);
@@ -111,7 +111,7 @@ namespace AcedSharedDLL{
 			STATES Id_;
 			bool editable_;
 			bool targetable_;
-			char *menuItemText_;//text
+			std::string menuItemText_;//text
 			int menuItemPropertyX_;//location
 			int menuItemWidth_, menuItemHeight_;//size
 			int menuItemX_, menuItemY_;//location

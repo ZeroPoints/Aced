@@ -3,12 +3,11 @@
 
 namespace AcedSharedDLL {
 
-	Map::Map(BaseSettings *settings, ALLEGRO_DISPLAY *display, AssetLibrary *assetLibrary)
+	Map::Map(std::shared_ptr<BaseSettings> &settings, ALLEGRO_DISPLAY *display, std::shared_ptr<AssetLibrary> &assetLibrary)
 	{
 		assetLibrary_ = assetLibrary;
 		settings_ = settings;
 		display_ = display;
-		font30_ = al_load_font("arial.ttf", Constants::TileSize(), 0);
 		mapMoveXDelta_ = 0;
 		mapMoveYDelta_ = 0;
 		ResetMap();
@@ -22,7 +21,7 @@ namespace AcedSharedDLL {
 
 	Map::~Map() {
 
-		for (Character* item : enemyList_)
+		/*for (Character* item : enemyList_)
 		{
 			delete item;
 			item = nullptr;
@@ -32,7 +31,7 @@ namespace AcedSharedDLL {
 		{
 			delete item;
 			item = nullptr;
-		}
+		}*/
 		//fprintf(stderr, "A Map Destructed\n");
 
 	}
@@ -82,7 +81,7 @@ namespace AcedSharedDLL {
 	int Map::GetPlayerStartY() {
 		return playerStartY_;
 	}
-	std::vector<std::vector<Cell>> &Map::GetCellMap() {
+	std::vector<std::vector<std::shared_ptr<Cell>>> &Map::GetCellMap() {
 		return cellMap_;
 	}
 	/*std::vector<ObjectBase> &Map::GetObjects() {
@@ -98,11 +97,11 @@ namespace AcedSharedDLL {
 	}
 
 
-	std::vector<Character*> &Map::GetEnemyList() {
+	std::vector<std::shared_ptr<Character>> &Map::GetEnemyList() {
 		return enemyList_;
 	}
 
-	std::vector<Item*> &Map::GetItemList() {
+	std::vector<std::shared_ptr<Item>> &Map::GetItemList() {
 		return itemList_;
 	}
 
@@ -168,8 +167,8 @@ namespace AcedSharedDLL {
 			{
 				for (int j = k; j < height_; j++)
 				{
-					cellMap_[i][j].SetTileType(TILETYPE::EMPTYTILE);
-					cellMap_[i][j].SetCurrentPosition(i, j);
+					cellMap_[i][j]->SetTileType(TILETYPE::EMPTYTILE);
+					cellMap_[i][j]->SetCurrentPosition(i, j);
 				}
 			}
 		}
@@ -198,8 +197,8 @@ namespace AcedSharedDLL {
 			{
 				for (int j = 0; j < height_; j++)
 				{
-					cellMap_[i][j].SetTileType(TILETYPE::EMPTYTILE);
-					cellMap_[i][j].SetCurrentPosition(i, j);
+					cellMap_[i][j]->SetTileType(TILETYPE::EMPTYTILE);
+					cellMap_[i][j]->SetCurrentPosition(i, j);
 				}
 			}
 		}
@@ -248,7 +247,7 @@ namespace AcedSharedDLL {
 		{
 			for (j = topViewPoint_; j < botViewPoint_; j++)
 			{
-				cellMap_[i][j].Draw(mapXoffset_, mapYoffset_, false/*settings_->GetColorCollisionInvert()*/);
+				cellMap_[i][j]->Draw(mapXoffset_, mapYoffset_, false/*settings_->GetColorCollisionInvert()*/);
 			}
 		}
 		al_draw_rectangle(mapXoffset_, mapYoffset_, mapXoffset_ + width_*Constants::TileSize(), mapYoffset_ + height_*Constants::TileSize(), al_map_rgb_f(0, 0, 0), 1);
@@ -412,7 +411,7 @@ namespace AcedSharedDLL {
 		if (enemyList_.size() > 0) {
 			pugi::xml_node xmlenemyset = xmlMap.append_child("enemyspawn");
 			for (int i = 0; i < enemyList_.size(); i++) {
-				Character *currentEnemy = enemyList_[i];
+				std::shared_ptr<Character> currentEnemy = enemyList_[i];
 				pugi::xml_node xmlcurrentEnemy = xmlenemyset.append_child("enemy");
 				xmlcurrentEnemy.append_attribute("x").set_value(currentEnemy->GetCurrentPositionX());
 				xmlcurrentEnemy.append_attribute("y").set_value(currentEnemy->GetCurrentPositionY());
@@ -430,7 +429,7 @@ namespace AcedSharedDLL {
 		if (itemList_.size() > 0) {
 			pugi::xml_node xmlenemyset = xmlMap.append_child("itemspawn");
 			for (int i = 0; i < itemList_.size(); i++) {
-				Item *currentItem = itemList_[i];
+				std::shared_ptr<Item> currentItem = itemList_[i];
 				pugi::xml_node xmlcurrentEnemy = xmlenemyset.append_child("item");
 				xmlcurrentEnemy.append_attribute("x").set_value(currentItem->GetPosX());
 				xmlcurrentEnemy.append_attribute("y").set_value(currentItem->GetPosY());
@@ -452,7 +451,7 @@ namespace AcedSharedDLL {
 		{
 			for (int j = 0; j < cellMap_[i].size(); j++)
 			{
-				Cell *currentCell = &cellMap_[i][j];
+				std::shared_ptr<Cell> currentCell = cellMap_[i][j];
 				pugi::xml_node xmlcurrentCell = xmlTileSet.append_child("cell");
 
 				xmlcurrentCell.append_attribute("x").set_value(currentCell->GetCurrentPositionX());
@@ -538,7 +537,7 @@ namespace AcedSharedDLL {
 		{
 			bool hasImage = false;
 
-			auto enemy = new Character(settings_, width_, height_, &cellMap_);
+			std::shared_ptr<Character> enemy(new Character(settings_, width_, height_, cellMap_));
 
 			enemy->SetAIEnabled(gamestart);
 			enemy->SetKeyRight(gamestart);
@@ -607,7 +606,7 @@ namespace AcedSharedDLL {
 		{
 			bool hasImage = false;
 
-			auto item = new Item();
+			std::shared_ptr<Item> item(new Item());
 
 
 			itemList_.push_back(item);
@@ -687,13 +686,17 @@ namespace AcedSharedDLL {
 		for (i = 0; i < cellMap_.size(); i++)
 		{
 			cellMap_[i].resize(height_);
+			for (j = 0; j < height_; j++) {
+				cellMap_[i][j] = std::shared_ptr<Cell>(new Cell());
+			}
 		}
 		i = 0;
+		j = 0;
 		for (pugi::xml_node_iterator xmlcurrentCell = xmlTileSet.children().begin();
 			xmlcurrentCell != xmlTileSet.children().end();
 			xmlcurrentCell++)
 		{
-			Cell* currentCell = &cellMap_[i][j];
+			std::shared_ptr<Cell> currentCell = cellMap_[i][j];
 
 
 			for (pugi::xml_attribute_iterator xmlCellAttribute = xmlcurrentCell->attributes_begin();
@@ -726,7 +729,7 @@ namespace AcedSharedDLL {
 				auto currentCellNodeName = xmlcurrentCellInnerNode->name();
 				//Build tile object from properties
 				if (strcmp(currentCellNodeName, "tile") == 0) {
-					Tile* currentTile = new Tile();
+					std::shared_ptr<Tile> currentTile(new Tile());
 					bool hasImage = false;
 					//Cycle through attributes of this node
 					for (pugi::xml_attribute_iterator xmlTileAttribute = xmlcurrentCellInnerNode->attributes_begin();
@@ -799,7 +802,7 @@ namespace AcedSharedDLL {
 
 
 				else if (strcmp(currentCellNodeName, "interactiveobject") == 0) {
-					InteractiveObject* currentInteractiveObject = new InteractiveObject();
+					std::shared_ptr<InteractiveObject> currentInteractiveObject( new InteractiveObject());
 					bool hasImage = false;
 					bool hasImageReference = false;
 
@@ -883,19 +886,19 @@ namespace AcedSharedDLL {
 		{
 			for (int j = 0; j < height_; j++)
 			{
-				cellMap_[i][j].SetTileType(TILETYPE::EMPTYTILE);
-				cellMap_[i][j].SetCurrentPosition(i, j);
+				cellMap_[i][j]->SetTileType(TILETYPE::EMPTYTILE);
+				cellMap_[i][j]->SetCurrentPosition(i, j);
 			}
 		}
 
 
 		while (enemyList_.size() > 0) {
-			delete enemyList_[0];
+			//delete enemyList_[0];
 			enemyList_.erase(enemyList_.begin() + 0);
 		}
 
 		while (itemList_.size() > 0) {
-			delete itemList_[0];
+			//delete itemList_[0];
 			itemList_.erase(itemList_.begin() + 0);
 		}
 
@@ -911,7 +914,12 @@ namespace AcedSharedDLL {
 	{
 		height_ = newmapheight;
 		width_ = newmapwidth;
-		std::vector<std::vector<Cell>> cells(newmapwidth, std::vector<Cell>(newmapheight));
+		std::vector<std::vector<std::shared_ptr<Cell>>> cells(newmapwidth, std::vector<std::shared_ptr<Cell>>(newmapheight));
+		for (auto i = 0; i < width_; i++) {
+			for (auto j = 0; j < height_; j++) {
+				cells[i][j] = std::shared_ptr<Cell>(new Cell());
+			}
+		}
 		cellMap_ = cells;
 	}
 
@@ -920,10 +928,10 @@ namespace AcedSharedDLL {
 
 
 
-	void Map::AddEnemyToMap(EditorItemBase *item, int tileXPos, int tileYPos) {
+	void Map::AddEnemyToMap(std::shared_ptr<EditorItemBase> &item, int tileXPos, int tileYPos) {
 
 
-		auto enemy = new Character(settings_, item->GetWidth(), item->GetHeight(), &cellMap_);
+		std::shared_ptr<Character> enemy(new Character(settings_, item->GetWidth(), item->GetHeight(), cellMap_));
 		//enemy->SetGravityY(0);
 		enemy->SetCurrentPositionX(tileXPos);
 		enemy->SetCurrentPositionY(tileYPos);
@@ -940,10 +948,10 @@ namespace AcedSharedDLL {
 
 
 
-	void Map::AddItemToMap(EditorItemBase *item, int tileXPos, int tileYPos) {
+	void Map::AddItemToMap(std::shared_ptr<EditorItemBase> &item, int tileXPos, int tileYPos) {
 
 
-		auto thing = new Item();
+		std::shared_ptr<Item> thing (new Item());
 
 		thing->SetPosX(tileXPos);
 		thing->SetPosY(tileYPos);
@@ -962,7 +970,7 @@ namespace AcedSharedDLL {
 		for (auto i = 0; i < enemyList_.size(); i++) {
 			if (enemyList_[i]->GetCurrentPositionX() == tileXPos && enemyList_[i]->GetCurrentPositionY() == tileYPos) {
 				//Go through vector find the one then remove
-				delete enemyList_[i];
+				//delete enemyList_[i];
 				enemyList_.erase(enemyList_.begin() + i);
 			}
 		}
@@ -975,7 +983,7 @@ namespace AcedSharedDLL {
 		for (auto i = 0; i < itemList_.size(); i++) {
 			if (itemList_[i]->GetPosX() == tileXPos && itemList_[i]->GetPosY() == tileYPos) {
 				//Go through vector find the one then remove
-				delete itemList_[i];
+				//delete itemList_[i];
 				itemList_.erase(itemList_.begin() + i);
 			}
 		}
@@ -1008,7 +1016,23 @@ namespace AcedSharedDLL {
 	}
 
 
-	Item* Map::ItemCollisionCheckAtXY(double playerX, double playerY, double width, double height) {
+
+
+	bool Map::ItemCollisionCheckAtXYExists(double playerX, double playerY, double width, double height) {
+		for (auto i = 0; i < itemList_.size(); i++) {
+			auto item = itemList_[i];
+			if (playerX < item->GetPosX() + item->GetImageBundle()->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth()
+				&& playerX + width > item->GetPosX() &&
+				playerY < item->GetPosY() + item->GetImageBundle()->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetHeight()
+				&& playerY + height > item->GetPosY()
+				) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	std::shared_ptr<Item> Map::ItemCollisionCheckAtXY(double playerX, double playerY, double width, double height) {
 		for (auto i = 0; i < itemList_.size(); i++) {
 			auto item = itemList_[i];
 			if (playerX < item->GetPosX() + item->GetImageBundle()->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth() 
@@ -1020,7 +1044,8 @@ namespace AcedSharedDLL {
 				return item;
 			}
 		}
-		return nullptr;
+		std::shared_ptr<Item> tempItem = 0;
+		return tempItem;
 	}
 
 

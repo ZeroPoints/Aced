@@ -18,7 +18,7 @@
 #include "../World/Cell.h"
 #include <math.h>
 
-
+#include <memory>
 
 
 #ifdef ACEDSHAREDDLL_EXPORTS
@@ -34,7 +34,7 @@ namespace AcedSharedDLL
 	{
 		public:
 
-			ACEDSHAREDDLL_API Character(BaseSettings *settings, int mapWidth, int mapHeight, std::vector<std::vector<Cell>> *cellMap);
+			ACEDSHAREDDLL_API Character(std::shared_ptr<BaseSettings> &settings, int mapWidth, int mapHeight, std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap);
 
 
 
@@ -76,7 +76,7 @@ namespace AcedSharedDLL
 
 			ACEDSHAREDDLL_API void SetPlayerFacingDirection(CHARACTERFACINGDIRECTION direction);
 
-			ACEDSHAREDDLL_API void SetImageBundle(ImageBundle *image);
+			ACEDSHAREDDLL_API void SetImageBundle(std::shared_ptr<ImageBundle> &image);
 
 
 			ACEDSHAREDDLL_API void SetKeyRight(bool val);
@@ -124,10 +124,10 @@ namespace AcedSharedDLL
 			ACEDSHAREDDLL_API bool GetKeyRight();
 			ACEDSHAREDDLL_API bool GetKeyLeft();
 
-			ACEDSHAREDDLL_API BaseSettings GetSettings();
+			ACEDSHAREDDLL_API std::shared_ptr<BaseSettings> &GetSettings();
 
 			ACEDSHAREDDLL_API bool GetHasImage();
-			ACEDSHAREDDLL_API ImageBundle *GetImageBundle();
+			ACEDSHAREDDLL_API std::shared_ptr<ImageBundle> &GetImageBundle();
 			
 			ACEDSHAREDDLL_API AcedSharedDLL::IMAGESETS GetImageSet();
 
@@ -271,7 +271,7 @@ namespace AcedSharedDLL
 
 
 
-			std::vector<std::vector<Cell>> *cellMap_;
+			std::vector<std::vector<std::shared_ptr<Cell>>> cellMap_;
 
 
 			CHARACTERFACINGDIRECTION faceDirection_;
@@ -285,10 +285,10 @@ namespace AcedSharedDLL
 
 
 
-			ImageBundle *imageBundle_;
+			std::shared_ptr<ImageBundle> imageBundle_;
 
 			STATES Id_, keyPressState_, keyPressReturnVal_;
-			ALLEGRO_FONT *font30_;
+			//ALLEGRO_FONT *font30_;
 			ALLEGRO_EVENT_QUEUE *event_queue_;
 			ALLEGRO_EVENT event_;
 			ALLEGRO_DISPLAY *display_;
@@ -298,7 +298,7 @@ namespace AcedSharedDLL
 
 
 			ALLEGRO_EVENT *ev_;
-			BaseSettings *settings_;
+			std::shared_ptr<BaseSettings> settings_;
 			bool KeyLeft_;
 			bool KeyRight_;
 			bool KeySpace_;

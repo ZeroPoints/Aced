@@ -2,8 +2,8 @@
 
 namespace AcedSharedDLL {
 
-	//CharacterSpawn::CharacterSpawn(Settings *settings, Map *map)
-	CharacterSpawn::CharacterSpawn(BaseSettings *settings)
+	//CharacterSpawn::CharacterSpawn(std::shared_ptr<Settings> &settings, Map *map)
+	CharacterSpawn::CharacterSpawn(std::shared_ptr<BaseSettings> &settings)
 	{
 		hasImage_ = false;
 		hasColor_ = false;
@@ -57,7 +57,7 @@ namespace AcedSharedDLL {
 
 
 
-	void CharacterSpawn::SetObjectImageColor(Image *image)
+	void CharacterSpawn::SetObjectImageColor(std::shared_ptr<Image> &image)
 	{
 		if (image->GetImage() != nullptr)
 		{

@@ -19,7 +19,7 @@
 #include "../LivingEntity/Character.h"
 #include "Item.h"
 
-
+#include <memory>
 
 
 #ifdef ACEDSHAREDDLL_EXPORTS
@@ -30,18 +30,14 @@
 
 
 
+
 namespace AcedSharedDLL{
 
-	//This class Contains the maps dimensions are properties. 
-	//Contains the main list of tiles object that most things will reference
 	class Map
 	{
 		public:
-			//Definitions. 
-			//Map is the border of a MAP
-			//Window Size/View point is dictated by the displayHeight_,displayWidth_ variables that are in the Settings for display resolution
-			//Offset dictates how displaced the map is from the view point.
-			ACEDSHAREDDLL_API Map(BaseSettings *settings, ALLEGRO_DISPLAY *display, AssetLibrary *assetLibrary);
+
+			ACEDSHAREDDLL_API Map(std::shared_ptr<BaseSettings> &settings, ALLEGRO_DISPLAY *display, std::shared_ptr<AssetLibrary> &assetLibrary);
 
 			ACEDSHAREDDLL_API ~Map();
 
@@ -71,13 +67,13 @@ namespace AcedSharedDLL{
 			ACEDSHAREDDLL_API int GetMapHeight();
 			ACEDSHAREDDLL_API int GetPlayerStartX();
 			ACEDSHAREDDLL_API int GetPlayerStartY();
-			ACEDSHAREDDLL_API std::vector<std::vector<Cell>> &GetCellMap();
+			ACEDSHAREDDLL_API std::vector<std::vector<std::shared_ptr<Cell>>> &GetCellMap();
 			//ACEDSHAREDDLL_API std::vector<ObjectBase> &GetObjects();
 			ACEDSHAREDDLL_API double GetMapMoveXDelta();
 			ACEDSHAREDDLL_API double GetMapMoveYDelta();
 
-			ACEDSHAREDDLL_API std::vector<Character*> &GetEnemyList();
-			ACEDSHAREDDLL_API std::vector<Item*> &GetItemList();
+			ACEDSHAREDDLL_API std::vector<std::shared_ptr<Character>> &GetEnemyList();
+			ACEDSHAREDDLL_API std::vector<std::shared_ptr<Item>> &GetItemList();
 
 
 
@@ -136,13 +132,14 @@ namespace AcedSharedDLL{
 			ACEDSHAREDDLL_API void RemoveEnemyFromMap(int tileXPos, int tileYPos);
 			ACEDSHAREDDLL_API void RemoveItemFromMap(int tileXPos, int tileYPos);
 
-			ACEDSHAREDDLL_API void AddEnemyToMap(EditorItemBase *item, int tileXPos, int tileYPos);
-			ACEDSHAREDDLL_API void AddItemToMap(EditorItemBase *item, int tileXPos, int tileYPos);
+			ACEDSHAREDDLL_API void AddEnemyToMap(std::shared_ptr<EditorItemBase> &item, int tileXPos, int tileYPos);
+			ACEDSHAREDDLL_API void AddItemToMap(std::shared_ptr<EditorItemBase> &item, int tileXPos, int tileYPos);
 
 			ACEDSHAREDDLL_API bool EnemyAlreadyExistsAtXY(int tileXPos, int tileYPos);
 			ACEDSHAREDDLL_API bool ItemAlreadyExistsAtXY(int tileXPos, int tileYPos);
-			ACEDSHAREDDLL_API Item* ItemCollisionCheckAtXY(double playerX, double playerY, double width, double height);
-			
+			ACEDSHAREDDLL_API bool ItemCollisionCheckAtXYExists(double playerX, double playerY, double width, double height);
+			ACEDSHAREDDLL_API std::shared_ptr<Item> ItemCollisionCheckAtXY(double playerX, double playerY, double width, double height);
+
 
 			//-----------------------------------------------------------------------------------------------------
 
@@ -206,19 +203,17 @@ namespace AcedSharedDLL{
 			int playerStartY_;
 
 
-			std::vector<std::vector<Cell>> cellMap_;
-			std::vector<Character*> enemyList_;
-			std::vector<Item*> itemList_;
+			std::vector<std::vector<std::shared_ptr<Cell>>> cellMap_;
+			std::vector<std::shared_ptr<Character>> enemyList_;
+			std::vector<std::shared_ptr<Item>> itemList_;
 
 
 			//std::vector<ObjectBase> objects_;
 
 
 
-
-			ALLEGRO_FONT *font30_;
-			AssetLibrary *assetLibrary_;
-			BaseSettings *settings_;
+			std::shared_ptr<AssetLibrary> assetLibrary_;
+			std::shared_ptr<BaseSettings> settings_;
 			ALLEGRO_DISPLAY *display_;
 	};
 }

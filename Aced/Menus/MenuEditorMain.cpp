@@ -3,36 +3,36 @@
 
 
 
-MenuEditorMain::MenuEditorMain(Settings *settings) : Menu(settings) {
+MenuEditorMain::MenuEditorMain(std::shared_ptr<Settings> &settings) : Menu((std::shared_ptr<AcedSharedDLL::BaseSettings>)settings) {
 	SetFont(al_load_font("arial.ttf", 30, 0));
 
-	SetMenuHeader("Editor Menu");
+	SetMenuHeader(std::string("Editor Menu"));
 	SetId(AcedSharedDLL::STATES::EDITORMAINMENU);
 
-	AcedSharedDLL::MenuItem* itemStore = new AcedSharedDLL::MenuItem;
-	itemStore->SetId(AcedSharedDLL::STATES::NEW);
-	itemStore->SetMenuItemText("New Map");
-	AddMenuItem(itemStore);
+	auto itemStoreNew = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
+	itemStoreNew->SetId(AcedSharedDLL::STATES::NEW);
+	itemStoreNew->SetMenuItemText(std::string("New Map"));
+	AddMenuItem(itemStoreNew);
 
-	itemStore = new AcedSharedDLL::MenuItem;
-	itemStore->SetId(AcedSharedDLL::STATES::LOAD);
-	itemStore->SetMenuItemText("Load Map");
-	AddMenuItem(itemStore);
+	auto itemStoreLoad = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
+	itemStoreLoad->SetId(AcedSharedDLL::STATES::LOAD);
+	itemStoreLoad->SetMenuItemText(std::string("Load Map"));
+	AddMenuItem(itemStoreLoad);
 
-	itemStore = new AcedSharedDLL::MenuItem;
-	itemStore->SetId(AcedSharedDLL::STATES::OPTIONS);
-	itemStore->SetMenuItemText("Options");
-	AddMenuItem(itemStore);
+	auto itemStoreOptions = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
+	itemStoreOptions->SetId(AcedSharedDLL::STATES::OPTIONS);
+	itemStoreOptions->SetMenuItemText(std::string("Options"));
+	AddMenuItem(itemStoreOptions);
 
 	/*itemStore = new MenuItem;
 	itemStore->SetId(STATES::ABOUT);
 	itemStore->SetMenuItemText("About");
 	AddMenuItem(itemStore);*/
 
-	itemStore = new AcedSharedDLL::MenuItem;
-	itemStore->SetId(AcedSharedDLL::STATES::QUIT);
-	itemStore->SetMenuItemText("Quit");
-	AddMenuItem(itemStore);
+	auto itemStoreQuit = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
+	itemStoreQuit->SetId(AcedSharedDLL::STATES::QUIT);
+	itemStoreQuit->SetMenuItemText(std::string("Quit"));
+	AddMenuItem(itemStoreQuit);
 
 
 	SetMenuX(300);

@@ -28,14 +28,14 @@
 class MenuEditorMain : public AcedSharedDLL::Menu
 {
 public:
-	MenuEditorMain(Settings *settings);
+	MenuEditorMain(std::shared_ptr<Settings> &settings);
 private:
 };
 //This is the in editing esc(menu) 
 class MenuEditor : public AcedSharedDLL::Menu
 {
 public:
-	MenuEditor(Settings *settings);
+	MenuEditor(std::shared_ptr<Settings> &settings);
 private:
 };
 
@@ -43,7 +43,7 @@ private:
 class MenuMapOptions : public AcedSharedDLL::Menu
 {
 public:
-	MenuMapOptions(Settings *settings, AcedSharedDLL::Map *currentMap);
+	MenuMapOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap);
 
 private:
 
@@ -62,7 +62,7 @@ private:
 class MenuOptions : public AcedSharedDLL::Menu
 {
 public:
-	MenuOptions(Settings *settings, AcedSharedDLL::Map *currentMap);
+	MenuOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap);
 
 private:
 
@@ -79,7 +79,7 @@ private:
 class MenuGameMain : public AcedSharedDLL::Menu
 {
 public:
-	MenuGameMain(Settings *settings);
+	MenuGameMain(std::shared_ptr<Settings> &settings);
 private:
 };
 

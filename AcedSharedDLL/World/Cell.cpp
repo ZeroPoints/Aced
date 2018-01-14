@@ -13,12 +13,12 @@ namespace AcedSharedDLL {
 
 	Cell::~Cell()
 	{
-		if (hasTile_) {
+		/*if (hasTile_) {
 			delete tile_;
 		}
 		if (hasInteractiveObject_) {
 			delete interactiveObject_;
-		}
+		}*/
 		//fprintf(stderr, "A Cell Destructed\n");
 	}
 
@@ -33,13 +33,13 @@ namespace AcedSharedDLL {
 
 
 
-	void Cell::SetTile(Tile* tile)
+	void Cell::SetTile(std::shared_ptr<Tile> &tile)
 	{
 		hasTile_ = true;
 		tile_ = tile;
 	}
 
-	void Cell::SetInteractiveObject(InteractiveObject* interactiveObject)
+	void Cell::SetInteractiveObject(std::shared_ptr<InteractiveObject> &interactiveObject)
 	{
 		hasInteractiveObject_ = true;
 		interactiveObject_ = interactiveObject;
@@ -55,7 +55,7 @@ namespace AcedSharedDLL {
 	{
 		tileType_ = tileType;
 	}
-	void Cell::SetTileTypeProperties(EditorItemBase *selectedTile)
+	void Cell::SetTileTypeProperties(std::shared_ptr<EditorItemBase> &selectedTile)
 	{
 		tileType_ = selectedTile->GetTileType();
 	}
@@ -80,7 +80,7 @@ namespace AcedSharedDLL {
 
 
 
-	Tile* Cell::GetTile()
+	std::shared_ptr<Tile> &Cell::GetTile()
 	{
 		return tile_;
 	}
@@ -93,7 +93,7 @@ namespace AcedSharedDLL {
 
 
 
-	InteractiveObject* Cell::GetInteractiveObject()
+	std::shared_ptr<InteractiveObject> &Cell::GetInteractiveObject()
 	{
 		return interactiveObject_;
 	}
@@ -254,7 +254,7 @@ namespace AcedSharedDLL {
 
 	void Cell::DeleteTile() {
 		hasTile_ = false;
-		delete tile_;
+		//delete tile_;
 	}
 	void Cell::DeleteInteractiveObject() {
 		if (hasInteractiveObjectReference_) {
@@ -262,7 +262,7 @@ namespace AcedSharedDLL {
 		}
 		else if(hasInteractiveObject_){
 			hasInteractiveObject_ = false;
-			delete interactiveObject_;
+			//delete interactiveObject_;
 		}
 	}
 

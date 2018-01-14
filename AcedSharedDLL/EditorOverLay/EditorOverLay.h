@@ -19,6 +19,8 @@
 #include <allegro5\allegro_primitives.h>//shapes
 #include <ctime>
 #include "../Config/AssetLibrary.h"
+#include <memory>
+
 
 
 #ifdef ACEDSHAREDDLL_EXPORTS
@@ -35,7 +37,7 @@ namespace AcedSharedDLL{
 	{
 		public:
 
-			ACEDSHAREDDLL_API EditorOverLay(BaseSettings *settings, STATES id, AssetLibrary *assetLibrary);
+			ACEDSHAREDDLL_API EditorOverLay(std::shared_ptr<BaseSettings> &settings, STATES id, std::shared_ptr<AssetLibrary> &assetLibrary);
 
 
 
@@ -43,13 +45,13 @@ namespace AcedSharedDLL{
 			{
 				//fprintf(stderr, "A EditorOverLay Destructed\n");
 
-				delete tilePickerWindow_;
+				/*delete tilePickerWindow_;
 
-				for (TilePage* item : tilePages_)
+				for (std::shared_ptr<TilePage* item : tilePages_)
 				{
 					delete item;
 					item = nullptr;
-				}
+				}*/
 
 				
 
@@ -120,7 +122,7 @@ namespace AcedSharedDLL{
 			ACEDSHAREDDLL_API void CreateTilePages();
 
 			
-			ACEDSHAREDDLL_API EditorItemBase* GetSelectedItemBase()
+			ACEDSHAREDDLL_API std::shared_ptr<EditorItemBase> &GetSelectedItemBase()
 			{
 				return tilePages_[currentTilePage_]->GetSelectedItemBase();
 			}
@@ -192,8 +194,8 @@ namespace AcedSharedDLL{
 				tilePickerWindow_->SetWidth(width);
 			}
 
-			ACEDSHAREDDLL_API void SetMenuHeader(char *text, double positionX, double positionY);
-			ACEDSHAREDDLL_API ObjectBase *GetMenuHeader()
+			ACEDSHAREDDLL_API void SetMenuHeader(const std::string &text, double positionX, double positionY);
+			ACEDSHAREDDLL_API std::shared_ptr<ObjectBase> &GetMenuHeader()
 			{
 				return menuHeaderItem_;
 			};
@@ -214,7 +216,7 @@ namespace AcedSharedDLL{
 			int height_;
 			int imageBundleDictionarySize_;
 			int imageBundleDictionaryId_;
-			Image *remove_;
+			std::shared_ptr<Image> remove_;
 
 			
 			AcedSharedDLL::OVERLAYACTIONS overLayAction_;
@@ -222,18 +224,18 @@ namespace AcedSharedDLL{
 
 			AcedSharedDLL::IMAGESETS imageSetId_;
 
-			ObjectBase *tilePickerWindow_;
+			std::shared_ptr<ObjectBase> tilePickerWindow_;
 
 
-			ObjectBase *menuHeaderItem_;
+			std::shared_ptr<ObjectBase> menuHeaderItem_;
 
 
 
 			int currentTilePage_;
-			std::vector<TilePage*> tilePages_;
+			std::vector<std::shared_ptr<TilePage>> tilePages_;
 
 
-			std::vector<std::vector<EditorItemBase>> itemBaseList_;
+			std::vector<std::vector<std::shared_ptr<EditorItemBase>>> itemBaseList_;
 
 
 			
@@ -243,8 +245,8 @@ namespace AcedSharedDLL{
 			ALLEGRO_COLOR chosenColor_;
 
 
-			AssetLibrary *assetLibrary_;
-			BaseSettings *settings_;
+			std::shared_ptr<AssetLibrary> assetLibrary_;
+			std::shared_ptr<BaseSettings> settings_;
 	};
 }
 #endif

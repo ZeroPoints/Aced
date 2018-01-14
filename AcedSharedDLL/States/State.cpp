@@ -5,7 +5,7 @@ namespace AcedSharedDLL {
 	//Base class for states to inherit from
 	//This is the driving structure for this projects state management system
 
-	State::State(ALLEGRO_DISPLAY *display, BaseSettings *settings, Map *currentMap, AssetLibrary *assetLibrary) {
+	State::State(ALLEGRO_DISPLAY *display, std::shared_ptr<BaseSettings> &settings, std::shared_ptr<Map> &currentMap, std::shared_ptr<AssetLibrary> &assetLibrary) {
 		SetAssetLibrary(assetLibrary);
 		SetDisplay(display);
 		SetSettings(settings);
@@ -18,12 +18,12 @@ namespace AcedSharedDLL {
 
 
 	State::~State() {
-		al_destroy_event_queue(eventQueue_);
+		/*al_destroy_event_queue(eventQueue_);
 		al_destroy_font(font30_);
 		al_destroy_timer(timer);
 		if (hasMenu_) {
 			delete menu_;
-		}
+		}*/
 		//fprintf(stderr,"A State Destructed\n");
 		return;
 	}
@@ -58,10 +58,10 @@ namespace AcedSharedDLL {
 		return done_;
 	}
 
-	ALLEGRO_FONT* State::GetFont()
-	{
-		return font30_;
-	}
+	//ALLEGRO_FONT* State::GetFont()
+	//{
+	//	return font30_;
+	//}
 
 	ALLEGRO_TIMER* State::GetTimer()
 	{
@@ -73,7 +73,7 @@ namespace AcedSharedDLL {
 		return eventQueue_;
 	}
 
-	Map* State::GetMap()
+	std::shared_ptr<Map> &State::GetMap()
 	{
 		return currentMap_;
 	}
@@ -125,10 +125,10 @@ namespace AcedSharedDLL {
 		return running_;
 	}
 
-	BaseSettings* State::GetSettings() {
+	std::shared_ptr<BaseSettings> &State::GetSettings() {
 		return settings_;
 	}
-	Menu* State::GetMenu() {
+	std::shared_ptr<Menu> &State::GetMenu() {
 		return menu_;
 	}
 
@@ -137,7 +137,7 @@ namespace AcedSharedDLL {
 	}
 
 
-	State* State::GetNextState() {
+	std::shared_ptr<State> &State::GetNextState() {
 		return nextState_;
 	}
 
@@ -182,9 +182,9 @@ namespace AcedSharedDLL {
 		running_ = flag;
 	}
 
-	void State::SetFont(ALLEGRO_FONT* currentFont) {
+	/*void State::SetFont(ALLEGRO_FONT* currentFont) {
 		font30_ = currentFont;
-	}
+	}*/
 
 	void State::SetTimer(ALLEGRO_TIMER* currentTimer) {
 		timer = currentTimer;
@@ -194,15 +194,15 @@ namespace AcedSharedDLL {
 		eventQueue_ = eventQueue;
 	}
 
-	void State::SetMap(Map* currentMap) {
+	void State::SetMap(std::shared_ptr<Map> &currentMap) {
 		currentMap_ = currentMap;
 	}
 
-	void State::SetAssetLibrary(AssetLibrary* assetLibrary) {
+	void State::SetAssetLibrary(std::shared_ptr<AssetLibrary> &assetLibrary) {
 		assetLibrary_ = assetLibrary;
 	}
 
-	AssetLibrary* State::GetAssetLibrary() {
+	std::shared_ptr<AssetLibrary> &State::GetAssetLibrary() {
 		return assetLibrary_;
 	}
 
@@ -210,7 +210,7 @@ namespace AcedSharedDLL {
 		display_ = currentDisplay;
 	}
 
-	void State::SetSettings(BaseSettings* settings) {
+	void State::SetSettings(std::shared_ptr<BaseSettings> &settings) {
 		settings_ = settings;
 	}
 
@@ -250,7 +250,7 @@ namespace AcedSharedDLL {
 		chosenColor_ = color;
 	}
 
-	void State::SetMenu(Menu *menu) {
+	void State::SetMenu(std::shared_ptr<Menu> &menu) {
 		menu_ = menu;
 		hasMenu_ = true;
 	}
@@ -264,8 +264,13 @@ namespace AcedSharedDLL {
 		stateDirection_ = direction;
 	}
 
-	void State::SetNextState(State* state) {
-		nextState_ = state;
+	void State::SetNextState(std::shared_ptr<State> &state) {
+
+		nextState_.swap(state);
+
+
+		//nextState_.reset();
+		//nextState_ = state;
 	}
 
 	void State::SetPopLevel(int level = 1) {

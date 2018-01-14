@@ -79,7 +79,7 @@ namespace AcedSharedDLL{
 	Image::~Image()
 	{
 		//fprintf(stderr, "A Image Destructed\n");
-		al_destroy_bitmap(img_);
+		//al_destroy_bitmap(img_);
 	}
 
 

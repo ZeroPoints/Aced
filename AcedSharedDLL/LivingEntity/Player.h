@@ -32,8 +32,9 @@ namespace AcedSharedDLL{
 	class Player
 	{
 		public:
-			ACEDSHAREDDLL_API Player(BaseSettings *settings, Map *map);
+			ACEDSHAREDDLL_API Player(std::shared_ptr<BaseSettings> &settings, std::shared_ptr<Map> &map);
 
+			ACEDSHAREDDLL_API ~Player();
 
 
 
@@ -70,7 +71,7 @@ namespace AcedSharedDLL{
 
 
 			ACEDSHAREDDLL_API void SetPlayerFacingDirection(CHARACTERFACINGDIRECTION direction);
-			ACEDSHAREDDLL_API virtual void SetImageBundle(ImageBundle *imageBundle);
+			ACEDSHAREDDLL_API virtual void SetImageBundle(std::shared_ptr<ImageBundle> &imageBundle);
 
 			ACEDSHAREDDLL_API void SetKeyRight(bool val);
 			ACEDSHAREDDLL_API void SetKeyLeft(bool val);
@@ -114,10 +115,10 @@ namespace AcedSharedDLL{
 			ACEDSHAREDDLL_API bool GetKeyRight();
 			ACEDSHAREDDLL_API bool GetKeyLeft();
 
-			ACEDSHAREDDLL_API Map GetMap();
-			ACEDSHAREDDLL_API BaseSettings GetSettings();
+			ACEDSHAREDDLL_API std::shared_ptr<Map> &GetMap();
+			ACEDSHAREDDLL_API std::shared_ptr<BaseSettings> &GetSettings();
 
-			ACEDSHAREDDLL_API std::vector<Item*> &GetItemList();
+			ACEDSHAREDDLL_API std::vector<std::shared_ptr<Item>> &GetItemList();
 
 
 
@@ -160,7 +161,7 @@ namespace AcedSharedDLL{
 			ACEDSHAREDDLL_API bool CheckNextXPositionGoingLeft(float nextPosX, float nextPosY);
 			ACEDSHAREDDLL_API bool CheckNextXPositionGoingRight(float nextPosX, float nextPosY);
 
-			ACEDSHAREDDLL_API bool CheckNextPositionForObject(Cell &cellFuture);
+			ACEDSHAREDDLL_API bool CheckNextPositionForObject(std::shared_ptr<Cell> &cellFuture);
 
 
 
@@ -198,7 +199,7 @@ namespace AcedSharedDLL{
 
 
 
-			ACEDSHAREDDLL_API void AddItemToInventory(Item *item);
+			ACEDSHAREDDLL_API void AddItemToInventory(std::shared_ptr<Item> &item);
 
 
 			ACEDSHAREDDLL_API void RemoveItemFromInventory(int id);
@@ -216,7 +217,7 @@ namespace AcedSharedDLL{
 		CHARACTERYAXISSTATES characterYAxisState_;
 
 
-		std::vector<Item*> itemList_;
+		std::vector<std::shared_ptr<Item>> itemList_;
 
 
 
@@ -268,7 +269,7 @@ namespace AcedSharedDLL{
 		char *text_;
 
 
-		ImageBundle *imageBundle_;
+		std::shared_ptr<ImageBundle> imageBundle_;
 
 		CHARACTERFACINGDIRECTION faceDirection_;
 		CHARACTERIMAGESTATES imageState_;
@@ -291,8 +292,8 @@ namespace AcedSharedDLL{
 
 
 		ALLEGRO_EVENT *ev_;
-		Map *map_;
-		BaseSettings *settings_;
+		std::shared_ptr<Map> map_;
+		std::shared_ptr<BaseSettings> settings_;
 		bool KeyE_;
 		bool KeyLeft_;
 		bool OldKeyLeft_;

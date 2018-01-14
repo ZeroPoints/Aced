@@ -36,7 +36,7 @@ namespace AcedSharedDLL {
 	{
 	public:
 
-		ACEDSHAREDDLL_API State(ALLEGRO_DISPLAY *display, BaseSettings *settings, Map *currentMap, AssetLibrary *assetLibrary);;
+		ACEDSHAREDDLL_API State(ALLEGRO_DISPLAY *display, std::shared_ptr<BaseSettings> &settings, std::shared_ptr<Map> &currentMap, std::shared_ptr<AssetLibrary> &assetLibrary);;
 
 
 		ACEDSHAREDDLL_API virtual ~State();
@@ -51,21 +51,21 @@ namespace AcedSharedDLL {
 
 
 
-		ACEDSHAREDDLL_API virtual STATES GetId();;
+		ACEDSHAREDDLL_API virtual STATES GetId();
 
-		ACEDSHAREDDLL_API virtual STATES GetKeyPressState();;
+		ACEDSHAREDDLL_API virtual STATES GetKeyPressState();
 
-		ACEDSHAREDDLL_API virtual bool GetRedraw();;
+		ACEDSHAREDDLL_API virtual bool GetRedraw();
 
-		ACEDSHAREDDLL_API virtual bool GetDone();;
+		ACEDSHAREDDLL_API virtual bool GetDone();
 
-		ACEDSHAREDDLL_API virtual ALLEGRO_FONT* GetFont();;
+		//ACEDSHAREDDLL_API virtual ALLEGRO_FONT* GetFont();;
 
-		ACEDSHAREDDLL_API virtual ALLEGRO_TIMER* GetTimer();;
+		ACEDSHAREDDLL_API virtual ALLEGRO_TIMER* GetTimer();
 
 		ACEDSHAREDDLL_API virtual ALLEGRO_EVENT_QUEUE* GetEventQueue();
 
-		ACEDSHAREDDLL_API virtual Map* GetMap();
+		ACEDSHAREDDLL_API virtual std::shared_ptr<Map> &GetMap();
 		ACEDSHAREDDLL_API virtual ALLEGRO_DISPLAY* GetDisplay();
 
 		ACEDSHAREDDLL_API virtual bool GetRightMouseDown();
@@ -91,13 +91,13 @@ namespace AcedSharedDLL {
 
 		ACEDSHAREDDLL_API virtual bool GetRunning();
 
-		ACEDSHAREDDLL_API virtual BaseSettings* GetSettings();
-		ACEDSHAREDDLL_API virtual Menu *GetMenu();
+		ACEDSHAREDDLL_API virtual std::shared_ptr<BaseSettings> &GetSettings();
+		ACEDSHAREDDLL_API virtual std::shared_ptr<Menu> &GetMenu();
 
 		ACEDSHAREDDLL_API virtual STATEDIRECTION GetStateDirection();
 
 
-		ACEDSHAREDDLL_API virtual State* GetNextState();
+		ACEDSHAREDDLL_API virtual std::shared_ptr<State> &GetNextState();
 
 		ACEDSHAREDDLL_API virtual int GetPopLevel();
 
@@ -124,21 +124,21 @@ namespace AcedSharedDLL {
 
 		ACEDSHAREDDLL_API virtual void SetRunning(bool flag);
 
-		ACEDSHAREDDLL_API virtual void SetFont(ALLEGRO_FONT* currentFont);
+		//ACEDSHAREDDLL_API virtual void SetFont(ALLEGRO_FONT* currentFont);
 
 		ACEDSHAREDDLL_API virtual void SetTimer(ALLEGRO_TIMER* currentTimer);
 
 		ACEDSHAREDDLL_API virtual void SetEventQueue(ALLEGRO_EVENT_QUEUE* eventQueue);
 
-		ACEDSHAREDDLL_API virtual void SetMap(Map* currentMap);
+		ACEDSHAREDDLL_API virtual void SetMap(std::shared_ptr<Map> &currentMap);
 
-		ACEDSHAREDDLL_API virtual void SetAssetLibrary(AssetLibrary* assetLibrary);
+		ACEDSHAREDDLL_API virtual void SetAssetLibrary(std::shared_ptr<AssetLibrary> &assetLibrary);
 
-		ACEDSHAREDDLL_API virtual AssetLibrary* GetAssetLibrary();
+		ACEDSHAREDDLL_API virtual std::shared_ptr<AssetLibrary> &GetAssetLibrary();
 
 		ACEDSHAREDDLL_API virtual void SetDisplay(ALLEGRO_DISPLAY* currentDisplay);
 
-		ACEDSHAREDDLL_API virtual void SetSettings(BaseSettings* settings);
+		ACEDSHAREDDLL_API virtual void SetSettings(std::shared_ptr<BaseSettings> &settings);
 
 		ACEDSHAREDDLL_API virtual void SetRightMouseDown(bool rightMouseDown);
 
@@ -156,13 +156,13 @@ namespace AcedSharedDLL {
 
 		ACEDSHAREDDLL_API virtual void SetChosenColor(ALLEGRO_COLOR color);
 
-		ACEDSHAREDDLL_API void SetMenu(Menu *menu);
+		ACEDSHAREDDLL_API void SetMenu(std::shared_ptr<Menu> &menu);
 
 		ACEDSHAREDDLL_API virtual void SetEvent(ALLEGRO_EVENT *event);
 
 		ACEDSHAREDDLL_API virtual void SetStateDirection(STATEDIRECTION direction);
 
-		ACEDSHAREDDLL_API virtual void SetNextState(State* state);
+		ACEDSHAREDDLL_API virtual void SetNextState(std::shared_ptr<State> &state);
 
 		ACEDSHAREDDLL_API virtual void SetPopLevel(int level);
 
@@ -209,16 +209,16 @@ namespace AcedSharedDLL {
 		ALLEGRO_DISPLAY *display_;
 		ALLEGRO_EVENT *event_;
 		ALLEGRO_EVENT_QUEUE *eventQueue_;
-		ALLEGRO_FONT *font30_;
+		//ALLEGRO_FONT *font30_;
 		ALLEGRO_TIMER *timer;
 		//state pair for editorengine.cpp to push pop state accordingly if need be
 		STATEDIRECTION stateDirection_;
 		STATES Id_, keyPressState_, keyPressReturnVal_;//keyPressReturnVal_ unused
-		AssetLibrary *assetLibrary_;
-		Map *currentMap_;
-		Menu *menu_;
-		BaseSettings *settings_;
-		State* nextState_;
+		std::shared_ptr<AssetLibrary> assetLibrary_;
+		std::shared_ptr<Map> currentMap_;
+		std::shared_ptr<Menu> menu_;
+		std::shared_ptr<BaseSettings> settings_;
+		std::shared_ptr<State> nextState_;
 		bool redraw_, done_, running_, rightMouseDown_, leftmousedown_, playerSelected_, hasMenu_;
 		int mouseCursorX_, mouseCursorY_;
 		int popLevel_;

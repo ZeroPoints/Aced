@@ -5,6 +5,7 @@
 namespace AcedSharedDLL {
 	BaseSettings::BaseSettings() {
 
+		font30_ = al_load_font("arial.ttf", Constants::TileSize(), 0);
 
 		InitDefaultBaseSettings();
 
@@ -71,7 +72,9 @@ namespace AcedSharedDLL {
 
 
 
+	BaseSettings::~BaseSettings() {
 
+	}
 
 
 
@@ -212,6 +215,9 @@ namespace AcedSharedDLL {
 	};
 
 
+	ALLEGRO_FONT *BaseSettings::GetFont30() {
+		return font30_;
+	};
 
 
 

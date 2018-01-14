@@ -16,7 +16,7 @@
 #include "../ImageManagement/Image.h"
 #include "../EditorOverLay/EditorItemBase.h"
 
-
+#include <memory>
 
 
 #ifdef ACEDSHAREDDLL_EXPORTS
@@ -42,7 +42,7 @@ namespace AcedSharedDLL{
 			//Gets
 
 
-			ACEDSHAREDDLL_API ImageBundle *GetImageBundle();
+			ACEDSHAREDDLL_API std::shared_ptr<ImageBundle> &GetImageBundle();
 			ACEDSHAREDDLL_API bool GetHasColor();
 			ACEDSHAREDDLL_API bool GetHasImage();
 			ACEDSHAREDDLL_API ALLEGRO_COLOR GetColor();
@@ -57,9 +57,9 @@ namespace AcedSharedDLL{
 
 
 
-			ACEDSHAREDDLL_API void SetTileBase(EditorItemBase *selectedTile);
+			ACEDSHAREDDLL_API void SetTileBase(std::shared_ptr<EditorItemBase> &selectedTile);
 
-			ACEDSHAREDDLL_API void SetImageBundle(ImageBundle *image);
+			ACEDSHAREDDLL_API void SetImageBundle(std::shared_ptr<ImageBundle> &image);
 
 			ACEDSHAREDDLL_API void SetColor(ALLEGRO_COLOR color);
 			ACEDSHAREDDLL_API void SetColorR(float r);
@@ -105,7 +105,7 @@ namespace AcedSharedDLL{
 
 			AcedSharedDLL::IMAGESETS imageSet_;
 
-			ImageBundle *imageBundle_;
+			std::shared_ptr<ImageBundle> imageBundle_;
 
 			ALLEGRO_COLOR chosenColor_;
 

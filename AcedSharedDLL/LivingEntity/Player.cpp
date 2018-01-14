@@ -2,7 +2,7 @@
 
 namespace AcedSharedDLL {
 
-	Player::Player(BaseSettings *settings, Map *map)
+	Player::Player(std::shared_ptr<BaseSettings> &settings, std::shared_ptr<Map> &map)
 	{
 
 		hasText_ = false;
@@ -41,7 +41,6 @@ namespace AcedSharedDLL {
 		font30_ = al_load_font("arial.ttf", Constants::TileSize(), 0);
 
 
-
 		imageState_ = CHARACTERIMAGESTATES::CHARACTERIDLERIGHT;
 		animationTick_ = 0;
 
@@ -49,9 +48,20 @@ namespace AcedSharedDLL {
 
 
 		lastImageUpdate_ = 0;
+
+
+
+
 	}
 
 
+	Player::~Player()
+	{
+		if (itemList_.size() > 0) {
+			//Safety precaution for some reason
+		}
+
+	}
 
 
 
@@ -123,7 +133,7 @@ namespace AcedSharedDLL {
 	}
 
 
-	void Player::SetImageBundle(ImageBundle *imageBundle)
+	void Player::SetImageBundle(std::shared_ptr<ImageBundle> &imageBundle)
 	{
 		if (imageBundle->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage() != nullptr)
 		{
@@ -227,7 +237,7 @@ namespace AcedSharedDLL {
 		return KeyLeft_;
 	}
 
-	std::vector<Item*> &Player::GetItemList() {
+	std::vector<std::shared_ptr<Item>> &Player::GetItemList() {
 		return itemList_;
 	}
 
@@ -422,9 +432,9 @@ namespace AcedSharedDLL {
 			}
 			for (int i = 0; i < height; i++)
 			{
-				Cell *cellFuture = &map_->GetCellMap()[(nextPosX) / Constants::TileSize() + GetWidth()][(GetCurrentPositionY()*Constants::TileSize() + i) / Constants::TileSize()];
+				std::shared_ptr<Cell> cellFuture = map_->GetCellMap()[(nextPosX) / Constants::TileSize() + GetWidth()][(GetCurrentPositionY()*Constants::TileSize() + i) / Constants::TileSize()];
 				//detect if its an object and if it is use item
-				if (CheckNextPositionForObject(*cellFuture)) {
+				if (CheckNextPositionForObject(cellFuture)) {
 					//Object exists if its a door do something
 					switch (cellFuture->GetInteractiveObject()->GetObjectType()) {
 						case OBJECTTYPES::DOOR:
@@ -444,9 +454,9 @@ namespace AcedSharedDLL {
 			}
 			for (int i = 0; i < height; i++)
 			{
-				Cell *cellFuture = &map_->GetCellMap()[(nextPosX) / Constants::TileSize()][(GetCurrentPositionY()*Constants::TileSize() + i) / Constants::TileSize()];
+				std::shared_ptr<Cell> cellFuture = map_->GetCellMap()[(nextPosX) / Constants::TileSize()][(GetCurrentPositionY()*Constants::TileSize() + i) / Constants::TileSize()];
 				//detect if its an object and if it is use item
-				if (CheckNextPositionForObject(*cellFuture)) {
+				if (CheckNextPositionForObject(cellFuture)) {
 					//Object exists if its a door do something
 					switch (cellFuture->GetInteractiveObject()->GetObjectType()) {
 					case OBJECTTYPES::DOOR:
@@ -559,22 +569,23 @@ namespace AcedSharedDLL {
 
 
 
-		auto item = map_->ItemCollisionCheckAtXY(currentPositionX_, currentPositionY_, width_, height_);
-		if (item != nullptr) {
+		if (map_->ItemCollisionCheckAtXYExists(currentPositionX_, currentPositionY_, width_, height_)) {
+			//shouldnt be null ever
+			auto item = map_->ItemCollisionCheckAtXY(currentPositionX_, currentPositionY_, width_, height_);
 			AddItemToInventory(item);
 		}
-
+		
 
 	}
 
 
 
 	//Checks the next cell if that cell has object then check if player has an item that can interact with it???
-	bool Player::CheckNextPositionForObject(Cell &cellFuture) {
+	bool Player::CheckNextPositionForObject(std::shared_ptr<Cell> &cellFuture) {
 
-		if (cellFuture.GetHasInteractiveObject()) {
+		if (cellFuture->GetHasInteractiveObject()) {
 
-			if (cellFuture.GetInteractiveObject()->CollisionInteraction(itemList_)) {
+			if (cellFuture->GetInteractiveObject()->CollisionInteraction(itemList_)) {
 				//player interaction code
 				//return true to stop user walking into that objects space
 				return true;
@@ -599,9 +610,9 @@ namespace AcedSharedDLL {
 
 		for (int i = 0; i < height; i++)
 		{
-			Cell *cellFuture = &map_->GetCellMap()[(nextPosX) / Constants::TileSize()][(nextPosY + i) / Constants::TileSize()];
+			std::shared_ptr<Cell> cellFuture = map_->GetCellMap()[(nextPosX) / Constants::TileSize()][(nextPosY + i) / Constants::TileSize()];
 			//detect if its an object and if it is use item
-			if (CheckNextPositionForObject(*cellFuture)) {
+			if (CheckNextPositionForObject(cellFuture)) {
 				return false;
 			}
 			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE || cellFuture->GetTileType() == TILETYPE::COLLISIONRIGHTTILE)
@@ -623,9 +634,9 @@ namespace AcedSharedDLL {
 
 		for (int i = 0; i < height; i++)
 		{
-			Cell *cellFuture = &map_->GetCellMap()[(nextPosX) / Constants::TileSize() + GetWidth()][(nextPosY + i) / Constants::TileSize()];
+			std::shared_ptr<Cell> cellFuture = map_->GetCellMap()[(nextPosX) / Constants::TileSize() + GetWidth()][(nextPosY + i) / Constants::TileSize()];
 			//detect if its an object and if it is use item
-			if (CheckNextPositionForObject(*cellFuture)) {
+			if (CheckNextPositionForObject(cellFuture)) {
 				return false;
 			}
 			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE || cellFuture->GetTileType() == TILETYPE::COLLISIONLEFTTILE)
@@ -652,9 +663,9 @@ namespace AcedSharedDLL {
 		}
 		for (int i = 0; i < width; i++)
 		{
-			Cell *cellFuture = &map_->GetCellMap()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize() + GetHeight()];
+			std::shared_ptr<Cell> cellFuture = map_->GetCellMap()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize() + GetHeight()];
 			//detect if its an object and if it is use item
-			if (CheckNextPositionForObject(*cellFuture)) {
+			if (CheckNextPositionForObject(cellFuture)) {
 				SetCurrentPositionY(cellFuture->GetCurrentPositionY() - GetHeight());
 				SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERONGROUND);
 				SetVelocityY(0.125);
@@ -684,9 +695,9 @@ namespace AcedSharedDLL {
 		}
 		for (int i = 0; i < width; i++)
 		{
-			Cell *cellFuture = &map_->GetCellMap()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize()];
+			std::shared_ptr<Cell> cellFuture = map_->GetCellMap()[(nextPosX + i) / Constants::TileSize()][(nextPosY) / Constants::TileSize()];
 			//detect if its an object and if it is use item
-			if (CheckNextPositionForObject(*cellFuture)) {
+			if (CheckNextPositionForObject(cellFuture)) {
 				SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERFALLING);
 				SetVelocityY(0.125);
 				return false;
@@ -838,7 +849,7 @@ namespace AcedSharedDLL {
 
 
 
-	void Player::AddItemToInventory(Item *thing) {
+	void Player::AddItemToInventory(std::shared_ptr<Item> &thing) {
 		double x, y;
 		if (itemList_.size() == 0) {
 			//offset init item placement by half a tilesize
@@ -866,7 +877,7 @@ namespace AcedSharedDLL {
 
 	void Player::RemoveItemFromInventory(int id) {
 
-		delete itemList_[id];
+		//delete itemList_[id];
 		itemList_.erase(itemList_.begin() + 0);
 
 	}

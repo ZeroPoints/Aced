@@ -16,7 +16,7 @@
 #include "../ImageManagement/ImageBundle.h"
 #include "../EditorOverLay/EditorItemBase.h"
 #include "../World/Item.h"
-
+#include <memory>
 
 
 
@@ -42,7 +42,7 @@ namespace AcedSharedDLL {
 
 		//Gets
 
-		ACEDSHAREDDLL_API ImageBundle *GetImageBundle();
+		ACEDSHAREDDLL_API std::shared_ptr<ImageBundle> &GetImageBundle();
 
 		ACEDSHAREDDLL_API ALLEGRO_COLOR GetColor();
 		ACEDSHAREDDLL_API AcedSharedDLL::IMAGESETS GetImageSet();
@@ -69,11 +69,11 @@ namespace AcedSharedDLL {
 
 
 
-		ACEDSHAREDDLL_API void SetItemBase(EditorItemBase *selectedObject);
+		ACEDSHAREDDLL_API void SetItemBase(std::shared_ptr<EditorItemBase> &selectedObject);
 
 
 
-		ACEDSHAREDDLL_API void SetImageBundle(ImageBundle *selectedImage);
+		ACEDSHAREDDLL_API void SetImageBundle(std::shared_ptr<ImageBundle> &selectedImage);
 
 
 
@@ -112,7 +112,7 @@ namespace AcedSharedDLL {
 		ACEDSHAREDDLL_API void RemoveAllProperties();
 		ACEDSHAREDDLL_API void RemoveImage();
 		//returns false  if interaction user can walk over object
-		ACEDSHAREDDLL_API bool CollisionInteraction(std::vector<Item*> &itemList);
+		ACEDSHAREDDLL_API bool CollisionInteraction(std::vector<std::shared_ptr<Item>> &itemList);
 
 
 	private:
@@ -135,7 +135,7 @@ namespace AcedSharedDLL {
 		ITEMTYPES itemType_;
 
 
-		ImageBundle *imageBundle_;
+		std::shared_ptr<ImageBundle> imageBundle_;
 	};
 
 

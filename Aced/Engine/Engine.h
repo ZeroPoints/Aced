@@ -28,7 +28,7 @@ using namespace AcedSharedDLL;
 class Engine
 {
     public:
-        Engine(ALLEGRO_DISPLAY *display, Settings *Settings, Map *currentMap, AssetLibrary *assetLibrary);
+        Engine(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &Settings, std::shared_ptr<Map> &currentMap, std::shared_ptr<AssetLibrary> &assetLibrary);
 
 		~Engine()
         {
@@ -38,7 +38,7 @@ class Engine
 			//check if this pops the last one off
 			while(i < popLevel){
 				states_.back()->CleanUp();
-				delete states_.back();
+				//delete states_.back();
 				states_.pop_back();
 				popLevel--;
 			}
@@ -50,8 +50,8 @@ class Engine
 
         void Run();
 		void CleanUp();
-		void ChangeState(State* state, ALLEGRO_DISPLAY *display);
-		void PushNewState(State* state);
+		void ChangeState(std::shared_ptr<State> &state, ALLEGRO_DISPLAY *display);
+		void PushNewState(std::shared_ptr<State> &state);
 		void PushState();
 		void PopState();
 		void PopStateToFirst();
@@ -67,15 +67,15 @@ class Engine
 		bool finished_;
 
 		ALLEGRO_DISPLAY *display_;
-		Settings *settings_;
-		Map *currentMap_;
-		AssetLibrary *assetLibrary_;
+		std::shared_ptr<Settings> settings_;
+		std::shared_ptr<Map> currentMap_;
+		std::shared_ptr<AssetLibrary> assetLibrary_;
 
 		//Not sure if this needs to be emptied as it is a pointer? to the last state in the state vector.
 		//so if state vector gets deleted this sshould be pointing to a null memory location
-		State* currentState_;
+		std::shared_ptr<State> currentState_;
 
-		std::vector<State*> states_;
+		std::vector<std::shared_ptr<State>> states_;
 		bool running_;
 		bool fullscreen_;
 

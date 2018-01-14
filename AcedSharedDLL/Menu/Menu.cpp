@@ -6,19 +6,19 @@ namespace AcedSharedDLL{
 
 
 
-	Menu::Menu(BaseSettings *settings) {
+	Menu::Menu(std::shared_ptr<BaseSettings> &settings) {
 		SetSettings(settings);
 
 		//fprintf(stderr, "A Menu Created\n");
 	}
 	 
 	Menu::~Menu() {
-		al_destroy_font(font30_);
+		/*al_destroy_font(font30_);
 		for (MenuItem* item : menuItems_)
 		{
 			delete item;
 			item = nullptr;
-		}
+		}*/
 		//fprintf(stderr, "A Menu Destructed\n");
 		return;
 	}
@@ -34,10 +34,10 @@ namespace AcedSharedDLL{
 	 int Menu::GetCurrentSelection() {
 		return currentSelection_;
 	};
-	 BaseSettings* Menu::GetSettings() {
+	 std::shared_ptr<BaseSettings> &Menu::GetSettings() {
 		return settings_;
 	}
-	 Map* Menu::GetMap() {
+	 std::shared_ptr<Map> &Menu::GetMap() {
 		return currentMap_;
 	}
 	 STATES Menu::GetId()
@@ -60,7 +60,7 @@ namespace AcedSharedDLL{
 	{
 		return menuY_;
 	}
-	 char *Menu::GetMenuHeader()
+	 std::string Menu::GetMenuHeader()
 	{
 		return menuHeader_;
 	}
@@ -80,7 +80,7 @@ namespace AcedSharedDLL{
 	{
 		return font30_;
 	}
-	 std::vector<MenuItem*> Menu::GetMenuItems()
+	 std::vector<std::shared_ptr<MenuItem>> &Menu::GetMenuItems()
 	{
 		return menuItems_;
 	}
@@ -138,7 +138,7 @@ namespace AcedSharedDLL{
 		menuHeaderX_ = menuHeaderX;
 	}
 
-	void Menu::SetMenuHeader(char *menuHeader)
+	void Menu::SetMenuHeader(const std::string &menuHeader)
 	{
 		menuHeader_ = menuHeader;
 		//strcpy_s(menuHeader_, menuHeader);
@@ -168,19 +168,20 @@ namespace AcedSharedDLL{
 		menuSubHeaderX_ = menuSubHeaderX;
 	}
 
-	void Menu::SetSubMenuHeader(char menuSubHeader[])
+	void Menu::SetSubMenuHeader(const std::string &menuSubHeader)
 	{
-		strcpy_s(menuSubHeader_, menuSubHeader);
+		menuSubHeader_ = menuSubHeader;
+		//strcpy_s(menuSubHeader_, menuSubHeader);
 	}
 #pragma endregion submenuheader
 
 
 
-	void Menu::SetSettings(BaseSettings *settings)
+	void Menu::SetSettings(std::shared_ptr<BaseSettings> &settings)
 	{
 		settings_ = settings;
 	}
-	void Menu::SetMap(Map *currentMap)
+	void Menu::SetMap(std::shared_ptr<Map> &currentMap)
 	{
 		currentMap_ = currentMap;
 	}
@@ -231,7 +232,7 @@ namespace AcedSharedDLL{
 	void Menu::DrawMenu() {
 		al_draw_filled_rectangle(menuHeaderX_, menuHeaderY_, menuHeaderX_ + menuHeaderWidth_, menuHeaderY_ + menuHeaderHeight_, al_map_rgb(0, 125, 255));
 		al_draw_rectangle(menuHeaderX_, menuHeaderY_, menuHeaderX_ + menuHeaderWidth_, menuHeaderY_ + menuHeaderHeight_, al_map_rgb(255, 255, 255), 1);
-		al_draw_text(font30_, al_map_rgb(255, 255, 255), menuHeaderX_ + (menuHeaderWidth_ / 2), menuHeaderY_ + 10, ALLEGRO_ALIGN_CENTRE, menuHeader_);//change the 10 into a value eg: (menuheaderheight-fontsize)/2 that will work
+		al_draw_text(font30_, al_map_rgb(255, 255, 255), menuHeaderX_ + (menuHeaderWidth_ / 2), menuHeaderY_ + 10, ALLEGRO_ALIGN_CENTRE, menuHeader_.c_str());//change the 10 into a value eg: (menuheaderheight-fontsize)/2 that will work
 
 																																					  //menu drawing rectangle
 		al_draw_filled_rectangle(menuX_, menuY_, menuX_ + menuWidth_, menuY_ + menuHeight_, al_map_rgb(125, 0, 255));
@@ -253,7 +254,7 @@ namespace AcedSharedDLL{
 
 
 
-	void Menu::AddMenuItem(MenuItem* newMenuItem)
+	void Menu::AddMenuItem(std::shared_ptr<MenuItem> &newMenuItem)
 	{
 		menuItems_.push_back(newMenuItem);
 	}

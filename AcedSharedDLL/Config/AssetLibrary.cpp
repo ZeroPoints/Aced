@@ -5,9 +5,9 @@
 namespace AcedSharedDLL {
 	 AssetLibrary::AssetLibrary()
 	 {
-		 ImageLoader loader = ImageLoader();
+		 std::shared_ptr<ImageLoader> loader(new ImageLoader());
 
-		 imageDictionary_ = loader.GetImageSetDictionary();
+		 imageDictionary_ = loader->GetImageSetDictionary();
 
 
 		 //map_ = Map(&settings, display, &imageDictionary_);
@@ -30,11 +30,11 @@ namespace AcedSharedDLL {
 	 AssetLibrary::~AssetLibrary()
 	 {
 		 //fprintf(stderr, "A Image Destructed\n");
-		 for (ImageSet* item : imageDictionary_)
+		 /*for (ImageSet* item : imageDictionary_)
 		 {
 			 delete item;
 			 item = nullptr;
-		 }
+		 }*/
 	 }
 
 
@@ -42,7 +42,7 @@ namespace AcedSharedDLL {
 	
 	 
 
-	std::vector<ImageSet*> &AssetLibrary::GetImageSetDictionary()
+	std::vector<std::shared_ptr<ImageSet>> &AssetLibrary::GetImageSetDictionary()
 	{
 		return imageDictionary_;
 	}

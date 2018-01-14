@@ -16,7 +16,7 @@
 #include "../Config/BaseSettings.h"
 #include "../ImageManagement/Image.h"
 
-
+#include <memory>
 
 
 
@@ -33,7 +33,7 @@ namespace AcedSharedDLL
 	{
 	public:
 
-		ACEDSHAREDDLL_API CharacterSpawn(BaseSettings *settings);
+		ACEDSHAREDDLL_API CharacterSpawn(std::shared_ptr<BaseSettings> &settings);
 
 
 
@@ -58,7 +58,7 @@ namespace AcedSharedDLL
 		ACEDSHAREDDLL_API void SetHeight(double val);
 
 
-		ACEDSHAREDDLL_API virtual void SetObjectImageColor(Image *image);
+		ACEDSHAREDDLL_API virtual void SetObjectImageColor(std::shared_ptr<Image> &image);
 
 
 
@@ -134,7 +134,7 @@ namespace AcedSharedDLL
 			hasColor_;
 
 
-		Image *image_;
+		std::shared_ptr<Image> image_;
 
 		STATES Id_, keyPressState_, keyPressReturnVal_;
 		ALLEGRO_COLOR chosenColor_;
@@ -142,7 +142,7 @@ namespace AcedSharedDLL
 
 
 		ALLEGRO_EVENT *ev_;
-		BaseSettings *settings_;
+		std::shared_ptr<BaseSettings> settings_;
 	};
 }
 #endif

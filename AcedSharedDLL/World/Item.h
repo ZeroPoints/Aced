@@ -15,7 +15,7 @@
 #include "../Static/Definitions.h"
 #include "../ImageManagement/Image.h"
 #include "../EditorOverLay/EditorItemBase.h"
-
+#include <memory>
 
 
 
@@ -41,7 +41,7 @@ namespace AcedSharedDLL {
 
 		//Gets
 
-		ACEDSHAREDDLL_API ImageBundle *GetImageBundle();
+		ACEDSHAREDDLL_API std::shared_ptr<ImageBundle> &GetImageBundle();
 
 		ACEDSHAREDDLL_API ALLEGRO_COLOR GetColor();
 		ACEDSHAREDDLL_API AcedSharedDLL::IMAGESETS GetImageSet();
@@ -71,9 +71,9 @@ namespace AcedSharedDLL {
 
 
 
-		ACEDSHAREDDLL_API void SetObjectProperties(EditorItemBase *selectedObject);
+		ACEDSHAREDDLL_API void SetObjectProperties(std::shared_ptr<EditorItemBase> &selectedObject);
 
-		ACEDSHAREDDLL_API void SetImageBundle(ImageBundle *selectedImage);
+		ACEDSHAREDDLL_API void SetImageBundle(std::shared_ptr<ImageBundle> &selectedImage);
 
 
 		ACEDSHAREDDLL_API void SetHasImageReference(bool reference);
@@ -137,7 +137,7 @@ namespace AcedSharedDLL {
 		OBJECTTYPES objectType_;
 
 
-		ImageBundle *imageBundle_;
+		std::shared_ptr<ImageBundle> imageBundle_;
 	};
 
 

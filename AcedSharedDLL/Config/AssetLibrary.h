@@ -10,7 +10,7 @@
 //#include "../World/Map.h"
 #include "../ImageManagement/ImageLoader.h"
 //#include "../Config/Settings.h"
-
+#include <memory>
 
 #ifdef ACEDSHAREDDLL_EXPORTS
 #define ACEDSHAREDDLL_API __declspec(dllexport)
@@ -30,7 +30,7 @@ namespace AcedSharedDLL {
 
 
 
-		ACEDSHAREDDLL_API std::vector<ImageSet*> &GetImageSetDictionary();
+		ACEDSHAREDDLL_API std::vector<std::shared_ptr<ImageSet>> &GetImageSetDictionary();
 
 
 
@@ -48,7 +48,7 @@ namespace AcedSharedDLL {
 
 		//Map map_;
 
-		std::vector<ImageSet*> imageDictionary_;
+		std::vector<std::shared_ptr<ImageSet>> imageDictionary_;
 
 		//std::vector<Character*> enemyList_;
 

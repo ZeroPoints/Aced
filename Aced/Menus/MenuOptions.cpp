@@ -2,19 +2,19 @@
 
 
 
-MenuOptions::MenuOptions(Settings *settings, AcedSharedDLL::Map *currentMap) : Menu(settings) {
+MenuOptions::MenuOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap) : Menu((std::shared_ptr<AcedSharedDLL::BaseSettings>)settings) {
 	
 	SetMap(currentMap);
 	SetFont(al_load_font("arial.ttf", 30, 0));
 
-	SetMenuHeader("Options");
+	SetMenuHeader(std::string("Options"));
 	SetId(AcedSharedDLL::STATES::EDITOROPTIONS);
 
 
 
 
-	AcedSharedDLL::MenuItem* itemStore = new AcedSharedDLL::MenuItem;
-	itemStore->SetMenuItemText("Current Width:");
+	auto itemStoreCurrentWidth = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
+	itemStoreCurrentWidth->SetMenuItemText(std::string("Current Width:"));
 
 
 	//might need to delete this tempval char array? mmm looks to be in stack so should die when method finishs....
@@ -22,55 +22,55 @@ MenuOptions::MenuOptions(Settings *settings, AcedSharedDLL::Map *currentMap) : M
 	sprintf_s(tempVal, "%i", GetSettings()->GetScreenWidth());
 
 
-	itemStore->InitMenuItemProperty(al_ustr_new(tempVal));
-	itemStore->SetMenuItemTargetable(false);
-	AddMenuItem(itemStore);
+	itemStoreCurrentWidth->InitMenuItemProperty(al_ustr_new(tempVal));
+	itemStoreCurrentWidth->SetMenuItemTargetable(false);
+	AddMenuItem(itemStoreCurrentWidth);
 
 
 
 
 
-	itemStore = new AcedSharedDLL::MenuItem;
-	itemStore->InitMenuItemProperty(al_ustr_new(""));
-	itemStore->SetOptionId(AcedSharedDLL::OPTIONTYPES::WIDTHOPTION);
-	itemStore->SetMenuItemText("New Width:");
-	AddMenuItem(itemStore);
+	auto itemStoreNewWidth = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
+	itemStoreNewWidth->InitMenuItemProperty(al_ustr_new(""));
+	itemStoreNewWidth->SetOptionId(AcedSharedDLL::OPTIONTYPES::WIDTHOPTION);
+	itemStoreNewWidth->SetMenuItemText(std::string("New Width:"));
+	AddMenuItem(itemStoreNewWidth);
 
 
 
 
-	itemStore = new AcedSharedDLL::MenuItem;
-	itemStore->SetMenuItemText("Current Height:");
+	auto itemStoreCurrentHeight = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
+	itemStoreCurrentHeight->SetMenuItemText(std::string("Current Height:"));
 
 	sprintf_s(tempVal, "%i", GetSettings()->GetScreenHeight());
 
-	itemStore->InitMenuItemProperty(al_ustr_new(tempVal));
-	itemStore->SetMenuItemTargetable(false);
-	AddMenuItem(itemStore);
+	itemStoreCurrentHeight->InitMenuItemProperty(al_ustr_new(tempVal));
+	itemStoreCurrentHeight->SetMenuItemTargetable(false);
+	AddMenuItem(itemStoreCurrentHeight);
 
 
 
 
 
 
-	itemStore = new AcedSharedDLL::MenuItem;
-	itemStore->InitMenuItemProperty(al_ustr_new(""));
-	itemStore->SetOptionId(AcedSharedDLL::OPTIONTYPES::HEIGHTOPTION);
-	itemStore->SetMenuItemText("New Height:");
-	AddMenuItem(itemStore);
+	auto itemStoreNewHeight = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
+	itemStoreNewHeight->InitMenuItemProperty(al_ustr_new(""));
+	itemStoreNewHeight->SetOptionId(AcedSharedDLL::OPTIONTYPES::HEIGHTOPTION);
+	itemStoreNewHeight->SetMenuItemText(std::string("New Height:"));
+	AddMenuItem(itemStoreNewHeight);
 
 
 
 
-	itemStore = new AcedSharedDLL::MenuItem;
-	itemStore->SetId(AcedSharedDLL::STATES::SAVE);
-	itemStore->SetMenuItemText("Save");
-	AddMenuItem(itemStore);
+	auto itemStoreSave = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
+	itemStoreSave->SetId(AcedSharedDLL::STATES::SAVE);
+	itemStoreSave->SetMenuItemText(std::string("Save"));
+	AddMenuItem(itemStoreSave);
 
-	itemStore = new AcedSharedDLL::MenuItem;
-	itemStore->SetId(AcedSharedDLL::STATES::RETURN);
-	itemStore->SetMenuItemText("Return");
-	AddMenuItem(itemStore);
+	auto itemStoreReturn = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
+	itemStoreReturn->SetId(AcedSharedDLL::STATES::RETURN);
+	itemStoreReturn->SetMenuItemText(std::string("Return"));
+	AddMenuItem(itemStoreReturn);
 
 
 

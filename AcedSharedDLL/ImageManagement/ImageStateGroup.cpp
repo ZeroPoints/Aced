@@ -14,11 +14,11 @@ namespace AcedSharedDLL {
 
 	ImageStateGroup::~ImageStateGroup()
 	{
-		for (Image* item : imageDictionary_)
+		/*for (Image* item : imageDictionary_)
 		{
 			delete item;
 			item = nullptr;
-		}
+		}*/
 	}
 
 
@@ -27,7 +27,7 @@ namespace AcedSharedDLL {
 
 	//Gets
 
-	std::vector<Image*> ImageStateGroup::GetImageDictionary()
+	std::vector<std::shared_ptr<Image>> &ImageStateGroup::GetImageDictionary()
 	{
 		return imageDictionary_;
 	}
@@ -44,7 +44,7 @@ namespace AcedSharedDLL {
 
 	//Sets
 
-	void ImageStateGroup::SetImageDictionary(std::vector<Image*> imageDict)
+	void ImageStateGroup::SetImageDictionary(std::vector<std::shared_ptr<Image>> &imageDict)
 	{
 		imageDictionary_ = imageDict;
 	}

@@ -31,7 +31,7 @@ namespace AcedSharedDLL {
 
 
 
-	ImageBundle *Item::GetImageBundle()
+	std::shared_ptr<ImageBundle> &Item::GetImageBundle()
 	{
 		return imageBundle_;
 	}
@@ -89,7 +89,7 @@ namespace AcedSharedDLL {
 
 
 
-	void Item::SetImageBundle(ImageBundle *selectedImage) {
+	void Item::SetImageBundle(std::shared_ptr<ImageBundle> &selectedImage) {
 		hasImage_ = true;
 		imageBundle_ = selectedImage;
 		itemType_ = selectedImage->GetItemType();

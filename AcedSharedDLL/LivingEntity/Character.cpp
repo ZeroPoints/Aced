@@ -2,7 +2,7 @@
 
 namespace AcedSharedDLL {
 
-	Character::Character(BaseSettings *settings, int mapWidth, int mapHeight, std::vector<std::vector<Cell>> *cellMap)
+	Character::Character(std::shared_ptr<BaseSettings> &settings, int mapWidth, int mapHeight, std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap)
 	{
 		hasText_ = false;
 		movespeed_ = 0;
@@ -37,7 +37,7 @@ namespace AcedSharedDLL {
 		SetMoveSpeed(30);
 		SetJumpSpeed(12);
 
-		font30_ = al_load_font("arial.ttf", Constants::TileSize(), 0);
+		//font30_ = al_load_font("arial.ttf", Constants::TileSize(), 0);
 
 
 
@@ -128,7 +128,7 @@ namespace AcedSharedDLL {
 	}
 
 	
-	void Character::SetImageBundle(ImageBundle *imageBundle)
+	void Character::SetImageBundle(std::shared_ptr<ImageBundle> &imageBundle)
 	{
 		if (imageBundle->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage() != nullptr)
 		{
@@ -248,7 +248,7 @@ namespace AcedSharedDLL {
 		return hasImage_;
 	}
 
-	ImageBundle *Character::GetImageBundle()
+	std::shared_ptr<ImageBundle> &Character::GetImageBundle()
 	{
 		return imageBundle_;
 	}
@@ -289,14 +289,14 @@ namespace AcedSharedDLL {
 		if (hasImage_ &&  hasColor_)
 		{
 			al_draw_tinted_scaled_rotated_bitmap(
-				imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage(),
 				chosenColor_,
-				imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageWidth() / 2.0,
-				imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageHeight() / 2.0,
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageWidth() / 2.0,
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageHeight() / 2.0,
 				(currentPositionX_ + width_ / 2)*Constants::TileSize() + mapXOffset,
 				(currentPositionY_ + height_ / 2)*Constants::TileSize() + mapYOffset,
-				width_*Constants::TileSize() / (imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageWidth()*1.0),
-				height_*Constants::TileSize() / (imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageHeight()*1.0),
+				width_*Constants::TileSize() / (imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageWidth()*1.0),
+				height_*Constants::TileSize() / (imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageHeight()*1.0),
 				currentRotation_,
 				0
 			);
@@ -304,13 +304,13 @@ namespace AcedSharedDLL {
 		else if (hasImage_)
 		{
 			al_draw_scaled_rotated_bitmap(
-				imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage(),
-				imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageWidth() / 2.0,
-				imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageHeight() / 2.0,
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImage(),
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageWidth() / 2.0,
+				imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageHeight() / 2.0,
 				(currentPositionX_ + width_ / 2)*Constants::TileSize() + mapXOffset,
 				(currentPositionY_ + height_ / 2)*Constants::TileSize() + mapYOffset,
-				width_*Constants::TileSize() / (imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageWidth()*1.0),
-				height_*Constants::TileSize() / (imageBundle_[0].GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageHeight()*1.0),
+				width_*Constants::TileSize() / (imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageWidth()*1.0),
+				height_*Constants::TileSize() / (imageBundle_->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetImageHeight()*1.0),
 				currentRotation_,
 				0
 			);
@@ -456,7 +456,7 @@ namespace AcedSharedDLL {
 
 		for (int i = 0; i < height; i++)
 		{
-			auto cellFuture = &cellMap_->at((nextPosX) / Constants::TileSize()).at((nextPosY + i) / Constants::TileSize());
+			std::shared_ptr<Cell> cellFuture = cellMap_.at((nextPosX) / Constants::TileSize()).at((nextPosY + i) / Constants::TileSize());
 			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE || cellFuture->GetTileType() == TILETYPE::COLLISIONRIGHTTILE)
 			{
 				return false;
@@ -475,7 +475,7 @@ namespace AcedSharedDLL {
 
 		for (int i = 0; i < height; i++)
 		{
-			auto cellFuture = &cellMap_->at((nextPosX) / Constants::TileSize() + GetWidth()).at((nextPosY + i) / Constants::TileSize());
+			std::shared_ptr<Cell> cellFuture = cellMap_.at((nextPosX) / Constants::TileSize() + GetWidth()).at((nextPosY + i) / Constants::TileSize());
 			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE || cellFuture->GetTileType() == TILETYPE::COLLISIONLEFTTILE)
 			{
 
@@ -501,7 +501,7 @@ namespace AcedSharedDLL {
 		}
 		for (int i = 0; i < width; i++)
 		{
-			auto cellFuture = &cellMap_->at((nextPosX + i) / Constants::TileSize()).at((nextPosY) / Constants::TileSize() + GetHeight());
+			std::shared_ptr<Cell> cellFuture = cellMap_.at((nextPosX + i) / Constants::TileSize()).at((nextPosY) / Constants::TileSize() + GetHeight());
 			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE || cellFuture->GetTileType() == TILETYPE::COLLISIONTOPTILE)
 			{
 				SetCurrentPositionY(cellFuture->GetCurrentPositionY() - GetHeight());
@@ -526,7 +526,7 @@ namespace AcedSharedDLL {
 		}
 		for (int i = 0; i < width; i++)
 		{
-			auto cellFuture = &cellMap_->at((nextPosX + i) / Constants::TileSize()).at((nextPosY) / Constants::TileSize() );
+			std::shared_ptr<Cell> cellFuture = cellMap_.at((nextPosX + i) / Constants::TileSize()).at((nextPosY) / Constants::TileSize() );
 			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE)
 			{
 				SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERFALLING);

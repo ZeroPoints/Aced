@@ -56,7 +56,7 @@ namespace AcedSharedDLL {
 		return hasColor_;
 	}
 
-	ImageBundle *EditorItemBase::GetImageBundle()
+	std::shared_ptr<ImageBundle> &EditorItemBase::GetImageBundle()
 	{
 		return imageBundle_;
 	}
@@ -107,7 +107,7 @@ namespace AcedSharedDLL {
 	}
 
 	//Set Collision Type
-	void EditorItemBase::SetTileTypeProperties(EditorItemBase *selectedTile)
+	void EditorItemBase::SetTileTypeProperties(std::shared_ptr<EditorItemBase> &selectedTile)
 	{
 		tileType_ = selectedTile->GetTileType();
 	}
@@ -132,14 +132,14 @@ namespace AcedSharedDLL {
 
 
 	//Seperate all Setting property types for setting tiles to a value
-	void EditorItemBase::SetItemBase(EditorItemBase *itemBase) {
+	void EditorItemBase::SetItemBase(std::shared_ptr<EditorItemBase> &itemBase) {
 
 
 	}
 
 
 
-	void EditorItemBase::SetImageBundle(ImageBundle *imageBundle) {
+	void EditorItemBase::SetImageBundle(std::shared_ptr<ImageBundle> &imageBundle) {
 		imageBundle_ = imageBundle;
 		hasImage_ = true;
 		width_ = imageBundle->GetImageStateGroupDictionary()[0]->GetImageDictionary()[0]->GetWidth();

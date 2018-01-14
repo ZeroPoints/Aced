@@ -31,7 +31,7 @@ namespace AcedSharedDLL {
 
 
 
-	ImageBundle *InteractiveObject::GetImageBundle()
+	std::shared_ptr<ImageBundle> &InteractiveObject::GetImageBundle()
 	{
 		return imageBundle_;
 	}
@@ -84,7 +84,7 @@ namespace AcedSharedDLL {
 
 
 
-	void InteractiveObject::SetImageBundle(ImageBundle *selectedImage) {
+	void InteractiveObject::SetImageBundle(std::shared_ptr<ImageBundle> &selectedImage) {
 		hasImage_ = true;
 		imageBundle_ = selectedImage;
 		objectType_ = selectedImage->GetObjectType();
@@ -106,7 +106,7 @@ namespace AcedSharedDLL {
 
 
 
-	void InteractiveObject::SetItemBase(EditorItemBase *selectedObject) {
+	void InteractiveObject::SetItemBase(std::shared_ptr<EditorItemBase> &selectedObject) {
 		SetImageBundle(selectedObject->GetImageBundle());
 		SetImageSet(selectedObject->GetImageSet());
 	}
@@ -202,7 +202,7 @@ namespace AcedSharedDLL {
 
 
 	//returns false  if interaction user can walk over object
-	bool InteractiveObject::CollisionInteraction(std::vector<Item*> &itemList) {
+	bool InteractiveObject::CollisionInteraction(std::vector<std::shared_ptr<Item>> &itemList) {
 
 		switch (objectType_)
 		{

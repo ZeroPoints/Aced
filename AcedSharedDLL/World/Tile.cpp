@@ -36,7 +36,7 @@ namespace AcedSharedDLL {
 		return hasColor_;
 	}
 
-	ImageBundle *Tile::GetImageBundle()
+	std::shared_ptr<ImageBundle> &Tile::GetImageBundle()
 	{
 		return imageBundle_;
 	}
@@ -71,7 +71,7 @@ namespace AcedSharedDLL {
 
 
 	//Seperate all Setting property types for setting tiles to a value
-	void Tile::SetTileBase(EditorItemBase *selectedTile) {
+	void Tile::SetTileBase(std::shared_ptr<EditorItemBase> &selectedTile) {
 		//Both tiles ref or not will be same collision type
 		hasImage_ = true;
 		imageBundle_ = selectedTile->GetImageBundle();
@@ -84,7 +84,7 @@ namespace AcedSharedDLL {
 
 
 
-	void Tile::SetImageBundle(ImageBundle *imageBundle) {
+	void Tile::SetImageBundle(std::shared_ptr<ImageBundle> &imageBundle) {
 		hasImage_ = true;
 		imageBundle_ = imageBundle;
 	}

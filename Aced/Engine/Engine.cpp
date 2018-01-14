@@ -2,7 +2,7 @@
 
 
 
-Engine::Engine(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, AssetLibrary *assetLibrary)
+Engine::Engine(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings> &settings, std::shared_ptr<Map> &currentMap, std::shared_ptr<AssetLibrary> &assetLibrary)
 {
 	//init
 	display_ = display;
@@ -17,7 +17,7 @@ Engine::Engine(ALLEGRO_DISPLAY *display, Settings *settings, Map *currentMap, As
 
 	//new used to keep it in memory the state. This needs to be freed when Engine is finished.
 
-	PushNewState(new StateGameMainMenu(display_, settings_, currentMap_, assetLibrary_));
+	PushNewState(std::shared_ptr<State>(new StateGameMainMenu(display_, settings_, currentMap_, assetLibrary_)));
 }
 
 
@@ -72,7 +72,7 @@ void Engine::Run()
 
 			char text[20];
 			sprintf(text, "Time:%f", ev.timer.timestamp);
-			al_draw_text(currentState_->GetFont(), chosenColorText_,
+			al_draw_text(settings_->GetFont30(), chosenColorText_,
 				0,
 				settings_->GetScreenHeight() - Constants::TileSize(), ALLEGRO_ALIGN_LEFT, text);
 
@@ -128,7 +128,7 @@ Might be useful if a state has no specific direction it can take and only the en
 eg some fatal error in state let the engine decide that it should cancel out and go to main menu.
 Also used to push the first state onto the stack as part of engine init
 */
-void Engine::PushNewState(State* state)
+void Engine::PushNewState(std::shared_ptr<State> &state)
 {
 	// pause current state
 	if ( !states_.empty() ) {
@@ -160,7 +160,7 @@ void Engine::PopState()
 		if ( !states_.empty() ) {
 			if(states_.size() > 1){
 				states_.back()->CleanUp();
-				delete states_.back();
+				//delete states_.back();
 				states_.pop_back();
 			}
 		}
@@ -184,13 +184,13 @@ Takes current state of stack and pushes a new one onto the stack in its place
 void Engine::PopPushState()
 {
 	int popLevel = states_.back()->GetPopLevel();
-	State* pushState = states_.back()->GetNextState();
+	std::shared_ptr<State> pushState = states_.back()->GetNextState();
 	int i = 0;
 	while(i < popLevel){
 		if ( !states_.empty() ) {
 			if(states_.size() > 1){
 				states_.back()->CleanUp();
-				delete states_.back();
+				//delete states_.back();
 				states_.pop_back();
 			}
 		}
@@ -212,7 +212,7 @@ void Engine::PopStateToFirst()
 	int i = 1;
 	while(i < popLevel){
 		states_.back()->CleanUp();
-		delete states_.back();
+		//delete states_.back();
 		states_.pop_back();
 		popLevel--;
 	}

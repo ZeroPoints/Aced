@@ -49,9 +49,9 @@ namespace AcedSharedDLL {
 			//Sets
 
 			//layers setters
-			ACEDSHAREDDLL_API void SetTile(Tile* tile);
+			ACEDSHAREDDLL_API void SetTile(std::shared_ptr<Tile> &tile);
 			ACEDSHAREDDLL_API void SetTileType(TILETYPE tileType);
-			ACEDSHAREDDLL_API void SetTileTypeProperties(EditorItemBase *selectedTile);
+			ACEDSHAREDDLL_API void SetTileTypeProperties(std::shared_ptr<EditorItemBase> &selectedTile);
 
 
 
@@ -67,7 +67,7 @@ namespace AcedSharedDLL {
 			ACEDSHAREDDLL_API void SetCurrentPositionY(double y);
 
 
-			ACEDSHAREDDLL_API void SetInteractiveObject(InteractiveObject* interactiveObject);
+			ACEDSHAREDDLL_API void SetInteractiveObject(std::shared_ptr<InteractiveObject> &interactiveObject);
 			ACEDSHAREDDLL_API void SetInteractiveObjectReference(bool isReference);
 
 			
@@ -91,8 +91,8 @@ namespace AcedSharedDLL {
 
 
 
-			ACEDSHAREDDLL_API Tile* GetTile();
-			ACEDSHAREDDLL_API InteractiveObject* GetInteractiveObject();
+			ACEDSHAREDDLL_API std::shared_ptr<Tile> &GetTile();
+			ACEDSHAREDDLL_API std::shared_ptr<InteractiveObject> &GetInteractiveObject();
 
 
 			ACEDSHAREDDLL_API bool GetHasTile();
@@ -141,9 +141,9 @@ namespace AcedSharedDLL {
 
 
 		private:
-			Tile* tile_;
+			std::shared_ptr<Tile> tile_;
 
-			InteractiveObject* interactiveObject_;
+			std::shared_ptr<InteractiveObject> interactiveObject_;
 
 
 
