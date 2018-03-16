@@ -601,14 +601,14 @@ namespace AcedSharedDLL
 
 
 			//Detects If click intersects with the selected text object
-			ACEDSHAREDDLL_API bool ClickIntersectsText(ALLEGRO_FONT* font, int mouseX, int mouseY)
+			ACEDSHAREDDLL_API bool ClickIntersectsText(ALLEGRO_FONT* font, int fontWidth, int mouseX, int mouseY)
 			{
 				//Offset the mouse position to the actual coord as the mouseX and mouseY i read in a moded to be offset? by half the tile size for some reason
 				mouseX = mouseX + (Constants::TileSize()/2);
 				mouseY = mouseY + (Constants::TileSize()/2);
 
 				if(mouseX >= currentPositionX_ && 
-					mouseX < (currentPositionX_ + 30) && //GetFontWidth(font)
+					mouseX < (currentPositionX_ + fontWidth) &&
 					mouseY >= currentPositionY_ && 
 					mouseY < (currentPositionY_ + height_))
 				{

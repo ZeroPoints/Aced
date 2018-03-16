@@ -499,6 +499,7 @@ namespace AcedSharedDLL{
 
 
 
+		currentTile = std::shared_ptr<EditorItemBase>(new EditorItemBase());
 		currentTile->SetColor(al_map_rgb_f(!invert,!invert,!invert));
 		currentTile->SetTileType(TILETYPE::SOLIDTILE);
 		currentTile->SetCurrentPosition(posX,posY);

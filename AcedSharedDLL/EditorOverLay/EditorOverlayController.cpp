@@ -338,7 +338,8 @@ namespace AcedSharedDLL{
 
 					for(int i = 0; i < editorOverLays_.size(); i++)
 					{
-						if(editorOverLays_[i]->GetMenuHeader()->ClickIntersectsText(settings_->GetFont30(), mouseX, mouseY))
+						auto header = editorOverLays_[i]->GetMenuHeader();
+						if(header->ClickIntersectsText(settings_->GetFont30(), settings_->GetFontWidth(header->GetText()), mouseX, mouseY))
 						{
 							currentEditorOverlayId_ = editorOverLays_[i]->GetId();
 
