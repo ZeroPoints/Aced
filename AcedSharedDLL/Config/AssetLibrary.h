@@ -6,11 +6,12 @@
 
 #include "../../OpenSource/pugixml/pugixml.hpp"
 #include "../Static/Definitions.h"
+#include "../ImageManagement/ImageSet.h"
 //#include "../LivingEntity/Character.h"
 //#include "../World/Map.h"
-#include "../ImageManagement/ImageLoader.h"
 //#include "../Config/Settings.h"
 #include <memory>
+#include <vector>
 
 #ifdef ACEDSHAREDDLL_EXPORTS
 #define ACEDSHAREDDLL_API __declspec(dllexport)
@@ -31,6 +32,7 @@ namespace AcedSharedDLL {
 
 
 		ACEDSHAREDDLL_API std::vector<std::shared_ptr<ImageSet>> &GetImageSetDictionary();
+		ACEDSHAREDDLL_API void SetImageSetDictionary(std::vector<std::shared_ptr<ImageSet>> &imageDictionary);
 
 
 

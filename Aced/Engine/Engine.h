@@ -10,6 +10,7 @@
 #include <allegro5\allegro.h>
 #include <vector>
 
+#include <sstream>
 
 #include "../AcedSharedDLL/LivingEntity/Player.h"
 #include "../AcedSharedDLL/World/map.h"
@@ -78,6 +79,9 @@ class Engine
 		std::vector<std::shared_ptr<State>> states_;
 		bool running_;
 		bool fullscreen_;
+
+		std::stringstream timeOverlay_ ;
+
 
 		ALLEGRO_COLOR chosenColor_, chosenColorText_;
 

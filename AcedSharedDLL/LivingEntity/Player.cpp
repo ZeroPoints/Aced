@@ -38,7 +38,7 @@ namespace AcedSharedDLL {
 		SetMoveSpeedDelta(0.125);
 		SetMoveSpeed(30);
 		SetJumpSpeed(12);
-		font30_ = al_load_font("arial.ttf", Constants::TileSize(), 0);
+		//font30_ = al_load_font("arial.ttf", Constants::TileSize(), 0);
 
 
 		imageState_ = CHARACTERIMAGESTATES::CHARACTERIDLERIGHT;
@@ -274,7 +274,7 @@ namespace AcedSharedDLL {
 
 
 
-	void Player::Draw() {
+	void Player::Draw(ALLEGRO_FONT* font) {
 		//0.8
 
 
@@ -313,11 +313,12 @@ namespace AcedSharedDLL {
 
 
 
-		char text[100];
-		sprintf(text, "Player:%i", animationTick_);
-		al_draw_text(font30_, al_map_rgb(0, 0, 0),
+		std::stringstream text;
+		text << "Player:" << animationTick_;
+
+		al_draw_text(font, al_map_rgb(0, 0, 0),
 		0,
-		20 * 9, ALLEGRO_ALIGN_LEFT, text);
+		20 * 9, ALLEGRO_ALIGN_LEFT, text.str().c_str());
 
 
 

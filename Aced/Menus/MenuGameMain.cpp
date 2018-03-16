@@ -5,7 +5,6 @@
 
 
 MenuGameMain::MenuGameMain(std::shared_ptr<Settings> &settings) : Menu((std::shared_ptr<AcedSharedDLL::BaseSettings>)settings) {
-	SetFont(al_load_font("arial.ttf", 30, 0));
 
 	SetMenuHeader(std::string("Game Main Menu"));
 	SetId(AcedSharedDLL::STATES::EDITORMAINMENU);

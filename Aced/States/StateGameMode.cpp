@@ -39,7 +39,6 @@ StateGameMode::StateGameMode(ALLEGRO_DISPLAY *display, std::shared_ptr<Settings>
 		}
 	}
 
-
 	SetChosenColor(al_map_rgb_f(1, 1, 1));
 	al_start_timer(GetTimer());
 
@@ -133,7 +132,7 @@ void StateGameMode::Draw() {
 
 	GetMap()->DrawMap();
 
-	player1_->Draw();
+	player1_->Draw(GetSettings()->GetFont30());
 
 
 

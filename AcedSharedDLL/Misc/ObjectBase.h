@@ -11,6 +11,7 @@
 #include <allegro5\allegro_primitives.h>//shapes
 #include "../Static/Definitions.h"
 #include "../ImageManagement/Image.h"
+#include <memory>
 
 #ifdef ACEDSHAREDDLL_EXPORTS
    #define ACEDSHAREDDLL_API __declspec(dllexport)
@@ -44,9 +45,7 @@ namespace AcedSharedDLL
 			ACEDSHAREDDLL_API virtual ~ObjectBase(){
 				if(hasText_ == true)
 				{
-					al_destroy_font(font30_);
 					al_ustr_free(utext_);
-					al_free(text_);
 				}
 
 				if(hasImage_)
@@ -60,7 +59,7 @@ namespace AcedSharedDLL
 
 
 
-			ACEDSHAREDDLL_API virtual void SetObjectProperties(ObjectBase *selectedObject, bool isReference = false){
+			ACEDSHAREDDLL_API virtual void SetObjectProperties(std::shared_ptr<ObjectBase> &selectedObject, bool isReference = false){
 				
 				if(selectedObject->GetHasColor() && selectedObject->GetHasImage())
 				{
@@ -265,12 +264,8 @@ namespace AcedSharedDLL
 			};*/
 
 
-			ACEDSHAREDDLL_API virtual void SetFont(ALLEGRO_FONT *font){
-				font30_ = font;
-			};
-			ACEDSHAREDDLL_API virtual ALLEGRO_FONT* GetFont(){
-				return font30_;
-			};
+
+
 
 			ACEDSHAREDDLL_API virtual void SetText(ALLEGRO_USTR *str){
 				if(utext_ != NULL)
@@ -283,14 +278,14 @@ namespace AcedSharedDLL
 
 			};
 
-			ACEDSHAREDDLL_API virtual ALLEGRO_USTR *GetText(){
+			ACEDSHAREDDLL_API virtual ALLEGRO_USTR *GetUText(){
 				return utext_;
 			};
 			
-			ACEDSHAREDDLL_API int GetFontWidth()
-			{
-				return al_get_text_width(font30_,text_);
-			}
+			ACEDSHAREDDLL_API virtual std::string GetText() {
+				return text_;
+			};
+
 			
 
 
@@ -309,7 +304,7 @@ namespace AcedSharedDLL
 			//So can add color if it exists. Or add image if it exists
 			//This is used to set objects properties based on if the image has a color or a image
 			//TODO: ADD in color and image together aswell just incase later
-			ACEDSHAREDDLL_API virtual void SetObjectImageColor(Image *image)
+			ACEDSHAREDDLL_API virtual void SetObjectImageColor(std::shared_ptr<Image> &image)
 			{
 				if(image->GetImage() != nullptr)
 				{
@@ -328,7 +323,7 @@ namespace AcedSharedDLL
 
 
 
-			ACEDSHAREDDLL_API virtual Image *GetObjectImage()
+			ACEDSHAREDDLL_API virtual std::shared_ptr<Image> GetObjectImage()
 			{
 				return image_;
 			}
@@ -354,7 +349,7 @@ namespace AcedSharedDLL
 				hasImage_ = false;
 				hasImageReference_ = false;
 				//test this doesnt effect the actual object in imageloader memory dictionary
-				image_ = nullptr;
+				//image_ = nullptr;
 			};
 			//set flag and set color to white
 			ACEDSHAREDDLL_API virtual void RemoveColor(){
@@ -569,8 +564,8 @@ namespace AcedSharedDLL
 
 			        
 
-			ACEDSHAREDDLL_API virtual void DrawObjectText(){
-				al_draw_textf(font30_, chosenColor_, currentPositionX_, currentPositionY_, ALLEGRO_ALIGN_LEFT, text_);
+			ACEDSHAREDDLL_API virtual void DrawObjectText(ALLEGRO_FONT* font){
+				al_draw_textf(font, chosenColor_, currentPositionX_, currentPositionY_, ALLEGRO_ALIGN_LEFT, text_.c_str());
 			};
 
 
@@ -585,12 +580,14 @@ namespace AcedSharedDLL
 					chosenColor_,
 					1);
 			};
+
+
 			//Useing this for editor mode menubar items
-			ACEDSHAREDDLL_API virtual void DrawObjectRightBorder(){
+			ACEDSHAREDDLL_API virtual void DrawObjectRightBorder(ALLEGRO_FONT* font, int fontWidth){
 				al_draw_line(
-					currentPositionX_ + GetFontWidth(), 
+					currentPositionX_ + fontWidth,
 					currentPositionY_, 
-					currentPositionX_ + GetFontWidth(), 
+					currentPositionX_ + fontWidth,
 					currentPositionY_ + Constants::TileSize(),
 					chosenColor_,
 					1);
@@ -604,14 +601,14 @@ namespace AcedSharedDLL
 
 
 			//Detects If click intersects with the selected text object
-			ACEDSHAREDDLL_API bool ClickIntersectsText(int mouseX, int mouseY)
+			ACEDSHAREDDLL_API bool ClickIntersectsText(ALLEGRO_FONT* font, int mouseX, int mouseY)
 			{
 				//Offset the mouse position to the actual coord as the mouseX and mouseY i read in a moded to be offset? by half the tile size for some reason
 				mouseX = mouseX + (Constants::TileSize()/2);
 				mouseY = mouseY + (Constants::TileSize()/2);
 
 				if(mouseX >= currentPositionX_ && 
-					mouseX < (currentPositionX_ + GetFontWidth()) &&
+					mouseX < (currentPositionX_ + 30) && //GetFontWidth(font)
 					mouseY >= currentPositionY_ && 
 					mouseY < (currentPositionY_ + height_))
 				{
@@ -714,13 +711,12 @@ namespace AcedSharedDLL
 			CHARACTERFACINGDIRECTION faceDirection_;
 
 			ALLEGRO_USTR *utext_;
-			char *text_;
+			std::string text_;
 
-
-			Image *image_;
+			std::shared_ptr<Image> image_;
 			
 			STATES Id_, keyPressState_, keyPressReturnVal_;
-			ALLEGRO_FONT *font30_;
+
 			ALLEGRO_EVENT_QUEUE *event_queue_;
 			ALLEGRO_EVENT event_;
 			//Map *map_;

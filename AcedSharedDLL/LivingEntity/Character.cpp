@@ -2,7 +2,7 @@
 
 namespace AcedSharedDLL {
 
-	Character::Character(std::shared_ptr<BaseSettings> &settings, int mapWidth, int mapHeight, std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap)
+	Character::Character(std::shared_ptr<BaseSettings> &settings, int mapWidth, int mapHeight)
 	{
 		hasText_ = false;
 		movespeed_ = 0;
@@ -14,8 +14,6 @@ namespace AcedSharedDLL {
 
 		mapWidth_ = mapWidth;
 		mapHeight_ = mapHeight;
-
-		cellMap_ = cellMap;
 
 
 		settings_ = settings;
@@ -399,7 +397,7 @@ namespace AcedSharedDLL {
 
 
 
-	void Character::Update()
+	void Character::Update( std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap)
 	{
 		//Ai module for character
 		if (aiEnabled_) {
@@ -417,11 +415,11 @@ namespace AcedSharedDLL {
 
 			if (KeyRight_)
 			{
-				CollisionMovingRight();
+				CollisionMovingRight(cellMap);
 			}
 			else if (KeyLeft_)
 			{
-				CollisionMovingLeft();
+				CollisionMovingLeft(cellMap);
 			}
 
 
@@ -429,11 +427,11 @@ namespace AcedSharedDLL {
 			if (GetCharacterYAxisState() == CHARACTERYAXISSTATES::CHARACTERFALLING ||
 				GetCharacterYAxisState() == CHARACTERYAXISSTATES::CHARACTERONGROUND)
 			{
-				Falling();
+				Falling(cellMap);
 			}
 			else if (GetCharacterYAxisState() == CHARACTERYAXISSTATES::CHARACTERJUMPING)
 			{
-				Jumping();
+				Jumping(cellMap);
 			}
 
 
@@ -445,7 +443,7 @@ namespace AcedSharedDLL {
 
 
 	//this is moving in X direction
-	bool Character::CheckNextXPositionGoingLeft(float nextPosX, float nextPosY)
+	bool Character::CheckNextXPositionGoingLeft(float nextPosX, float nextPosY, std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap)
 	{
 		float height = GetHeight()*Constants::TileSize();
 
@@ -456,7 +454,7 @@ namespace AcedSharedDLL {
 
 		for (int i = 0; i < height; i++)
 		{
-			std::shared_ptr<Cell> cellFuture = cellMap_.at((nextPosX) / Constants::TileSize()).at((nextPosY + i) / Constants::TileSize());
+			std::shared_ptr<Cell> cellFuture = cellMap.at((nextPosX) / Constants::TileSize()).at((nextPosY + i) / Constants::TileSize());
 			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE || cellFuture->GetTileType() == TILETYPE::COLLISIONRIGHTTILE)
 			{
 				return false;
@@ -464,7 +462,7 @@ namespace AcedSharedDLL {
 		}
 		return true;
 	}
-	bool Character::CheckNextXPositionGoingRight(float nextPosX, float nextPosY)
+	bool Character::CheckNextXPositionGoingRight(float nextPosX, float nextPosY, std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap)
 	{
 		float height = GetHeight()*Constants::TileSize();
 
@@ -475,7 +473,7 @@ namespace AcedSharedDLL {
 
 		for (int i = 0; i < height; i++)
 		{
-			std::shared_ptr<Cell> cellFuture = cellMap_.at((nextPosX) / Constants::TileSize() + GetWidth()).at((nextPosY + i) / Constants::TileSize());
+			std::shared_ptr<Cell> cellFuture = cellMap.at((nextPosX) / Constants::TileSize() + GetWidth()).at((nextPosY + i) / Constants::TileSize());
 			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE || cellFuture->GetTileType() == TILETYPE::COLLISIONLEFTTILE)
 			{
 
@@ -489,7 +487,7 @@ namespace AcedSharedDLL {
 
 
 	//this is moving in Y direction
-	bool Character::CheckNextYPositionFalling(float nextPosX, float nextPosY)
+	bool Character::CheckNextYPositionFalling(float nextPosX, float nextPosY, std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap)
 	{
 		float width = GetWidth()*Constants::TileSize();
 		//check if tile is going off bounds return false;
@@ -501,7 +499,7 @@ namespace AcedSharedDLL {
 		}
 		for (int i = 0; i < width; i++)
 		{
-			std::shared_ptr<Cell> cellFuture = cellMap_.at((nextPosX + i) / Constants::TileSize()).at((nextPosY) / Constants::TileSize() + GetHeight());
+			std::shared_ptr<Cell> cellFuture = cellMap.at((nextPosX + i) / Constants::TileSize()).at((nextPosY) / Constants::TileSize() + GetHeight());
 			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE || cellFuture->GetTileType() == TILETYPE::COLLISIONTOPTILE)
 			{
 				SetCurrentPositionY(cellFuture->GetCurrentPositionY() - GetHeight());
@@ -514,7 +512,7 @@ namespace AcedSharedDLL {
 	}
 
 	//this is moving in Y direction
-	bool Character::CheckNextYPositionJumping(float nextPosX, float nextPosY)
+	bool Character::CheckNextYPositionJumping(float nextPosX, float nextPosY, std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap)
 	{
 		float width = GetWidth()*Constants::TileSize();
 		//check if tile is going off bounds return false;
@@ -526,7 +524,7 @@ namespace AcedSharedDLL {
 		}
 		for (int i = 0; i < width; i++)
 		{
-			std::shared_ptr<Cell> cellFuture = cellMap_.at((nextPosX + i) / Constants::TileSize()).at((nextPosY) / Constants::TileSize() );
+			std::shared_ptr<Cell> cellFuture = cellMap.at((nextPosX + i) / Constants::TileSize()).at((nextPosY) / Constants::TileSize() );
 			if (cellFuture->GetTileType() == TILETYPE::SOLIDTILE)
 			{
 				SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERFALLING);
@@ -538,14 +536,14 @@ namespace AcedSharedDLL {
 	}
 
 
-	void Character::CollisionMovingLeft()
+	void Character::CollisionMovingLeft(std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap)
 	{
 		SetPlayerFacingDirection(CHARACTERFACINGDIRECTION::CHARACTERLEFT);
 		for (int i = 0; i < GetMoveSpeed(); i++)
 		{
 			float nextPosX = GetCurrentPositionX()*Constants::TileSize() - GetMoveSpeedDelta();
 
-			if (CheckNextXPositionGoingLeft(nextPosX, GetCurrentPositionY()*Constants::TileSize()))
+			if (CheckNextXPositionGoingLeft(nextPosX, GetCurrentPositionY()*Constants::TileSize(), cellMap))
 			{
 				AdjustPlayerRotation();
 
@@ -563,14 +561,14 @@ namespace AcedSharedDLL {
 
 
 
-	void Character::CollisionMovingRight()
+	void Character::CollisionMovingRight(std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap)
 	{
 		SetPlayerFacingDirection(CHARACTERFACINGDIRECTION::CHARACTERRIGHT);
 		for (int i = 0; i < GetMoveSpeed(); i++)
 		{
 			float nextPosX = GetCurrentPositionX()*Constants::TileSize() + GetMoveSpeedDelta();
 
-			if (CheckNextXPositionGoingRight(nextPosX, GetCurrentPositionY()*Constants::TileSize()))
+			if (CheckNextXPositionGoingRight(nextPosX, GetCurrentPositionY()*Constants::TileSize(), cellMap))
 			{
 				AdjustPlayerRotation();
 				SetCurrentPositionX(nextPosX / Constants::TileSize());
@@ -587,12 +585,12 @@ namespace AcedSharedDLL {
 
 
 
-	void Character::Falling()
+	void Character::Falling(std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap)
 	{
 		for (int i = 0; i < GetMoveSpeed(); i++)
 		{
 			float nextPosY = GetCurrentPositionY()*Constants::TileSize() + GetVelocityY();
-			if (CheckNextYPositionFalling(GetCurrentPositionX()*Constants::TileSize(), nextPosY))
+			if (CheckNextYPositionFalling(GetCurrentPositionX()*Constants::TileSize(), nextPosY, cellMap))
 			{
 				SetCurrentPositionY(nextPosY / Constants::TileSize());
 				SetCharacterYAxisState(CHARACTERYAXISSTATES::CHARACTERFALLING);
@@ -617,12 +615,12 @@ namespace AcedSharedDLL {
 
 
 
-	void Character::Jumping()
+	void Character::Jumping(std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap)
 	{
 		for (int i = 0; i < GetJumpSpeed(); i++)
 		{
 			float nextPosY = GetCurrentPositionY()*Constants::TileSize() + GetVelocityY();
-			if (CheckNextYPositionJumping(GetCurrentPositionX()*Constants::TileSize(), nextPosY))
+			if (CheckNextYPositionJumping(GetCurrentPositionX()*Constants::TileSize(), nextPosY, cellMap))
 			{
 				SetCurrentPositionY(nextPosY / Constants::TileSize());
 			}

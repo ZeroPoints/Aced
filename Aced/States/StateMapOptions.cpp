@@ -92,7 +92,7 @@ void StateMapOptions::Update() {
 
 
 void StateMapOptions::Draw() {
-	GetMenu()->DrawMenu();
+	GetMenu()->DrawMenu(GetSettings()->GetFont30());
 	GetMenu()->DrawMenuSelectorCube();
 }
 

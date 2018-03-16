@@ -60,7 +60,7 @@ namespace AcedSharedDLL{
 		ACEDSHAREDDLL_API int GetSelectItemX();
 		ACEDSHAREDDLL_API int GetSelectItemWidth();
 		ACEDSHAREDDLL_API int GetSelectItemHeight();
-		ACEDSHAREDDLL_API ALLEGRO_FONT* GetFont();
+
 		ACEDSHAREDDLL_API std::vector<std::shared_ptr<MenuItem>> &GetMenuItems();
 
 
@@ -90,7 +90,7 @@ namespace AcedSharedDLL{
 		ACEDSHAREDDLL_API void SetSelectItemX(int val);
 		ACEDSHAREDDLL_API void SetSelectItemWidth(int val);
 		ACEDSHAREDDLL_API void SetSelectItemHeight(int val);
-		ACEDSHAREDDLL_API void SetFont(ALLEGRO_FONT* currentFont);
+
 		ACEDSHAREDDLL_API void SetSettings(std::shared_ptr<BaseSettings> &settings);
 
 
@@ -101,7 +101,7 @@ namespace AcedSharedDLL{
 
 		ACEDSHAREDDLL_API void DrawMenuSelectorCube();
 
-		ACEDSHAREDDLL_API void DrawMenu();
+		ACEDSHAREDDLL_API void DrawMenu(ALLEGRO_FONT* font);
 
 
 
@@ -124,7 +124,7 @@ namespace AcedSharedDLL{
 
 
 		private:
-			ALLEGRO_FONT *font30_;
+
 			STATES Id_;
 			std::shared_ptr<Map> currentMap_;
 			std::shared_ptr<BaseSettings> settings_;

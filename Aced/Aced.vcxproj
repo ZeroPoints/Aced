@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\OpenSource\pugixml\pugixml.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menus\MenuEditor.cpp" />
@@ -32,11 +33,20 @@
     <Font Include="arial.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\OpenSource\pugixml\pugiconfig.hpp" />
+    <ClInclude Include="..\OpenSource\pugixml\pugixml.hpp" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Menus\MenuTemplates.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Settings\ImageLoader.h" />
     <ClInclude Include="Settings\Settings.h" />
     <ClInclude Include="States\StateTemplates.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Aced.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Settings.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CC9C5BCE-09EF-451E-B763-19913D4123A4}</ProjectGuid>
@@ -46,18 +56,19 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
     <SccProvider>SAK</SccProvider>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>

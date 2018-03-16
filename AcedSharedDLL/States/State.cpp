@@ -58,10 +58,7 @@ namespace AcedSharedDLL {
 		return done_;
 	}
 
-	//ALLEGRO_FONT* State::GetFont()
-	//{
-	//	return font30_;
-	//}
+
 
 	ALLEGRO_TIMER* State::GetTimer()
 	{
@@ -182,9 +179,7 @@ namespace AcedSharedDLL {
 		running_ = flag;
 	}
 
-	/*void State::SetFont(ALLEGRO_FONT* currentFont) {
-		font30_ = currentFont;
-	}*/
+
 
 	void State::SetTimer(ALLEGRO_TIMER* currentTimer) {
 		timer = currentTimer;

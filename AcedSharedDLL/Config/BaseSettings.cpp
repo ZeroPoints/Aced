@@ -215,12 +215,14 @@ namespace AcedSharedDLL {
 	};
 
 
-	ALLEGRO_FONT *BaseSettings::GetFont30() {
+	ALLEGRO_FONT* BaseSettings::GetFont30() {
 		return font30_;
 	};
 
-
-
+	int BaseSettings::GetFontWidth(std::string text)
+	{
+		return al_get_text_width(font30_, text.c_str());
+	};
 
 
 

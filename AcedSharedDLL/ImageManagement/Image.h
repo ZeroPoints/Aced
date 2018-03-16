@@ -34,12 +34,11 @@ namespace AcedSharedDLL{
 
 
 
-
-			ACEDSHAREDDLL_API Image(int id, const char *file);
-			ACEDSHAREDDLL_API Image(int id, const char *file, const char *name);
-			ACEDSHAREDDLL_API Image(int id, const char *file, float r, float g, float b);
+			ACEDSHAREDDLL_API Image(int id, const std::string &file);
+			ACEDSHAREDDLL_API Image(int id, const std::string &file, const std::string &name);
+			ACEDSHAREDDLL_API Image(int id, const std::string &file, float r, float g, float b);
 			ACEDSHAREDDLL_API Image(int id, float r, float g, float b);
-			ACEDSHAREDDLL_API Image(int id, const char *file, double width, double height);
+			ACEDSHAREDDLL_API Image(int id, const std::string &file, double width, double height);
 
 
 			ACEDSHAREDDLL_API ~Image();
@@ -57,7 +56,8 @@ namespace AcedSharedDLL{
 
 
 
-			ACEDSHAREDDLL_API char *GetName();
+			ACEDSHAREDDLL_API std::string GetName();
+			ACEDSHAREDDLL_API std::string GetFile();
 
 
 			ACEDSHAREDDLL_API ALLEGRO_COLOR GetColor();
@@ -98,9 +98,8 @@ namespace AcedSharedDLL{
 			//this is the tile height
 			double height_;
 
-
-			char *name_;
-
+			std::string file_;
+			std::string name_;
 
 
 

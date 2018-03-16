@@ -32,7 +32,6 @@ If those State directions have not been triggered. The game will run the current
 void Engine::Run()
 {
 
-
 	ALLEGRO_EVENT ev;
 	while(currentState_->GetRunning()){
 		al_wait_for_event(currentState_->GetEventQueue(),&ev);
@@ -70,11 +69,14 @@ void Engine::Run()
 			currentState_->Draw();
 			//bread and butter
 
-			char text[20];
-			sprintf(text, "Time:%f", ev.timer.timestamp);
+			timeOverlay_.str("");
+			timeOverlay_.clear();
+			timeOverlay_ << "Time:" << ev.timer.timestamp;
+			
+
 			al_draw_text(settings_->GetFont30(), chosenColorText_,
 				0,
-				settings_->GetScreenHeight() - Constants::TileSize(), ALLEGRO_ALIGN_LEFT, text);
+				settings_->GetScreenHeight() - Constants::TileSize(), ALLEGRO_ALIGN_LEFT, timeOverlay_.str().c_str());
 
 
 			al_flip_display();

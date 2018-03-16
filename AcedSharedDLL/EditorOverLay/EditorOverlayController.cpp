@@ -89,12 +89,14 @@ namespace AcedSharedDLL{
 
 
 
+		auto headerText = std::string("  TILE IMAGES  ");
 
 
 		std::shared_ptr<EditorOverLay> itemStore(new EditorOverLay(settings_, STATES::TILEIMAGEPICKER, assetLibrary_));
-		itemStore->SetMenuHeader(std::string("  TILE IMAGES  "), 0,0);
+		itemStore->SetMenuHeader(headerText, 0,0);
 		editorOverLays_.push_back(itemStore);
-		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
+		headerPositionX = headerPositionX + settings_->GetFontWidth(headerText);
+		//TODO(Matt):
 /*
 		itemStore = new EditorOverLay(settings_, STATES::TILECOLORPICKER, assetLibrary_);
 		itemStore->SetMenuHeader("  TILE COLOURS  ", headerPositionX,0);
@@ -104,24 +106,28 @@ namespace AcedSharedDLL{
 
 		//load tile types from source pass into function
 		itemStore = std::shared_ptr<EditorOverLay>(new EditorOverLay(settings_, STATES::TILETYPEPICKER, assetLibrary_));
-		itemStore->SetMenuHeader(std::string("  TILE TYPES  "), headerPositionX,0);
+		headerText = std::string("  TILE TYPES  ");
+		itemStore->SetMenuHeader(headerText, headerPositionX, 0);
 		editorOverLays_.push_back(itemStore);
-		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
+		headerPositionX = headerPositionX + settings_->GetFontWidth(headerText);
 
 		itemStore = std::shared_ptr<EditorOverLay>(new EditorOverLay(settings_, STATES::OBJECTIMAGEPICKER, assetLibrary_));
-		itemStore->SetMenuHeader(std::string("  OBJECTS  "), headerPositionX, 0);
+		headerText = std::string("  OBJECTS  ");
+		itemStore->SetMenuHeader(headerText, headerPositionX, 0);
 		editorOverLays_.push_back(itemStore);
-		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
+		headerPositionX = headerPositionX + settings_->GetFontWidth(headerText);
 
 		itemStore = std::shared_ptr<EditorOverLay>(new EditorOverLay(settings_, STATES::ITEMPICKER, assetLibrary_));
-		itemStore->SetMenuHeader(std::string("  ITEMS  "), headerPositionX, 0);
+		headerText = std::string("  ITEMS  ");
+		itemStore->SetMenuHeader(headerText, headerPositionX, 0);
 		editorOverLays_.push_back(itemStore);
-		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
+		headerPositionX = headerPositionX + settings_->GetFontWidth(headerText);
 
 		itemStore = std::shared_ptr<EditorOverLay>(new EditorOverLay(settings_, STATES::ENEMYPICKER, assetLibrary_));
-		itemStore->SetMenuHeader(std::string("  ENEMIES  "), headerPositionX, 0);
+		headerText = std::string("  TILE IMAGES  ");
+		itemStore->SetMenuHeader(headerText, headerPositionX, 0);
 		editorOverLays_.push_back(itemStore);
-		headerPositionX = headerPositionX + itemStore->GetMenuHeader()->GetFontWidth();
+		headerPositionX = headerPositionX + settings_->GetFontWidth(headerText);
 	}
 
 
@@ -243,7 +249,7 @@ namespace AcedSharedDLL{
 		//draw all editoroverlay headers
 		for(int i = 0; i < editorOverLays_.size(); i++)
 		{
-			editorOverLays_[i]->DrawHeaderText();
+			editorOverLays_[i]->DrawHeaderText(settings_->GetFont30());
 		}
 
 
@@ -332,7 +338,7 @@ namespace AcedSharedDLL{
 
 					for(int i = 0; i < editorOverLays_.size(); i++)
 					{
-						if(editorOverLays_[i]->GetMenuHeader()->ClickIntersectsText(mouseX, mouseY))
+						if(editorOverLays_[i]->GetMenuHeader()->ClickIntersectsText(settings_->GetFont30(), mouseX, mouseY))
 						{
 							currentEditorOverlayId_ = editorOverLays_[i]->GetId();
 

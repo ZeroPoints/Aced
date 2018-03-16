@@ -3,60 +3,61 @@
 
 
 
+
 #include <allegro5\allegro.h>
 #include <vector>
 #include <allegro5/allegro_font.h>//fonts
 #include <allegro5/allegro_ttf.h>//fonts
 #include <allegro5\allegro_primitives.h>//shapes
 
+#include "../AcedSharedDLL/ImageManagement/ImageStateGroup.h"
 #include "../AcedSharedDLL/ImageManagement/ImageSet.h"
 
 #include "../OpenSource/pugixml/pugixml.hpp"
 
 
 
-
 class ImageLoader
 {
-public:
-	ImageLoader();
+	public:
+		ImageLoader();
+
+			
+
+
+
+
+		//-----------------------------------------------------------------------------------------------------
+
+		//Gets
+
+
+		std::vector<std::shared_ptr<AcedSharedDLL::ImageSet>> &GetImageSetDictionary();
 
 
 
 
 
+		//-----------------------------------------------------------------------------------------------------
 
-	//-----------------------------------------------------------------------------------------------------
+		//Misc
 
-	//Gets
+		void LoadTiles();
+		void LoadPlayers();
+		void LoadInteractiveObjects();
+		void LoadColors();
+		void LoadSystemImages();
+		void LoadObjectImages();
+		void LoadEnemyImages();
+		void LoadItemImages();
 
-
-	std::vector<AcedSharedDLL::ImageSet*> GetImageSetDictionary();
-
-
-
-
-
-	//-----------------------------------------------------------------------------------------------------
-
-	//Misc
-
-	void LoadTiles();
-	void LoadPlayers();
-	void LoadInteractiveObjects();
-	void LoadColors();
-	void LoadSystemImages();
-	void LoadObjectImages();
-	void LoadEnemyImages();
-	void LoadItemImages();
+			
 
 
+			
+	private:
 
-
-
-private:
-
-	std::vector<AcedSharedDLL::ImageSet*> imageDictionary_;
+		std::vector<std::shared_ptr<AcedSharedDLL::ImageSet>> imageDictionary_;
 
 };
 

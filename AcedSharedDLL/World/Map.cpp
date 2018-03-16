@@ -167,6 +167,7 @@ namespace AcedSharedDLL {
 			{
 				for (int j = k; j < height_; j++)
 				{
+					cellMap_[i][j] = std::shared_ptr<Cell>(new Cell());
 					cellMap_[i][j]->SetTileType(TILETYPE::EMPTYTILE);
 					cellMap_[i][j]->SetCurrentPosition(i, j);
 				}
@@ -197,6 +198,7 @@ namespace AcedSharedDLL {
 			{
 				for (int j = 0; j < height_; j++)
 				{
+					cellMap_[i][j] = std::shared_ptr<Cell>(new Cell());
 					cellMap_[i][j]->SetTileType(TILETYPE::EMPTYTILE);
 					cellMap_[i][j]->SetCurrentPosition(i, j);
 				}
@@ -258,8 +260,7 @@ namespace AcedSharedDLL {
 		for (int i = 0; i < enemyList_.size(); i++) {
 			enemyList_[i]->DrawObjectRotate(mapXoffset_, mapYoffset_);
 
-			/*char text[100];
-			sprintf(text, "Player%d:x=%f:y=%f", i, enemyList_[i]->GetCurrentPositionX(), enemyList_[i]->GetCurrentPositionY());
+			/*sprintf(text, "Player%d:x=%f:y=%f", i, enemyList_[i]->GetCurrentPositionX(), enemyList_[i]->GetCurrentPositionY());
 			al_draw_text(font30_, al_map_rgb(0, 0, 0),
 				0,
 				20*(i+1), ALLEGRO_ALIGN_LEFT, text);*/
@@ -364,7 +365,7 @@ namespace AcedSharedDLL {
 
 
 		for (int i = 0; i < enemyList_.size(); i++) {
-			enemyList_[i]->Update();
+			enemyList_[i]->Update(cellMap_);
 		}
 
 		for (int i = 0; i < itemList_.size(); i++) {
@@ -537,7 +538,7 @@ namespace AcedSharedDLL {
 		{
 			bool hasImage = false;
 
-			std::shared_ptr<Character> enemy(new Character(settings_, width_, height_, cellMap_));
+			std::shared_ptr<Character> enemy(new Character(settings_, width_, height_));
 
 			enemy->SetAIEnabled(gamestart);
 			enemy->SetKeyRight(gamestart);
@@ -931,7 +932,7 @@ namespace AcedSharedDLL {
 	void Map::AddEnemyToMap(std::shared_ptr<EditorItemBase> &item, int tileXPos, int tileYPos) {
 
 
-		std::shared_ptr<Character> enemy(new Character(settings_, item->GetWidth(), item->GetHeight(), cellMap_));
+		std::shared_ptr<Character> enemy(new Character(settings_, item->GetWidth(), item->GetHeight()));
 		//enemy->SetGravityY(0);
 		enemy->SetCurrentPositionX(tileXPos);
 		enemy->SetCurrentPositionY(tileYPos);

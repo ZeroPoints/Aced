@@ -5,7 +5,6 @@
 MenuOptions::MenuOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap) : Menu((std::shared_ptr<AcedSharedDLL::BaseSettings>)settings) {
 	
 	SetMap(currentMap);
-	SetFont(al_load_font("arial.ttf", 30, 0));
 
 	SetMenuHeader(std::string("Options"));
 	SetId(AcedSharedDLL::STATES::EDITOROPTIONS);
@@ -18,11 +17,11 @@ MenuOptions::MenuOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<Ac
 
 
 	//might need to delete this tempval char array? mmm looks to be in stack so should die when method finishs....
-	char tempVal[10];
-	sprintf_s(tempVal, "%i", GetSettings()->GetScreenWidth());
+	std::string tempVal;
+	tempVal = std::to_string(GetSettings()->GetScreenWidth());
 
 
-	itemStoreCurrentWidth->InitMenuItemProperty(al_ustr_new(tempVal));
+	itemStoreCurrentWidth->InitMenuItemProperty(al_ustr_new(tempVal.c_str()));
 	itemStoreCurrentWidth->SetMenuItemTargetable(false);
 	AddMenuItem(itemStoreCurrentWidth);
 
@@ -42,9 +41,9 @@ MenuOptions::MenuOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<Ac
 	auto itemStoreCurrentHeight = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
 	itemStoreCurrentHeight->SetMenuItemText(std::string("Current Height:"));
 
-	sprintf_s(tempVal, "%i", GetSettings()->GetScreenHeight());
+	tempVal = std::to_string(GetSettings()->GetScreenHeight());
 
-	itemStoreCurrentHeight->InitMenuItemProperty(al_ustr_new(tempVal));
+	itemStoreCurrentHeight->InitMenuItemProperty(al_ustr_new(tempVal.c_str()));
 	itemStoreCurrentHeight->SetMenuItemTargetable(false);
 	AddMenuItem(itemStoreCurrentHeight);
 

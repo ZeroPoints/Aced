@@ -105,7 +105,7 @@ void StateEditorMenu::Update() {
 
 
 void StateEditorMenu::Draw() {
-	GetMenu()->DrawMenu();
+	GetMenu()->DrawMenu(GetSettings()->GetFont30());
 	GetMenu()->DrawMenuSelectorCube();
 }
 

@@ -92,6 +92,6 @@ void StateOptions::Update() {
 
 
 void StateOptions::Draw() {
-	GetMenu()->DrawMenu();
+	GetMenu()->DrawMenu(GetSettings()->GetFont30());
 	GetMenu()->DrawMenuSelectorCube();
 }

@@ -95,7 +95,7 @@ void StateGameMainMenu::Update() {
 
 
 void StateGameMainMenu::Draw() {
-	GetMenu()->DrawMenu();
+	GetMenu()->DrawMenu(GetSettings()->GetFont30());
 	GetMenu()->DrawMenuSelectorCube();
 	//al_draw_bitmap(img, 5,5,0);
 }

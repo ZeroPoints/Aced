@@ -4,25 +4,7 @@
 
 namespace AcedSharedDLL {
 	 AssetLibrary::AssetLibrary()
-	 {
-		 std::shared_ptr<ImageLoader> loader(new ImageLoader());
-
-		 imageDictionary_ = loader->GetImageSetDictionary();
-
-
-		 //map_ = Map(&settings, display, &imageDictionary_);
-
-
-
-		 auto test = 0;
-		 /*imageDictionary_.push_back(ImageLoader::LoadCharacters());
-		imageDictionary_.push_back(ImageLoader::LoadColors());
-		imageDictionary_.push_back(ImageLoader::LoadObjectImages());
-		imageDictionary_.push_back(ImageLoader::LoadPlayers());
-		imageDictionary_.push_back(ImageLoader::LoadTiles());*/
-
-		//map_ = Map();
-
+	{
 	}
 
 
@@ -48,6 +30,12 @@ namespace AcedSharedDLL {
 	}
 
 
+
+
+	void AssetLibrary::SetImageSetDictionary(std::vector<std::shared_ptr<ImageSet>> &imageDictionary)
+	{
+		imageDictionary_ = imageDictionary;
+	}
 
 
 

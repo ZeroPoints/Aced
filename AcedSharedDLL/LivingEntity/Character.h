@@ -34,7 +34,7 @@ namespace AcedSharedDLL
 	{
 		public:
 
-			ACEDSHAREDDLL_API Character(std::shared_ptr<BaseSettings> &settings, int mapWidth, int mapHeight, std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap);
+			ACEDSHAREDDLL_API Character(std::shared_ptr<BaseSettings> &settings, int mapWidth, int mapHeight);
 
 
 
@@ -159,43 +159,43 @@ namespace AcedSharedDLL
 
 
 
-			ACEDSHAREDDLL_API void Update();
+			ACEDSHAREDDLL_API void Update(std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap);
 
 
 
 
 			//this is moving in X direction
-			ACEDSHAREDDLL_API bool CheckNextXPositionGoingLeft(float nextPosX, float nextPosY);
-			ACEDSHAREDDLL_API bool CheckNextXPositionGoingRight(float nextPosX, float nextPosY);
+			ACEDSHAREDDLL_API bool CheckNextXPositionGoingLeft(float nextPosX, float nextPosY, std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap);
+			ACEDSHAREDDLL_API bool CheckNextXPositionGoingRight(float nextPosX, float nextPosY, std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap);
 
 
 
 
 			//this is moving in Y direction
-			ACEDSHAREDDLL_API bool CheckNextYPositionFalling(float nextPosX, float nextPosY);
+			ACEDSHAREDDLL_API bool CheckNextYPositionFalling(float nextPosX, float nextPosY, std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap);
 
 			//this is moving in Y direction
-			ACEDSHAREDDLL_API bool CheckNextYPositionJumping(float nextPosX, float nextPosY);
+			ACEDSHAREDDLL_API bool CheckNextYPositionJumping(float nextPosX, float nextPosY, std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap);
 
 
-			ACEDSHAREDDLL_API void CollisionMovingLeft();
-
-
-
-
-			ACEDSHAREDDLL_API void CollisionMovingRight();
+			ACEDSHAREDDLL_API void CollisionMovingLeft(std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap);
 
 
 
 
-			ACEDSHAREDDLL_API void Falling();
+			ACEDSHAREDDLL_API void CollisionMovingRight(std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap);
+
+
+
+
+			ACEDSHAREDDLL_API void Falling(std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap);
 
 
 
 
 
 
-			ACEDSHAREDDLL_API void Jumping();
+			ACEDSHAREDDLL_API void Jumping(std::vector<std::vector<std::shared_ptr<Cell>>> &cellMap);
 
 
 
@@ -271,7 +271,6 @@ namespace AcedSharedDLL
 
 
 
-			std::vector<std::vector<std::shared_ptr<Cell>>> cellMap_;
 
 
 			CHARACTERFACINGDIRECTION faceDirection_;
@@ -279,7 +278,6 @@ namespace AcedSharedDLL
 			AcedSharedDLL::IMAGESETS imageSet_;
 
 			ALLEGRO_USTR *utext_;
-			char *text_;
 
 
 
@@ -288,7 +286,7 @@ namespace AcedSharedDLL
 			std::shared_ptr<ImageBundle> imageBundle_;
 
 			STATES Id_, keyPressState_, keyPressReturnVal_;
-			//ALLEGRO_FONT *font30_;
+
 			ALLEGRO_EVENT_QUEUE *event_queue_;
 			ALLEGRO_EVENT event_;
 			ALLEGRO_DISPLAY *display_;

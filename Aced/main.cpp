@@ -18,17 +18,16 @@
 #include "../AcedSharedDLL/World/Map.h"
 #include "../AcedSharedDLL/Config/AssetLibrary.h"
 
-#include "../Aced/Settings/Settings.h"
+#include "Settings/Settings.h"
+#include "Settings/ImageLoader.h"
 
 
 
 int main(int argc, char **argv)
 {
 
-	//Owner
 
 	//ShowWindow( GetConsoleWindow(), SW_HIDE );//hide console window no body needs to see it now
-	//Load options at start from txt file...res/other options that are Saved later...?
 
 
 
@@ -51,19 +50,14 @@ int main(int argc, char **argv)
 
 
 	std::shared_ptr<AssetLibrary> assetLibrary(new AssetLibrary());
+	std::shared_ptr<ImageLoader> imageLoader(new ImageLoader());
+	assetLibrary->SetImageSetDictionary(imageLoader->GetImageSetDictionary());
 
 	std::shared_ptr<Map> CurrentMap(new Map((std::shared_ptr<AcedSharedDLL::BaseSettings>)settings, display, assetLibrary));
-	
 
+	std::unique_ptr<Engine> mainEngine(new Engine(display, settings, CurrentMap, assetLibrary));
+	mainEngine->Run();
 
-
-
-	std::shared_ptr<Engine> e1(new Engine(display, settings, CurrentMap, assetLibrary));
-	//titlescreen state
-	e1->Run();
-
-
-	
 	
 	al_destroy_display(display);
 	

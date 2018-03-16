@@ -59,7 +59,7 @@ namespace AcedSharedDLL {
 
 		ACEDSHAREDDLL_API virtual bool GetDone();
 
-		//ACEDSHAREDDLL_API virtual ALLEGRO_FONT* GetFont();;
+
 
 		ACEDSHAREDDLL_API virtual ALLEGRO_TIMER* GetTimer();
 
@@ -124,7 +124,7 @@ namespace AcedSharedDLL {
 
 		ACEDSHAREDDLL_API virtual void SetRunning(bool flag);
 
-		//ACEDSHAREDDLL_API virtual void SetFont(ALLEGRO_FONT* currentFont);
+
 
 		ACEDSHAREDDLL_API virtual void SetTimer(ALLEGRO_TIMER* currentTimer);
 
@@ -209,7 +209,7 @@ namespace AcedSharedDLL {
 		ALLEGRO_DISPLAY *display_;
 		ALLEGRO_EVENT *event_;
 		ALLEGRO_EVENT_QUEUE *eventQueue_;
-		//ALLEGRO_FONT *font30_;
+
 		ALLEGRO_TIMER *timer;
 		//state pair for editorengine.cpp to push pop state accordingly if need be
 		STATEDIRECTION stateDirection_;

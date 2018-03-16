@@ -74,7 +74,7 @@ namespace AcedSharedDLL{
 
 			//Draws
 
-			ACEDSHAREDDLL_API void DrawMenuItem();
+			ACEDSHAREDDLL_API void DrawMenuItem(ALLEGRO_FONT* font);
 
 
 
@@ -105,7 +105,7 @@ namespace AcedSharedDLL{
 
 
 		private:
-			ALLEGRO_FONT *font30_;
+
 			ALLEGRO_USTR *menuItemProperty_;
 			OPTIONTYPES optionId_;
 			STATES Id_;

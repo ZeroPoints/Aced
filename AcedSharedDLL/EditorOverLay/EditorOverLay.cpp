@@ -220,11 +220,11 @@ namespace AcedSharedDLL{
 
 
 	//Draw the tiles on the pages
-	void EditorOverLay::DrawHeaderText()
+	void EditorOverLay::DrawHeaderText(ALLEGRO_FONT* font)
 	{
-		menuHeaderItem_->DrawObjectText();
+		menuHeaderItem_->DrawObjectText(font);
 		menuHeaderItem_->DrawObjectLeftBorder();
-		menuHeaderItem_->DrawObjectRightBorder();
+		menuHeaderItem_->DrawObjectRightBorder(font, settings_->GetFontWidth(menuHeaderItem_->GetText()));
 	}
 
 	
@@ -258,9 +258,8 @@ namespace AcedSharedDLL{
 		menuHeaderItem_ = std::shared_ptr<ObjectBase>(new ObjectBase());
 		menuHeaderItem_->SetText(al_ustr_new(text.c_str()));
 		menuHeaderItem_->SetCurrentPosition(positionX,positionY);
-		menuHeaderItem_->SetFont(al_load_font("arial.ttf", Constants::TileSize(), 0));
+
 		menuHeaderItem_->SetColor(al_map_rgb_f(0,0,0));
-		menuHeaderItem_->SetWidth(menuHeaderItem_->GetFontWidth());
 		menuHeaderItem_->SetHeight(Constants::TileSize());
 	}
 

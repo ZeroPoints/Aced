@@ -76,10 +76,7 @@ namespace AcedSharedDLL{
 	 int Menu::GetSelectItemHeight() {
 		return selectItemHeight_;
 	}
-	 ALLEGRO_FONT* Menu::GetFont()
-	{
-		return font30_;
-	}
+
 	 std::vector<std::shared_ptr<MenuItem>> &Menu::GetMenuItems()
 	{
 		return menuItems_;
@@ -212,9 +209,6 @@ namespace AcedSharedDLL{
 	void Menu::SetSelectItemHeight(int val) {
 		selectItemHeight_ = val;
 	}
-	void Menu::SetFont(ALLEGRO_FONT* currentFont) {
-		font30_ = currentFont;
-	}
 
 
 	//-----------------------------------------------------------------------------------------------------
@@ -229,10 +223,10 @@ namespace AcedSharedDLL{
 		al_draw_rectangle(GetSelectItemX(), GetSelectItemY(), GetSelectItemX() + GetSelectItemWidth(), GetSelectItemY() + GetSelectItemHeight(), al_map_rgb(255, 255, 255), 1);
 	}
 
-	void Menu::DrawMenu() {
+	void Menu::DrawMenu(ALLEGRO_FONT* font) {
 		al_draw_filled_rectangle(menuHeaderX_, menuHeaderY_, menuHeaderX_ + menuHeaderWidth_, menuHeaderY_ + menuHeaderHeight_, al_map_rgb(0, 125, 255));
 		al_draw_rectangle(menuHeaderX_, menuHeaderY_, menuHeaderX_ + menuHeaderWidth_, menuHeaderY_ + menuHeaderHeight_, al_map_rgb(255, 255, 255), 1);
-		al_draw_text(font30_, al_map_rgb(255, 255, 255), menuHeaderX_ + (menuHeaderWidth_ / 2), menuHeaderY_ + 10, ALLEGRO_ALIGN_CENTRE, menuHeader_.c_str());//change the 10 into a value eg: (menuheaderheight-fontsize)/2 that will work
+		al_draw_text(font, al_map_rgb(255, 255, 255), menuHeaderX_ + (menuHeaderWidth_ / 2), menuHeaderY_ + 10, ALLEGRO_ALIGN_CENTRE, menuHeader_.c_str());//change the 10 into a value eg: (menuheaderheight-fontsize)/2 that will work
 
 																																					  //menu drawing rectangle
 		al_draw_filled_rectangle(menuX_, menuY_, menuX_ + menuWidth_, menuY_ + menuHeight_, al_map_rgb(125, 0, 255));
@@ -241,7 +235,7 @@ namespace AcedSharedDLL{
 
 		for (int i = 0; i < menuItems_.size(); i++)
 		{
-			GetMenuItems()[i]->DrawMenuItem();
+			GetMenuItems()[i]->DrawMenuItem(font);
 		}
 	}
 

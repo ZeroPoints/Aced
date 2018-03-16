@@ -16,6 +16,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <memory>
 
 
 #ifdef ACEDSHAREDDLL_EXPORTS
@@ -70,7 +71,8 @@ namespace AcedSharedDLL{
 			ACEDSHAREDDLL_API int GetScreenWidth();
 			ACEDSHAREDDLL_API int GetScreenHeight();
 
-			ACEDSHAREDDLL_API ALLEGRO_FONT *GetFont30();
+			ACEDSHAREDDLL_API int GetFontWidth(std::string text);
+			ACEDSHAREDDLL_API ALLEGRO_FONT* GetFont30();
 
 			ACEDSHAREDDLL_API void InitDefaultBaseSettings();
 
@@ -94,7 +96,7 @@ namespace AcedSharedDLL{
 			std::map<SETTINGCODES, SettingPair> settingsMap_;
 
 
-			ALLEGRO_FONT *font30_;
+			ALLEGRO_FONT* font30_;
 
 
 

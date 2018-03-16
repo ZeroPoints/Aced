@@ -6,7 +6,6 @@ namespace AcedSharedDLL{
 
 	MenuItem::MenuItem()
 	{
-		font30_ = al_load_font("arial.ttf", 30, 0);
 		targetable_ = true;
 		editable_ = false;
 		optionId_ = OPTIONTYPES::NOOPTION;
@@ -138,13 +137,13 @@ namespace AcedSharedDLL{
 
 	//Draws
 
-	void MenuItem::DrawMenuItem()
+	void MenuItem::DrawMenuItem(ALLEGRO_FONT* font)
 	{
-		al_draw_text(font30_, al_map_rgb(255, 255, 255), menuItemX_, menuItemY_, ALLEGRO_ALIGN_CENTRE, menuItemText_.c_str());
+		al_draw_text(font, al_map_rgb(255, 255, 255), menuItemX_, menuItemY_, ALLEGRO_ALIGN_CENTRE, menuItemText_.c_str());
 
 		if (menuItemProperty_ != nullptr)
 		{
-			al_draw_ustr(font30_, al_map_rgb(255, 255, 255), menuItemPropertyX_, menuItemY_, ALLEGRO_ALIGN_CENTRE, menuItemProperty_);
+			al_draw_ustr(font, al_map_rgb(255, 255, 255), menuItemPropertyX_, menuItemY_, ALLEGRO_ALIGN_CENTRE, menuItemProperty_);
 		}
 	}
 

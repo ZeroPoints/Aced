@@ -93,7 +93,7 @@ void StateEditorMainMenu::Update() {
 
 
 void StateEditorMainMenu::Draw() {
-	GetMenu()->DrawMenu();
+	GetMenu()->DrawMenu(GetSettings()->GetFont30());
 	GetMenu()->DrawMenuSelectorCube();
 }
 

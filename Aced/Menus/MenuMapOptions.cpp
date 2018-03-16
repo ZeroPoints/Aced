@@ -4,7 +4,6 @@
 
 MenuMapOptions::MenuMapOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<AcedSharedDLL::Map> &currentMap) : Menu((std::shared_ptr<AcedSharedDLL::BaseSettings>)settings) {
 	SetMap(currentMap);
-	SetFont(al_load_font("arial.ttf", 30, 0));
 
 	SetMenuHeader(std::string("Map Options"));
 	SetId(AcedSharedDLL::STATES::EDITORMAPOPTIONS);
@@ -14,10 +13,10 @@ MenuMapOptions::MenuMapOptions(std::shared_ptr<Settings> &settings, std::shared_
 	itemStoreCurrentWidth->SetMenuItemText(std::string("Current Width:"));
 
 	//might need to delete this tempval char array? mmm looks to be in stack so should die when method finishs....
-	char tempVal[10];
-	sprintf_s(tempVal, "%i", GetMap()->GetMapWidth());
+	std::string tempVal;
+	tempVal = std::to_string(GetMap()->GetMapWidth());
 
-	itemStoreCurrentWidth->InitMenuItemProperty(al_ustr_new(tempVal));
+	itemStoreCurrentWidth->InitMenuItemProperty(al_ustr_new(tempVal.c_str()));
 	itemStoreCurrentWidth->SetMenuItemTargetable(false);
 	AddMenuItem(itemStoreCurrentWidth);
 
@@ -37,9 +36,9 @@ MenuMapOptions::MenuMapOptions(std::shared_ptr<Settings> &settings, std::shared_
 	auto itemStoreCurrentHeight = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
 	itemStoreCurrentHeight->SetMenuItemText(std::string("Current Height:"));
 
-	sprintf_s(tempVal, "%i", GetMap()->GetMapHeight());
+	tempVal = std::to_string(GetMap()->GetMapHeight());
 
-	itemStoreCurrentHeight->InitMenuItemProperty(al_ustr_new(tempVal));
+	itemStoreCurrentHeight->InitMenuItemProperty(al_ustr_new(tempVal.c_str()));
 	itemStoreCurrentHeight->SetMenuItemTargetable(false);
 	AddMenuItem(itemStoreCurrentHeight);
 

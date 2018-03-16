@@ -6,10 +6,12 @@ namespace AcedSharedDLL{
 
 	//SET DEFAULT COLOR FOR THESE TO WHITE
 	//use al tinted draw all the time
-	Image::Image(int id, const char *file){
+	Image::Image(int id, const std::string &file){
 		id_ = id;
 		
-		img_ = al_load_bitmap(file);
+		file_ = std::move(file_);
+
+		img_ = al_load_bitmap(file.c_str());
 
 		imgWidth_ = al_get_bitmap_width(img_);
 		imgHeight_ = al_get_bitmap_height(img_);
@@ -20,14 +22,14 @@ namespace AcedSharedDLL{
 
 
 
-	Image::Image(int id, const char *file, const char *name){
+	Image::Image(int id, const std::string &file, const std::string &name){
 		id_ = id;
 		
 
-		name_ = (char*)malloc(strlen(name)+1);
-		strcpy(name_, name);
+		name_ = std::move(name);
+		file_ = std::move(file_);
 
-		img_ = al_load_bitmap(file);
+		img_ = al_load_bitmap(file.c_str());
 		
 		width_ = 1;
 		height_ = 1;
@@ -36,10 +38,10 @@ namespace AcedSharedDLL{
 	}
 
 
-	Image::Image(int id, const char *file, float r, float g, float b){
+	Image::Image(int id, const std::string &file, float r, float g, float b){
 		id_ = id;
 		
-		img_ = al_load_bitmap(file);
+		img_ = al_load_bitmap(file.c_str());
 		color_ = al_map_rgb_f(r,g,b);
 		
 		width_ = 1;
@@ -59,10 +61,10 @@ namespace AcedSharedDLL{
 	}
 
 
-	Image::Image(int id, const char *file, double width, double height){
+	Image::Image(int id, const std::string &file, double width, double height){
 		id_ = id;
 		
-		img_ = al_load_bitmap(file);
+		img_ = al_load_bitmap(file.c_str());
 
 
 		imgWidth_ = al_get_bitmap_width(img_);
@@ -90,9 +92,13 @@ namespace AcedSharedDLL{
 
 
 
-	char *Image::GetName()
+	std::string Image::GetName()
 	{
 		return name_;
+	}
+	std::string Image::GetFile()
+	{
+		return file_;
 	}
 
 

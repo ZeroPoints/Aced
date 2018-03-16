@@ -197,7 +197,7 @@ namespace AcedSharedDLL{
 			ALLEGRO_EVENT *event_;
 
 			ALLEGRO_COLOR chosenColor_;
-			ALLEGRO_FONT *font30_;
+
 
 
 			std::shared_ptr<AssetLibrary> assetLibrary_;

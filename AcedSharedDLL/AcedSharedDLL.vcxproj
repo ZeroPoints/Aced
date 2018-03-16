@@ -27,7 +27,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -138,7 +138,6 @@
     <ClInclude Include="EditorOverLay\TilePage.h" />
     <ClInclude Include="ImageManagement\Image.h" />
     <ClInclude Include="ImageManagement\ImageBundle.h" />
-    <ClInclude Include="ImageManagement\ImageLoader.h" />
     <ClInclude Include="ImageManagement\ImageSet.h" />
     <ClInclude Include="ImageManagement\ImageStateGroup.h" />
     <ClInclude Include="LivingEntity\Character.h" />
@@ -146,6 +145,7 @@
     <ClInclude Include="Menu\Menu.h" />
     <ClInclude Include="Menu\MenuItem.h" />
     <ClInclude Include="Misc\ObjectBase.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="States\State.h" />
     <ClInclude Include="Static\Definitions.h" />
     <ClInclude Include="World\Cell.h" />
@@ -165,7 +165,6 @@
     <ClCompile Include="EditorOverLay\TilePage.cpp" />
     <ClCompile Include="ImageManagement\Image.cpp" />
     <ClCompile Include="ImageManagement\ImageBundle.cpp" />
-    <ClCompile Include="ImageManagement\ImageLoader.cpp" />
     <ClCompile Include="ImageManagement\ImageSet.cpp" />
     <ClCompile Include="ImageManagement\ImageStateGroup.cpp" />
     <ClCompile Include="LivingEntity\Character.cpp" />
@@ -179,6 +178,12 @@
     <ClCompile Include="World\Item.cpp" />
     <ClCompile Include="World\Map.cpp" />
     <ClCompile Include="World\Tile.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AcedSharedDLL.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="arial.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

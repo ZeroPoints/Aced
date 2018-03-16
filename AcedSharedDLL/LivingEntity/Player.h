@@ -6,7 +6,7 @@
 #define ALLEGRO_NO_MAGIC_MAIN
 
 
-
+#include <sstream>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>//fonts
@@ -136,7 +136,7 @@ namespace AcedSharedDLL{
 
 
 
-			ACEDSHAREDDLL_API void Draw();
+			ACEDSHAREDDLL_API void Draw(ALLEGRO_FONT* font);
 
 
 
@@ -266,7 +266,6 @@ namespace AcedSharedDLL{
 
 
 		ALLEGRO_USTR *utext_;
-		char *text_;
 
 
 		std::shared_ptr<ImageBundle> imageBundle_;
@@ -278,7 +277,7 @@ namespace AcedSharedDLL{
 
 
 		STATES Id_, keyPressState_, keyPressReturnVal_;
-		ALLEGRO_FONT *font30_;
+
 		ALLEGRO_EVENT_QUEUE *event_queue_;
 		ALLEGRO_EVENT event_;
 		ALLEGRO_DISPLAY *display_;

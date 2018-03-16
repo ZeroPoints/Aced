@@ -89,7 +89,7 @@ namespace AcedSharedDLL{
 			//Draws Tile picker pages tiles
 			ACEDSHAREDDLL_API void DrawItemBaseList();
 			 
-			ACEDSHAREDDLL_API void DrawHeaderText();
+			ACEDSHAREDDLL_API void DrawHeaderText(ALLEGRO_FONT* font);
 
 
 
