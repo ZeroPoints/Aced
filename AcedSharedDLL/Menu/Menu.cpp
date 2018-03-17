@@ -257,8 +257,8 @@ namespace AcedSharedDLL{
 
 	void Menu::CalculateMenuSelectorCubePosition()
 	{
-		SetSelectItemY(GetMenuItems()[GetCurrentSelection()]->GetMenuItemY() + 7);
-		SetSelectItemX(GetMenuX() + GetMenuWidth() - 25);
+		SetSelectItemY(GetMenuItems()[GetCurrentSelection()]->GetMenuItemY());
+		SetSelectItemX(GetMenuX() + GetMenuWidth() - (Constants::TileSize() * 2));
 		SetSelectItemHeight(Constants::TileSize());
 		SetSelectItemWidth(Constants::TileSize());
 	}
@@ -333,16 +333,15 @@ namespace AcedSharedDLL{
 		}
 		else if (ev->type == ALLEGRO_EVENT_KEY_CHAR)
 		{
-			if (GetMenuItems()[currentSelection_]->GetMenuItemProperty() != nullptr && ev->keyboard.unichar == 8) {
+			if (GetMenuItems()[currentSelection_]->GetMenuItemPropertyU() != nullptr && ev->keyboard.unichar == 8) {
 				//back space
 				//TODO: Backspace stuff...
 			}
-			else if (GetMenuItems()[currentSelection_]->GetMenuItemProperty() != nullptr && ev->keyboard.unichar > 0)
+			else if (GetMenuItems()[currentSelection_]->GetMenuItemPropertyU() != nullptr && ev->keyboard.unichar > 0)
 			{
-				ALLEGRO_USTR *test = al_ustr_new("");
-				al_ustr_append_chr(test, ev->keyboard.unichar);
-				GetMenuItems()[currentSelection_]->SetMenuItemProperty(test);
-				al_ustr_free(test);
+				auto newChar = std::string();
+				newChar = (char)ev->keyboard.unichar;
+				GetMenuItems()[currentSelection_]->SetMenuItemProperty(newChar);
 			}
 		}
 

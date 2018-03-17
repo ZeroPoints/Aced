@@ -8,9 +8,7 @@ MenuOptions::MenuOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<Ac
 
 	SetMenuHeader(std::string("Options"));
 	SetId(AcedSharedDLL::STATES::EDITOROPTIONS);
-
-
-
+	int widestItem = settings->GetFontWidth(GetMenuHeader());
 
 	auto itemStoreCurrentWidth = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
 	itemStoreCurrentWidth->SetMenuItemText(std::string("Current Width:"));
@@ -21,8 +19,11 @@ MenuOptions::MenuOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<Ac
 	tempVal = std::to_string(GetSettings()->GetScreenWidth());
 
 
-	itemStoreCurrentWidth->InitMenuItemProperty(al_ustr_new(tempVal.c_str()));
+	itemStoreCurrentWidth->InitMenuItemProperty(tempVal);
 	itemStoreCurrentWidth->SetMenuItemTargetable(false);
+	if (widestItem < settings->GetFontWidth(itemStoreCurrentWidth->GetMenuItemText())) {
+		widestItem = settings->GetFontWidth(itemStoreCurrentWidth->GetMenuItemText());
+	}
 	AddMenuItem(itemStoreCurrentWidth);
 
 
@@ -30,9 +31,12 @@ MenuOptions::MenuOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<Ac
 
 
 	auto itemStoreNewWidth = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
-	itemStoreNewWidth->InitMenuItemProperty(al_ustr_new(""));
+	itemStoreNewWidth->InitMenuItemProperty("");
 	itemStoreNewWidth->SetOptionId(AcedSharedDLL::OPTIONTYPES::WIDTHOPTION);
 	itemStoreNewWidth->SetMenuItemText(std::string("New Width:"));
+	if (widestItem < settings->GetFontWidth(itemStoreNewWidth->GetMenuItemText())) {
+		widestItem = settings->GetFontWidth(itemStoreNewWidth->GetMenuItemText());
+	}
 	AddMenuItem(itemStoreNewWidth);
 
 
@@ -43,8 +47,11 @@ MenuOptions::MenuOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<Ac
 
 	tempVal = std::to_string(GetSettings()->GetScreenHeight());
 
-	itemStoreCurrentHeight->InitMenuItemProperty(al_ustr_new(tempVal.c_str()));
+	itemStoreCurrentHeight->InitMenuItemProperty(tempVal);
 	itemStoreCurrentHeight->SetMenuItemTargetable(false);
+	if (widestItem < settings->GetFontWidth(itemStoreCurrentHeight->GetMenuItemText())) {
+		widestItem = settings->GetFontWidth(itemStoreCurrentHeight->GetMenuItemText());
+	}
 	AddMenuItem(itemStoreCurrentHeight);
 
 
@@ -53,9 +60,12 @@ MenuOptions::MenuOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<Ac
 
 
 	auto itemStoreNewHeight = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
-	itemStoreNewHeight->InitMenuItemProperty(al_ustr_new(""));
+	itemStoreNewHeight->InitMenuItemProperty("");
 	itemStoreNewHeight->SetOptionId(AcedSharedDLL::OPTIONTYPES::HEIGHTOPTION);
 	itemStoreNewHeight->SetMenuItemText(std::string("New Height:"));
+	if (widestItem < settings->GetFontWidth(itemStoreNewHeight->GetMenuItemText())) {
+		widestItem = settings->GetFontWidth(itemStoreNewHeight->GetMenuItemText());
+	}
 	AddMenuItem(itemStoreNewHeight);
 
 
@@ -64,36 +74,44 @@ MenuOptions::MenuOptions(std::shared_ptr<Settings> &settings, std::shared_ptr<Ac
 	auto itemStoreSave = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
 	itemStoreSave->SetId(AcedSharedDLL::STATES::SAVE);
 	itemStoreSave->SetMenuItemText(std::string("Save"));
+	if (widestItem < settings->GetFontWidth(itemStoreSave->GetMenuItemText())) {
+		widestItem = settings->GetFontWidth(itemStoreSave->GetMenuItemText());
+	}
 	AddMenuItem(itemStoreSave);
 
 	auto itemStoreReturn = std::shared_ptr<AcedSharedDLL::MenuItem>(new AcedSharedDLL::MenuItem());
 	itemStoreReturn->SetId(AcedSharedDLL::STATES::RETURN);
 	itemStoreReturn->SetMenuItemText(std::string("Return"));
+	if (widestItem < settings->GetFontWidth(itemStoreReturn->GetMenuItemText())) {
+		widestItem = settings->GetFontWidth(itemStoreReturn->GetMenuItemText());
+	}
 	AddMenuItem(itemStoreReturn);
 
+	widestItem += (AcedSharedDLL::Constants::TileSize() * 4);
 
-
-	SetMenuX(200);
+	SetMenuX((settings->GetScreenWidth() / 2) - (widestItem / 2) - (AcedSharedDLL::Constants::TileSize() * 4));
 	SetMenuY(100);
-	SetMenuWidth(400);
-	SetMenuHeight(400);
 
-	SetMenuHeaderX(200);
-	SetMenuHeaderY(50);
-	SetMenuHeaderWidth(400);
-	SetMenuHeaderHeight(50);
+	SetMenuHeaderX((settings->GetScreenWidth() / 2) - (widestItem / 2) - (AcedSharedDLL::Constants::TileSize() * 4));
+	SetMenuHeaderY(50 + AcedSharedDLL::Constants::TileSize());
+	SetMenuHeaderHeight(50 - AcedSharedDLL::Constants::TileSize());
 
 	int i = 0;
-	int xloc = 355;
-	int yloc = 110;
-	int yspacing = 50;
-	for (i = 0; i < GetMenuItems().size(); i++)
+	int xloc = settings->GetScreenWidth() / 2;
+	int yloc = 100 + AcedSharedDLL::Constants::TileSize();
+	int yspacing = AcedSharedDLL::Constants::TileSize() * 2;
+
+	auto menuSize = GetMenuItems().size();
+	for (i = 0; i < menuSize; i++)
 	{
 		GetMenuItems()[i]->SetMenuItemX(xloc);
-		GetMenuItems()[i]->SetMenuItemPropertyX(400 + 100);
+		GetMenuItems()[i]->SetMenuItemPropertyX(xloc + (settings->GetFontWidth(GetMenuItems()[i]->GetMenuItemText()) / 2) + (AcedSharedDLL::Constants::TileSize() * 1));
 		GetMenuItems()[i]->SetMenuItemY(yloc);
 		yloc = yloc + yspacing;
 	}
+
+	SetMenuWidth(settings->GetScreenWidth() - (2 * GetMenuX()));
+	SetMenuHeaderWidth(settings->GetScreenWidth() - (2 * GetMenuX()));
 	SetMenuHeight(yloc - GetMenuY());
 
 	SetCurrentSelection();

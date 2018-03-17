@@ -82,20 +82,14 @@ namespace AcedSharedDLL{
 		//set first tile picker window
 		currentEditorOverlayId_ = STATES::TILEIMAGEPICKER;
 
-		//store them all in memory and access through id.
-		//Dont want to use a push pop state system for it. 
-		//making a window each click would be tedious
 		int headerPositionX = 0;
 
-
-
 		auto headerText = std::string("  TILE IMAGES  ");
-
-
 		std::shared_ptr<EditorOverLay> itemStore(new EditorOverLay(settings_, STATES::TILEIMAGEPICKER, assetLibrary_));
 		itemStore->SetMenuHeader(headerText, 0,0);
 		editorOverLays_.push_back(itemStore);
 		headerPositionX = headerPositionX + settings_->GetFontWidth(headerText);
+
 		//TODO(Matt):
 /*
 		itemStore = new EditorOverLay(settings_, STATES::TILECOLORPICKER, assetLibrary_);

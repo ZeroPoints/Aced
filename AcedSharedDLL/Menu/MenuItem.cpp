@@ -2,7 +2,7 @@
 
 
 
-namespace AcedSharedDLL{
+namespace AcedSharedDLL {
 
 	MenuItem::MenuItem()
 	{
@@ -10,7 +10,7 @@ namespace AcedSharedDLL{
 		editable_ = false;
 		optionId_ = OPTIONTYPES::NOOPTION;
 		Id_ = STATES::NONE;
-		menuItemProperty_ = nullptr;
+		menuItemPropertyU_ = nullptr;
 		//fprintf(stderr, "A Menu Item Created\n");
 	}
 
@@ -30,51 +30,55 @@ namespace AcedSharedDLL{
 	//Gets
 
 
-	 OPTIONTYPES MenuItem::GetOptionId()
+	OPTIONTYPES MenuItem::GetOptionId()
 	{
 		return optionId_;
 	}
 
-	 STATES MenuItem::GetId()
+	STATES MenuItem::GetId()
 	{
 		return Id_;
 	}
-	 int MenuItem::GetMenuItemHeight()
+	int MenuItem::GetMenuItemHeight()
 	{
 		return menuItemHeight_;
 	}
-	 int MenuItem::GetMenuItemWidth()
+	int MenuItem::GetMenuItemWidth()
 	{
 		return menuItemWidth_;
 	}
-	 int MenuItem::GetMenuItemX()
+	int MenuItem::GetMenuItemX()
 	{
 		return menuItemX_;
 	}
-	 int MenuItem::GetMenuItemPropertyX()
+	int MenuItem::GetMenuItemPropertyX()
 	{
 		return menuItemPropertyX_;
 	}
-	 int MenuItem::GetMenuItemY()
+	int MenuItem::GetMenuItemY()
 	{
 		return menuItemY_;
 	}
-	 std::string MenuItem::GetMenuItemText()
+	std::string MenuItem::GetMenuItemText()
 	{
 		return menuItemText_;
 	}
-	 ALLEGRO_USTR *MenuItem::GetMenuItemProperty()
+	ALLEGRO_USTR *MenuItem::GetMenuItemPropertyU()
+	{
+		return menuItemPropertyU_;
+	}
+	std::string MenuItem::GetMenuItemProperty()
 	{
 		return menuItemProperty_;
 	}
 
-	 bool MenuItem::GetMenuItemTargetable()
+	bool MenuItem::GetMenuItemTargetable()
 	{
 		return targetable_;
 	}
 
 
-	 bool MenuItem::GetMenuItemValueEditable()
+	bool MenuItem::GetMenuItemValueEditable()
 	{
 		return editable_;
 	}
@@ -92,11 +96,14 @@ namespace AcedSharedDLL{
 	}
 
 
-
-	void MenuItem::SetMenuItemProperty(ALLEGRO_USTR *menuItemProperty)
+	void MenuItem::SetMenuItemProperty(const std::string &menuItemProperty)
 	{
-		al_ustr_append(menuItemProperty_, menuItemProperty);
+		menuItemProperty_ = menuItemProperty_ + menuItemProperty;
+		al_ustr_append(menuItemPropertyU_, al_ustr_new(menuItemProperty.c_str()));
 	}
+
+
+	
 
 	void MenuItem::SetMenuItemX(int menuItemX)
 	{
@@ -133,6 +140,9 @@ namespace AcedSharedDLL{
 		editable_ = editable;
 	}
 
+
+
+
 	//-----------------------------------------------------------------------------------------------------
 
 	//Draws
@@ -141,9 +151,9 @@ namespace AcedSharedDLL{
 	{
 		al_draw_text(font, al_map_rgb(255, 255, 255), menuItemX_, menuItemY_, ALLEGRO_ALIGN_CENTRE, menuItemText_.c_str());
 
-		if (menuItemProperty_ != nullptr)
+		if (menuItemPropertyU_ != nullptr)
 		{
-			al_draw_ustr(font, al_map_rgb(255, 255, 255), menuItemPropertyX_, menuItemY_, ALLEGRO_ALIGN_CENTRE, menuItemProperty_);
+			al_draw_ustr(font, al_map_rgb(255, 255, 255), menuItemPropertyX_, menuItemY_, ALLEGRO_ALIGN_LEFT, menuItemPropertyU_);
 		}
 	}
 
@@ -155,12 +165,13 @@ namespace AcedSharedDLL{
 	//Misc
 
 
-	void MenuItem::InitMenuItemProperty(ALLEGRO_USTR *menuItemProperty)
+	void MenuItem::InitMenuItemProperty(const std::string &menuItemProperty)
 	{
-		//menuItemProperty_ = al_ustr_new("");
 		menuItemProperty_ = menuItemProperty;
-		//al_ustr_append(menuItemProperty_, menuItemProperty);
+		menuItemPropertyU_ = al_ustr_new(menuItemProperty.c_str());
 	}
+
+
 
 
 

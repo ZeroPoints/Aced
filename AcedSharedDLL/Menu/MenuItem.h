@@ -42,7 +42,8 @@ namespace AcedSharedDLL{
 			ACEDSHAREDDLL_API int GetMenuItemPropertyX();
 			ACEDSHAREDDLL_API int GetMenuItemY();
 			ACEDSHAREDDLL_API std::string GetMenuItemText();
-			ACEDSHAREDDLL_API ALLEGRO_USTR *GetMenuItemProperty();
+			ACEDSHAREDDLL_API ALLEGRO_USTR *GetMenuItemPropertyU();
+			ACEDSHAREDDLL_API std::string  GetMenuItemProperty();
 			ACEDSHAREDDLL_API bool GetMenuItemTargetable();
 			ACEDSHAREDDLL_API bool GetMenuItemValueEditable();
 
@@ -59,7 +60,7 @@ namespace AcedSharedDLL{
 			ACEDSHAREDDLL_API void SetMenuItemX(int menuItemX);
 			ACEDSHAREDDLL_API void SetMenuItemY(int menuItemY);
 			ACEDSHAREDDLL_API void SetMenuItemText(const std::string &menuItemText);
-			ACEDSHAREDDLL_API void SetMenuItemProperty(ALLEGRO_USTR *menuItemProperty);
+			ACEDSHAREDDLL_API void SetMenuItemProperty(const std::string &menuItemProperty);
 			ACEDSHAREDDLL_API void SetId(STATES newId);
 			ACEDSHAREDDLL_API void SetOptionId(OPTIONTYPES newId);
 
@@ -67,6 +68,7 @@ namespace AcedSharedDLL{
 			ACEDSHAREDDLL_API void SetMenuItemTargetable(bool targetable);
 
 			ACEDSHAREDDLL_API void SetMenuItemValueEditable(bool editable);
+
 
 
 
@@ -83,9 +85,8 @@ namespace AcedSharedDLL{
 
 			//Misc
 
-			ACEDSHAREDDLL_API void InitMenuItemProperty(ALLEGRO_USTR *menuItemProperty);
 
-
+			ACEDSHAREDDLL_API void InitMenuItemProperty(const std::string &menuItemProperty);
 
 
 
@@ -106,7 +107,9 @@ namespace AcedSharedDLL{
 
 		private:
 
-			ALLEGRO_USTR *menuItemProperty_;
+			ALLEGRO_USTR* menuItemPropertyU_;
+			std::string menuItemProperty_;
+
 			OPTIONTYPES optionId_;
 			STATES Id_;
 			bool editable_;

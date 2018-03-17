@@ -43,7 +43,7 @@ void StateOptions::KeyPress() {
 		{
 			if (GetMenu()->GetMenuItems()[i]->GetOptionId() == AcedSharedDLL::OPTIONTYPES::WIDTHOPTION)
 			{
-				auto *u = GetMenu()->GetMenuItems()[i]->GetMenuItemProperty();
+				auto *u = GetMenu()->GetMenuItems()[i]->GetMenuItemPropertyU();
 				auto *s = al_cstr_dup(u);
 				auto v = atoi(s);
 				if (v > 0)
@@ -53,7 +53,7 @@ void StateOptions::KeyPress() {
 			}
 			else if (GetMenu()->GetMenuItems()[i]->GetOptionId() == AcedSharedDLL::OPTIONTYPES::HEIGHTOPTION)
 			{
-				auto *u = GetMenu()->GetMenuItems()[i]->GetMenuItemProperty();
+				auto *u = GetMenu()->GetMenuItems()[i]->GetMenuItemPropertyU();
 				auto *s = al_cstr_dup(u);
 				auto v = atoi(s);
 				if (v > 0)
